@@ -24,3 +24,28 @@
 
 🚫 其他所有檔案一律不得修改，包括但不限於：
    js/*, css/*, index.html, edit.html, data/trips.json, tests/*, CLAUDE.md
+
+## 行程品質規則（R1-R7）
+
+產生或修改行程 JSON 時，自動遵守以下品質規則：
+
+### R1 料理偏好
+首次為某行程產生餐廳推薦前，詢問使用者料理偏好（最多 3 類，依優先排序）。第 1 家餐廳對應偏好 1、第 2 家對應偏好 2、第 3 家對應偏好 3。同一趟行程已知偏好不重複詢問。
+
+### R2 餐次完整性
+每日 timeline 須包含午餐和晚餐。缺少時插入「餐廳未定」entry 並附 3 家推薦。一日遊團體行程（KKday/Klook 等）不補午餐，晚餐依到達地點。返台日或深夜抵達日依時間判斷。
+
+### R3 餐廳推薦品質
+每個 restaurants infoBox 補到 3 家。每家必填 hours（營業時間）、reservation（訂位資訊）、blogUrl（繁中網誌）。營業時間須與用餐時間吻合（不推薦 17:00 開的店當午餐）。
+
+### R4 景點品質
+titleUrl 放官網（找不到則不放）。新增 blogUrl 放繁中推薦網誌。infoBoxes 確認含營業時間，且與到訪時間吻合。
+
+### R5 飯店品質
+hotel 物件含 blogUrl，放繁中推薦網誌。
+
+### R6 搜尋方式
+所有 blogUrl 以 Google「{名稱} {地區} 推薦」搜尋，取第一篇繁體中文文章。優先選 pixnet、mimigo、kafu 等台灣旅遊部落格。
+
+### R7 購物景點推薦
+飯店附近超市/唐吉軻德以 infoBox type=shopping 結構化顯示。獨立購物行程（來客夢/iias/Outlet）同樣附 shopping infoBox。每個 shop 含 category、name、hours、mustBuy（至少 3 項）、blogUrl。

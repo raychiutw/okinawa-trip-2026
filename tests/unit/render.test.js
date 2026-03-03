@@ -5,6 +5,7 @@ const {
   renderMapLinks,
   renderNavLinks,
   renderRestaurant,
+  renderShop,
   renderInfoBox,
   renderTimelineEvent,
   renderTimeline,
@@ -223,6 +224,37 @@ describe('renderInfoBox', () => {
     });
     expect(html).toContain('maps.google.com');
   });
+
+  it('renders shopping info box', () => {
+    const html = renderInfoBox({
+      type: 'shopping', title: '附近購物',
+      shops: [{ category: '超市', name: 'MaxValu', hours: '08:00-24:00', mustBuy: ['泡盛'], blogUrl: 'https://blog.example.com/maxvalu' }]
+    });
+    expect(html).toContain('info-box shopping');
+    expect(html).toContain('附近購物');
+    expect(html).toContain('MaxValu');
+    expect(html).toContain('必買');
+  });
+});
+
+/* ===== renderShop ===== */
+describe('renderShop', () => {
+  it('renders shop with full data', () => {
+    const html = renderShop({
+      category: '超市', name: 'San-A',
+      hours: '09:00-23:00',
+      mustBuy: ['黑糖', '泡盛'],
+      blogUrl: 'https://blog.example.com/sana'
+    });
+    expect(html).toContain('restaurant-choice');
+    expect(html).toContain('超市');
+    expect(html).toContain('San-A');
+    expect(html).toContain('09:00-23:00');
+    expect(html).toContain('必買');
+    expect(html).toContain('黑糖');
+    expect(html).toContain('泡盛');
+    expect(html).toContain('href="https://blog.example.com/sana"');
+  });
 });
 
 /* ===== renderTimelineEvent ===== */
@@ -288,6 +320,16 @@ describe('renderTimelineEvent', () => {
     const html = renderTimelineEvent({ time: '10:00', title: 'Test', note: '小提醒' });
     expect(html).toContain('小提醒');
   });
+
+  it('renders blogUrl link for attraction', () => {
+    const html = renderTimelineEvent({
+      time: '10:00', title: '美麗海水族館',
+      titleUrl: 'https://churaumi.okinawa/',
+      blogUrl: 'https://blog.example.com/churaumi'
+    });
+    expect(html).toContain('href="https://blog.example.com/churaumi"');
+    expect(html).toContain('網誌推薦');
+  });
 });
 
 /* ===== renderTimeline ===== */
@@ -347,6 +389,15 @@ describe('renderHotel', () => {
     expect(html).toContain('hotel-sub');
     expect(html).toContain('停車場');
     expect(html).toContain('maps.google.com');
+  });
+
+  it('renders hotel blogUrl link', () => {
+    const html = renderHotel({
+      name: '沖繩海景飯店',
+      blogUrl: 'https://blog.example.com/hotel'
+    });
+    expect(html).toContain('href="https://blog.example.com/hotel"');
+    expect(html).toContain('網誌推薦');
   });
 });
 
