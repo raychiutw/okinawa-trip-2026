@@ -75,6 +75,28 @@ function renderRestaurant(r) {
     return html;
 }
 
+/* ===== Render: Shop ===== */
+function renderShop(shop) {
+    var html = '<div class="restaurant-choice">';
+    var nameHtml = escHtml(shop.name);
+    html += (shop.category ? '<strong>' + escHtml(shop.category) + '：</strong>' : '') + nameHtml;
+    html += '<br>';
+    if (shop.location) html += renderMapLinks(shop.location, true);
+    var meta = '';
+    if (shop.hours) meta += iconSpan('clock') + ' ' + escHtml(shop.hours);
+    var sBlogUrl = escUrl(shop.blogUrl);
+    if (sBlogUrl) {
+        if (meta) meta += ' ｜ ';
+        meta += iconSpan('document') + ' <a href="' + sBlogUrl + '" target="_blank" rel="noopener noreferrer">網誌推薦</a>';
+    }
+    if (meta) html += '<span class="restaurant-meta">' + meta + '</span>';
+    if (shop.mustBuy && shop.mustBuy.length) {
+        html += '<div class="shop-must-buy">' + iconSpan('gift') + ' 必買：' + shop.mustBuy.map(escHtml).join('、') + '</div>';
+    }
+    html += '</div>';
+    return html;
+}
+
 /* ===== Render: Info Box ===== */
 function renderInfoBox(box) {
     var html = '';
@@ -126,6 +148,16 @@ function renderInfoBox(box) {
             }
             html += '</div>';
             break;
+        case 'shopping':
+            html += '<div class="info-box shopping">';
+            var sCount = box.shops ? box.shops.length : 0;
+            var sTitle = box.title || (sCount > 1 ? '推薦購物' : '附近購物');
+            html += iconSpan('shopping') + ' <strong>' + escHtml(sTitle) + '：</strong>';
+            if (box.shops && box.shops.length) {
+                box.shops.forEach(function(s) { html += renderShop(s); });
+            }
+            html += '</div>';
+            break;
         default:
             if (box.content) html += '<div class="info-box">' + escHtml(box.content) + '</div>';
             break;
@@ -148,6 +180,10 @@ function renderTimelineEvent(ev) {
         html += escHtml(ev.title || '');
     }
     html += '</span>';
+    var evBlogUrl = escUrl(ev.blogUrl);
+    if (evBlogUrl) {
+        html += ' ' + iconSpan('document') + ' <a href="' + evBlogUrl + '" target="_blank" rel="noopener noreferrer">網誌推薦</a>';
+    }
     html += '</div>';
     if (ev.note) html += '<div class="tl-desc">' + escHtml(ev.note) + '</div>';
     if (hasBody) {
@@ -184,6 +220,10 @@ function renderHotel(hotel) {
     var hotelUrl = escUrl(hotel.url);
     if (hotelUrl) nameHtml = '<a href="' + hotelUrl + '" target="_blank" rel="noopener noreferrer">' + nameHtml + '</a>';
     html += '<div class="col-row">' + iconSpan('hotel') + ' ' + nameHtml + ' <span class="arrow">＋</span></div>';
+    var hotelBlogUrl = escUrl(hotel.blogUrl);
+    if (hotelBlogUrl) {
+        html += '<div class="hotel-blog">' + iconSpan('document') + ' <a href="' + hotelBlogUrl + '" target="_blank" rel="noopener noreferrer">網誌推薦</a></div>';
+    }
     html += '<div class="col-detail">';
     if (hotel.details && hotel.details.length) {
         html += '<div class="hotel-detail-grid">';
@@ -1418,6 +1458,7 @@ if (typeof module !== 'undefined' && module.exports) {
         renderMapLinks: renderMapLinks,
         renderNavLinks: renderNavLinks,
         renderRestaurant: renderRestaurant,
+        renderShop: renderShop,
         renderInfoBox: renderInfoBox,
         renderTimelineEvent: renderTimelineEvent,
         renderTimeline: renderTimeline,
