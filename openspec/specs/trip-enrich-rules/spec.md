@@ -110,7 +110,7 @@ Hotel 物件 SHALL 新增 `blogUrl` 欄位，放繁中推薦網誌連結。
 - **THEN** `blogUrl` SHALL 設為 `null`，不放不相關連結
 
 ### Requirement: R7 購物景點推薦
-飯店附近有超市、唐吉軻德、超商等購物點時，SHALL 以 `infoBox type=shopping` 結構化顯示。飯店 subs 中的購物文字 SHALL 搬到 shopping infoBox，subs 僅保留停車場等非購物資訊。獨立購物行程（來客夢/iias/Outlet/PARCO CITY/購物商圈）同樣 SHALL 附 shopping infoBox。景點附近步行 5~10 分鐘內有超市或唐吉軻德時，SHALL 在該景點 timeline entry 加 shopping infoBox。每個購物景點 SHALL 包含 `mustBuy` 必買推薦。渲染 SHALL 復用既有 `.restaurant-choice` CSS，不新增 CSS。所有 shop item 不含 `titleUrl`。不再使用 `souvenir` infoBox type，統一為 `shopping`。
+飯店附近有超市、唐吉軻德、超商等購物點時，SHALL 以 `infoBox type=shopping` 結構化顯示。飯店 subs 中的購物文字 SHALL 搬到 shopping infoBox，停車場資訊 SHALL 改以 `parking` infoBox 寫入 `hotel.infoBoxes[]`，不再使用 `hotel.subs[]`。獨立購物行程（來客夢/iias/Outlet/PARCO CITY/購物商圈）同樣 SHALL 附 shopping infoBox。景點附近步行 5~10 分鐘內有超市或唐吉軻德時，SHALL 在該景點 timeline entry 加 shopping infoBox。每個購物景點 SHALL 包含 `mustBuy` 必買推薦。渲染 SHALL 復用既有 `.restaurant-choice` CSS，不新增 CSS。所有 shop item 不含 `titleUrl`。不再使用 `souvenir` infoBox type，統一為 `shopping`。
 
 #### Scenario: 飯店附近購物 infoBox
 - **WHEN** 飯店附近有超市、唐吉軻德、超商或其他購物點
@@ -126,7 +126,9 @@ Hotel 物件 SHALL 新增 `blogUrl` 欄位，放繁中推薦網誌連結。
 
 #### Scenario: 自駕飯店停車場
 - **WHEN** 行程為自駕且飯店有停車場
-- **THEN** 飯店 subs SHALL 包含停車場資訊（費用 + 地點）
+- **THEN** 飯店的 `hotel.infoBoxes[]` SHALL 包含 `type: "parking"` 的 infoBox，含停車場資訊（費用 + 地點）
+- **AND** 若有附加說明，SHALL 寫入 `note` 欄位
+- **AND** `hotel.subs[]` SHALL 不再用於存放停車場資訊
 
 #### Scenario: 獨立購物行程 infoBox
 - **WHEN** timeline 中有購物類景點（來客夢、iias、Outlet、PARCO CITY、購物商圈等）
@@ -148,9 +150,9 @@ Hotel 物件 SHALL 新增 `blogUrl` 欄位，放繁中推薦網誌連結。
 - **WHEN** 行程 JSON 有購物相關 infoBox
 - **THEN** SHALL 使用 `type: "shopping"` 搭配 `shops[]` 陣列，不使用 `type: "souvenir"`
 
-#### Scenario: renderShop 復用既有 CSS
+#### Scenario: renderPlace 復用既有 CSS
 - **WHEN** app.js 渲染 shopping infoBox
-- **THEN** SHALL 使用 `renderShop()` 函式，復用 `.restaurant-choice` CSS class，不新增任何 CSS
+- **THEN** SHALL 使用 `renderPlace()` 函式，復用 `.restaurant-choice` CSS class，不新增任何 CSS
 
 #### Scenario: 飯店購物 infoBox 生成
 - **WHEN** 飯店物件的 `infoBoxes` 不存在或不含 `type=shopping`
@@ -201,7 +203,7 @@ Hotel 物件 SHALL 新增 `blogUrl` 欄位，放繁中推薦網誌連結。
 - **THEN** SHALL 以旅程整體風格、特色、適合對象等角度撰寫評語
 
 ### Requirement: R10 還車加油站
-自駕行程產生或修改還車 timeline event 時，SHALL 附上最近的加油站資訊。優先推薦フルサービス（人工加油站）。加油站以 `gasStation` infoBox 結構化呈現，包含名稱、地址、營業時間、服務類型（人工/自助）、電話。
+自駕行程產生或修改還車 timeline event 時，SHALL 附上最近的加油站資訊。優先推薦フルサービス（人工加油站）。加油站以 `gasStation` infoBox 結構化呈現，欄位直接位於 infoBox 頂層（扁平結構），包含名稱、地址、營業時間、服務類型（人工/自助）、電話。
 
 #### Scenario: 新增還車事件
 - **WHEN** 為自駕行程新增還車 timeline event
@@ -214,4 +216,94 @@ Hotel 物件 SHALL 新增 `blogUrl` 欄位，放繁中推薦網誌連結。
 
 #### Scenario: 必填資訊
 - **WHEN** 新增 gasStation infoBox
-- **THEN** SHALL 填寫 `name`、`address`、`hours`、`service`、`phone`，並盡可能附上 `location`（含 googleQuery / appleQuery）
+- **THEN** SHALL 填寫 `name`、`address`、`hours`、`service`、`phone`、`location`（MapLocation 物件，含 googleQuery / appleQuery），所有欄位直接位於 infoBox 頂層
+
+#### Scenario: gasStation 扁平結構
+- **WHEN** 新增或修改 gasStation infoBox
+- **THEN** SHALL 不使用 `station` wrapper，所有欄位（name、address、hours、service、phone、location）直接位於 infoBox 頂層
+
+### Requirement: R11 地圖導航
+
+所有景點、餐廳、加油站 SHALL 包含 location 欄位，確保使用者可直接開啟地圖導航。location 物件 SHALL 遵循 MapLocation 統一型別。R11 採 warn 級（黃燈），不強制中斷測試。
+
+#### Scenario: timeline event 須有 location
+- **WHEN** timeline event 為實體地點（非交通、非餐廳未定、非純描述事件）
+- **THEN** SHALL 包含 `locations[]` 陣列，至少一個 MapLocation 物件
+
+#### Scenario: restaurant 須有 location
+- **WHEN** restaurants infoBox 中的任一餐廳
+- **THEN** SHALL 包含 `location` 物件（MapLocation 型別）
+
+#### Scenario: gasStation 須有 location
+- **WHEN** gasStation infoBox 存在
+- **THEN** SHALL 包含 `location` 物件（MapLocation 型別）
+
+#### Scenario: shop location 為建議性
+- **WHEN** shopping infoBox 中的任一 shop
+- **THEN** SHOULD 包含 `location` 物件，但不強制（現有資料填寫率不足，以 warn 模式提醒）
+
+#### Scenario: transit event 略過 R11
+- **WHEN** timeline event 為 transit（交通移動）
+- **THEN** SHALL 略過 R11 檢查
+
+#### Scenario: 餐廳未定 event 略過 R11
+- **WHEN** timeline event title 包含「餐廳未定」
+- **THEN** SHALL 略過 R11 檢查
+
+#### Scenario: location 缺失時 warn
+- **WHEN** 實體地點 event 不含 `location`
+- **THEN** tp-check SHALL 以黃燈（warn）標示，不以紅燈（fail）標示
+
+### Requirement: R12 Google 評分
+
+實體地點類 timeline event 與所有餐廳 SHOULD 含 `googleRating` 欄位（數字，1.0-5.0）。R12 採 warn 級（黃燈），不強制中斷測試。
+
+#### Scenario: 景點含 googleRating
+- **WHEN** timeline event 為實體地點
+- **THEN** SHOULD 含 `googleRating`（數字，1.0-5.0）
+
+#### Scenario: 餐廳含 googleRating
+- **WHEN** restaurant 物件存在
+- **THEN** SHOULD 含 `googleRating`（數字，1.0-5.0）
+
+#### Scenario: transit event 略過 R12
+- **WHEN** timeline event 為 transit
+- **THEN** SHALL 略過 R12 檢查
+
+#### Scenario: 餐廳未定 event 略過 R12
+- **WHEN** timeline event title 包含「餐廳未定」
+- **THEN** SHALL 略過 R12 檢查
+
+#### Scenario: googleRating 缺失時 warn
+- **WHEN** 實體地點 event 或餐廳不含 `googleRating`
+- **THEN** tp-check SHALL 以黃燈（warn）標示
+
+#### Scenario: shop 的 googleRating 不強制
+- **WHEN** shop 物件不含 `googleRating`
+- **THEN** SHALL 不發出 R12 警告（shop 評分為選填）
+
+### Requirement: tp-rebuild 品質檢查整合
+
+`/tp-rebuild` 全面重整單一行程 JSON 時，SHALL 在修正前後各執行一次 tp-check 品質驗證 report。修正前的 report 用於識別需修正項目，修正後的 report 用於確認修正結果。
+
+#### Scenario: 修正前 tp-check
+
+- **WHEN** `/tp-rebuild {tripSlug}` 開始執行
+- **THEN** SHALL 先執行 tp-check 完整模式（before-fix report）
+- **AND** 顯示完整 report 供參照
+
+#### Scenario: 修正後 tp-check
+
+- **WHEN** `/tp-rebuild` 完成所有修正
+- **THEN** SHALL 再執行一次 tp-check 完整模式（after-fix report）
+- **AND** 顯示完整 report 確認修正結果
+
+#### Scenario: tp-rebuild-all 整合
+
+- **WHEN** `/tp-rebuild-all` 逐趟執行重整
+- **THEN** 每趟完成後 SHALL 執行一次 tp-check 完整模式（after-fix report）
+
+#### Scenario: 修正前備份
+
+- **WHEN** `/tp-rebuild` 即將修改行程 JSON
+- **THEN** SHALL 先執行備份流程（見 trip-json-backup spec）
