@@ -23,7 +23,8 @@
 
 - **WHEN** 某日包含 `hotel` 欄位
 - **THEN** SHALL 確認存在必填欄位：`name`、`breakfast`（物件，含 `included` 欄位）
-- **AND** 選填欄位：`url`、`blogUrl`、`details`、`checkout`、`subs`、`infoBoxes` 存在時驗證結構
+- **AND** 選填欄位：`url`、`blogUrl`、`details`、`checkout`、`infoBoxes` 存在時驗證結構
+- **AND** `subs` 欄位 SHALL 不再是已知選填欄位（`hotel.subs[]` 已廢除）
 
 #### Scenario: hotel.breakfast 結構
 
@@ -35,12 +36,24 @@
 
 - **WHEN** 驗證 timeline 中的每個 event
 - **THEN** SHALL 確認存在必填欄位：`time`、`title`
-- **AND** 選填欄位：`titleUrl`、`blogUrl`、`desc`、`transit`、`infoBoxes`、`location` 存在時驗證結構
+- **AND** 選填欄位：`titleUrl`、`blogUrl`、`desc`、`transit`、`infoBoxes`、`locations` 存在時驗證結構
 
 #### Scenario: transit 結構
 
 - **WHEN** timeline event 包含 `transit`
 - **THEN** SHALL 確認包含 `type`（字串）和 `min`（數字）
+
+#### Scenario: MapLocation 物件驗證
+
+- **WHEN** 任一 location 物件存在（timeline `locations[]` 元素、restaurant `.location`、shop `.location`、gasStation `.location`）
+- **THEN** SHALL 確認包含必填欄位：`name`（非空字串）、`googleQuery`（以 `https://` 開頭的字串）、`appleQuery`（以 `https://` 開頭的字串）
+- **AND** 選填欄位 `mapcode`（非空字串）、`label`（非空字串）存在時驗證型別
+
+#### Scenario: parking infoBox 結構
+
+- **WHEN** infoBox `type` 為 `parking`
+- **THEN** SHALL 確認包含 `title`（字串）
+- **AND** 選填欄位：`price`（字串）、`note`（字串）、`location`（Location 物件）存在時驗證結構
 
 #### Scenario: restaurants infoBox 結構
 
@@ -164,37 +177,70 @@
 - **WHEN** 比對 `rules-json-schema.md` 與任一行程 JSON
 - **THEN** schema 定義 SHALL 與實際 JSON 結構一致（欄位名稱、巢狀層級、必填/選填）
 
-### Requirement: meta.tripType schema 驗證
-Schema 驗證 SHALL 確認 `meta.tripType` 欄位存在且值有效。
+### Requirement: meta.selfDrive schema 驗證
+Schema 驗證 SHALL 確認 `meta.selfDrive` 欄位存在且值有效。
 
-#### Scenario: tripType 必填
+#### Scenario: selfDrive 必填
 - **WHEN** 驗證任一行程 JSON
-- **THEN** `meta.tripType` SHALL 存在
+- **THEN** `meta.selfDrive` SHALL 存在
 
-#### Scenario: tripType 值驗證
-- **WHEN** `meta.tripType` 存在
-- **THEN** 值 SHALL 為 `"self-drive"`、`"transit"` 或 `"mixed"` 之一
+#### Scenario: selfDrive 值驗證
+- **WHEN** `meta.selfDrive` 存在
+- **THEN** 值 SHALL 為 `true` 或 `false`（boolean）
 
 ### Requirement: gasStation infoBox schema 驗證
-Schema 驗證 SHALL 確認 `gasStation` infoBox 結構正確。
+Schema 驗證 SHALL 確認 `gasStation` infoBox 結構正確。gasStation 欄位 SHALL 直接位於 infoBox 頂層（扁平結構），不使用 `station` wrapper。
 
 #### Scenario: gasStation 必填欄位
 - **WHEN** infoBox `type` 為 `gasStation`
-- **THEN** SHALL 確認包含 `station` 物件
-- **AND** `station` SHALL 包含必填欄位：`name`（字串）、`address`（字串）、`hours`（字串）、`service`（字串）、`phone`（字串）
+- **THEN** SHALL 確認 infoBox 頂層包含必填欄位：`name`（字串）、`address`（字串）、`hours`（字串）、`service`（字串）、`phone`（字串）
 
 #### Scenario: gasStation 選填欄位
-- **WHEN** `station` 包含 `location`
-- **THEN** location SHALL 為有效 Location 物件（含 `name`、`googleQuery`、`appleQuery`）
+- **WHEN** gasStation infoBox 包含 `location`
+- **THEN** location SHALL 為有效 MapLocation 物件（含 `name`、`googleQuery`、`appleQuery`）
+
+#### Scenario: gasStation 不含 station wrapper
+- **WHEN** infoBox `type` 為 `gasStation`
+- **THEN** SHALL 不包含 `station` 欄位（欄位已扁平化至頂層）
+
+### Requirement: googleRating schema 驗證
+
+Schema 驗證 SHALL 確認 `googleRating` 欄位在存在時為合法數字（1.0-5.0）。欄位為選填，不存在時驗證 SHALL 通過。
+
+#### Scenario: timeline event googleRating 型別驗證
+
+- **WHEN** timeline event 物件含有 `googleRating`
+- **THEN** 值 SHALL 為數字型別（`typeof === 'number'`）
+- **AND** 值 SHALL 在 1.0 至 5.0 的範圍內（含邊界）
+- **AND** 不符合時 SHALL 產生 schema 驗證錯誤
+
+#### Scenario: restaurant googleRating 型別驗證
+
+- **WHEN** restaurant 物件含有 `googleRating`
+- **THEN** 值 SHALL 為數字型別
+- **AND** 值 SHALL 在 1.0 至 5.0 的範圍內（含邊界）
+- **AND** 不符合時 SHALL 產生 schema 驗證錯誤
+
+#### Scenario: shop googleRating 型別驗證
+
+- **WHEN** shop 物件含有 `googleRating`
+- **THEN** 值 SHALL 為數字型別
+- **AND** 值 SHALL 在 1.0 至 5.0 的範圍內（含邊界）
+- **AND** 不符合時 SHALL 產生 schema 驗證錯誤
+
+#### Scenario: googleRating 缺失時驗證通過
+
+- **WHEN** timeline event、restaurant 或 shop 物件不含 `googleRating`
+- **THEN** schema 驗證 SHALL 通過（選填欄位不存在不報錯）
 
 ### Requirement: R10 還車加油站 quality 驗證
 Quality 驗證 SHALL 確認自駕行程的還車事件包含加油站資訊。
 
 #### Scenario: 自駕行程還車須有加油站
-- **WHEN** `meta.tripType` 為 `"self-drive"` 或 `"mixed"`
+- **WHEN** `meta.selfDrive` 為 `true`
 - **AND** 某日 timeline 有 event title 包含「還車」
 - **THEN** 該 event 的 infoBoxes SHALL 包含至少一個 `type: "gasStation"`
 
-#### Scenario: transit 行程不檢查
-- **WHEN** `meta.tripType` 為 `"transit"`
+#### Scenario: 非自駕行程不檢查
+- **WHEN** `meta.selfDrive` 為 `false`
 - **THEN** SHALL 跳過 R10 檢查

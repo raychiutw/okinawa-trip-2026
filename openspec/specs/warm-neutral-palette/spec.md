@@ -2,26 +2,52 @@
 
 ### Requirement: 全站 CSS 色彩變數定義於 shared.css
 
-系統 SHALL 在 `css/shared.css` 的 `:root` 與 `body.dark` 兩個區塊中集中定義所有色彩 CSS variables，light mode 與 dark mode 各一套，其他 CSS 檔案 MUST 只引用這些變數，不得自行宣告色彩值。
+系統 SHALL 在 `css/shared.css` 的 `:root` 與 `body.dark` 兩個區塊中集中定義所有色彩 CSS variables，light mode 與 dark mode 各一套，其他 CSS 檔案 MUST 只引用這些變數，不得自行宣告色彩值。舊的 `--blue`、`--blue-light`、`--sand`、`--sand-light` 別名 MUST 刪除，改以語意正確的 `--accent-light` 與 `--accent-muted` 取代。
 
-擴充變數列表：
+完整變數列表：
 
-| 變數 | Light 值 | Dark 值 | 用途 |
-|------|----------|---------|------|
-| `--bg` | `#FAF9F5` | `#1A1A1A` | body 背景 |
-| `--card-bg` | `#F5F0E8` | `#2B2B2B` | 卡片背景 |
-| `--hover-bg` | `#EDE8E0` | `#3D3A37` | 互動 hover 底色 |
-| `--bubble-bg` | `#F0EDE8` | `#3D3A35` | 聊天氣泡背景 |
-| `--text` | `#1A1A1A` | `#E8E8E8` | 主要文字 |
-| `--text-muted` | `#6B6B6B` | `#9B9B9B` | 次要文字 |
-| `--border` | `#E5E0DA` | `#3A3A3A` | 邊線色 |
-| `--accent` | `#C4704F` | `#D4845E` | 強調色 |
-| `--gray` | `#6B6B6B` | `#9B9590` | 裝飾灰 |
-| `--gray-light` | `#EDEBE8` | `#343130` | 淺灰背景 |
-| `--white` | `#FAF9F5` | `#292624` | body 背景別名 |
-| `--error` | `#D32F2F` | `#FCA5A5` | 錯誤文字 |
-| `--error-bg` | `#FFEBEE` | `rgba(220,38,38,0.12)` | 錯誤背景 |
-| `--success` | `#10B981` | `#6EE7B7` | 成功狀態 |
+| 變數 | Light 值 | Dark 值 | 用途 | 變動 |
+|------|----------|---------|------|------|
+| `--bg` | `#FAF9F5` | `#1A1A1A` | body 背景 | 無異動 |
+| `--card-bg` | `#F5F0E8` | `#2B2B2B` | 卡片背景 | 無異動 |
+| `--hover-bg` | `#EDE8E0` | `#3D3A37` | 互動 hover 底色 | 無異動 |
+| `--bubble-bg` | `#F0EDE8` | `#3D3A35` | 聊天氣泡背景 | 無異動 |
+| `--text` | `#1A1A1A` | `#E8E8E8` | 主要文字 | 無異動 |
+| `--text-muted` | `#6B6B6B` | `#9B9B9B` | 次要文字 | 無異動 |
+| `--border` | `#E5E0DA` | `#3A3A3A` | 邊線色 | 無異動 |
+| `--accent` | `#C4704F` | `#D4845E` | 強調色 | 無異動 |
+| `--accent-light` | `#F5EDE8` | `#302A25` | 強調色淺色背景 | 新增（取代 `--blue-light`） |
+| `--accent-muted` | `#F5EDE0` | `#302A22` | 強調色柔和背景 | 新增（取代 `--sand-light`） |
+| `--gray` | `#6B6B6B` | `#9B9590` | 裝飾灰 | 無異動 |
+| `--gray-light` | `#EDEBE8` | `#343130` | 淺灰背景 | 無異動 |
+| `--white` | `#FAF9F5` | `#292624` | body 背景別名 | 無異動 |
+| `--error` | `#D32F2F` | `#FCA5A5` | 錯誤文字 | 無異動 |
+| `--error-bg` | `#FFEBEE` | `rgba(220,38,38,0.12)` | 錯誤背景 | 無異動 |
+| `--success` | `#10B981` | `#6EE7B7` | 成功狀態 | 無異動 |
+| `--blue` | — | — | 茶赭色別名 | **已刪除** |
+| `--blue-light` | — | — | 淺色別名 | **已刪除** |
+| `--sand` | — | — | 重複別名 | **已刪除** |
+| `--sand-light` | — | — | 柔和色別名 | **已刪除** |
+
+#### Scenario: --accent-light 在 light mode 存在且值正確
+
+- **WHEN** 載入 `css/shared.css`
+- **THEN** `:root` 中 SHALL 存在 `--accent-light: #F5EDE8`，且 SHALL 不存在 `--blue-light`
+
+#### Scenario: --accent-muted 在 light mode 存在且值正確
+
+- **WHEN** 載入 `css/shared.css`
+- **THEN** `:root` 中 SHALL 存在 `--accent-muted: #F5EDE0`，且 SHALL 不存在 `--sand-light`
+
+#### Scenario: --blue 與 --sand 別名已刪除
+
+- **WHEN** 靜態分析 `css/shared.css`
+- **THEN** `:root` 中 SHALL 不存在 `--blue`、`--sand` 的宣告（print mode 與 body 覆蓋區塊亦同）
+
+#### Scenario: --accent-light 在 dark mode 正確覆蓋
+
+- **WHEN** `<body>` 元素含有 `.dark` class
+- **THEN** `body.dark` 區塊 SHALL 覆蓋 `--accent-light: #302A25`、`--accent-muted: #302A22`
 
 #### Scenario: Light mode 色彩變數存在且值正確
 
@@ -68,12 +94,37 @@
 
 ### Requirement: 深色模式 info-box 統一
 
-系統 SHALL 統一 `.info-box` 各類型（`.reservation`、`.parking`、`.souvenir`、`.restaurants`）在深色模式下的背景色，使用相同的 CSS 變數而非各自硬寫不同色碼。
+系統 SHALL 以單一通用選擇器統一所有 `.info-box` 型別在深色模式下的背景色，取代原本逐一列舉型別的寫法。
 
-#### Scenario: info-box 類型在 dark mode 背景統一
+使用 `body.dark .info-box { background: var(--accent-light); }` 單一選擇器，涵蓋所有型別（`.reservation`、`.parking`、`.souvenir`、`.restaurants`、`.shopping`、`.gas-station` 及未來新增型別）。
 
-- **WHEN** 頁面為 dark mode 且渲染任何 `.info-box` 類型
-- **THEN** 所有 `.info-box` 子類型背景色 SHALL 使用同一個 CSS 變數（`var(--blue-light)` 或 `var(--card-bg)`），不得各自硬寫不同色碼
+#### Scenario: 所有 info-box 型別在 dark mode 套用相同背景
+
+- **WHEN** 頁面為 dark mode 且渲染任何 `.info-box` 型別
+- **THEN** 所有型別的背景色 SHALL 為 `var(--accent-light)`（dark mode 值：`#302A25`）
+
+#### Scenario: 逐一列舉的舊選擇器已移除
+
+- **WHEN** 靜態分析 `css/style.css`
+- **THEN** 不得出現 `body.dark .info-box.reservation`、`body.dark .info-box.parking` 等逐一列舉型別的深色覆蓋選擇器
+
+---
+
+### Requirement: 全站 CSS 不得引用已刪除的別名變數
+
+所有 CSS 檔案 MUST 將 `var(--blue)`、`var(--blue-light)`、`var(--sand)`、`var(--sand-light)` 替換為對應的新變數：
+
+| 舊引用 | 新引用 |
+|--------|--------|
+| `var(--blue)` | `var(--accent)` |
+| `var(--blue-light)` | `var(--accent-light)` |
+| `var(--sand)` | `var(--accent)` |
+| `var(--sand-light)` | `var(--accent-muted)` |
+
+#### Scenario: 全站 CSS 不含舊別名引用
+
+- **WHEN** 靜態分析所有 CSS 檔案（含 print mode 區塊）
+- **THEN** SHALL 不出現 `var(--blue)`、`var(--blue-light)`、`var(--sand)`、`var(--sand-light)` 字串
 
 ---
 
