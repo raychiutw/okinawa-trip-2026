@@ -1,4 +1,15 @@
-## ADDED Requirements
+### Requirement: 語意色 CSS 變數命名對齊
+
+以 `--blue` 為名的顏色別名 SHALL 不再作為語意色使用；所有語意色引用 MUST 改為使用 `--accent`、`--accent-light`、`--accent-muted` 等語意明確的變數名稱。
+
+現有語意色變數（`--error`、`--error-bg`、`--success`）維持原定義不變。
+
+#### Scenario: 語意色選擇器不含舊別名
+
+- **WHEN** 靜態分析所有 CSS 檔案的語意色相關選擇器
+- **THEN** `.trip-warnings`、`.trip-warning-item`、`.trip-error`、`.driving-stats-badge`、`.edit-status` 等元素 SHALL 引用 `var(--error)` 或 `var(--error-bg)`，不得引用 `var(--blue)` 或其他別名
+
+---
 
 ### Requirement: 語意色 CSS 變數定義
 
