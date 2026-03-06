@@ -38,8 +38,8 @@ function stripInlineHandlers(html) {
     return html.replace(/\s+on\w+\s*=\s*("[^"]*"|'[^']*'|[^\s>]*)/gi, '');
 }
 
-/* ===== LocalStorage Helper (trip-planner- prefix, 6-month expiry) ===== */
-var LS_PREFIX = 'trip-planner-';
+/* ===== LocalStorage Helper (tp- prefix, 6-month expiry) ===== */
+var LS_PREFIX = 'tp-';
 var LS_TTL = 180 * 86400000; // 6 months
 
 function lsSet(key, value) {
@@ -68,6 +68,55 @@ function lsRenewAll() {
         }
     }
 }
+
+/* ===== Migrate legacy localStorage keys to tp-* ===== */
+(function() {
+    if (typeof localStorage === 'undefined') return;
+    // 1. 無 prefix 舊 key → tp-*
+    var legacyMap = { tripPref: 'trip-pref', dark: 'dark' };
+    var oldTripFile = localStorage.getItem('tripFile');
+    if (oldTripFile) {
+        // tripFile 存的是 'data/trips/xxx.json'，取 slug 存到 trip-pref
+        var m = oldTripFile.match(/^data\/trips\/(.+)\.json$/);
+        if (m && !localStorage.getItem(LS_PREFIX + 'trip-pref')) {
+            lsSet('trip-pref', m[1]);
+        }
+        localStorage.removeItem('tripFile');
+    }
+    // tripPref 是 JSON { slug: '...' }
+    try {
+        var rawPref = localStorage.getItem('tripPref');
+        if (rawPref) {
+            var p = JSON.parse(rawPref);
+            if (p && p.slug && !localStorage.getItem(LS_PREFIX + 'trip-pref')) {
+                lsSet('trip-pref', p.slug);
+            }
+            localStorage.removeItem('tripPref');
+        }
+    } catch(e) {}
+    // dark（純值 '1'/'0' 或 JSON wrapped）
+    var oldDark = localStorage.getItem('dark');
+    if (oldDark !== null) {
+        if (!localStorage.getItem(LS_PREFIX + 'dark')) lsSet('dark', oldDark);
+        localStorage.removeItem('dark');
+    }
+    // 2. trip-planner-* → tp-*
+    var oldPrefix = 'trip-planner-';
+    var keysToMigrate = [];
+    for (var i = 0; i < localStorage.length; i++) {
+        var k = localStorage.key(i);
+        if (k && k.indexOf(oldPrefix) === 0) keysToMigrate.push(k);
+    }
+    for (var j = 0; j < keysToMigrate.length; j++) {
+        var oldKey = keysToMigrate[j];
+        var suffix = oldKey.slice(oldPrefix.length);
+        var newKey = LS_PREFIX + suffix;
+        if (!localStorage.getItem(newKey)) {
+            localStorage.setItem(newKey, localStorage.getItem(oldKey));
+        }
+        localStorage.removeItem(oldKey);
+    }
+})();
 
 /* ===== Dark Mode Toggle ===== */
 function toggleDarkShared() {
@@ -124,6 +173,7 @@ if (typeof module !== 'undefined' && module.exports) {
         lsRenewAll: lsRenewAll,
         toggleDarkShared: toggleDarkShared,
         GH_OWNER: GH_OWNER,
-        GH_REPO: GH_REPO
+        GH_REPO: GH_REPO,
+        _LS_OLD_PREFIX: 'trip-planner-'
     };
 }
