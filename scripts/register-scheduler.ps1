@@ -3,8 +3,8 @@
 
 $action = New-ScheduledTaskAction `
     -Execute "powershell.exe" `
-    -Argument "-ExecutionPolicy Bypass -File ""C:\Users\RayChiu\Desktop\Source\GithubRepos\trip-planner\scripts\tp-issue-scheduler.ps1""" `
-    -WorkingDirectory "C:\Users\RayChiu\Desktop\Source\GithubRepos\trip-planner"
+    -Argument "-NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -File ""C:\Users\Ray\Desktop\ClaudeProjet\trip-planner\scripts\tp-issue-scheduler.ps1""" `
+    -WorkingDirectory "C:\Users\Ray\Desktop\ClaudeProjet\trip-planner"
 
 $trigger = New-ScheduledTaskTrigger `
     -Once `
