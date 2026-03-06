@@ -110,6 +110,10 @@ function renderShop(shop) {
     return html;
 }
 
+function gridClass(count) {
+    return 'info-box-grid' + (count === 1 ? ' grid-1' : (count % 2 === 0 ? ' grid-even' : ' grid-odd'));
+}
+
 /* ===== Render: Info Box ===== */
 function renderInfoBox(box) {
     var html = '';
@@ -156,7 +160,9 @@ function renderInfoBox(box) {
             var rItems = box.restaurants || [];
             var rTitle = box.title || (rItems.length > 1 ? (rItems.length + '選一') : '推薦餐廳');
             html += iconSpan('utensils') + ' <strong>' + escHtml(rTitle) + '：</strong>';
+            html += '<div class="' + gridClass(rItems.length) + '">';
             rItems.forEach(function(r) { html += renderRestaurant(r); });
+            html += '</div>';
             html += '</div>';
             break;
         case 'shopping':
@@ -164,7 +170,9 @@ function renderInfoBox(box) {
             var sItems = box.shops || [];
             var sTitle = box.title || (sItems.length > 1 ? '推薦購物' : '附近購物');
             html += iconSpan('shopping') + ' <strong>' + escHtml(sTitle) + '：</strong>';
+            html += '<div class="' + gridClass(sItems.length) + '">';
             sItems.forEach(function(s) { html += renderShop(s); });
+            html += '</div>';
             html += '</div>';
             break;
         case 'gasStation':
@@ -275,30 +283,6 @@ function renderHotel(hotel) {
     }
     if (hotel.infoBoxes && hotel.infoBoxes.length) {
         hotel.infoBoxes.forEach(function(box) { html += renderInfoBox(box); });
-    }
-    html += '</div>';
-    return html;
-}
-
-/* ===== Render: Budget ===== */
-function renderBudget(budget) {
-    var html = '';
-    html += '<div class="col-row">' + iconSpan('wallet') + ' ' + escHtml(budget.summary || '') + ' <span class="arrow">＋</span></div>';
-    html += '<div class="col-detail">';
-    if (budget.items && budget.items.length) {
-        html += '<table class="budget-table">';
-        budget.items.forEach(function(item) {
-            html += '<tr><td>' + escHtml(item.label) + '</td><td>' + escHtml(item.amount) + '</td></tr>';
-        });
-        if (budget.total) {
-            html += '<tr class="budget-total"><td>' + escHtml(budget.total.label || '小計') + '</td><td>' + escHtml(budget.total.amount) + '</td></tr>';
-        }
-        html += '</table>';
-    }
-    if (budget.notes && budget.notes.length) {
-        html += '<ul class="notes-list">';
-        budget.notes.forEach(function(n) { html += '<li><span class="list-icon">' + iconSpan('pin') + '</span>' + escHtml(n) + '</li>'; });
-        html += '</ul>';
     }
     html += '</div>';
     return html;
@@ -433,16 +417,17 @@ function renderTripDrivingStats(tripStats) {
 /* ===== Render: Day Content ===== */
 function renderDayContent(content, weatherId) {
     var html = '';
+    var overviewHtml = '';
     if (weatherId) {
-        html += '<div class="hourly-weather" id="' + escHtml(weatherId) + '"><div class="hw-loading">' + iconSpan('hourglass') + ' 正在載入逐時天氣預報...</div></div>';
+        overviewHtml += '<div class="hourly-weather" id="' + escHtml(weatherId) + '"><div class="hw-loading">' + iconSpan('hourglass') + ' 正在載入逐時天氣預報...</div></div>';
     }
-    if (content.hotel) html += renderHotel(content.hotel);
+    if (content.hotel) overviewHtml += renderHotel(content.hotel);
     if (content.timeline) {
         var stats = calcDrivingStats(content.timeline);
-        html += renderDrivingStats(stats);
+        overviewHtml += renderDrivingStats(stats);
     }
+    if (overviewHtml) html += '<div class="day-overview">' + overviewHtml + '</div>';
     if (content.timeline) html += renderTimeline(content.timeline);
-    if (content.budget) html += renderBudget(content.budget);
     return html;
 }
 
@@ -829,9 +814,12 @@ function renderTrip(data) {
     var navHtml = '';
     data.days.forEach(function(day) {
         var id = parseInt(day.id) || 0;
-        navHtml += '<button class="dn" data-day="' + id + '" data-action="scroll-to" data-target="day' + id + '">D' + id + '</button>';
+        navHtml += '<button class="dn" data-day="' + id + '" data-action="switch-day" data-target="day' + id + '">' + id + '</button>';
     });
     document.getElementById('navPills').innerHTML = navHtml;
+    // Set first pill as active
+    var firstPill = document.querySelector('#navPills .dn');
+    if (firstPill) firstPill.classList.add('active');
 
     // Build sections
     var html = '';
@@ -855,9 +843,9 @@ function renderTrip(data) {
     }
 
     // Day sections
-    data.days.forEach(function(day) {
+    data.days.forEach(function(day, idx) {
         var id = parseInt(day.id) || 0;
-        html += '<section>';
+        html += '<section class="day-section' + (idx === 0 ? ' active' : '') + '" data-day="' + id + '">';
         html += '<div class="day-header info-header" id="day' + id + '">'
               + '<h2>Day ' + id + ' ' + escHtml(day.label || '') + '</h2>'
               + '<span class="dh-date">' + escHtml(day.date) + '</span></div>';
@@ -932,19 +920,17 @@ function renderTrip(data) {
     // Init weather
     if (data.weather && data.weather.length) initWeather(data.weather);
 
-    // Hash anchor or auto-scroll to today
+    // Hash anchor or auto-switch to today's tab
     var hash = window.location.hash.replace('#', '');
-    if (hash && document.getElementById(hash)) {
-        scrollToSec(hash);
+    var hashDay = hash && hash.match(/^day(\d+)$/);
+    if (hashDay) {
+        switchDay(parseInt(hashDay[1]));
     } else {
         autoScrollToday(data.autoScrollDates);
     }
 
     // Dynamic scroll-margin for sticky nav offset
     alignStickyNav();
-
-    // Re-init nav scroll tracking
-    initNavTracking();
 
     // Init nav pills overflow arrows
     initNavOverflow();
@@ -1060,11 +1046,6 @@ function renderInfoPanel(data) {
     }
     html += renderSuggestionSummaryCard(data.suggestions);
     panel.innerHTML = html;
-    // Also render to bottom sheet body if it exists
-    var sheetBody = document.getElementById('bottomSheetBody');
-    if (sheetBody) {
-        sheetBody.innerHTML = html;
-    }
 }
 
 /* ===== Info Bottom Sheet (mobile) ===== */
@@ -1078,10 +1059,6 @@ function closeInfoSheet() {
 }
 
 (function initInfoSheet() {
-    // Bind info FAB click
-    var fab = document.getElementById('infoFab');
-    if (fab) fab.addEventListener('click', openInfoSheet);
-
     // Bind backdrop click to close
     var backdrop = document.getElementById('infoBottomSheet');
     if (backdrop) {
@@ -1102,48 +1079,52 @@ function closeInfoSheet() {
     }
 })();
 
+/* ===== Speed Dial ===== */
+function toggleSpeedDial() {
+    var dial = document.getElementById('speedDial');
+    if (dial) dial.classList.toggle('open');
+}
+function closeSpeedDial() {
+    var dial = document.getElementById('speedDial');
+    if (dial) dial.classList.remove('open');
+}
+var DIAL_RENDERERS = {
+    flights: renderFlights, checklist: renderChecklist,
+    backup: renderBackup, emergency: renderEmergency,
+    suggestions: renderSuggestions
+};
+function openSpeedDialContent(contentKey) {
+    closeSpeedDial();
+    if (!TRIP) return;
+    var sheetBody = document.getElementById('bottomSheetBody');
+    if (!sheetBody) return;
+    var html = '';
+    var section = TRIP[contentKey];
+    var fn = DIAL_RENDERERS[contentKey];
+    if (section && section.content && fn) {
+        html = '<h3>' + escHtml(section.title) + '</h3>' + fn(section.content);
+    }
+    sheetBody.innerHTML = html || '<p style="color:var(--gray);text-align:center;">無相關資料</p>';
+    openInfoSheet();
+}
+
+(function initSpeedDial() {
+    var trigger = document.getElementById('speedDialTrigger');
+    if (trigger) trigger.addEventListener('click', toggleSpeedDial);
+    var backdrop = document.getElementById('speedDialBackdrop');
+    if (backdrop) backdrop.addEventListener('click', closeSpeedDial);
+})();
+
 function buildMenu(data) {
+    // Index page no longer uses sidebar/drawer — menu items moved to Speed Dial + nav-actions
+    var menuGrid = document.getElementById('menuGrid');
+    var sidebarNav = document.getElementById('sidebarNav');
+    if (!menuGrid && !sidebarNav) return;
     var slug = (data && data.tripSlug) ? data.tripSlug : (lsGet('trip-pref') || '');
     var editUrl = slug ? 'edit.html?trip=' + encodeURIComponent(slug) : 'edit.html';
     var nav = buildPageNav('index', { editHref: editUrl });
-
-    // Drawer menu (mobile)
-    var html = nav.drawer;
-    html += '<div class="menu-sep"></div>';
-    html += '<button class="menu-item" data-action="scroll-to" data-target="sec-highlights">' + iconSpan('sparkle') + ' AI行程亮點</button>';
-    html += '<button class="menu-item" data-action="scroll-to" data-target="sec-suggestions">' + iconSpan('lightbulb') + ' AI 行程建議</button>';
-    html += '<button class="menu-item" data-action="scroll-to" data-target="sec-flight">' + iconSpan('plane') + ' 航班資訊</button>';
-    html += '<button class="menu-item" data-action="scroll-to" data-target="sec-driving">' + iconSpan('bus') + ' 交通統計</button>';
-    html += '<button class="menu-item" data-action="scroll-to" data-target="sec-checklist">' + iconSpan('check-circle') + ' 出發前確認</button>';
-    html += '<button class="menu-item" data-action="scroll-to" data-target="sec-backup">' + iconSpan('refresh') + ' 颱風/雨天備案</button>';
-    html += '<button class="menu-item" data-action="scroll-to" data-target="sec-emergency">' + iconSpan('emergency') + ' 緊急聯絡</button>';
-    html += '<div class="menu-sep"></div>';
-    html += '<button class="menu-item" data-action="toggle-print">' + iconSpan('printer') + ' 列印模式</button>';
-    document.getElementById('menuGrid').innerHTML = html;
-
-    // Sidebar menu (desktop)
-    var sidebarNav = document.getElementById('sidebarNav');
-    if (sidebarNav) {
-        var sHtml = nav.sidebar;
-        sHtml += '<div class="menu-sep"></div>';
-        var navItems = [
-            { icon: 'sparkle', label: 'AI行程亮點', target: 'sec-highlights' },
-            { icon: 'lightbulb', label: 'AI 行程建議', target: 'sec-suggestions' },
-            { icon: 'plane', label: '航班資訊', target: 'sec-flight' },
-            { icon: 'bus', label: '交通統計', target: 'sec-driving' },
-            { icon: 'check-circle', label: '出發前確認', target: 'sec-checklist' },
-            { icon: 'refresh', label: '颱風/雨天備案', target: 'sec-backup' },
-            { icon: 'emergency', label: '緊急聯絡', target: 'sec-emergency' }
-        ];
-        navItems.forEach(function(item) {
-            sHtml += '<button class="menu-item" data-action="scroll-to" data-target="' + item.target + '" title="' + escHtml(item.label) + '">'
-                   + '<span class="item-icon">' + iconSpan(item.icon) + '</span>'
-                   + '<span class="item-label">' + escHtml(item.label) + '</span></button>';
-        });
-        sHtml += '<div class="menu-sep"></div>';
-        sHtml += '<button class="menu-item" data-action="toggle-print" title="列印模式"><span class="item-icon">' + iconSpan('printer') + '</span><span class="item-label">列印模式</span></button>';
-        sidebarNav.innerHTML = sHtml;
-    }
+    if (menuGrid) menuGrid.innerHTML = nav.drawer;
+    if (sidebarNav) sidebarNav.innerHTML = nav.sidebar;
 }
 
 /* ===== Menu functions provided by menu.js: isDesktop, toggleSidebar, closeMobileMenuIfOpen, updateDarkBtnText, toggleMenu ===== */
@@ -1192,7 +1173,17 @@ function scrollToSec(id) {
     window.scrollTo({ top: top, behavior: 'smooth' });
     history.replaceState(null, '', '#' + id);
 }
-function scrollToDay(n) { scrollToSec('day' + n); }
+function switchDay(dayId) {
+    var sections = document.querySelectorAll('.day-section');
+    sections.forEach(function(s) { s.classList.remove('active'); });
+    var target = document.querySelector('.day-section[data-day="' + dayId + '"]');
+    if (target) target.classList.add('active');
+    var pills = document.querySelectorAll('#stickyNav .dh-nav .dn[data-day]');
+    pills.forEach(function(btn) { btn.classList.toggle('active', parseInt(btn.getAttribute('data-day')) === dayId); });
+    var activeBtn = document.querySelector('#stickyNav .dh-nav .dn.active');
+    if (activeBtn) scrollNavPillIntoView(activeBtn);
+    window.scrollTo({ top: 0 });
+}
 function toggleHw(el) {
     var p = el.closest('.hourly-weather');
     p.classList.toggle('hw-open');
@@ -1253,8 +1244,6 @@ window.addEventListener('resize', function() {
         _alignNavTicking = true;
     }
 });
-var _sidebarEl = document.getElementById('sidebar');
-if (_sidebarEl) _sidebarEl.addEventListener('transitionend', alignStickyNav);
 
 /* ===== Day Nav Active Pill + Sticky Nav Update ===== */
 function initNavTracking() {
@@ -1354,12 +1343,7 @@ function autoScrollToday(dates) {
     var todayStr = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0');
     var idx = dates.indexOf(todayStr);
     if (idx >= 0) {
-        var el = document.getElementById('day' + (idx + 1));
-        if (el) {
-            var nav = document.getElementById('stickyNav');
-            var navH = nav.offsetHeight + (parseFloat(getComputedStyle(nav).top) || 0);
-            window.scrollTo({ top: el.offsetTop - navH, behavior: 'auto' });
-        }
+        switchDay(idx + 1);
     }
 }
 
@@ -1372,10 +1356,12 @@ document.addEventListener('click', function(e) {
     if (actionEl) {
         switch (actionEl.getAttribute('data-action')) {
             case 'scroll-to':  scrollToSec(actionEl.getAttribute('data-target')); break;
+            case 'switch-day': switchDay(parseInt(actionEl.getAttribute('data-day'))); break;
             case 'toggle-dark': toggleDark(); break;
             case 'toggle-print': togglePrint(); break;
             case 'switch-trip': switchTripFile(); break;
             case 'toggle-hw':  toggleHw(actionEl); break;
+            case 'speed-dial-item': openSpeedDialContent(actionEl.getAttribute('data-content')); break;
         }
         return;
     }
@@ -1498,7 +1484,6 @@ if (typeof module !== 'undefined' && module.exports) {
         renderTimelineEvent: renderTimelineEvent,
         renderTimeline: renderTimeline,
         renderHotel: renderHotel,
-        renderBudget: renderBudget,
         renderDayContent: renderDayContent,
         renderFlights: renderFlights,
         renderChecklist: renderChecklist,
