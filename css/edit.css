@@ -40,10 +40,6 @@
 }
 .issue-item {
     padding: 12px 0;
-    border-bottom: 1px dashed var(--border);
-}
-.issue-item:last-child {
-    border-bottom: none;
 }
 .issue-item-header {
     display: flex;
