@@ -16,7 +16,6 @@ const {
   renderSuggestions,
   renderTimeline,
   renderHotel,
-  renderBudget,
   renderTimelineEvent,
   renderRestaurant,
   renderInfoBox,
@@ -57,16 +56,6 @@ tripFiles.forEach(({ file, label }) => {
       it('有 hotel 的天數渲染包含飯店資訊', () => {
         data.days.forEach((day) => {
           if (day.content && day.content.hotel) {
-            const html = renderDayContent(day.content, null);
-            expect(html).toContain('svg-icon');
-            expect(html).toContain('col-row');
-          }
-        });
-      });
-
-      it('有 budget 的天數渲染包含預算表格', () => {
-        data.days.forEach((day) => {
-          if (day.content && day.content.budget) {
             const html = renderDayContent(day.content, null);
             expect(html).toContain('svg-icon');
             expect(html).toContain('col-row');
@@ -207,20 +196,6 @@ tripFiles.forEach(({ file, label }) => {
           const html = renderHotel(day.content.hotel);
           expect(html).toContain('svg-icon');
           expect(html).toContain(escHtml(day.content.hotel.name));
-        });
-      });
-    });
-
-    /* ===== 預算渲染 ===== */
-    describe('預算渲染', () => {
-      it('所有預算資料都能成功渲染', () => {
-        data.days.forEach((day) => {
-          if (!day.content || !day.content.budget) return;
-          const html = renderBudget(day.content.budget);
-          expect(html).toContain('svg-icon');
-          if (day.content.budget.items && day.content.budget.items.length) {
-            expect(html).toContain('budget-table');
-          }
         });
       });
     });

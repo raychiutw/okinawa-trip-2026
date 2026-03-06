@@ -8,6 +8,7 @@ import { describe, it, expect } from 'vitest';
  */
 
 const { escHtml, escUrl } = require('../../js/shared.js');
+const { iconSpan } = require('../../js/icons.js');
 
 /* ===== Helper: simulate buildIssueItemHtml ===== */
 function buildIssueItemHtml(issue) {
@@ -15,11 +16,17 @@ function buildIssueItemHtml(issue) {
     month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit'
   });
   var stateClass = issue.state === 'open' ? 'open' : 'closed';
+  var badgeIcon = issue.state === 'open' ? iconSpan('circle-dot') : iconSpan('check-circle');
+  var badgeText = issue.state === 'open' ? 'Open' : 'Closed';
   var html = '<div class="issue-item ' + stateClass + '">';
   html += '<div class="issue-item-header">';
+  html += '<span class="issue-badge ' + stateClass + '">' + badgeIcon + badgeText + '</span>';
   html += '<a class="issue-item-title" href="' + escUrl(issue.html_url) + '" target="_blank" rel="noopener noreferrer">' + escHtml(issue.title) + '</a>';
   html += '</div>';
   html += '<div class="issue-item-meta">#' + issue.number + ' · ' + escHtml(date) + '</div>';
+  if (issue.state === 'closed' && issue.comments > 0) {
+    html += '<div class="issue-reply" id="reply-' + issue.number + '">\u8B80\u53D6\u56DE\u8986\u4E2D\u2026</div>';
+  }
   html += '</div>';
   return html;
 }
@@ -81,7 +88,7 @@ describe('renderIssues list rendering', () => {
     expect(html).toContain('issue-item');
   });
 
-  it('open issue has .issue-item.open class', () => {
+  it('open issue has .issue-item.open class and open badge', () => {
     const html = renderIssuesHtml([{
       number: 1,
       title: 'Open issue',
@@ -90,11 +97,12 @@ describe('renderIssues list rendering', () => {
       created_at: '2026-03-01T10:00:00Z'
     }]);
     expect(html).toContain('issue-item open');
+    expect(html).toContain('issue-badge open');
+    expect(html).toContain('Open');
     expect(html).not.toContain('issue-item closed');
-    expect(html).not.toContain('status-dot');
   });
 
-  it('closed issue has .issue-item.closed class', () => {
+  it('closed issue has .issue-item.closed class and closed badge', () => {
     const html = renderIssuesHtml([{
       number: 2,
       title: 'Closed issue',
@@ -103,8 +111,9 @@ describe('renderIssues list rendering', () => {
       created_at: '2026-03-01T10:00:00Z'
     }]);
     expect(html).toContain('issue-item closed');
+    expect(html).toContain('issue-badge closed');
+    expect(html).toContain('Closed');
     expect(html).not.toContain('issue-item open');
-    expect(html).not.toContain('status-dot');
   });
 
   it('renders issue title as link', () => {
@@ -167,7 +176,7 @@ describe('renderIssues list rendering', () => {
     expect(html).not.toContain('javascript:');
   });
 
-  it('issue-item-header contains both status-dot and title link', () => {
+  it('issue-item-header contains badge before title link', () => {
     const html = renderIssuesHtml([{
       number: 3,
       title: 'Header test',
@@ -176,9 +185,47 @@ describe('renderIssues list rendering', () => {
       created_at: '2026-03-01T10:00:00Z'
     }]);
     expect(html).toContain('issue-item-header');
-    const headerIdx = html.indexOf('issue-item-header');
-    const titleIdx = html.indexOf('issue-item-title', headerIdx);
-    expect(titleIdx).toBeGreaterThan(headerIdx);
-    expect(html).not.toContain('status-dot');
+    const badgeIdx = html.indexOf('issue-badge');
+    const titleIdx = html.indexOf('issue-item-title');
+    expect(badgeIdx).toBeGreaterThan(-1);
+    expect(titleIdx).toBeGreaterThan(badgeIdx);
+  });
+
+  it('closed issue with comments > 0 has reply placeholder', () => {
+    const html = renderIssuesHtml([{
+      number: 10,
+      title: 'Closed with reply',
+      html_url: 'https://github.com/x/y/issues/10',
+      state: 'closed',
+      comments: 2,
+      created_at: '2026-03-01T10:00:00Z'
+    }]);
+    expect(html).toContain('issue-reply');
+    expect(html).toContain('id="reply-10"');
+    expect(html).toContain('讀取回覆中…');
+  });
+
+  it('open issue does not have reply placeholder', () => {
+    const html = renderIssuesHtml([{
+      number: 11,
+      title: 'Open no reply',
+      html_url: 'https://github.com/x/y/issues/11',
+      state: 'open',
+      comments: 3,
+      created_at: '2026-03-01T10:00:00Z'
+    }]);
+    expect(html).not.toContain('issue-reply');
+  });
+
+  it('closed issue with 0 comments does not have reply placeholder', () => {
+    const html = renderIssuesHtml([{
+      number: 12,
+      title: 'Closed no comments',
+      html_url: 'https://github.com/x/y/issues/12',
+      state: 'closed',
+      comments: 0,
+      created_at: '2026-03-01T10:00:00Z'
+    }]);
+    expect(html).not.toContain('issue-reply');
   });
 });

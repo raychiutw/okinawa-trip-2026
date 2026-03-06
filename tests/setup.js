@@ -55,7 +55,7 @@ if (typeof globalThis.requestAnimationFrame === 'undefined') {
 }
 
 // Ensure document has required elements (app.js queries these on load)
-const requiredIds = ['tripContent', 'navPills', 'stickyNav', 'menuDrop', 'menuGrid', 'sidebar', 'menuBackdrop'];
+const requiredIds = ['tripContent', 'navPills', 'stickyNav'];
 requiredIds.forEach((id) => {
   if (!document.getElementById(id)) {
     const el = document.createElement('div');

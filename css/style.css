@@ -166,17 +166,26 @@ body:not(.dark) .day-header {
 .info-box { margin: 6px 0; padding: 8px 12px; border-radius: var(--radius-sm); font-size: var(--fs-md); line-height: 1.7; }
 .info-box a { color: var(--text); font-weight: 600; text-decoration: underline; }
 .info-box strong { font-weight: 600; }
-.restaurant-choice { padding: 6px 0; line-height: 1.7; }
+.restaurant-choice { padding: 10px 12px; line-height: 1.7; background: var(--accent-light); border-radius: var(--radius-sm); margin-bottom: 8px; }
+.info-box-grid { display: flex; flex-direction: column; }
+@media (min-width: 768px) {
+    .info-box-grid { display: grid; gap: 8px; }
+    .info-box-grid.grid-1 { grid-template-columns: 1fr; }
+    .info-box-grid.grid-even { grid-template-columns: repeat(2, 1fr); }
+    .info-box-grid.grid-odd { grid-template-columns: repeat(3, 1fr); }
+    .info-box-grid .restaurant-choice { margin-bottom: 0; }
+}
 .restaurant-choice strong { color: var(--accent); }
 .restaurant-choice a:not(.map-link) { color: var(--text); font-weight: 600; text-decoration: underline; }
 .restaurant-meta { display: block; margin-top: 3px; font-size: var(--fs-md); color: var(--gray); }
 .restaurant-meta a { color: var(--text); font-weight: 600; text-decoration: underline; }
 
-/* ===== Budget ===== */
-.budget-table { width: 100%; border-collapse: collapse; font-size: var(--fs-md); }
-.budget-table td { padding: 3px 0; }
-.budget-table td:last-child { text-align: right; font-weight: 600; color: var(--text); }
-.budget-total { margin-top: 6px; padding-top: 6px; font-weight: 700; color: var(--text); }
+/* ===== Day Overview Zone ===== */
+.day-overview { background: var(--accent-light); border-radius: var(--radius-sm); padding: 12px; margin-bottom: 12px; }
+.day-overview .hourly-weather { padding: 0 0 12px; }
+.day-overview .col-row { padding: 10px 0; }
+.day-overview .driving-stats { margin: 0; padding: 10px 0 0; }
+
 .notes-list { list-style: none; padding: 0; margin-top: 8px; }
 .notes-list li { padding: 2px 0; font-size: var(--fs-md); display: flex; align-items: baseline; gap: 6px; }
 .notes-list li .list-icon { flex-shrink: 0; }
@@ -341,20 +350,70 @@ body.dark .map-link.apple:hover .apple-icon svg { fill: currentColor; }
 body.dark .hw-block { background: var(--hover-bg); }
 body.dark .info-box { background: var(--accent-light); }
 
-/* ===== Info FAB Button ===== */
-.info-fab {
-    position: fixed; bottom: 88px; right: 20px;
+/* ===== Tab Day Switching ===== */
+.day-section { display: none; }
+.day-section.active { display: block; }
+.print-mode .day-section { display: block !important; }
+
+/* ===== Nav Brand ===== */
+.nav-brand { font-weight: 700; font-size: var(--fs-md); color: var(--accent); white-space: nowrap; display: none; }
+@media (min-width: 768px) { .nav-brand { display: inline; } }
+
+/* ===== Nav Actions ===== */
+.nav-actions { display: flex; align-items: center; gap: 4px; flex-shrink: 0; margin-left: auto; }
+.nav-action-btn { display: inline-flex; align-items: center; gap: 4px; background: none; border: none; color: var(--gray); cursor: pointer; padding: 6px 8px; border-radius: var(--radius-sm); font-family: inherit; font-size: var(--fs-sm); text-decoration: none; white-space: nowrap; }
+.nav-action-btn:hover { color: var(--accent); background: var(--accent-light); }
+.nav-action-label { display: none; }
+@media (min-width: 768px) { .nav-action-label { display: inline; } }
+
+/* ===== Speed Dial FAB ===== */
+.speed-dial { position: fixed; bottom: 88px; right: 20px; z-index: 300; }
+.speed-dial-trigger {
     width: 56px; height: 56px; border-radius: 50%;
     background: var(--accent); color: #fff; border: none;
-    display: none; align-items: center; justify-content: center;
-    z-index: 300; box-shadow: var(--shadow-md);
-    cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: var(--shadow-md); cursor: pointer;
+    transition: transform 0.2s;
 }
-.info-fab:hover { transform: scale(1.1); }
-body.dark .info-fab { background: var(--accent); }
-.print-mode .info-fab { display: none !important; }
-@media print { .info-fab { display: none !important; } }
-@media (max-width: 767px) { .info-fab { display: flex; } }
+.speed-dial-trigger:hover { transform: scale(1.1); }
+.speed-dial-trigger svg { transition: transform 0.3s; }
+.speed-dial.open .speed-dial-trigger svg { transform: rotate(180deg); }
+body.dark .speed-dial-trigger { background: var(--accent); }
+
+.speed-dial-backdrop {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.3);
+    opacity: 0; pointer-events: none; transition: opacity 0.2s;
+    z-index: -1;
+}
+.speed-dial.open .speed-dial-backdrop { opacity: 1; pointer-events: auto; }
+
+.speed-dial-items {
+    position: absolute; bottom: 68px; right: 4px;
+    display: flex; flex-direction: column-reverse; gap: 12px;
+    opacity: 0; pointer-events: none; transform: translateY(10px);
+    transition: opacity 0.2s, transform 0.2s;
+}
+.speed-dial.open .speed-dial-items { opacity: 1; pointer-events: auto; transform: translateY(0); }
+
+.speed-dial-item {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--white); color: var(--accent); border: none;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: var(--shadow-md); cursor: pointer;
+    transition: transform 0.15s, opacity 0.15s;
+    opacity: 0; transform: scale(0.5);
+}
+.speed-dial.open .speed-dial-item { opacity: 1; transform: scale(1); }
+.speed-dial.open .speed-dial-item:nth-child(1) { transition-delay: 0ms; }
+.speed-dial.open .speed-dial-item:nth-child(2) { transition-delay: 30ms; }
+.speed-dial.open .speed-dial-item:nth-child(3) { transition-delay: 60ms; }
+.speed-dial.open .speed-dial-item:nth-child(4) { transition-delay: 90ms; }
+.speed-dial.open .speed-dial-item:nth-child(5) { transition-delay: 120ms; }
+.speed-dial-item:hover { transform: scale(1.15); }
+body.dark .speed-dial-item { background: var(--card-bg); }
+
+.print-mode .speed-dial { display: none !important; }
+@media print { .speed-dial { display: none !important; } }
 
 /* ===== Bottom Sheet ===== */
 .info-sheet-backdrop {

@@ -10,7 +10,7 @@ const {
   renderTimelineEvent,
   renderTimeline,
   renderHotel,
-  renderBudget,
+  renderDayContent,
   renderFlights,
   renderChecklist,
   renderBackup,
@@ -467,41 +467,6 @@ describe('renderHotel', () => {
     });
     expect(html).toContain('href="https://blog.example.com/hotel"');
     expect(html).toContain('網誌推薦');
-  });
-});
-
-/* ===== renderBudget ===== */
-describe('renderBudget', () => {
-  it('renders budget items and total', () => {
-    const html = renderBudget({
-      summary: '¥10,000',
-      items: [
-        { label: '午餐', amount: '¥2,000' },
-        { label: '門票', amount: '¥3,000' },
-      ],
-      total: { label: '小計', amount: '¥5,000' },
-    });
-    expect(html).toContain('budget-table');
-    expect(html).toContain('午餐');
-    expect(html).toContain('¥2,000');
-    expect(html).toContain('budget-total');
-    expect(html).toContain('¥5,000');
-  });
-
-  it('renders notes', () => {
-    const html = renderBudget({
-      summary: '¥10,000',
-      items: [],
-      notes: ['匯率以 0.22 計算'],
-    });
-    expect(html).toContain('notes-list');
-    expect(html).toContain('匯率以 0.22 計算');
-  });
-
-  it('renders summary in col-row', () => {
-    const html = renderBudget({ summary: 'Day 1 費用' });
-    expect(html).toContain('svg-icon');
-    expect(html).toContain('Day 1 費用');
   });
 });
 
@@ -966,19 +931,6 @@ describe('renderTripStatsCard', () => {
     expect(html).toContain('30 分鐘');
   });
 
-  it('renders budget', () => {
-    const data = {
-      days: [
-        { id: 1, content: { timeline: [], budget: { items: [{ label: '午餐', amount: 1500 }], currency: 'JPY' } } },
-        { id: 2, content: { timeline: [], budget: { items: [{ label: '晚餐', amount: 3000 }], currency: 'JPY' } } },
-      ],
-    };
-    const html = renderTripStatsCard(data);
-    expect(html).toContain('預估預算');
-    expect(html).toContain('JPY');
-    expect(html).toContain('4,500');
-  });
-
   it('handles days without content', () => {
     const data = { days: [{ id: 1 }, { id: 2 }] };
     const html = renderTripStatsCard(data);
@@ -1060,5 +1012,70 @@ describe('renderInfoPanel content functions', () => {
     expect(html).toContain('stats-card');
     expect(html).toContain('行程統計');
     expect(html).toContain('2 天');
+  });
+});
+
+/* ===== renderDayContent — day-overview wrapper ===== */
+describe('renderDayContent', () => {
+  it('wraps weather/hotel/driving-stats in .day-overview', () => {
+    const html = renderDayContent({
+      hotel: { name: 'Test Hotel', summary: '測試飯店' },
+      timeline: [{ time: '09:00', title: '景點', icon: '📍' }],
+    }, 'weather-1');
+    expect(html).toContain('day-overview');
+    expect(html).toContain('hourly-weather');
+  });
+
+  it('renders .day-overview even with only hotel', () => {
+    const html = renderDayContent({
+      hotel: { name: 'Hotel', summary: '飯店' },
+    }, null);
+    expect(html).toContain('day-overview');
+  });
+
+  it('does not include timeline inside .day-overview', () => {
+    const html = renderDayContent({
+      hotel: { name: 'Hotel', summary: '飯店' },
+      timeline: [{ time: '09:00', title: '景點', icon: '📍' }],
+    }, null);
+    const overviewEnd = html.indexOf('</div>');
+    const timelineIdx = html.indexOf('timeline');
+    expect(timelineIdx).toBeGreaterThan(overviewEnd);
+  });
+});
+
+/* ===== renderInfoBox — info-box-grid ===== */
+describe('renderInfoBox grid wrapper', () => {
+  it('restaurants wrapped in .info-box-grid', () => {
+    const html = renderInfoBox({
+      type: 'restaurants',
+      restaurants: [
+        { name: 'A', googleRating: 4.0 },
+        { name: 'B', googleRating: 3.5 },
+        { name: 'C', googleRating: 4.5 },
+      ],
+    });
+    expect(html).toContain('info-box-grid');
+    expect(html).toContain('grid-odd');
+  });
+
+  it('shopping wrapped in .info-box-grid', () => {
+    const html = renderInfoBox({
+      type: 'shopping',
+      shops: [
+        { name: 'Shop A' },
+        { name: 'Shop B' },
+      ],
+    });
+    expect(html).toContain('info-box-grid');
+    expect(html).toContain('grid-even');
+  });
+
+  it('single restaurant uses grid-1', () => {
+    const html = renderInfoBox({
+      type: 'restaurants',
+      restaurants: [{ name: 'Only One', googleRating: 4.0 }],
+    });
+    expect(html).toContain('grid-1');
   });
 });

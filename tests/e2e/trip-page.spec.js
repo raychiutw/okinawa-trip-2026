@@ -74,169 +74,116 @@ test.describe('頁面載入', () => {
   });
 });
 
-/* ===== 2. 導航功能 ===== */
-test.describe('導航功能', () => {
-  test('點擊 nav pill 捲動到對應 Day', async ({ page }) => {
+/* ===== 2. 導航功能（Tab 切換） ===== */
+test.describe('導航功能（Tab 切換）', () => {
+  test('Nav pill 標籤為純數字（非 D1）', async ({ page }) => {
     await page.goto('/');
+    const pill = page.locator('#navPills .dn').first();
+    const text = await pill.textContent();
+    expect(text.trim()).toBe('1');
+    expect(text.trim()).not.toContain('D');
+  });
+
+  test('點擊 nav pill 切換 Day 顯示（tab 切換）', async ({ page }) => {
+    await page.goto('/');
+    // 初始 Day 1 可見
+    const day1 = page.locator('.day-section[data-day="1"]');
+    const day3 = page.locator('.day-section[data-day="3"]');
+    await expect(day1).toBeVisible();
+
+    // 點擊 Day 3 pill
     await page.locator('#navPills .dn[data-day="3"]').click();
-    // 等待捲動完成
-    await page.waitForTimeout(500);
-    const day3 = page.locator('#day3');
-    await expect(day3).toBeInViewport();
-  });
-
-  test('點擊 nav pill 更新 URL hash', async ({ page }) => {
-    await page.goto('/');
-    await page.locator('#navPills .dn[data-day="2"]').click();
     await page.waitForTimeout(300);
-    expect(page.url()).toContain('#day2');
+
+    // Day 3 可見，Day 1 隱藏
+    await expect(day3).toBeVisible();
+    await expect(day1).not.toBeVisible();
   });
 
-  test('URL hash 直接跳轉到對應區段', async ({ page }) => {
-    await page.goto('/#day4');
-    await page.waitForTimeout(500);
-    const day4 = page.locator('#day4');
-    await expect(day4).toBeInViewport();
-  });
+  test('點擊 pill 更新 active class', async ({ page }) => {
+    await page.goto('/');
+    const pill3 = page.locator('#navPills .dn[data-day="3"]');
 
-  test('URL hash 跳轉到資訊區段', async ({ page }) => {
-    await page.goto('/#sec-flight');
-    await page.waitForTimeout(500);
-    const flight = page.locator('#sec-flight');
-    await expect(flight).toBeInViewport();
+    await pill3.click();
+    await expect(pill3).toHaveClass(/active/);
+
+    // 其他 pill 不應有 active
+    const pill1 = page.locator('#navPills .dn[data-day="1"]');
+    await expect(pill1).not.toHaveClass(/active/);
   });
 });
 
-/* ===== 3. 漢堡選單（手機版） ===== */
-test.describe('漢堡選單（手機版）', () => {
+/* ===== 3. Speed Dial（手機版） ===== */
+test.describe('Speed Dial（手機版）', () => {
   test.use({ viewport: { width: 375, height: 812 }, userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X) Mobile/15E148' });
 
-  test('選單按鈕開關 menu', async ({ page }) => {
+  test('Speed Dial 觸發按鈕可見', async ({ page }) => {
     await page.goto('/');
-    const menuBtn = page.locator('.dh-menu[data-action="toggle-sidebar"]');
-    const menuDrop = page.locator('#menuDrop');
-
-    // 初始關閉
-    await expect(menuDrop).not.toHaveClass(/open/);
-
-    // 點擊開啟
-    await menuBtn.click();
-    await expect(menuDrop).toHaveClass(/open/);
-
-    // 點擊 backdrop 關閉（避開 drawer 區域）
-    await page.locator('#menuBackdrop').click({ position: { x: 350, y: 400 } });
-    await expect(menuDrop).not.toHaveClass(/open/);
+    const trigger = page.locator('#speedDialTrigger');
+    await expect(trigger).toBeVisible();
   });
 
-  test('選單項目點擊後捲動並關閉選單', async ({ page }) => {
+  test('點擊 trigger 展開/收合 Speed Dial', async ({ page }) => {
     await page.goto('/');
-    const menuBtn = page.locator('.dh-menu[data-action="toggle-sidebar"]');
-    const menuDrop = page.locator('#menuDrop');
+    const speedDial = page.locator('#speedDial');
+    const trigger = page.locator('#speedDialTrigger');
 
-    await menuBtn.click();
-    await expect(menuDrop).toHaveClass(/open/);
+    // 初始收合
+    await expect(speedDial).not.toHaveClass(/open/);
 
-    // 點擊選單中的「航班資訊」
-    await page.locator('#menuDrop [data-target="sec-flight"]').click();
-    await page.waitForTimeout(800);
+    // 點擊展開
+    await trigger.click();
+    await expect(speedDial).toHaveClass(/open/);
 
-    // 選單應已關閉
-    await expect(menuDrop).not.toHaveClass(/open/);
-    // 航班區段應在視窗內
-    await expect(page.locator('#sec-flight')).toBeInViewport();
+    // 再次點擊收合
+    await trigger.click();
+    await expect(speedDial).not.toHaveClass(/open/);
   });
 
-  test('點擊 backdrop 關閉選單', async ({ page }) => {
+  test('點擊 backdrop 關閉 Speed Dial', async ({ page }) => {
     await page.goto('/');
-    const menuBtn = page.locator('.dh-menu[data-action="toggle-sidebar"]');
-    const menuDrop = page.locator('#menuDrop');
+    const speedDial = page.locator('#speedDial');
+    const trigger = page.locator('#speedDialTrigger');
 
-    await menuBtn.click();
-    await expect(menuDrop).toHaveClass(/open/);
+    await trigger.click();
+    await expect(speedDial).toHaveClass(/open/);
 
-    // 點擊 backdrop 右側（drawer 外的區域，drawer 寬 280px）
-    await page.locator('#menuBackdrop').click({ position: { x: 350, y: 400 } });
-    await expect(menuDrop).not.toHaveClass(/open/);
+    await page.locator('#speedDialBackdrop').click({ force: true });
+    await expect(speedDial).not.toHaveClass(/open/);
   });
 
-  test('向左滑動關閉選單', async ({ page }) => {
+  test('子項目點擊開啟 Bottom Sheet', async ({ page }) => {
     await page.goto('/');
-    const menuBtn = page.locator('.dh-menu[data-action="toggle-sidebar"]');
-    const menuDrop = page.locator('#menuDrop');
+    const trigger = page.locator('#speedDialTrigger');
 
-    await menuBtn.click();
-    await expect(menuDrop).toHaveClass(/open/);
+    // 展開 Speed Dial
+    await trigger.click();
+    await page.waitForTimeout(300);
 
-    // 模擬向左滑動（dx < -50）關閉選單
-    await page.evaluate(() => {
-      const ts = (type, x, y) => new TouchEvent(type, {
-        bubbles: true,
-        [type === 'touchend' ? 'changedTouches' : 'touches']:
-          [new Touch({ identifier: 0, target: document.body, clientX: x, clientY: y })]
-      });
-      document.dispatchEvent(ts('touchstart', 200, 300));
-      document.dispatchEvent(ts('touchend', 100, 300));
-    });
+    // 點擊航班子項目
+    await page.locator('.speed-dial-item[data-content="flights"]').click();
+    await page.waitForTimeout(300);
 
-    await expect(menuDrop).not.toHaveClass(/open/);
+    // Speed Dial 應關閉
+    await expect(page.locator('#speedDial')).not.toHaveClass(/open/);
+
+    // Bottom Sheet 應開啟
+    await expect(page.locator('#infoBottomSheet')).toHaveClass(/open/);
   });
 });
 
-/* ===== 3b. 桌機側邊欄 ===== */
-test.describe('桌機側邊欄', () => {
-  test('側邊欄預設可見且展開', async ({ page }) => {
+/* ===== 3b. Sticky-nav 動作按鈕 ===== */
+test.describe('Sticky-nav 動作按鈕', () => {
+  test('設定連結指向 setting.html', async ({ page }) => {
     await page.goto('/');
-    const sidebar = page.locator('#sidebar');
-    await expect(sidebar).toBeVisible();
-    await expect(sidebar).not.toHaveClass(/collapsed/);
+    const settingLink = page.locator('.nav-actions a[href="setting.html"]');
+    await expect(settingLink).toBeAttached();
   });
 
-  test('點擊 toggle 按鈕收合/展開', async ({ page }) => {
+  test('列印按鈕存在', async ({ page }) => {
     await page.goto('/');
-    const sidebar = page.locator('#sidebar');
-    const toggle = page.locator('.sidebar-toggle');
-
-    // 點擊收合
-    await toggle.click();
-    await expect(sidebar).toHaveClass(/collapsed/);
-
-    // 點擊展開
-    await toggle.click();
-    await expect(sidebar).not.toHaveClass(/collapsed/);
-  });
-
-  test('collapsed 狀態存入 localStorage', async ({ page }) => {
-    await page.goto('/');
-    const toggle = page.locator('.sidebar-toggle');
-
-    // 點擊收合
-    await toggle.click();
-
-    // 檢查 localStorage
-    const collapsed = await page.evaluate(() => {
-      for (let i = 0; i < localStorage.length; i++) {
-        const k = localStorage.key(i);
-        if (k && k.indexOf('sidebar-collapsed') !== -1) {
-          return JSON.parse(localStorage.getItem(k)).v;
-        }
-      }
-      return null;
-    });
-    expect(collapsed).toBe('1');
-  });
-
-  test('側邊欄選單項目點擊後捲動到對應區段', async ({ page }) => {
-    await page.goto('/');
-    // 點擊側邊欄的「航班資訊」
-    await page.locator('#sidebarNav [data-target="sec-flight"]').click();
-    await page.waitForTimeout(800);
-    await expect(page.locator('#sec-flight')).toBeInViewport();
-  });
-
-  test('桌機版手機 drawer 不可見', async ({ page }) => {
-    await page.goto('/');
-    const menuDrop = page.locator('#menuDrop');
-    await expect(menuDrop).not.toBeVisible();
+    const printBtn = page.locator('.nav-actions [data-action="toggle-print"]');
+    await expect(printBtn).toBeAttached();
   });
 });
 
@@ -258,11 +205,11 @@ test.describe('深色模式', () => {
     await expect(body).not.toHaveClass(/dark/);
   });
 
-  test('深色模式選單不含 toggle-dark 按鈕（已移至 setting 頁）', async ({ page }) => {
+  test('index.html 不含 toggle-dark 按鈕（已移至 setting 頁）', async ({ page }) => {
     await page.goto('/');
     await page.waitForTimeout(1000);
 
-    const darkBtns = page.locator('#sidebarNav [data-action="toggle-dark"]');
+    const darkBtns = page.locator('[data-action="toggle-dark"]');
     const count = await darkBtns.count();
     expect(count).toBe(0);
   });
@@ -437,13 +384,23 @@ test.describe('緊急聯絡', () => {
 
 /* ===== 11. 列印模式 ===== */
 test.describe('列印模式', () => {
-  test('切換列印模式（桌機側邊欄）', async ({ page }) => {
+  test('切換列印模式（nav-actions 按鈕）', async ({ page }) => {
     await page.goto('/');
     const body = page.locator('body');
 
-    // 點擊側邊欄列印模式按鈕
-    await page.locator('#sidebarNav [data-action="toggle-print"]').click();
+    // 點擊 nav-actions 列印模式按鈕
+    await page.locator('.nav-actions [data-action="toggle-print"]').click();
     await expect(body).toHaveClass(/print-mode/);
+
+    // 列印模式下所有 day-section 都可見
+    const daySections = page.locator('.day-section');
+    const count = await daySections.count();
+    for (let i = 0; i < count; i++) {
+      await expect(daySections.nth(i)).toBeVisible();
+    }
+
+    // Speed Dial 隱藏
+    await expect(page.locator('#speedDial')).not.toBeVisible();
 
     // 用頁面上的退出按鈕退出列印模式
     await page.locator('#printExitBtn').click();
@@ -577,8 +534,8 @@ test.describe('Dark + Print 互動', () => {
     await page.evaluate(function() { toggleDarkShared(); });
     await expect(body).toHaveClass(/dark/);
 
-    // 進入列印模式（透過側邊欄）
-    await page.locator('#sidebarNav [data-action="toggle-print"]').click();
+    // 進入列印模式（透過 nav-actions）
+    await page.locator('.nav-actions [data-action="toggle-print"]').click();
     await expect(body).toHaveClass(/print-mode/);
     // 列印模式下不應有 dark
     await expect(body).not.toHaveClass(/dark/);
@@ -591,22 +548,24 @@ test.describe('Dark + Print 互動', () => {
   });
 });
 
-/* ===== 18. Nav pill 捲動 highlight ===== */
-test.describe('Nav pill 捲動 highlight', () => {
-  test('捲動到 Day 3 時 nav pill 3 自動 highlight', async ({ page }) => {
+/* ===== 18. Tab 切換 active 狀態 ===== */
+test.describe('Tab 切換 active', () => {
+  test('初始 Day 1 active，其餘隱藏', async ({ page }) => {
     await page.goto('/');
+    const day1 = page.locator('.day-section[data-day="1"]');
+    const day2 = page.locator('.day-section[data-day="2"]');
+    await expect(day1).toHaveClass(/active/);
+    await expect(day1).toBeVisible();
+    await expect(day2).not.toBeVisible();
+  });
 
-    // 使用 JavaScript 捲動到 Day 3 並觸發 scroll 事件
-    await page.evaluate(() => {
-      const el = document.getElementById('day3');
-      if (el) el.scrollIntoView({ behavior: 'instant' });
-    });
-    // 等待 scroll 事件 + requestAnimationFrame 處理
-    await page.waitForTimeout(800);
-
-    // nav pill 3 應有 active class
-    const pill3 = page.locator('#navPills .dn[data-day="3"]');
-    await expect(pill3).toHaveClass(/active/);
+  test('切換到 Day 4 後 Day 4 active', async ({ page }) => {
+    await page.goto('/');
+    await page.locator('#navPills .dn[data-day="4"]').click();
+    await page.waitForTimeout(300);
+    const day4 = page.locator('.day-section[data-day="4"]');
+    await expect(day4).toHaveClass(/active/);
+    await expect(day4).toBeVisible();
   });
 });
 
@@ -705,7 +664,7 @@ test.describe('FAB 修改行程按鈕', () => {
 
   test('列印模式隱藏 FAB', async ({ page }) => {
     await page.goto('/');
-    await page.locator('#sidebarNav [data-action="toggle-print"]').click();
+    await page.locator('.nav-actions [data-action="toggle-print"]').click();
     const fab = page.locator('#editFab');
     await expect(fab).not.toBeVisible();
   });
@@ -746,27 +705,44 @@ test.describe('行程載入失敗', () => {
   });
 });
 
-/* ===== 23. Info FAB 與 Bottom Sheet（手機版） ===== */
-test.describe('Info FAB 與 Bottom Sheet（手機版）', () => {
+/* ===== 23. Speed Dial → Bottom Sheet（手機版） ===== */
+test.describe('Speed Dial → Bottom Sheet（手機版）', () => {
   test.use({ viewport: { width: 375, height: 812 }, userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X) Mobile/15E148' });
 
-  test('點擊 info FAB 開啟 bottom sheet', async ({ page }) => {
+  test('Speed Dial 子項目開啟 bottom sheet 並顯示內容', async ({ page }) => {
     await page.goto('/');
     await page.waitForTimeout(500);
-    const infoFab = page.locator('#infoFab');
-    await expect(infoFab).toBeVisible();
-    await infoFab.click();
+
+    // 展開 Speed Dial
+    await page.locator('#speedDialTrigger').click();
+    await page.waitForTimeout(300);
+
+    // 點擊出發前確認
+    await page.locator('.speed-dial-item[data-content="checklist"]').click();
+    await page.waitForTimeout(300);
+
     const backdrop = page.locator('#infoBottomSheet');
     await expect(backdrop).toHaveClass(/open/);
+
+    // Bottom Sheet 應有內容
+    const body = page.locator('#bottomSheetBody');
+    const text = await body.textContent();
+    expect(text.length).toBeGreaterThan(0);
   });
 
   test('點擊 backdrop 關閉 bottom sheet', async ({ page }) => {
     await page.goto('/');
     await page.waitForTimeout(500);
-    const infoFab = page.locator('#infoFab');
-    await infoFab.click();
+
+    // 開啟 bottom sheet via speed dial
+    await page.locator('#speedDialTrigger').click();
+    await page.waitForTimeout(300);
+    await page.locator('.speed-dial-item[data-content="flights"]').click();
+    await page.waitForTimeout(300);
+
     const backdrop = page.locator('#infoBottomSheet');
     await expect(backdrop).toHaveClass(/open/);
+
     // Click on the backdrop area (outside the panel) to close
     await backdrop.click({ position: { x: 187, y: 50 } });
     await expect(backdrop).not.toHaveClass(/open/);
