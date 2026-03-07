@@ -27,11 +27,18 @@ describe('fileToSlug', () => {
 
 /* ===== slugToFile ===== */
 describe('slugToFile', () => {
-  it('converts slug to data/trips path', () => {
-    expect(slugToFile('okinawa-trip-2026-Ray')).toBe('data/trips/okinawa-trip-2026-Ray.json');
+  it('converts slug to data/dist path', () => {
+    expect(slugToFile('okinawa-trip-2026-Ray')).toBe('data/dist/okinawa-trip-2026-Ray/');
   });
 
   it('works with simple slug', () => {
-    expect(slugToFile('test')).toBe('data/trips/test.json');
+    expect(slugToFile('test')).toBe('data/dist/test/');
+  });
+});
+
+/* ===== fileToSlug (dist path) ===== */
+describe('fileToSlug (dist path)', () => {
+  it('extracts slug from data/dist path', () => {
+    expect(fileToSlug('data/dist/okinawa-trip-2026-Ray/')).toBe('okinawa-trip-2026-Ray');
   });
 });

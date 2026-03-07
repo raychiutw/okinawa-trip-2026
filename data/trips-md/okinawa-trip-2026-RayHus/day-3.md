@@ -1,0 +1,71 @@
+---
+id: 3
+date: 2026-03-08
+dayOfWeek: 日
+label: Klook一日遊
+weather: {"label":"那霸","locations":[{"lat":26.2066,"lon":127.6476,"name":"那霸","start":0,"end":23}]}
+---
+
+## Hotel: Living Inn 旭橋駅前
+- url: https://www.imbecky.com.tw/living-inn-asahibashiekimae-premier/
+- checkout: 10:00
+- blog: https://eisei86.pixnet.net/blog/post/156706179
+- source: ai
+- details: 那霸市東町11-17, 旭橋站步行5分鐘
+- breakfast: false 不含早餐，附近便利商店或自行解決
+
+### shopping: 飯店附近購物
+
+| name | category | hours | mustBuy | blog | rating | maps | mapcode | source |
+|---|---|---|---|---|---|---|---|---|
+| 唐吉軻德那霸店（全球最大旗艦店） | 唐吉軻德 | 24 小時 | 沖繩限定泡盛, 紅芋塔/紅芋餅乾, Orion 啤酒, 沖繩黑糖, 沖繩限定零食 | https://mimigo.tw/okinawa-donki/ | 4.2 |  |  | ai |
+| Lawson 旭橋店 | 超商 | 24 小時 | 沖繩限定冰淇淋（紅芋口味）, 烤地瓜, 飯糰便當, 沖繩限定飲料 | https://okinawa.letsgojp.com/archives/18216/ | 3.5 |  |  | ai |
+| サンエー那霸メインプレイス | 超市 | 09:00~22:00 | 沖繩本地豬肉（アグー豚）, 沖繩豆腐（島豆腐）, 泡盛, 海葡萄（海ぶどう） | https://popogo.pixnet.net/blog/posts/3051142200 | 4 |  |  | ai |
+
+## Timeline
+
+### 上午 自由活動（12:30 集合前）
+上午時段自由活動，可前往國際通、第一牧志公設市場或旭橋附近咖啡廳休閒。詳見 suggestions 建議。
+- web: https://www.makishi-public-market.jp/
+- blog: https://bobbyfun.tw/2024-01-07-2705/
+- source: ai
+- maps: 第一牧志公設市場 | 第一牧志公設市場 那覇
+- rating: 4.2
+
+### 12:00-12:30 前往集合地點
+步行或搭單軌電車前往 Blue Seal Palette 久茂地店（縣廳前站走路4分鐘）
+- maps: Blue Seal Palette 久茂地店 | Blue Seal Palette 久茂地 那覇
+- rating: 4.1
+- travel: train 單軌電車 旭橋→縣廳前 約3分鐘 ¥230
+
+### 12:30-21:30 Klook 沖繩西海岸一日遊
+跟團遊覽沖繩西海岸精華景點：波上宮、殘波岬燈塔、美國村、東南植物樂園燈光秀。集合地點：Blue Seal Palette 久茂地店（沖縄県那覇市久茂地1丁目1番1号）
+- blog: https://yiping1228.pixnet.net/blog/post/576037076
+- source: ai
+- maps: Blue Seal Palette 久茂地店 | Blue Seal Palette 久茂地1丁目 那覇
+- label: 集合地點
+- rating: 4.4
+
+#### reservation: Klook 一日遊行程
+- 集合：12:30 Blue Seal Palette 久茂地店（沖縄県那覇市久茂地1丁目1番1号，縣廳前站步行4分鐘）
+- 返回：約21:30
+- 景點：波上宮 → 殘波岬燈塔 → 美國村 → 東南植物樂園燈光秀
+- 波上宮：沖繩最具代表性的神社，俯瞰那霸海岸
+- 殘波岬燈塔：沖繩最大燈塔，夕陽絕景
+- 美國村：北谷異國風情購物街，彩色商圈
+- 東南植物樂園：夜晚燈光秀，熱帶植物園
+
+### 21:30-23:00 返回那霸，晚餐
+一日遊結束返回那霸市區，選擇深夜營業的餐廳用餐
+- blog: https://mimigo.tw/naha-hotels/
+- source: ai
+- maps: 那霸市區 | 那覇市 国際通り
+- rating: 4
+
+#### restaurants: 晚餐推薦（深夜營業）
+
+| name | category | hours | price | reservation | description | blog | rating | maps | mapcode | source |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 焼肉きんぐ 那覇久茂地店 | 燒肉 | 平日 17:00~24:00／假日 11:00~24:00 | ¥3,278~/人 | EPARK 線上預約 | 人氣燒肉吃到飽，58 道起 ¥3,278，深夜 24:00 仍營業 | https://sweet212.pixnet.net/blog/posts/13364784554 | 4 | 焼肉きんぐ 那覇久茂地店 |  | ai |
+| やっぱりステーキ 国際通り店 | 牛排/烤魚 | 11:00~翌1:30 | ¥1,000~ | 不需訂位 | CP 值超高！¥1,000 起的溶岩石板牛排，深夜 1:30 仍營業 | https://linrosely.pixnet.net/blog/post/349942579 | 4.1 | やっぱりステーキ 4th 国際通り店 |  | ai |
+| すばやー 松山店 | 當地特色 | 21:00~翌5:00 | ¥700~ | 不需訂位 | 深夜21時才開門的老字號沖縄麵，飲酒後收尾首選 | https://tc.tabirai.net/sightseeing/article/okinawa-naha-midnight-ramen/ | 4.1 | すばやー 松山店 那覇 |  | ai |

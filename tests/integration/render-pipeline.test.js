@@ -75,7 +75,7 @@ tripFiles.forEach(({ file, label }) => {
 
       it('帶 weatherId 時渲染天氣容器', () => {
         const day = data.days[0];
-        const weatherId = data.weather[0] ? data.weather[0].id : null;
+        const weatherId = day.weather ? 'hourly-' + day.id : null;
         if (weatherId) {
           const html = renderDayContent(day.content || {}, weatherId);
           expect(html).toContain('hourly-weather');
