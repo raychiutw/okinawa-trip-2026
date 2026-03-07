@@ -565,76 +565,13 @@
             "googleRating": 3.9
           },
           {
-            "time": "11:35-12:35",
-            "title": "San-A Naha Main Place",
-            "titleUrl": "https://www.jathao.com/2015/10/main-placedfs-t-galleria-okinawa.html",
-            "description": "サンエー那覇メインプレイス — 購物中心",
-            "infoBoxes": [
-              {
-                "type": "shopping",
-                "title": "San-A Naha Main Place 推薦店鋪",
-                "shops": [
-                  {
-                    "category": "藥妝",
-                    "name": "マツモトキヨシ（松本清）那覇メインプレイス店",
-                    "hours": "10:00~21:00",
-                    "mustBuy": [
-                      "合力他命C發泡錠",
-                      "DHC護唇膏",
-                      "LuLuLun沖繩限定面膜"
-                    ],
-                    "blogUrl": "https://itsmypleasuretw.com/2025/09/27/okinawa_san-a-naha-main-place/",
-                    "googleRating": 3.9,
-                    "source": "ai"
-                  },
-                  {
-                    "category": "購物中心",
-                    "name": "サンエー食品館（1F超市）",
-                    "hours": "09:00~22:00",
-                    "mustBuy": [
-                      "沖繩縣産アグー豚熟食",
-                      "沖繩限定Calbee薯條",
-                      "島野菜、地元鮮魚"
-                    ],
-                    "blogUrl": "https://okinawa.letsgojp.com/archives/751316/",
-                    "googleRating": 4,
-                    "source": "ai"
-                  },
-                  {
-                    "category": "購物中心",
-                    "name": "ユニクロ（UNIQLO）那覇メインプレイス店",
-                    "hours": "10:00~21:00",
-                    "mustBuy": [
-                      "AIRism涼感衣物（沖繩夏天必備）",
-                      "UV防曬涼感帽",
-                      "輕薄外套（室內冷氣強）"
-                    ],
-                    "blogUrl": "https://itsmypleasuretw.com/2025/09/27/okinawa_san-a-naha-main-place/",
-                    "googleRating": 4,
-                    "source": "ai"
-                  }
-                ]
-              }
-            ],
-            "locations": [
-              {
-                "name": "サンエー那覇メインプレイス",
-                "googleQuery": "https://www.google.com/maps/search/サンエー那覇メインプレイス",
-                "appleQuery": "https://maps.apple.com/?q=サンエー那覇メインプレイス",
-                "mapcode": "33 578 117*61"
-              }
-            ],
-            "travel": {
-              "text": "約18分鐘",
-              "type": "car"
-            },
-            "blogUrl": "https://okinawa.letsgojp.com/archives/751316/",
-            "googleRating": 4
-          },
-          {
-            "time": "12:53-14:53",
+            "time": "11:43-13:43",
             "title": "午餐",
             "titleUrl": "https://christy0104.pixnet.net/blog/post/357435489",
+            "travel": {
+              "text": "約15分鐘",
+              "type": "car"
+            },
             "infoBoxes": [
               {
                 "type": "restaurants",
@@ -717,7 +654,7 @@
             "source": "ai"
           },
           {
-            "time": "14:54-18:54",
+            "time": "13:44-17:44",
             "title": "PARCO CITY 購物",
             "titleUrl": "https://ajunfun.tw/parco-city/",
             "description": "グラニフ 沖縄 PARCO CITY 等店家逛街購物",
@@ -776,15 +713,12 @@
                 "mapcode": "33 394 819*12"
               }
             ],
-            "travel": {
-              "text": "約14分鐘",
-              "type": "car"
-            },
             "blogUrl": "https://ajunfun.tw/parco-city/",
-            "googleRating": 4.2
+            "googleRating": 4.2,
+            "source": "ai"
           },
           {
-            "time": "19:08-20:08",
+            "time": "18:08-19:08",
             "title": "浦添大公園",
             "titleUrl": "https://livia1028.pixnet.net/blog/post/577990066",
             "description": "長溜滑梯等設施，適合親子",
@@ -804,7 +738,7 @@
             "googleRating": 4.1
           },
           {
-            "time": "20:10-21:10",
+            "time": "19:13-20:13",
             "title": "晚餐",
             "description": "美國村周邊晚餐",
             "infoBoxes": [
@@ -888,7 +822,7 @@
             "googleRating": 4.1
           },
           {
-            "time": "20:32-23:32",
+            "time": "20:18-23:18",
             "title": "美國村",
             "titleUrl": "https://bobbyfun.tw/2024-01-08-2709/",
             "description": "アメリカンビレッジ — 異國風情商圈、逛街購物、夜景",
@@ -955,7 +889,7 @@
             "googleRating": 4.2
           },
           {
-            "time": "23:37-00:37",
+            "time": "23:45-00:45",
             "title": "plate jam",
             "description": "宵夜",
             "locations": [
@@ -973,7 +907,7 @@
             "googleRating": 3.8
           },
           {
-            "time": "01:04",
+            "time": "01:12",
             "title": "BUZZ RESORT Check in",
             "description": "Design Resort Nakadoma inn — 恩納村住宿",
             "locations": [
@@ -2541,6 +2475,76 @@
             "title": "瀨長島",
             "titleUrl": "https://pfse64289.pixnet.net/blog/post/347236489",
             "description": "沖繩小希臘白色露台商場；必吃幸福鬆餅（建議提前2週訂位）、氾濫漢堡、47Store冰淇淋；必看子寶岩打卡點、夕陽海景、飛機起降（約2小時）",
+            "infoBoxes": [
+              {
+                "type": "restaurants",
+                "title": "瀨長島美食推薦",
+                "restaurants": [
+                  {
+                    "category": "沖繩料理",
+                    "name": "氾濫バーガー チムフガス 瀨長島店",
+                    "description": "氾濫漢堡 — 瀨長島名物巨大手作漢堡，沖繩縣產食材搭配特製醬汁，份量十足",
+                    "price": "¥1,200~",
+                    "location": {
+                      "name": "氾濫バーガー チムフガス 瀬長島",
+                      "googleQuery": "https://www.google.com/maps/search/氾濫バーガー+瀬長島",
+                      "appleQuery": "https://maps.apple.com/?q=氾濫バーガー+瀬長島",
+                      "mapcode": "33 032 412*44"
+                    },
+                    "hours": "11:00~20:00（售完即止）",
+                    "reservation": {
+                      "available": "no",
+                      "recommended": false
+                    },
+                    "blogUrl": "https://bobbyfun.tw/2024-01-08-2707/",
+                    "googleRating": 4,
+                    "source": "ai"
+                  },
+                  {
+                    "category": "海鮮",
+                    "name": "47STORE 瀨長島店",
+                    "description": "47STORE — 沖繩水果冰淇淋與海鮮串燒專賣，必吃芒果霜淇淋與炸蝦串",
+                    "price": "¥500~",
+                    "location": {
+                      "name": "47STORE 瀬長島ウミカジテラス",
+                      "googleQuery": "https://www.google.com/maps/search/47STORE+瀬長島",
+                      "appleQuery": "https://maps.apple.com/?q=47STORE+瀬長島",
+                      "mapcode": "33 032 412*44"
+                    },
+                    "hours": "10:00~21:00",
+                    "reservation": {
+                      "available": "no",
+                      "recommended": false
+                    },
+                    "blogUrl": "https://bobbyfun.tw/2024-01-08-2707/",
+                    "googleRating": 4.1,
+                    "source": "ai"
+                  },
+                  {
+                    "category": "甜點",
+                    "name": "幸せのパンケーキ 瀨長島店",
+                    "description": "幸福鬆餅 — 瀨長島人氣No.1甜點店，招牌幸福鬆餅口感鬆軟綿密入口即化，搭配鮮奶油與季節水果，建議提前2週線上訂位避免排隊1小時以上",
+                    "price": "¥1,100~",
+                    "location": {
+                      "name": "幸せのパンケーキ 瀬長島店",
+                      "googleQuery": "https://www.google.com/maps/search/幸せのパンケーキ+瀬長島",
+                      "appleQuery": "https://maps.apple.com/?q=幸せのパンケーキ+瀬長島",
+                      "mapcode": "33 002 528*66"
+                    },
+                    "hours": "10:00~19:40（最終入店 18:40）",
+                    "reservation": {
+                      "available": "yes",
+                      "method": "website",
+                      "url": "https://magia-restaurant.com/pancake/reservation/",
+                      "recommended": true
+                    },
+                    "blogUrl": "https://pfse64289.pixnet.net/blog/post/347236489",
+                    "googleRating": 4.2,
+                    "source": "user"
+                  }
+                ]
+              }
+            ],
             "locations": [
               {
                 "name": "瀬長島ウミカジテラス",
@@ -2778,6 +2782,74 @@
             "googleRating": 4.8,
             "blogUrl": "",
             "source": "ai"
+          },
+          {
+            "time": "18:10-19:10",
+            "title": "San-A Naha Main Place",
+            "titleUrl": "https://www.jathao.com/2015/10/main-placedfs-t-galleria-okinawa.html",
+            "description": "サンエー那覇メインプレイス — 購物中心，還車後步行即達",
+            "infoBoxes": [
+              {
+                "type": "shopping",
+                "title": "San-A Naha Main Place 推薦店鋪",
+                "shops": [
+                  {
+                    "category": "藥妝",
+                    "name": "マツモトキヨシ（松本清）那覇メインプレイス店",
+                    "hours": "10:00~21:00",
+                    "mustBuy": [
+                      "合力他命C發泡錠",
+                      "DHC護唇膏",
+                      "LuLuLun沖繩限定面膜"
+                    ],
+                    "blogUrl": "https://itsmypleasuretw.com/2025/09/27/okinawa_san-a-naha-main-place/",
+                    "googleRating": 3.9,
+                    "source": "ai"
+                  },
+                  {
+                    "category": "購物中心",
+                    "name": "サンエー食品館（1F超市）",
+                    "hours": "09:00~22:00",
+                    "mustBuy": [
+                      "沖繩縣産アグー豚熟食",
+                      "沖繩限定Calbee薯條",
+                      "島野菜、地元鮮魚"
+                    ],
+                    "blogUrl": "https://okinawa.letsgojp.com/archives/751316/",
+                    "googleRating": 4,
+                    "source": "ai"
+                  },
+                  {
+                    "category": "購物中心",
+                    "name": "ユニクロ（UNIQLO）那覇メインプレイス店",
+                    "hours": "10:00~21:00",
+                    "mustBuy": [
+                      "AIRism涼感衣物（沖繩夏天必備）",
+                      "UV防曬涼感帽",
+                      "輕薄外套（室內冷氣強）"
+                    ],
+                    "blogUrl": "https://itsmypleasuretw.com/2025/09/27/okinawa_san-a-naha-main-place/",
+                    "googleRating": 4,
+                    "source": "ai"
+                  }
+                ]
+              }
+            ],
+            "locations": [
+              {
+                "name": "サンエー那覇メインプレイス",
+                "googleQuery": "https://www.google.com/maps/search/サンエー那覇メインプレイス",
+                "appleQuery": "https://maps.apple.com/?q=サンエー那覇メインプレイス",
+                "mapcode": "33 578 117*61"
+              }
+            ],
+            "travel": {
+              "text": "約10分鐘",
+              "type": "walk"
+            },
+            "blogUrl": "https://okinawa.letsgojp.com/archives/751316/",
+            "googleRating": 4,
+            "source": "user"
           }
         ]
       }
@@ -3006,7 +3078,7 @@
             "Day 3：青之洞浮潛體驗（需7天前預約，2人以上同行優惠 ¥7,900/人）",
             "Day 4：沖繩美麗海水族館門票（建議線上預購）、名護鳳梨園",
             "Day 5：永旺夢樂城沖繩來客夢、沖繩寶可夢中心",
-            "Day 6：第一牧志公設市場 2F 代煮服務（現場排號），瀨長島 ウミカジテラス"
+            "Day 6：第一牧志公設市場 2F 代煮服務（現場排號），瀨長島 ウミカジテラス（幸福鬆餅建議提前2週訂位），還車後步行至 San-A Naha Main Place"
           ]
         },
         {
@@ -3090,7 +3162,7 @@
           "title": "高優先",
           "priority": "high",
           "items": [
-            "Day 2 行程過晚：plate jam 宵夜 23:37、BUZZ RESORT 凌晨 01:04 入住，隔天 08:00 出發僅能睡不到 6 小時，建議 Day 3 出發時間延至 09:00 或取消宵夜",
+            "Day 2 行程過晚：plate jam 宵夜 23:45、BUZZ RESORT 凌晨 01:12 入住，隔天出發僅能睡不到 6 小時，建議取消宵夜或 Day 3 出發時間延後",
             "Day 6 還車時間衝突：還車排在 17:30，但後續行程 ASHIBINAA Outlet（20:40）、Can*Do（22:41）、SPORTS DEPO（23:51）均在還車後；若當天還車，後段需改搭計程車/巴士前往，需提前確認交通方案",
             "Day 6 ASHIBINAA Outlet 營業時間約至 20:00，排 20:40 抵達恐已關門；Can*Do 22:41、SPORTS DEPO 23:51 也需逐一確認當日實際關店時間",
             "Day 3 翡翠海灘已移至備案：原路線折返嚴重，已將翡翠海灘改為彈性選項，天氣好且有體力時可自行前往"
@@ -3101,7 +3173,7 @@
           "priority": "medium",
           "items": [
             "Day 4 出現兩筆「午餐」（11:28 與 16:00），第二筆距離前一餐超過 3.5 小時，建議改標為「下午茶」或「晚餐前輕食」",
-            "Day 2 午餐（12:53）未標明餐廳，建議補上具體選擇（例如附近的沖繩料理或超市便當），避免現場找不到位子",
+            "Day 2 午餐（11:43）已有 PARCO CITY 餐廳推薦，建議提前確認營業時間",
             "Day 5 寶可夢中心僅安排 1 小時（13:51–14:51），限定商品排隊可能需要更多時間，建議預留至 1.5–2 小時",
             "住宿確認：沖繩那霸美居飯店共三晚為 7/2（入住）、7/5（入住）、7/6（住宿），不是 7/6–7，請更新訂房記錄"
           ]
