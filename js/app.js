@@ -433,7 +433,7 @@ function calcTripDrivingStats(days) {
         var content = day.content || {};
         var stats = calcDrivingStats(content.timeline);
         if (stats) {
-            dayStats.push({ dayId: day.id, date: day.date, label: 'Day ' + day.id, stats: stats });
+            dayStats.push({ dayId: day.id, date: formatDayDate(day), label: 'Day ' + day.id, stats: stats });
             grandTotal += stats.totalMinutes;
             // Aggregate by type
             for (var emoji in stats.byType) {
@@ -653,8 +653,6 @@ function validateTripData(data) {
         });
     }
 
-    if (!data.weather || !Array.isArray(data.weather) || data.weather.length === 0)
-        errors.push('缺少 weather 或為空');
     if (!data.autoScrollDates || !Array.isArray(data.autoScrollDates) || data.autoScrollDates.length === 0)
         errors.push('缺少 autoScrollDates 或為空');
     if (!data.footer) errors.push('缺少 footer');
@@ -713,13 +711,13 @@ function validateTripData(data) {
     }
     walk(data, 'root');
 
-    // --- Weather lat/lon type check ---
-    if (Array.isArray(data.weather)) {
-        data.weather.forEach(function(w, i) {
-            if (Array.isArray(w.locations)) {
-                w.locations.forEach(function(loc, j) {
-                    if (typeof loc.lat !== 'number') warnings.push('weather[' + i + '].locations[' + j + '].lat 必須是 number');
-                    if (typeof loc.lon !== 'number') warnings.push('weather[' + i + '].locations[' + j + '].lon 必須是 number');
+    // --- Per-day weather lat/lon type check ---
+    if (Array.isArray(data.days)) {
+        data.days.forEach(function(day, i) {
+            if (day.weather && Array.isArray(day.weather.locations)) {
+                day.weather.locations.forEach(function(loc, j) {
+                    if (typeof loc.lat !== 'number') warnings.push('days[' + i + '].weather.locations[' + j + '].lat 必須是 number');
+                    if (typeof loc.lon !== 'number') warnings.push('days[' + i + '].weather.locations[' + j + '].lon 必須是 number');
                 });
             }
         });
@@ -788,6 +786,20 @@ function renderWarnings(warnings) {
 }
 // Renew all on page load
 lsRenewAll();
+
+/* ===== Date Display ===== */
+function formatDayDate(day) {
+    // ISO "2026-07-29" + dayOfWeek "三" → "7/29（三）"
+    var d = day.date || '';
+    var m = d.match(/^\d{4}-(\d{2})-(\d{2})$/);
+    if (m) {
+        var month = parseInt(m[1], 10);
+        var date = parseInt(m[2], 10);
+        var dow = day.dayOfWeek ? '（' + day.dayOfWeek + '）' : '';
+        return month + '/' + date + dow;
+    }
+    return d; // fallback for non-ISO dates
+}
 
 /* ===== URL Routing ===== */
 function fileToSlug(f) { var m = f.match(/^data\/trips\/(.+)\.json$/); return m ? m[1] : null; }
@@ -875,7 +887,7 @@ function renderTrip(data) {
         html += '<section class="day-section" data-day="' + id + '">';
         html += '<div class="day-header info-header" id="day' + id + '">'
               + '<h2>Day ' + id + ' ' + escHtml(day.label || '') + '</h2>'
-              + '<span class="dh-date">' + escHtml(day.date) + '</span></div>';
+              + '<span class="dh-date">' + escHtml(formatDayDate(day)) + '</span></div>';
         html += '<div class="day-content">';
         if (typeof day.content === 'string') {
             html += safe(day.content || '');
