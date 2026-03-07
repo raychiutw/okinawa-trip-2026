@@ -6,8 +6,7 @@ const { validateDay, renderWarnings, validateTripData } = require('../../js/app.
 function validTrip(overrides) {
   const base = {
     meta: { title: '測試行程', countries: ['JP'] },
-    days: [{ id: 1, date: '2026-07-29' }],
-    weather: [{ id: 'day1', date: '2026-07-29', locations: [{ lat: 26.21, lon: 127.68, start: '09:00', end: '18:00' }] }],
+    days: [{ id: 1, date: '2026-07-29', weather: { label: '那霸', locations: [{ lat: 26.21, lon: 127.68, name: '那霸', start: 0, end: 23 }] } }],
     autoScrollDates: ['2026-07-29'],
     footer: { title: '行程表', dates: '7/29' },
     suggestions: { title: 'AI 行程建議', content: { cards: [] } },
@@ -55,11 +54,6 @@ describe('validateTripData — errors', () => {
   it('rejects day without date', () => {
     const r = validateTripData(validTrip({ days: [{ id: 1 }] }));
     expect(r.errors.some(e => e.includes('缺少 date'))).toBe(true);
-  });
-
-  it('rejects missing/empty weather', () => {
-    const r = validateTripData(validTrip({ weather: [] }));
-    expect(r.errors.some(e => e.includes('weather'))).toBe(true);
   });
 
   it('rejects missing/empty autoScrollDates', () => {
@@ -195,7 +189,8 @@ describe('validateTripData — warnings', () => {
   });
 
   it('warns on non-number weather lat', () => {
-    const d = validTrip({ weather: [{ id: 'day1', date: '2026-07-29', locations: [{ lat: '26.21', lon: 127.68, start: '09:00', end: '18:00' }] }] });
+    const d = validTrip();
+    d.days[0].weather = { label: 'test', locations: [{ lat: '26.21', lon: 127.68, name: 'test', start: 0, end: 23 }] };
     const r = validateTripData(d);
     expect(r.warnings.some(w => w.includes('lat') && w.includes('number'))).toBe(true);
   });
@@ -232,7 +227,8 @@ describe('validateTripData — warnings', () => {
   });
 
   it('warns on non-number weather lon', () => {
-    const d = validTrip({ weather: [{ id: 'day1', date: '2026-07-29', locations: [{ lat: 26.21, lon: '127.68', start: '09:00', end: '18:00' }] }] });
+    const d = validTrip();
+    d.days[0].weather = { label: 'test', locations: [{ lat: 26.21, lon: '127.68', name: 'test', start: 0, end: 23 }] };
     const r = validateTripData(d);
     expect(r.warnings.some(w => w.includes('lon') && w.includes('number'))).toBe(true);
   });

@@ -4,18 +4,18 @@
 
 `.claude/commands/trip-quality-rules.md` SHALL 包含所有行程品質規則的完整定義。所有行程操作 skill（tp-create、tp-rebuild、tp-rebuild-all、tp-edit、tp-issue、tp-check）SHALL 引用此檔案，不自行定義規則。
 
-本次新增以下品質規則：
-- Google Maps URL 格式 SHALL 為 `https://www.google.com/maps/search/<percent-encoded>`
-- `location.name` SHALL 為必填，店名含分店名
-- Hotel、restaurant、shop、event、parking SHALL 有 `note` 欄位（空值 `""`）
-- Hotel、restaurant、shop、gasStation、event SHALL 有 `source` 欄位
-- 最後一天 SHALL 不設 hotel
-- R0 例外：`breakfast.included` SHALL 允許 `null`
-- 所有 flights SHALL 有 `airline` 欄位
+本次修改以下品質規則：
+- Weather 驗證從頂層 `weather[]` 改為 per-day `days[].weather` 欄位
+- `validateTripData()` SHALL 驗證各天的 `weather.locations[].lat`/`lon` 為 number
+- 頂層 `weather` 存在 SHALL 視為驗證錯誤
 
-#### Scenario: 規則檔包含所有品質規則
+#### Scenario: 規則檔包含 weather 驗證規則
 - **WHEN** 讀取 `.claude/commands/trip-quality-rules.md`
-- **THEN** SHALL 包含所有品質規則的完整定義，包括新增的 URL 格式、必填欄位、最後一天無 hotel 等規則
+- **THEN** SHALL 包含 per-day weather 欄位的驗證規則（lat/lon 為 number、locations 為陣列）
+
+#### Scenario: 頂層 weather 視為錯誤
+- **WHEN** 行程 JSON 含有頂層 `weather` 鍵
+- **THEN** `validateTripData()` SHALL 報告錯誤
 
 #### Scenario: 各 skill 引用規則檔
 - **WHEN** tp-rebuild / tp-check / tp-edit / tp-issue / tp-rebuild-all / tp-create 參照品質規則

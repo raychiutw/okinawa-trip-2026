@@ -10,8 +10,8 @@
 
 #### URL 與格式安全性
 - 所有 URL 欄位（titleUrl、url、googleQuery、appleQuery、reservationUrl、blogUrl）的值必須以 `http://`、`https://` 或 `tel:` 開頭，否則視為不安全。
-- `googleQuery` 必須為 Google Maps URL（以 `https://maps.google.com/` 或 `https://www.google.com/maps/` 開頭）。
-- `appleQuery` 必須為 Apple Maps URL（以 `https://maps.apple.com/` 開頭）。
+- `googleQuery` 必須為 Google Maps URL，格式為 `https://www.google.com/maps/search/<percent-encoded-query>`。
+- `appleQuery` 必須為 Apple Maps URL，格式為 `https://maps.apple.com/?q=<percent-encoded-query>`。
 - `naverQuery` 必須為 Naver Maps URL（以 `https://map.naver.com/` 開頭），優先使用精確 place URL `https://map.naver.com/v5/entry/place/{placeId}`，查不到時 fallback 為 `https://map.naver.com/v5/search/{韓文關鍵字}`。
 - `mapcode` 格式為 `XX XXX XXX*XX`（如 `33 530 406*00`），正則：`/^\d{2,4}\s\d{3}\s\d{3}\*\d{2}$/`。僅 `meta.countries` 含 `"JP"` 且 `meta.selfDrive === true` 時必填。
 
@@ -35,10 +35,12 @@
 - 必填：`name`（非空字串）、`breakfast`（物件，含 `included`）。
 - 選填欄位存在時須為正確型別：`url`（string）、`blogUrl`（string）、`checkout`（string）、`details`（array）、`infoBoxes`（array）。
 - `hotel.subs` 已移除，停車場資料 SHALL 位於 `hotel.infoBoxes[type=parking]`。
+- 行程最後一天（`days` 陣列最後一個元素）不得包含 `hotel` 物件（返家日無需住宿）。
 
 #### Flights 結構（若存在）
 - 須含 `title`（非空字串）和 `content.segments`（陣列）。
 - 每個 segment 須含 `label`（非空字串）、`route`（非空字串），以及 `time`（字串）或 `depart` + `arrive`（皆為字串）。
+- `content.airline` 為必填物件，含 `name`（非空字串）和 `note`（字串）。
 
 #### Highlights 結構
 - 須含 `title`（非空字串）和 `content`（含 `summary` string 和 `tags` array）。
@@ -100,7 +102,7 @@ shop.category 使用標準分類（共 7 類）：超市、超商、唐吉軻德
 自駕行程（`meta.selfDrive` 為 `true`）產生或修改還車 timeline event 時，SHALL 附上最近的加油站資訊。以 `gasStation` infoBox 結構化呈現（含 name、address、hours、service、phone，選填 location）。優先推薦フルサービス（人工加油站），標註 `service: "フルサービス（人工）"`；若附近僅有自助加油站，標註 `service: "セルフ（自助）"`。搜尋方式：Google「{還車地點} 附近 人工加油站」。
 
 ### R11 地圖導航
-實體地點類 timeline event（非 travel、非「餐廳未定」、非純描述型）SHALL 含 `location` 物件，用於地圖導航。`location` 包含 `googleQuery`（Google Maps 搜尋字串）和/或 `appleQuery`（Apple Maps 搜尋字串）。
+實體地點類 timeline event（非 travel、非「餐廳未定」、非純描述型）SHALL 含 `location` 物件，用於地圖導航。`location` 包含 `googleQuery`（Google Maps 搜尋字串）和/或 `appleQuery`（Apple Maps 搜尋字串）。`location.name` 為必填非空字串，使用該地點的原文名稱（日文店名、韓文店名等）。
 
 ### R12 Google 評分
 所有 POI（實體地點類 timeline event、餐廳、商店、加油站）SHALL 含 `googleRating` 欄位（數字，1.0-5.0）。travel event 和「餐廳未定」event 略過 R12 檢查。
@@ -116,6 +118,9 @@ shop.category 使用標準分類（共 7 類）：超市、超商、唐吉軻德
 - `source: "user"` 且缺少 `googleRating` → **warning**（🟡）
 
 此規則為離線檢查（不做即時搜尋），僅檢查缺少 `googleRating` 的非豁免 POI。
+
+### R15 必填 note 欄位
+所有 POI 實體（timeline event、restaurant、shop、hotel、parking infoBox）SHALL 含 `note` 欄位（字串）。有備註時填入內容，無備註時為空字串 `""`。hotel infoBox 內的 shop 和 parking 同樣適用。
 
 ### R14 國家感知規則
 - `meta.countries` 含 `"KR"` 時，所有 POI 的 location 必填 `naverQuery`（Naver Maps URL）。

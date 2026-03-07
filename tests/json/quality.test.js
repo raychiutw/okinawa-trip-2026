@@ -475,12 +475,12 @@ jsonFiles.forEach((file) => {
             });
           });
 
-          // gasStation 須有 location
+          // gasStation 須有 station.location
           (ev.infoBoxes || []).forEach((box, k) => {
             if (box.type !== 'gasStation') return;
             expect(
-              box.location && typeof box.location === 'object',
-              `days[${i}].timeline[${j}].infoBoxes[${k}] gasStation missing location`
+              box.station && box.station.location && typeof box.station.location === 'object',
+              `days[${i}].timeline[${j}].infoBoxes[${k}] gasStation missing station.location`
             ).toBe(true);
           });
         });

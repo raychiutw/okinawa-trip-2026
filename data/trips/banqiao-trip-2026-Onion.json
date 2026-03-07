@@ -37,237 +37,11 @@
     "2026-04-14",
     "2026-04-15"
   ],
-  "weather": [
-    {
-      "id": "hourly-1",
-      "date": "2026-04-01",
-      "dayId": 1,
-      "label": "板橋",
-      "locations": [
-        {
-          "lat": 25.0146,
-          "lon": 121.4672,
-          "name": "板橋",
-          "start": 0,
-          "end": 23
-        }
-      ]
-    },
-    {
-      "id": "hourly-2",
-      "date": "2026-04-02",
-      "dayId": 2,
-      "label": "板橋",
-      "locations": [
-        {
-          "lat": 25.0146,
-          "lon": 121.4672,
-          "name": "板橋",
-          "start": 0,
-          "end": 23
-        }
-      ]
-    },
-    {
-      "id": "hourly-3",
-      "date": "2026-04-03",
-      "dayId": 3,
-      "label": "板橋",
-      "locations": [
-        {
-          "lat": 25.0146,
-          "lon": 121.4672,
-          "name": "板橋",
-          "start": 0,
-          "end": 23
-        }
-      ]
-    },
-    {
-      "id": "hourly-4",
-      "date": "2026-04-04",
-      "dayId": 4,
-      "label": "新莊・三重",
-      "locations": [
-        {
-          "lat": 25.0146,
-          "lon": 121.4672,
-          "name": "板橋",
-          "start": 0,
-          "end": 23
-        }
-      ]
-    },
-    {
-      "id": "hourly-5",
-      "date": "2026-04-05",
-      "dayId": 5,
-      "label": "新莊・三重",
-      "locations": [
-        {
-          "lat": 25.0146,
-          "lon": 121.4672,
-          "name": "板橋",
-          "start": 0,
-          "end": 23
-        }
-      ]
-    },
-    {
-      "id": "hourly-6",
-      "date": "2026-04-06",
-      "dayId": 6,
-      "label": "新莊・三重",
-      "locations": [
-        {
-          "lat": 25.0146,
-          "lon": 121.4672,
-          "name": "板橋",
-          "start": 0,
-          "end": 23
-        }
-      ]
-    },
-    {
-      "id": "hourly-7",
-      "date": "2026-04-07",
-      "dayId": 7,
-      "label": "中和・永和",
-      "locations": [
-        {
-          "lat": 25.0146,
-          "lon": 121.4672,
-          "name": "板橋",
-          "start": 0,
-          "end": 23
-        }
-      ]
-    },
-    {
-      "id": "hourly-8",
-      "date": "2026-04-08",
-      "dayId": 8,
-      "label": "中和・永和",
-      "locations": [
-        {
-          "lat": 25.0146,
-          "lon": 121.4672,
-          "name": "板橋",
-          "start": 0,
-          "end": 23
-        }
-      ]
-    },
-    {
-      "id": "hourly-9",
-      "date": "2026-04-09",
-      "dayId": 9,
-      "label": "中和・永和",
-      "locations": [
-        {
-          "lat": 25.0146,
-          "lon": 121.4672,
-          "name": "板橋",
-          "start": 0,
-          "end": 23
-        }
-      ]
-    },
-    {
-      "id": "hourly-10",
-      "date": "2026-04-10",
-      "dayId": 10,
-      "label": "土城・樹林",
-      "locations": [
-        {
-          "lat": 25.0146,
-          "lon": 121.4672,
-          "name": "板橋",
-          "start": 0,
-          "end": 23
-        }
-      ]
-    },
-    {
-      "id": "hourly-11",
-      "date": "2026-04-11",
-      "dayId": 11,
-      "label": "土城・樹林",
-      "locations": [
-        {
-          "lat": 25.0146,
-          "lon": 121.4672,
-          "name": "板橋",
-          "start": 0,
-          "end": 23
-        }
-      ]
-    },
-    {
-      "id": "hourly-12",
-      "date": "2026-04-12",
-      "dayId": 12,
-      "label": "土城・樹林",
-      "locations": [
-        {
-          "lat": 25.0146,
-          "lon": 121.4672,
-          "name": "板橋",
-          "start": 0,
-          "end": 23
-        }
-      ]
-    },
-    {
-      "id": "hourly-13",
-      "date": "2026-04-13",
-      "dayId": 13,
-      "label": "淡水・八里",
-      "locations": [
-        {
-          "lat": 25.0146,
-          "lon": 121.4672,
-          "name": "板橋",
-          "start": 0,
-          "end": 23
-        }
-      ]
-    },
-    {
-      "id": "hourly-14",
-      "date": "2026-04-14",
-      "dayId": 14,
-      "label": "淡水・八里",
-      "locations": [
-        {
-          "lat": 25.0146,
-          "lon": 121.4672,
-          "name": "板橋",
-          "start": 0,
-          "end": 23
-        }
-      ]
-    },
-    {
-      "id": "hourly-15",
-      "date": "2026-04-15",
-      "dayId": 15,
-      "label": "淡水・八里",
-      "locations": [
-        {
-          "lat": 25.0146,
-          "lon": 121.4672,
-          "name": "板橋",
-          "start": 0,
-          "end": 23
-        }
-      ]
-    }
-  ],
   "days": [
     {
       "id": 1,
-      "date": "4/1（三）",
+      "date": "2026-04-01",
+      "dayOfWeek": "三",
       "label": "板橋",
       "content": {
         "hotel": {
@@ -277,7 +51,9 @@
           ],
           "breakfast": {
             "included": null
-          }
+          },
+          "note": "",
+          "source": "ai"
         },
         "timeline": [
           {
@@ -289,8 +65,8 @@
             "locations": [
               {
                 "name": "林本源園邸",
-                "googleQuery": "https://maps.google.com/?q=林本源園邸",
-                "appleQuery": "https://maps.apple.com/?q=林本源園邸"
+                "googleQuery": "https://www.google.com/maps/search/%E6%9E%97%E6%9C%AC%E6%BA%90%E5%9C%92%E9%82%B8",
+                "appleQuery": "https://maps.apple.com/?q=%E6%9E%97%E6%9C%AC%E6%BA%90%E5%9C%92%E9%82%B8"
               }
             ],
             "travel": {
@@ -317,10 +93,12 @@
                     "blogUrl": "https://tisshuang.com/hanagetsuramen-banqiao/",
                     "googleRating": 3.9,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=花月嵐拉麵 板橋府中店",
-                      "appleQuery": "https://maps.apple.com/?q=花月嵐拉麵 板橋府中店"
+                      "googleQuery": "https://www.google.com/maps/search/%E8%8A%B1%E6%9C%88%E5%B5%90%E6%8B%89%E9%BA%B5+%E6%9D%BF%E6%A9%8B%E5%BA%9C%E4%B8%AD%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E8%8A%B1%E6%9C%88%E5%B5%90%E6%8B%89%E9%BA%B5+%E6%9D%BF%E6%A9%8B%E5%BA%9C%E4%B8%AD%E5%BA%97",
+                      "name": "花月嵐拉麵 板橋府中店"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "義大利麵",
@@ -332,10 +110,12 @@
                     "blogUrl": "https://girlsplan.com/pytharion-banqiao/",
                     "googleRating": 4,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=薄多義 板橋大遠百店",
-                      "appleQuery": "https://maps.apple.com/?q=薄多義 板橋大遠百店"
+                      "googleQuery": "https://www.google.com/maps/search/%E8%96%84%E5%A4%9A%E7%BE%A9+%E6%9D%BF%E6%A9%8B%E5%A4%A7%E9%81%A0%E7%99%BE%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E8%96%84%E5%A4%9A%E7%BE%A9+%E6%9D%BF%E6%A9%8B%E5%A4%A7%E9%81%A0%E7%99%BE%E5%BA%97",
+                      "name": "薄多義 板橋大遠百店"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "特色小吃",
@@ -347,10 +127,12 @@
                     "blogUrl": "https://appletrees.tw/blog/post/huangshishichangyouyu",
                     "googleRating": 4.3,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=高記生炒魷魚",
-                      "appleQuery": "https://maps.apple.com/?q=高記生炒魷魚"
+                      "googleQuery": "https://www.google.com/maps/search/%E9%AB%98%E8%A8%98%E7%94%9F%E7%82%92%E9%AD%B7%E9%AD%9A",
+                      "appleQuery": "https://maps.apple.com/?q=%E9%AB%98%E8%A8%98%E7%94%9F%E7%82%92%E9%AD%B7%E9%AD%9A",
+                      "name": "高記生炒魷魚"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   }
                 ]
               }
@@ -359,12 +141,13 @@
             "locations": [
               {
                 "name": "板橋府中商圈",
-                "googleQuery": "https://www.google.com/maps/search/板橋府中商圈",
-                "appleQuery": "https://maps.apple.com/?q=板橋府中商圈"
+                "googleQuery": "https://www.google.com/maps/search/%E6%9D%BF%E6%A9%8B%E5%BA%9C%E4%B8%AD%E5%95%86%E5%9C%88",
+                "appleQuery": "https://maps.apple.com/?q=%E6%9D%BF%E6%A9%8B%E5%BA%9C%E4%B8%AD%E5%95%86%E5%9C%88"
               }
             ],
             "blogUrl": "",
-            "source": "ai"
+            "source": "ai",
+            "note": ""
           },
           {
             "time": "14:00-16:00",
@@ -375,8 +158,8 @@
             "locations": [
               {
                 "name": "板橋435藝文特區",
-                "googleQuery": "https://maps.google.com/?q=板橋435藝文特區",
-                "appleQuery": "https://maps.apple.com/?q=板橋435藝文特區"
+                "googleQuery": "https://www.google.com/maps/search/%E6%9D%BF%E6%A9%8B435%E8%97%9D%E6%96%87%E7%89%B9%E5%8D%80",
+                "appleQuery": "https://maps.apple.com/?q=%E6%9D%BF%E6%A9%8B435%E8%97%9D%E6%96%87%E7%89%B9%E5%8D%80"
               }
             ],
             "travel": {
@@ -403,10 +186,12 @@
                     "blogUrl": "https://tisshuang.com/hanagetsuramen-banqiao/",
                     "googleRating": 3.9,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=花月嵐拉麵 板橋府中店",
-                      "appleQuery": "https://maps.apple.com/?q=花月嵐拉麵 板橋府中店"
+                      "googleQuery": "https://www.google.com/maps/search/%E8%8A%B1%E6%9C%88%E5%B5%90%E6%8B%89%E9%BA%B5+%E6%9D%BF%E6%A9%8B%E5%BA%9C%E4%B8%AD%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E8%8A%B1%E6%9C%88%E5%B5%90%E6%8B%89%E9%BA%B5+%E6%9D%BF%E6%A9%8B%E5%BA%9C%E4%B8%AD%E5%BA%97",
+                      "name": "花月嵐拉麵 板橋府中店"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "義大利麵",
@@ -418,10 +203,12 @@
                     "blogUrl": "https://girlsplan.com/pytharion-banqiao/",
                     "googleRating": 4,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=薄多義 板橋大遠百店",
-                      "appleQuery": "https://maps.apple.com/?q=薄多義 板橋大遠百店"
+                      "googleQuery": "https://www.google.com/maps/search/%E8%96%84%E5%A4%9A%E7%BE%A9+%E6%9D%BF%E6%A9%8B%E5%A4%A7%E9%81%A0%E7%99%BE%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E8%96%84%E5%A4%9A%E7%BE%A9+%E6%9D%BF%E6%A9%8B%E5%A4%A7%E9%81%A0%E7%99%BE%E5%BA%97",
+                      "name": "薄多義 板橋大遠百店"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "特色小吃",
@@ -433,10 +220,12 @@
                     "blogUrl": "https://girlsplan.com/omiso/",
                     "googleRating": 4.2,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=老味噌居酒屋 新埔店",
-                      "appleQuery": "https://maps.apple.com/?q=老味噌居酒屋 新埔店"
+                      "googleQuery": "https://www.google.com/maps/search/%E8%80%81%E5%91%B3%E5%99%8C%E5%B1%85%E9%85%92%E5%B1%8B+%E6%96%B0%E5%9F%94%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E8%80%81%E5%91%B3%E5%99%8C%E5%B1%85%E9%85%92%E5%B1%8B+%E6%96%B0%E5%9F%94%E5%BA%97",
+                      "name": "老味噌居酒屋 新埔店"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   }
                 ]
               }
@@ -445,19 +234,33 @@
             "locations": [
               {
                 "name": "板橋府中商圈",
-                "googleQuery": "https://www.google.com/maps/search/板橋府中商圈",
-                "appleQuery": "https://maps.apple.com/?q=板橋府中商圈"
+                "googleQuery": "https://www.google.com/maps/search/%E6%9D%BF%E6%A9%8B%E5%BA%9C%E4%B8%AD%E5%95%86%E5%9C%88",
+                "appleQuery": "https://maps.apple.com/?q=%E6%9D%BF%E6%A9%8B%E5%BA%9C%E4%B8%AD%E5%95%86%E5%9C%88"
               }
             ],
             "blogUrl": "",
-            "source": "ai"
+            "source": "ai",
+            "note": ""
+          }
+        ]
+      },
+      "weather": {
+        "label": "板橋",
+        "locations": [
+          {
+            "lat": 25.0146,
+            "lon": 121.4672,
+            "name": "板橋",
+            "start": 0,
+            "end": 23
           }
         ]
       }
     },
     {
       "id": 2,
-      "date": "4/2（四）",
+      "date": "2026-04-02",
+      "dayOfWeek": "四",
       "label": "板橋",
       "content": {
         "hotel": {
@@ -467,7 +270,9 @@
           ],
           "breakfast": {
             "included": null
-          }
+          },
+          "note": "",
+          "source": "ai"
         },
         "timeline": [
           {
@@ -477,8 +282,8 @@
             "locations": [
               {
                 "name": "板橋車站",
-                "googleQuery": "https://maps.google.com/?q=板橋車站",
-                "appleQuery": "https://maps.apple.com/?q=板橋車站"
+                "googleQuery": "https://www.google.com/maps/search/%E6%9D%BF%E6%A9%8B%E8%BB%8A%E7%AB%99",
+                "appleQuery": "https://maps.apple.com/?q=%E6%9D%BF%E6%A9%8B%E8%BB%8A%E7%AB%99"
               }
             ],
             "travel": {
@@ -503,7 +308,8 @@
                     ],
                     "blogUrl": "https://bigmouthblog.tw/mega-city-banqiao/",
                     "googleRating": 4.1,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "購物中心",
@@ -516,7 +322,8 @@
                     ],
                     "blogUrl": "https://tisshuang.com/global-mall-banqiao/",
                     "googleRating": 4.1,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "購物中心",
@@ -529,7 +336,8 @@
                     ],
                     "blogUrl": "https://kenalice.tw/banqiao-underground/",
                     "googleRating": 4.1,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   }
                 ]
               }
@@ -554,10 +362,12 @@
                     "blogUrl": "https://tisshuang.com/hanagetsuramen-banqiao/",
                     "googleRating": 3.9,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=花月嵐拉麵 板橋府中店",
-                      "appleQuery": "https://maps.apple.com/?q=花月嵐拉麵 板橋府中店"
+                      "googleQuery": "https://www.google.com/maps/search/%E8%8A%B1%E6%9C%88%E5%B5%90%E6%8B%89%E9%BA%B5+%E6%9D%BF%E6%A9%8B%E5%BA%9C%E4%B8%AD%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E8%8A%B1%E6%9C%88%E5%B5%90%E6%8B%89%E9%BA%B5+%E6%9D%BF%E6%A9%8B%E5%BA%9C%E4%B8%AD%E5%BA%97",
+                      "name": "花月嵐拉麵 板橋府中店"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "義大利麵",
@@ -569,10 +379,12 @@
                     "blogUrl": "https://girlsplan.com/pytharion-banqiao/",
                     "googleRating": 4,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=薄多義 板橋大遠百店",
-                      "appleQuery": "https://maps.apple.com/?q=薄多義 板橋大遠百店"
+                      "googleQuery": "https://www.google.com/maps/search/%E8%96%84%E5%A4%9A%E7%BE%A9+%E6%9D%BF%E6%A9%8B%E5%A4%A7%E9%81%A0%E7%99%BE%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E8%96%84%E5%A4%9A%E7%BE%A9+%E6%9D%BF%E6%A9%8B%E5%A4%A7%E9%81%A0%E7%99%BE%E5%BA%97",
+                      "name": "薄多義 板橋大遠百店"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "特色小吃",
@@ -584,10 +396,12 @@
                     "blogUrl": "https://tisshuang.com/dubu-tofu-banqiao/",
                     "googleRating": 4.1,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=涓豆腐 環球板橋店",
-                      "appleQuery": "https://maps.apple.com/?q=涓豆腐 環球板橋店"
+                      "googleQuery": "https://www.google.com/maps/search/%E6%B6%93%E8%B1%86%E8%85%90+%E7%92%B0%E7%90%83%E6%9D%BF%E6%A9%8B%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E6%B6%93%E8%B1%86%E8%85%90+%E7%92%B0%E7%90%83%E6%9D%BF%E6%A9%8B%E5%BA%97",
+                      "name": "涓豆腐 環球板橋店"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   }
                 ]
               }
@@ -596,12 +410,13 @@
             "locations": [
               {
                 "name": "板橋車站商圈",
-                "googleQuery": "https://www.google.com/maps/search/板橋車站商圈",
-                "appleQuery": "https://maps.apple.com/?q=板橋車站商圈"
+                "googleQuery": "https://www.google.com/maps/search/%E6%9D%BF%E6%A9%8B%E8%BB%8A%E7%AB%99%E5%95%86%E5%9C%88",
+                "appleQuery": "https://maps.apple.com/?q=%E6%9D%BF%E6%A9%8B%E8%BB%8A%E7%AB%99%E5%95%86%E5%9C%88"
               }
             ],
             "blogUrl": "",
-            "source": "ai"
+            "source": "ai",
+            "note": ""
           },
           {
             "time": "14:00-16:00",
@@ -610,8 +425,8 @@
             "locations": [
               {
                 "name": "新板特區萬坪都會公園",
-                "googleQuery": "https://maps.google.com/?q=新板特區萬坪都會公園",
-                "appleQuery": "https://maps.apple.com/?q=新板特區萬坪都會公園"
+                "googleQuery": "https://www.google.com/maps/search/%E6%96%B0%E6%9D%BF%E7%89%B9%E5%8D%80%E8%90%AC%E5%9D%AA%E9%83%BD%E6%9C%83%E5%85%AC%E5%9C%92",
+                "appleQuery": "https://maps.apple.com/?q=%E6%96%B0%E6%9D%BF%E7%89%B9%E5%8D%80%E8%90%AC%E5%9D%AA%E9%83%BD%E6%9C%83%E5%85%AC%E5%9C%92"
               }
             ],
             "travel": {
@@ -640,10 +455,12 @@
                     "blogUrl": "https://tisshuang.com/hanagetsuramen-banqiao/",
                     "googleRating": 3.9,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=花月嵐拉麵 板橋府中店",
-                      "appleQuery": "https://maps.apple.com/?q=花月嵐拉麵 板橋府中店"
+                      "googleQuery": "https://www.google.com/maps/search/%E8%8A%B1%E6%9C%88%E5%B5%90%E6%8B%89%E9%BA%B5+%E6%9D%BF%E6%A9%8B%E5%BA%9C%E4%B8%AD%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E8%8A%B1%E6%9C%88%E5%B5%90%E6%8B%89%E9%BA%B5+%E6%9D%BF%E6%A9%8B%E5%BA%9C%E4%B8%AD%E5%BA%97",
+                      "name": "花月嵐拉麵 板橋府中店"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "義大利麵",
@@ -655,10 +472,12 @@
                     "blogUrl": "https://girlsplan.com/pytharion-banqiao/",
                     "googleRating": 4,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=薄多義 板橋大遠百店",
-                      "appleQuery": "https://maps.apple.com/?q=薄多義 板橋大遠百店"
+                      "googleQuery": "https://www.google.com/maps/search/%E8%96%84%E5%A4%9A%E7%BE%A9+%E6%9D%BF%E6%A9%8B%E5%A4%A7%E9%81%A0%E7%99%BE%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E8%96%84%E5%A4%9A%E7%BE%A9+%E6%9D%BF%E6%A9%8B%E5%A4%A7%E9%81%A0%E7%99%BE%E5%BA%97",
+                      "name": "薄多義 板橋大遠百店"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "特色小吃",
@@ -670,10 +489,12 @@
                     "blogUrl": "https://tisshuang.com/eatogether-banqiao/",
                     "googleRating": 4,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=饗食天堂 板橋店",
-                      "appleQuery": "https://maps.apple.com/?q=饗食天堂 板橋店"
+                      "googleQuery": "https://www.google.com/maps/search/%E9%A5%97%E9%A3%9F%E5%A4%A9%E5%A0%82+%E6%9D%BF%E6%A9%8B%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E9%A5%97%E9%A3%9F%E5%A4%A9%E5%A0%82+%E6%9D%BF%E6%A9%8B%E5%BA%97",
+                      "name": "饗食天堂 板橋店"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   }
                 ]
               }
@@ -682,19 +503,33 @@
             "locations": [
               {
                 "name": "板橋車站商圈",
-                "googleQuery": "https://www.google.com/maps/search/板橋車站商圈",
-                "appleQuery": "https://maps.apple.com/?q=板橋車站商圈"
+                "googleQuery": "https://www.google.com/maps/search/%E6%9D%BF%E6%A9%8B%E8%BB%8A%E7%AB%99%E5%95%86%E5%9C%88",
+                "appleQuery": "https://maps.apple.com/?q=%E6%9D%BF%E6%A9%8B%E8%BB%8A%E7%AB%99%E5%95%86%E5%9C%88"
               }
             ],
             "blogUrl": "",
-            "source": "ai"
+            "source": "ai",
+            "note": ""
+          }
+        ]
+      },
+      "weather": {
+        "label": "板橋",
+        "locations": [
+          {
+            "lat": 25.0146,
+            "lon": 121.4672,
+            "name": "板橋",
+            "start": 0,
+            "end": 23
           }
         ]
       }
     },
     {
       "id": 3,
-      "date": "4/3（五）",
+      "date": "2026-04-03",
+      "dayOfWeek": "五",
       "label": "板橋",
       "content": {
         "hotel": {
@@ -704,7 +539,9 @@
           ],
           "breakfast": {
             "included": null
-          }
+          },
+          "note": "",
+          "source": "ai"
         },
         "timeline": [
           {
@@ -714,8 +551,8 @@
             "locations": [
               {
                 "name": "板橋慈惠宮",
-                "googleQuery": "https://maps.google.com/?q=板橋慈惠宮",
-                "appleQuery": "https://maps.apple.com/?q=板橋慈惠宮"
+                "googleQuery": "https://www.google.com/maps/search/%E6%9D%BF%E6%A9%8B%E6%85%88%E6%83%A0%E5%AE%AE",
+                "appleQuery": "https://maps.apple.com/?q=%E6%9D%BF%E6%A9%8B%E6%85%88%E6%83%A0%E5%AE%AE"
               }
             ],
             "travel": {
@@ -744,10 +581,12 @@
                     "blogUrl": "https://tisshuang.com/hanagetsuramen-banqiao/",
                     "googleRating": 3.9,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=花月嵐拉麵 板橋府中店",
-                      "appleQuery": "https://maps.apple.com/?q=花月嵐拉麵 板橋府中店"
+                      "googleQuery": "https://www.google.com/maps/search/%E8%8A%B1%E6%9C%88%E5%B5%90%E6%8B%89%E9%BA%B5+%E6%9D%BF%E6%A9%8B%E5%BA%9C%E4%B8%AD%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E8%8A%B1%E6%9C%88%E5%B5%90%E6%8B%89%E9%BA%B5+%E6%9D%BF%E6%A9%8B%E5%BA%9C%E4%B8%AD%E5%BA%97",
+                      "name": "花月嵐拉麵 板橋府中店"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "義大利麵",
@@ -759,10 +598,12 @@
                     "blogUrl": "https://girlsplan.com/pytharion-banqiao/",
                     "googleRating": 4,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=薄多義 板橋大遠百店",
-                      "appleQuery": "https://maps.apple.com/?q=薄多義 板橋大遠百店"
+                      "googleQuery": "https://www.google.com/maps/search/%E8%96%84%E5%A4%9A%E7%BE%A9+%E6%9D%BF%E6%A9%8B%E5%A4%A7%E9%81%A0%E7%99%BE%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E8%96%84%E5%A4%9A%E7%BE%A9+%E6%9D%BF%E6%A9%8B%E5%A4%A7%E9%81%A0%E7%99%BE%E5%BA%97",
+                      "name": "薄多義 板橋大遠百店"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "特色小吃",
@@ -774,10 +615,12 @@
                     "blogUrl": "https://appletrees.tw/huangshi-market-squid/",
                     "googleRating": 4.3,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=高記生炒魷魚",
-                      "appleQuery": "https://maps.apple.com/?q=高記生炒魷魚"
+                      "googleQuery": "https://www.google.com/maps/search/%E9%AB%98%E8%A8%98%E7%94%9F%E7%82%92%E9%AD%B7%E9%AD%9A",
+                      "appleQuery": "https://maps.apple.com/?q=%E9%AB%98%E8%A8%98%E7%94%9F%E7%82%92%E9%AD%B7%E9%AD%9A",
+                      "name": "高記生炒魷魚"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   }
                 ]
               }
@@ -786,12 +629,13 @@
             "locations": [
               {
                 "name": "板橋府中商圈",
-                "googleQuery": "https://www.google.com/maps/search/板橋府中商圈",
-                "appleQuery": "https://maps.apple.com/?q=板橋府中商圈"
+                "googleQuery": "https://www.google.com/maps/search/%E6%9D%BF%E6%A9%8B%E5%BA%9C%E4%B8%AD%E5%95%86%E5%9C%88",
+                "appleQuery": "https://maps.apple.com/?q=%E6%9D%BF%E6%A9%8B%E5%BA%9C%E4%B8%AD%E5%95%86%E5%9C%88"
               }
             ],
             "blogUrl": "",
-            "source": "ai"
+            "source": "ai",
+            "note": ""
           },
           {
             "time": "17:00-19:30",
@@ -800,8 +644,8 @@
             "locations": [
               {
                 "name": "湳雅觀光夜市",
-                "googleQuery": "https://maps.google.com/?q=湳雅觀光夜市",
-                "appleQuery": "https://maps.apple.com/?q=湳雅觀光夜市"
+                "googleQuery": "https://www.google.com/maps/search/%E6%B9%B3%E9%9B%85%E8%A7%80%E5%85%89%E5%A4%9C%E5%B8%82",
+                "appleQuery": "https://maps.apple.com/?q=%E6%B9%B3%E9%9B%85%E8%A7%80%E5%85%89%E5%A4%9C%E5%B8%82"
               }
             ],
             "travel": {
@@ -813,11 +657,24 @@
             "googleRating": 4
           }
         ]
+      },
+      "weather": {
+        "label": "板橋",
+        "locations": [
+          {
+            "lat": 25.0146,
+            "lon": 121.4672,
+            "name": "板橋",
+            "start": 0,
+            "end": 23
+          }
+        ]
       }
     },
     {
       "id": 4,
-      "date": "4/4（六）",
+      "date": "2026-04-04",
+      "dayOfWeek": "六",
       "label": "新莊・三重",
       "content": {
         "hotel": {
@@ -827,7 +684,9 @@
           ],
           "breakfast": {
             "included": null
-          }
+          },
+          "note": "",
+          "source": "ai"
         },
         "timeline": [
           {
@@ -837,8 +696,8 @@
             "locations": [
               {
                 "name": "新月橋",
-                "googleQuery": "https://maps.google.com/?q=新月橋",
-                "appleQuery": "https://maps.apple.com/?q=新月橋"
+                "googleQuery": "https://www.google.com/maps/search/%E6%96%B0%E6%9C%88%E6%A9%8B",
+                "appleQuery": "https://maps.apple.com/?q=%E6%96%B0%E6%9C%88%E6%A9%8B"
               }
             ],
             "travel": {
@@ -867,10 +726,12 @@
                     "blogUrl": "https://bigmouthblog.tw/ikkousha-xinzhuang/",
                     "googleRating": 4.1,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=博多一幸舎 新莊店",
-                      "appleQuery": "https://maps.apple.com/?q=博多一幸舎 新莊店"
+                      "googleQuery": "https://www.google.com/maps/search/%E5%8D%9A%E5%A4%9A%E4%B8%80%E5%B9%B8%E8%88%8E+%E6%96%B0%E8%8E%8A%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E5%8D%9A%E5%A4%9A%E4%B8%80%E5%B9%B8%E8%88%8E+%E6%96%B0%E8%8E%8A%E5%BA%97",
+                      "name": "博多一幸舎 新莊店"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "義大利麵",
@@ -882,10 +743,12 @@
                     "blogUrl": "https://bigmouthblog.tw/ouyi-pasta-xinzhuang/",
                     "googleRating": 3.9,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=歐義式 新莊店",
-                      "appleQuery": "https://maps.apple.com/?q=歐義式 新莊店"
+                      "googleQuery": "https://www.google.com/maps/search/%E6%AD%90%E7%BE%A9%E5%BC%8F+%E6%96%B0%E8%8E%8A%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E6%AD%90%E7%BE%A9%E5%BC%8F+%E6%96%B0%E8%8E%8A%E5%BA%97",
+                      "name": "歐義式 新莊店"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "特色小吃",
@@ -897,10 +760,12 @@
                     "blogUrl": "https://bigmouthblog.tw/aruiguan-cake/",
                     "googleRating": 4.3,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=阿瑞官粿店",
-                      "appleQuery": "https://maps.apple.com/?q=阿瑞官粿店"
+                      "googleQuery": "https://www.google.com/maps/search/%E9%98%BF%E7%91%9E%E5%AE%98%E7%B2%BF%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E9%98%BF%E7%91%9E%E5%AE%98%E7%B2%BF%E5%BA%97",
+                      "name": "阿瑞官粿店"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   }
                 ]
               }
@@ -909,12 +774,13 @@
             "locations": [
               {
                 "name": "新莊中正路商圈",
-                "googleQuery": "https://www.google.com/maps/search/新莊中正路商圈",
-                "appleQuery": "https://maps.apple.com/?q=新莊中正路商圈"
+                "googleQuery": "https://www.google.com/maps/search/%E6%96%B0%E8%8E%8A%E4%B8%AD%E6%AD%A3%E8%B7%AF%E5%95%86%E5%9C%88",
+                "appleQuery": "https://maps.apple.com/?q=%E6%96%B0%E8%8E%8A%E4%B8%AD%E6%AD%A3%E8%B7%AF%E5%95%86%E5%9C%88"
               }
             ],
             "blogUrl": "",
-            "source": "ai"
+            "source": "ai",
+            "note": ""
           },
           {
             "time": "14:00-16:30",
@@ -923,8 +789,8 @@
             "locations": [
               {
                 "name": "新北大都會公園",
-                "googleQuery": "https://maps.google.com/?q=新北大都會公園",
-                "appleQuery": "https://maps.apple.com/?q=新北大都會公園"
+                "googleQuery": "https://www.google.com/maps/search/%E6%96%B0%E5%8C%97%E5%A4%A7%E9%83%BD%E6%9C%83%E5%85%AC%E5%9C%92",
+                "appleQuery": "https://maps.apple.com/?q=%E6%96%B0%E5%8C%97%E5%A4%A7%E9%83%BD%E6%9C%83%E5%85%AC%E5%9C%92"
               }
             ],
             "travel": {
@@ -953,10 +819,12 @@
                     "blogUrl": "https://kenalice.tw/menya-ikukei-sanchong/",
                     "googleRating": 4.2,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=麵屋壹慶 三重店",
-                      "appleQuery": "https://maps.apple.com/?q=麵屋壹慶 三重店"
+                      "googleQuery": "https://www.google.com/maps/search/%E9%BA%B5%E5%B1%8B%E5%A3%B9%E6%85%B6+%E4%B8%89%E9%87%8D%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E9%BA%B5%E5%B1%8B%E5%A3%B9%E6%85%B6+%E4%B8%89%E9%87%8D%E5%BA%97",
+                      "name": "麵屋壹慶 三重店"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "義大利麵",
@@ -968,10 +836,12 @@
                     "blogUrl": "https://tisshuang.com/little-italy-sanchong/",
                     "googleRating": 4,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=小義大利莊園 三重店",
-                      "appleQuery": "https://maps.apple.com/?q=小義大利莊園 三重店"
+                      "googleQuery": "https://www.google.com/maps/search/%E5%B0%8F%E7%BE%A9%E5%A4%A7%E5%88%A9%E8%8E%8A%E5%9C%92+%E4%B8%89%E9%87%8D%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E5%B0%8F%E7%BE%A9%E5%A4%A7%E5%88%A9%E8%8E%8A%E5%9C%92+%E4%B8%89%E9%87%8D%E5%BA%97",
+                      "name": "小義大利莊園 三重店"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "特色小吃",
@@ -983,10 +853,12 @@
                     "blogUrl": "https://supertaste.tvbs.com.tw/food/339812",
                     "googleRating": 4.1,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=三重鵝肉李",
-                      "appleQuery": "https://maps.apple.com/?q=三重鵝肉李"
+                      "googleQuery": "https://www.google.com/maps/search/%E4%B8%89%E9%87%8D%E9%B5%9D%E8%82%89%E6%9D%8E",
+                      "appleQuery": "https://maps.apple.com/?q=%E4%B8%89%E9%87%8D%E9%B5%9D%E8%82%89%E6%9D%8E",
+                      "name": "三重鵝肉李"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   }
                 ]
               }
@@ -995,19 +867,33 @@
             "locations": [
               {
                 "name": "新莊中正路商圈",
-                "googleQuery": "https://www.google.com/maps/search/新莊中正路商圈",
-                "appleQuery": "https://maps.apple.com/?q=新莊中正路商圈"
+                "googleQuery": "https://www.google.com/maps/search/%E6%96%B0%E8%8E%8A%E4%B8%AD%E6%AD%A3%E8%B7%AF%E5%95%86%E5%9C%88",
+                "appleQuery": "https://maps.apple.com/?q=%E6%96%B0%E8%8E%8A%E4%B8%AD%E6%AD%A3%E8%B7%AF%E5%95%86%E5%9C%88"
               }
             ],
             "blogUrl": "",
-            "source": "ai"
+            "source": "ai",
+            "note": ""
+          }
+        ]
+      },
+      "weather": {
+        "label": "新莊・三重",
+        "locations": [
+          {
+            "lat": 25.0146,
+            "lon": 121.4672,
+            "name": "板橋",
+            "start": 0,
+            "end": 23
           }
         ]
       }
     },
     {
       "id": 5,
-      "date": "4/5（日）",
+      "date": "2026-04-05",
+      "dayOfWeek": "日",
       "label": "新莊・三重",
       "content": {
         "hotel": {
@@ -1017,7 +903,9 @@
           ],
           "breakfast": {
             "included": null
-          }
+          },
+          "note": "",
+          "source": "ai"
         },
         "timeline": [
           {
@@ -1027,8 +915,8 @@
             "locations": [
               {
                 "name": "新莊體育場",
-                "googleQuery": "https://maps.google.com/?q=新莊體育場",
-                "appleQuery": "https://maps.apple.com/?q=新莊體育場"
+                "googleQuery": "https://www.google.com/maps/search/%E6%96%B0%E8%8E%8A%E9%AB%94%E8%82%B2%E5%A0%B4",
+                "appleQuery": "https://maps.apple.com/?q=%E6%96%B0%E8%8E%8A%E9%AB%94%E8%82%B2%E5%A0%B4"
               }
             ],
             "travel": {
@@ -1057,10 +945,12 @@
                     "blogUrl": "https://bigmouthblog.tw/ikkousha-xinzhuang/",
                     "googleRating": 4.1,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=博多一幸舎 新莊店",
-                      "appleQuery": "https://maps.apple.com/?q=博多一幸舎 新莊店"
+                      "googleQuery": "https://www.google.com/maps/search/%E5%8D%9A%E5%A4%9A%E4%B8%80%E5%B9%B8%E8%88%8E+%E6%96%B0%E8%8E%8A%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E5%8D%9A%E5%A4%9A%E4%B8%80%E5%B9%B8%E8%88%8E+%E6%96%B0%E8%8E%8A%E5%BA%97",
+                      "name": "博多一幸舎 新莊店"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "義大利麵",
@@ -1072,10 +962,12 @@
                     "blogUrl": "https://bigmouthblog.tw/ouyi-pasta-xinzhuang/",
                     "googleRating": 3.9,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=歐義式 新莊店",
-                      "appleQuery": "https://maps.apple.com/?q=歐義式 新莊店"
+                      "googleQuery": "https://www.google.com/maps/search/%E6%AD%90%E7%BE%A9%E5%BC%8F+%E6%96%B0%E8%8E%8A%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E6%AD%90%E7%BE%A9%E5%BC%8F+%E6%96%B0%E8%8E%8A%E5%BA%97",
+                      "name": "歐義式 新莊店"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "特色小吃",
@@ -1087,10 +979,12 @@
                     "blogUrl": "https://girlsplan.com/fushou-noodles/",
                     "googleRating": 4,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=福壽街陽春麵",
-                      "appleQuery": "https://maps.apple.com/?q=福壽街陽春麵"
+                      "googleQuery": "https://www.google.com/maps/search/%E7%A6%8F%E5%A3%BD%E8%A1%97%E9%99%BD%E6%98%A5%E9%BA%B5",
+                      "appleQuery": "https://maps.apple.com/?q=%E7%A6%8F%E5%A3%BD%E8%A1%97%E9%99%BD%E6%98%A5%E9%BA%B5",
+                      "name": "福壽街陽春麵"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   }
                 ]
               }
@@ -1099,12 +993,13 @@
             "locations": [
               {
                 "name": "新莊廟街商圈",
-                "googleQuery": "https://www.google.com/maps/search/新莊廟街",
-                "appleQuery": "https://maps.apple.com/?q=新莊廟街"
+                "googleQuery": "https://www.google.com/maps/search/%E6%96%B0%E8%8E%8A%E5%BB%9F%E8%A1%97",
+                "appleQuery": "https://maps.apple.com/?q=%E6%96%B0%E8%8E%8A%E5%BB%9F%E8%A1%97"
               }
             ],
             "blogUrl": "",
-            "source": "ai"
+            "source": "ai",
+            "note": ""
           },
           {
             "time": "14:00-16:00",
@@ -1113,8 +1008,8 @@
             "locations": [
               {
                 "name": "新莊廟街",
-                "googleQuery": "https://maps.google.com/?q=新莊廟街",
-                "appleQuery": "https://maps.apple.com/?q=新莊廟街"
+                "googleQuery": "https://www.google.com/maps/search/%E6%96%B0%E8%8E%8A%E5%BB%9F%E8%A1%97",
+                "appleQuery": "https://maps.apple.com/?q=%E6%96%B0%E8%8E%8A%E5%BB%9F%E8%A1%97"
               }
             ],
             "travel": {
@@ -1139,7 +1034,8 @@
                     ],
                     "blogUrl": "https://snowhy.tw/xinzhuang-miaostreet-shopping/",
                     "googleRating": 4,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "伴手禮",
@@ -1152,7 +1048,8 @@
                     ],
                     "blogUrl": "https://bigmouthblog.tw/xinzhuang-night-market/",
                     "googleRating": 4,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "購物中心",
@@ -1165,7 +1062,8 @@
                     ],
                     "blogUrl": "https://kenalice.tw/honghui-plaza/",
                     "googleRating": 4.1,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "唐吉軻德",
@@ -1178,7 +1076,8 @@
                     ],
                     "blogUrl": "https://shoppinginfo.tw/donki-xinzhuang/",
                     "googleRating": 4,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   }
                 ]
               }
@@ -1203,10 +1102,12 @@
                     "blogUrl": "https://kenalice.tw/menya-ikukei-sanchong/",
                     "googleRating": 4.2,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=麵屋壹慶 三重店",
-                      "appleQuery": "https://maps.apple.com/?q=麵屋壹慶 三重店"
+                      "googleQuery": "https://www.google.com/maps/search/%E9%BA%B5%E5%B1%8B%E5%A3%B9%E6%85%B6+%E4%B8%89%E9%87%8D%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E9%BA%B5%E5%B1%8B%E5%A3%B9%E6%85%B6+%E4%B8%89%E9%87%8D%E5%BA%97",
+                      "name": "麵屋壹慶 三重店"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "義大利麵",
@@ -1218,10 +1119,12 @@
                     "blogUrl": "https://tisshuang.com/little-italy-sanchong/",
                     "googleRating": 4,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=小義大利莊園 三重店",
-                      "appleQuery": "https://maps.apple.com/?q=小義大利莊園 三重店"
+                      "googleQuery": "https://www.google.com/maps/search/%E5%B0%8F%E7%BE%A9%E5%A4%A7%E5%88%A9%E8%8E%8A%E5%9C%92+%E4%B8%89%E9%87%8D%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E5%B0%8F%E7%BE%A9%E5%A4%A7%E5%88%A9%E8%8E%8A%E5%9C%92+%E4%B8%89%E9%87%8D%E5%BA%97",
+                      "name": "小義大利莊園 三重店"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "特色小吃",
@@ -1233,10 +1136,12 @@
                     "blogUrl": "https://tisshuang.com/xinzhuang-beef-noodle/",
                     "googleRating": 4.1,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=新莊牛肉麵大王",
-                      "appleQuery": "https://maps.apple.com/?q=新莊牛肉麵大王"
+                      "googleQuery": "https://www.google.com/maps/search/%E6%96%B0%E8%8E%8A%E7%89%9B%E8%82%89%E9%BA%B5%E5%A4%A7%E7%8E%8B",
+                      "appleQuery": "https://maps.apple.com/?q=%E6%96%B0%E8%8E%8A%E7%89%9B%E8%82%89%E9%BA%B5%E5%A4%A7%E7%8E%8B",
+                      "name": "新莊牛肉麵大王"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   }
                 ]
               }
@@ -1245,19 +1150,33 @@
             "locations": [
               {
                 "name": "新莊廟街商圈",
-                "googleQuery": "https://www.google.com/maps/search/新莊廟街",
-                "appleQuery": "https://maps.apple.com/?q=新莊廟街"
+                "googleQuery": "https://www.google.com/maps/search/%E6%96%B0%E8%8E%8A%E5%BB%9F%E8%A1%97",
+                "appleQuery": "https://maps.apple.com/?q=%E6%96%B0%E8%8E%8A%E5%BB%9F%E8%A1%97"
               }
             ],
             "blogUrl": "",
-            "source": "ai"
+            "source": "ai",
+            "note": ""
+          }
+        ]
+      },
+      "weather": {
+        "label": "新莊・三重",
+        "locations": [
+          {
+            "lat": 25.0146,
+            "lon": 121.4672,
+            "name": "板橋",
+            "start": 0,
+            "end": 23
           }
         ]
       }
     },
     {
       "id": 6,
-      "date": "4/6（一）",
+      "date": "2026-04-06",
+      "dayOfWeek": "一",
       "label": "新莊・三重",
       "content": {
         "hotel": {
@@ -1267,7 +1186,9 @@
           ],
           "breakfast": {
             "included": null
-          }
+          },
+          "note": "",
+          "source": "ai"
         },
         "timeline": [
           {
@@ -1277,8 +1198,8 @@
             "locations": [
               {
                 "name": "幸福水漾公園",
-                "googleQuery": "https://maps.google.com/?q=三重幸福水漾公園",
-                "appleQuery": "https://maps.apple.com/?q=三重幸福水漾公園"
+                "googleQuery": "https://www.google.com/maps/search/%E4%B8%89%E9%87%8D%E5%B9%B8%E7%A6%8F%E6%B0%B4%E6%BC%BE%E5%85%AC%E5%9C%92",
+                "appleQuery": "https://maps.apple.com/?q=%E4%B8%89%E9%87%8D%E5%B9%B8%E7%A6%8F%E6%B0%B4%E6%BC%BE%E5%85%AC%E5%9C%92"
               }
             ],
             "travel": {
@@ -1307,10 +1228,12 @@
                     "blogUrl": "https://bigmouthblog.tw/ikkousha-xinzhuang/",
                     "googleRating": 4.1,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=博多一幸舎 新莊店",
-                      "appleQuery": "https://maps.apple.com/?q=博多一幸舎 新莊店"
+                      "googleQuery": "https://www.google.com/maps/search/%E5%8D%9A%E5%A4%9A%E4%B8%80%E5%B9%B8%E8%88%8E+%E6%96%B0%E8%8E%8A%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E5%8D%9A%E5%A4%9A%E4%B8%80%E5%B9%B8%E8%88%8E+%E6%96%B0%E8%8E%8A%E5%BA%97",
+                      "name": "博多一幸舎 新莊店"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "義大利麵",
@@ -1322,10 +1245,12 @@
                     "blogUrl": "https://bigmouthblog.tw/ouyi-pasta-xinzhuang/",
                     "googleRating": 3.9,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=歐義式 新莊店",
-                      "appleQuery": "https://maps.apple.com/?q=歐義式 新莊店"
+                      "googleQuery": "https://www.google.com/maps/search/%E6%AD%90%E7%BE%A9%E5%BC%8F+%E6%96%B0%E8%8E%8A%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E6%AD%90%E7%BE%A9%E5%BC%8F+%E6%96%B0%E8%8E%8A%E5%BA%97",
+                      "name": "歐義式 新莊店"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "特色小吃",
@@ -1337,10 +1262,12 @@
                     "blogUrl": "https://bigmouthblog.tw/jinda-braised-rice/",
                     "googleRating": 4.3,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=今大魯肉飯",
-                      "appleQuery": "https://maps.apple.com/?q=今大魯肉飯"
+                      "googleQuery": "https://www.google.com/maps/search/%E4%BB%8A%E5%A4%A7%E9%AD%AF%E8%82%89%E9%A3%AF",
+                      "appleQuery": "https://maps.apple.com/?q=%E4%BB%8A%E5%A4%A7%E9%AD%AF%E8%82%89%E9%A3%AF",
+                      "name": "今大魯肉飯"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   }
                 ]
               }
@@ -1349,12 +1276,13 @@
             "locations": [
               {
                 "name": "三重正義北路商圈",
-                "googleQuery": "https://www.google.com/maps/search/三重正義北路",
-                "appleQuery": "https://maps.apple.com/?q=三重正義北路"
+                "googleQuery": "https://www.google.com/maps/search/%E4%B8%89%E9%87%8D%E6%AD%A3%E7%BE%A9%E5%8C%97%E8%B7%AF",
+                "appleQuery": "https://maps.apple.com/?q=%E4%B8%89%E9%87%8D%E6%AD%A3%E7%BE%A9%E5%8C%97%E8%B7%AF"
               }
             ],
             "blogUrl": "",
-            "source": "ai"
+            "source": "ai",
+            "note": ""
           },
           {
             "time": "14:00-16:00",
@@ -1363,8 +1291,8 @@
             "locations": [
               {
                 "name": "空軍三重一村",
-                "googleQuery": "https://maps.google.com/?q=空軍三重一村",
-                "appleQuery": "https://maps.apple.com/?q=空軍三重一村"
+                "googleQuery": "https://www.google.com/maps/search/%E7%A9%BA%E8%BB%8D%E4%B8%89%E9%87%8D%E4%B8%80%E6%9D%91",
+                "appleQuery": "https://maps.apple.com/?q=%E7%A9%BA%E8%BB%8D%E4%B8%89%E9%87%8D%E4%B8%80%E6%9D%91"
               }
             ],
             "travel": {
@@ -1393,10 +1321,12 @@
                     "blogUrl": "https://kenalice.tw/menya-ikukei-sanchong/",
                     "googleRating": 4.2,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=麵屋壹慶 三重店",
-                      "appleQuery": "https://maps.apple.com/?q=麵屋壹慶 三重店"
+                      "googleQuery": "https://www.google.com/maps/search/%E9%BA%B5%E5%B1%8B%E5%A3%B9%E6%85%B6+%E4%B8%89%E9%87%8D%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E9%BA%B5%E5%B1%8B%E5%A3%B9%E6%85%B6+%E4%B8%89%E9%87%8D%E5%BA%97",
+                      "name": "麵屋壹慶 三重店"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "義大利麵",
@@ -1408,10 +1338,12 @@
                     "blogUrl": "https://tisshuang.com/little-italy-sanchong/",
                     "googleRating": 4,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=小義大利莊園 三重店",
-                      "appleQuery": "https://maps.apple.com/?q=小義大利莊園 三重店"
+                      "googleQuery": "https://www.google.com/maps/search/%E5%B0%8F%E7%BE%A9%E5%A4%A7%E5%88%A9%E8%8E%8A%E5%9C%92+%E4%B8%89%E9%87%8D%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E5%B0%8F%E7%BE%A9%E5%A4%A7%E5%88%A9%E8%8E%8A%E5%9C%92+%E4%B8%89%E9%87%8D%E5%BA%97",
+                      "name": "小義大利莊園 三重店"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "特色小吃",
@@ -1423,10 +1355,12 @@
                     "blogUrl": "https://tisshuang.com/zhengyangrourong/",
                     "googleRating": 4.2,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=正羊肉榮 三重店",
-                      "appleQuery": "https://maps.apple.com/?q=正羊肉榮 三重店"
+                      "googleQuery": "https://www.google.com/maps/search/%E6%AD%A3%E7%BE%8A%E8%82%89%E6%A6%AE+%E4%B8%89%E9%87%8D%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E6%AD%A3%E7%BE%8A%E8%82%89%E6%A6%AE+%E4%B8%89%E9%87%8D%E5%BA%97",
+                      "name": "正羊肉榮 三重店"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   }
                 ]
               }
@@ -1435,19 +1369,33 @@
             "locations": [
               {
                 "name": "三重正義北路商圈",
-                "googleQuery": "https://www.google.com/maps/search/三重正義北路",
-                "appleQuery": "https://maps.apple.com/?q=三重正義北路"
+                "googleQuery": "https://www.google.com/maps/search/%E4%B8%89%E9%87%8D%E6%AD%A3%E7%BE%A9%E5%8C%97%E8%B7%AF",
+                "appleQuery": "https://maps.apple.com/?q=%E4%B8%89%E9%87%8D%E6%AD%A3%E7%BE%A9%E5%8C%97%E8%B7%AF"
               }
             ],
             "blogUrl": "",
-            "source": "ai"
+            "source": "ai",
+            "note": ""
+          }
+        ]
+      },
+      "weather": {
+        "label": "新莊・三重",
+        "locations": [
+          {
+            "lat": 25.0146,
+            "lon": 121.4672,
+            "name": "板橋",
+            "start": 0,
+            "end": 23
           }
         ]
       }
     },
     {
       "id": 7,
-      "date": "4/7（二）",
+      "date": "2026-04-07",
+      "dayOfWeek": "二",
       "label": "中和・永和",
       "content": {
         "hotel": {
@@ -1457,7 +1405,9 @@
           ],
           "breakfast": {
             "included": null
-          }
+          },
+          "note": "",
+          "source": "ai"
         },
         "timeline": [
           {
@@ -1467,8 +1417,8 @@
             "locations": [
               {
                 "name": "四號公園",
-                "googleQuery": "https://maps.google.com/?q=永和四號公園",
-                "appleQuery": "https://maps.apple.com/?q=永和四號公園"
+                "googleQuery": "https://www.google.com/maps/search/%E6%B0%B8%E5%92%8C%E5%9B%9B%E8%99%9F%E5%85%AC%E5%9C%92",
+                "appleQuery": "https://maps.apple.com/?q=%E6%B0%B8%E5%92%8C%E5%9B%9B%E8%99%9F%E5%85%AC%E5%9C%92"
               }
             ],
             "travel": {
@@ -1497,10 +1447,12 @@
                     "blogUrl": "https://appletrees.tw/bakauma-ramen-yonghe/",
                     "googleRating": 4,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=豚骨拉麵ばかうまラーメン 永和店",
-                      "appleQuery": "https://maps.apple.com/?q=豚骨拉麵ばかうまラーメン 永和店"
+                      "googleQuery": "https://www.google.com/maps/search/%E8%B1%9A%E9%AA%A8%E6%8B%89%E9%BA%B5%E3%81%B0%E3%81%8B%E3%81%86%E3%81%BE%E3%83%A9%E3%83%BC%E3%83%A1%E3%83%B3+%E6%B0%B8%E5%92%8C%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E8%B1%9A%E9%AA%A8%E6%8B%89%E9%BA%B5%E3%81%B0%E3%81%8B%E3%81%86%E3%81%BE%E3%83%A9%E3%83%BC%E3%83%A1%E3%83%B3+%E6%B0%B8%E5%92%8C%E5%BA%97",
+                      "name": "豚骨拉麵ばかうまラーメン 永和店"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "義大利麵",
@@ -1512,10 +1464,12 @@
                     "blogUrl": "https://girlsplan.com/blue-cheese-yonghe/",
                     "googleRating": 4.1,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=藍乳酪義大利餐廳",
-                      "appleQuery": "https://maps.apple.com/?q=藍乳酪義大利餐廳"
+                      "googleQuery": "https://www.google.com/maps/search/%E8%97%8D%E4%B9%B3%E9%85%AA%E7%BE%A9%E5%A4%A7%E5%88%A9%E9%A4%90%E5%BB%B3",
+                      "appleQuery": "https://maps.apple.com/?q=%E8%97%8D%E4%B9%B3%E9%85%AA%E7%BE%A9%E5%A4%A7%E5%88%A9%E9%A4%90%E5%BB%B3",
+                      "name": "藍乳酪義大利餐廳"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "特色小吃",
@@ -1527,10 +1481,12 @@
                     "blogUrl": "https://bigmouthblog.tw/world-soymilk-king/",
                     "googleRating": 4,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=世界豆漿大王",
-                      "appleQuery": "https://maps.apple.com/?q=世界豆漿大王"
+                      "googleQuery": "https://www.google.com/maps/search/%E4%B8%96%E7%95%8C%E8%B1%86%E6%BC%BF%E5%A4%A7%E7%8E%8B",
+                      "appleQuery": "https://maps.apple.com/?q=%E4%B8%96%E7%95%8C%E8%B1%86%E6%BC%BF%E5%A4%A7%E7%8E%8B",
+                      "name": "世界豆漿大王"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   }
                 ]
               }
@@ -1539,12 +1495,13 @@
             "locations": [
               {
                 "name": "永安市場商圈",
-                "googleQuery": "https://www.google.com/maps/search/永安市場商圈",
-                "appleQuery": "https://maps.apple.com/?q=永安市場商圈"
+                "googleQuery": "https://www.google.com/maps/search/%E6%B0%B8%E5%AE%89%E5%B8%82%E5%A0%B4%E5%95%86%E5%9C%88",
+                "appleQuery": "https://maps.apple.com/?q=%E6%B0%B8%E5%AE%89%E5%B8%82%E5%A0%B4%E5%95%86%E5%9C%88"
               }
             ],
             "blogUrl": "",
-            "source": "ai"
+            "source": "ai",
+            "note": ""
           },
           {
             "time": "14:00-16:00",
@@ -1553,8 +1510,8 @@
             "locations": [
               {
                 "name": "永安市場",
-                "googleQuery": "https://maps.google.com/?q=永安市場",
-                "appleQuery": "https://maps.apple.com/?q=永安市場"
+                "googleQuery": "https://www.google.com/maps/search/%E6%B0%B8%E5%AE%89%E5%B8%82%E5%A0%B4",
+                "appleQuery": "https://maps.apple.com/?q=%E6%B0%B8%E5%AE%89%E5%B8%82%E5%A0%B4"
               }
             ],
             "travel": {
@@ -1583,10 +1540,12 @@
                     "blogUrl": "https://kenalice.tw/santouka-zhonghe/",
                     "googleRating": 4,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=山頭火拉麵 中和環球店",
-                      "appleQuery": "https://maps.apple.com/?q=山頭火拉麵 中和環球店"
+                      "googleQuery": "https://www.google.com/maps/search/%E5%B1%B1%E9%A0%AD%E7%81%AB%E6%8B%89%E9%BA%B5+%E4%B8%AD%E5%92%8C%E7%92%B0%E7%90%83%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E5%B1%B1%E9%A0%AD%E7%81%AB%E6%8B%89%E9%BA%B5+%E4%B8%AD%E5%92%8C%E7%92%B0%E7%90%83%E5%BA%97",
+                      "name": "山頭火拉麵 中和環球店"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "義大利麵",
@@ -1598,10 +1557,12 @@
                     "blogUrl": "https://girlsplan.com/blue-cheese-yonghe/",
                     "googleRating": 4.1,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=藍乳酪義大利餐廳",
-                      "appleQuery": "https://maps.apple.com/?q=藍乳酪義大利餐廳"
+                      "googleQuery": "https://www.google.com/maps/search/%E8%97%8D%E4%B9%B3%E9%85%AA%E7%BE%A9%E5%A4%A7%E5%88%A9%E9%A4%90%E5%BB%B3",
+                      "appleQuery": "https://maps.apple.com/?q=%E8%97%8D%E4%B9%B3%E9%85%AA%E7%BE%A9%E5%A4%A7%E5%88%A9%E9%A4%90%E5%BB%B3",
+                      "name": "藍乳酪義大利餐廳"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "特色小吃",
@@ -1613,10 +1574,12 @@
                     "blogUrl": "https://kenalice.tw/zhulin-chicken-rice/",
                     "googleRating": 4.1,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=竹林雞肉飯",
-                      "appleQuery": "https://maps.apple.com/?q=竹林雞肉飯"
+                      "googleQuery": "https://www.google.com/maps/search/%E7%AB%B9%E6%9E%97%E9%9B%9E%E8%82%89%E9%A3%AF",
+                      "appleQuery": "https://maps.apple.com/?q=%E7%AB%B9%E6%9E%97%E9%9B%9E%E8%82%89%E9%A3%AF",
+                      "name": "竹林雞肉飯"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   }
                 ]
               }
@@ -1625,19 +1588,33 @@
             "locations": [
               {
                 "name": "永安市場商圈",
-                "googleQuery": "https://www.google.com/maps/search/永安市場商圈",
-                "appleQuery": "https://maps.apple.com/?q=永安市場商圈"
+                "googleQuery": "https://www.google.com/maps/search/%E6%B0%B8%E5%AE%89%E5%B8%82%E5%A0%B4%E5%95%86%E5%9C%88",
+                "appleQuery": "https://maps.apple.com/?q=%E6%B0%B8%E5%AE%89%E5%B8%82%E5%A0%B4%E5%95%86%E5%9C%88"
               }
             ],
             "blogUrl": "",
-            "source": "ai"
+            "source": "ai",
+            "note": ""
+          }
+        ]
+      },
+      "weather": {
+        "label": "中和・永和",
+        "locations": [
+          {
+            "lat": 25.0146,
+            "lon": 121.4672,
+            "name": "板橋",
+            "start": 0,
+            "end": 23
           }
         ]
       }
     },
     {
       "id": 8,
-      "date": "4/8（三）",
+      "date": "2026-04-08",
+      "dayOfWeek": "三",
       "label": "中和・永和",
       "content": {
         "hotel": {
@@ -1647,7 +1624,9 @@
           ],
           "breakfast": {
             "included": null
-          }
+          },
+          "note": "",
+          "source": "ai"
         },
         "timeline": [
           {
@@ -1657,8 +1636,8 @@
             "locations": [
               {
                 "name": "烘爐地南山福德宮",
-                "googleQuery": "https://maps.google.com/?q=烘爐地南山福德宮",
-                "appleQuery": "https://maps.apple.com/?q=烘爐地南山福德宮"
+                "googleQuery": "https://www.google.com/maps/search/%E7%83%98%E7%88%90%E5%9C%B0%E5%8D%97%E5%B1%B1%E7%A6%8F%E5%BE%B7%E5%AE%AE",
+                "appleQuery": "https://maps.apple.com/?q=%E7%83%98%E7%88%90%E5%9C%B0%E5%8D%97%E5%B1%B1%E7%A6%8F%E5%BE%B7%E5%AE%AE"
               }
             ],
             "travel": {
@@ -1687,10 +1666,12 @@
                     "blogUrl": "https://appletrees.tw/bakauma-ramen-yonghe/",
                     "googleRating": 4,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=豚骨拉麵ばかうまラーメン 永和店",
-                      "appleQuery": "https://maps.apple.com/?q=豚骨拉麵ばかうまラーメン 永和店"
+                      "googleQuery": "https://www.google.com/maps/search/%E8%B1%9A%E9%AA%A8%E6%8B%89%E9%BA%B5%E3%81%B0%E3%81%8B%E3%81%86%E3%81%BE%E3%83%A9%E3%83%BC%E3%83%A1%E3%83%B3+%E6%B0%B8%E5%92%8C%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E8%B1%9A%E9%AA%A8%E6%8B%89%E9%BA%B5%E3%81%B0%E3%81%8B%E3%81%86%E3%81%BE%E3%83%A9%E3%83%BC%E3%83%A1%E3%83%B3+%E6%B0%B8%E5%92%8C%E5%BA%97",
+                      "name": "豚骨拉麵ばかうまラーメン 永和店"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "義大利麵",
@@ -1702,10 +1683,12 @@
                     "blogUrl": "https://girlsplan.com/blue-cheese-yonghe/",
                     "googleRating": 4.1,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=藍乳酪義大利餐廳",
-                      "appleQuery": "https://maps.apple.com/?q=藍乳酪義大利餐廳"
+                      "googleQuery": "https://www.google.com/maps/search/%E8%97%8D%E4%B9%B3%E9%85%AA%E7%BE%A9%E5%A4%A7%E5%88%A9%E9%A4%90%E5%BB%B3",
+                      "appleQuery": "https://maps.apple.com/?q=%E8%97%8D%E4%B9%B3%E9%85%AA%E7%BE%A9%E5%A4%A7%E5%88%A9%E9%A4%90%E5%BB%B3",
+                      "name": "藍乳酪義大利餐廳"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "特色小吃",
@@ -1717,10 +1700,12 @@
                     "blogUrl": "https://bigmouthblog.tw/zhonghe-rice-noodle-soup/",
                     "googleRating": 4,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=中和連城路米粉湯",
-                      "appleQuery": "https://maps.apple.com/?q=中和連城路米粉湯"
+                      "googleQuery": "https://www.google.com/maps/search/%E4%B8%AD%E5%92%8C%E9%80%A3%E5%9F%8E%E8%B7%AF%E7%B1%B3%E7%B2%89%E6%B9%AF",
+                      "appleQuery": "https://maps.apple.com/?q=%E4%B8%AD%E5%92%8C%E9%80%A3%E5%9F%8E%E8%B7%AF%E7%B1%B3%E7%B2%89%E6%B9%AF",
+                      "name": "中和連城路米粉湯"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   }
                 ]
               }
@@ -1729,12 +1714,13 @@
             "locations": [
               {
                 "name": "中和環球購物中心",
-                "googleQuery": "https://www.google.com/maps/search/中和環球購物中心",
-                "appleQuery": "https://maps.apple.com/?q=中和環球購物中心"
+                "googleQuery": "https://www.google.com/maps/search/%E4%B8%AD%E5%92%8C%E7%92%B0%E7%90%83%E8%B3%BC%E7%89%A9%E4%B8%AD%E5%BF%83",
+                "appleQuery": "https://maps.apple.com/?q=%E4%B8%AD%E5%92%8C%E7%92%B0%E7%90%83%E8%B3%BC%E7%89%A9%E4%B8%AD%E5%BF%83"
               }
             ],
             "blogUrl": "",
-            "source": "ai"
+            "source": "ai",
+            "note": ""
           },
           {
             "time": "14:00-16:00",
@@ -1743,8 +1729,8 @@
             "locations": [
               {
                 "name": "中和環球購物中心",
-                "googleQuery": "https://maps.google.com/?q=中和環球購物中心",
-                "appleQuery": "https://maps.apple.com/?q=中和環球購物中心"
+                "googleQuery": "https://www.google.com/maps/search/%E4%B8%AD%E5%92%8C%E7%92%B0%E7%90%83%E8%B3%BC%E7%89%A9%E4%B8%AD%E5%BF%83",
+                "appleQuery": "https://maps.apple.com/?q=%E4%B8%AD%E5%92%8C%E7%92%B0%E7%90%83%E8%B3%BC%E7%89%A9%E4%B8%AD%E5%BF%83"
               }
             ],
             "travel": {
@@ -1769,7 +1755,8 @@
                     ],
                     "blogUrl": "https://tisshuang.com/zhonghe-global-mall/",
                     "googleRating": 4.1,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "超市",
@@ -1782,7 +1769,8 @@
                     ],
                     "blogUrl": "https://bigmouthblog.tw/carrefour-zhonghe/",
                     "googleRating": 3.8,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "購物中心",
@@ -1795,7 +1783,8 @@
                     ],
                     "blogUrl": "https://girlsplan.com/jingan-shopping/",
                     "googleRating": 4.1,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   }
                 ]
               }
@@ -1820,10 +1809,12 @@
                     "blogUrl": "https://kenalice.tw/santouka-zhonghe/",
                     "googleRating": 4,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=山頭火拉麵 中和環球店",
-                      "appleQuery": "https://maps.apple.com/?q=山頭火拉麵 中和環球店"
+                      "googleQuery": "https://www.google.com/maps/search/%E5%B1%B1%E9%A0%AD%E7%81%AB%E6%8B%89%E9%BA%B5+%E4%B8%AD%E5%92%8C%E7%92%B0%E7%90%83%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E5%B1%B1%E9%A0%AD%E7%81%AB%E6%8B%89%E9%BA%B5+%E4%B8%AD%E5%92%8C%E7%92%B0%E7%90%83%E5%BA%97",
+                      "name": "山頭火拉麵 中和環球店"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "義大利麵",
@@ -1835,10 +1826,12 @@
                     "blogUrl": "https://appletrees.tw/italianchef-zhonghe/",
                     "googleRating": 4,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=洋城義大利餐廳 中和店",
-                      "appleQuery": "https://maps.apple.com/?q=洋城義大利餐廳 中和店"
+                      "googleQuery": "https://www.google.com/maps/search/%E6%B4%8B%E5%9F%8E%E7%BE%A9%E5%A4%A7%E5%88%A9%E9%A4%90%E5%BB%B3+%E4%B8%AD%E5%92%8C%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E6%B4%8B%E5%9F%8E%E7%BE%A9%E5%A4%A7%E5%88%A9%E9%A4%90%E5%BB%B3+%E4%B8%AD%E5%92%8C%E5%BA%97",
+                      "name": "洋城義大利餐廳 中和店"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "特色小吃",
@@ -1850,10 +1843,12 @@
                     "blogUrl": "https://girlsplan.com/anan-mala-pot/",
                     "googleRating": 4.2,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=阿男麻辣鍋",
-                      "appleQuery": "https://maps.apple.com/?q=阿男麻辣鍋"
+                      "googleQuery": "https://www.google.com/maps/search/%E9%98%BF%E7%94%B7%E9%BA%BB%E8%BE%A3%E9%8D%8B",
+                      "appleQuery": "https://maps.apple.com/?q=%E9%98%BF%E7%94%B7%E9%BA%BB%E8%BE%A3%E9%8D%8B",
+                      "name": "阿男麻辣鍋"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   }
                 ]
               }
@@ -1862,19 +1857,33 @@
             "locations": [
               {
                 "name": "中和環球購物中心",
-                "googleQuery": "https://www.google.com/maps/search/中和環球購物中心",
-                "appleQuery": "https://maps.apple.com/?q=中和環球購物中心"
+                "googleQuery": "https://www.google.com/maps/search/%E4%B8%AD%E5%92%8C%E7%92%B0%E7%90%83%E8%B3%BC%E7%89%A9%E4%B8%AD%E5%BF%83",
+                "appleQuery": "https://maps.apple.com/?q=%E4%B8%AD%E5%92%8C%E7%92%B0%E7%90%83%E8%B3%BC%E7%89%A9%E4%B8%AD%E5%BF%83"
               }
             ],
             "blogUrl": "",
-            "source": "ai"
+            "source": "ai",
+            "note": ""
+          }
+        ]
+      },
+      "weather": {
+        "label": "中和・永和",
+        "locations": [
+          {
+            "lat": 25.0146,
+            "lon": 121.4672,
+            "name": "板橋",
+            "start": 0,
+            "end": 23
           }
         ]
       }
     },
     {
       "id": 9,
-      "date": "4/9（四）",
+      "date": "2026-04-09",
+      "dayOfWeek": "四",
       "label": "中和・永和",
       "content": {
         "hotel": {
@@ -1884,7 +1893,9 @@
           ],
           "breakfast": {
             "included": null
-          }
+          },
+          "note": "",
+          "source": "ai"
         },
         "timeline": [
           {
@@ -1894,8 +1905,8 @@
             "locations": [
               {
                 "name": "永和仁愛公園",
-                "googleQuery": "https://maps.google.com/?q=永和仁愛公園",
-                "appleQuery": "https://maps.apple.com/?q=永和仁愛公園"
+                "googleQuery": "https://www.google.com/maps/search/%E6%B0%B8%E5%92%8C%E4%BB%81%E6%84%9B%E5%85%AC%E5%9C%92",
+                "appleQuery": "https://maps.apple.com/?q=%E6%B0%B8%E5%92%8C%E4%BB%81%E6%84%9B%E5%85%AC%E5%9C%92"
               }
             ],
             "travel": {
@@ -1924,10 +1935,12 @@
                     "blogUrl": "https://appletrees.tw/bakauma-ramen-yonghe/",
                     "googleRating": 4,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=豚骨拉麵ばかうまラーメン 永和店",
-                      "appleQuery": "https://maps.apple.com/?q=豚骨拉麵ばかうまラーメン 永和店"
+                      "googleQuery": "https://www.google.com/maps/search/%E8%B1%9A%E9%AA%A8%E6%8B%89%E9%BA%B5%E3%81%B0%E3%81%8B%E3%81%86%E3%81%BE%E3%83%A9%E3%83%BC%E3%83%A1%E3%83%B3+%E6%B0%B8%E5%92%8C%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E8%B1%9A%E9%AA%A8%E6%8B%89%E9%BA%B5%E3%81%B0%E3%81%8B%E3%81%86%E3%81%BE%E3%83%A9%E3%83%BC%E3%83%A1%E3%83%B3+%E6%B0%B8%E5%92%8C%E5%BA%97",
+                      "name": "豚骨拉麵ばかうまラーメン 永和店"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "義大利麵",
@@ -1939,10 +1952,12 @@
                     "blogUrl": "https://girlsplan.com/blue-cheese-yonghe/",
                     "googleRating": 4.1,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=藍乳酪義大利餐廳",
-                      "appleQuery": "https://maps.apple.com/?q=藍乳酪義大利餐廳"
+                      "googleQuery": "https://www.google.com/maps/search/%E8%97%8D%E4%B9%B3%E9%85%AA%E7%BE%A9%E5%A4%A7%E5%88%A9%E9%A4%90%E5%BB%B3",
+                      "appleQuery": "https://maps.apple.com/?q=%E8%97%8D%E4%B9%B3%E9%85%AA%E7%BE%A9%E5%A4%A7%E5%88%A9%E9%A4%90%E5%BB%B3",
+                      "name": "藍乳酪義大利餐廳"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "特色小吃",
@@ -1954,10 +1969,12 @@
                     "blogUrl": "https://tisshuang.com/chishang-bento-yonghe/",
                     "googleRating": 4,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=池上木片便當 永和店",
-                      "appleQuery": "https://maps.apple.com/?q=池上木片便當 永和店"
+                      "googleQuery": "https://www.google.com/maps/search/%E6%B1%A0%E4%B8%8A%E6%9C%A8%E7%89%87%E4%BE%BF%E7%95%B6+%E6%B0%B8%E5%92%8C%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E6%B1%A0%E4%B8%8A%E6%9C%A8%E7%89%87%E4%BE%BF%E7%95%B6+%E6%B0%B8%E5%92%8C%E5%BA%97",
+                      "name": "池上木片便當 永和店"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   }
                 ]
               }
@@ -1966,12 +1983,13 @@
             "locations": [
               {
                 "name": "永和樂華商圈",
-                "googleQuery": "https://www.google.com/maps/search/永和樂華商圈",
-                "appleQuery": "https://maps.apple.com/?q=永和樂華商圈"
+                "googleQuery": "https://www.google.com/maps/search/%E6%B0%B8%E5%92%8C%E6%A8%82%E8%8F%AF%E5%95%86%E5%9C%88",
+                "appleQuery": "https://maps.apple.com/?q=%E6%B0%B8%E5%92%8C%E6%A8%82%E8%8F%AF%E5%95%86%E5%9C%88"
               }
             ],
             "blogUrl": "",
-            "source": "ai"
+            "source": "ai",
+            "note": ""
           },
           {
             "time": "17:30-20:00",
@@ -1980,8 +1998,8 @@
             "locations": [
               {
                 "name": "樂華夜市",
-                "googleQuery": "https://maps.google.com/?q=樂華夜市",
-                "appleQuery": "https://maps.apple.com/?q=樂華夜市"
+                "googleQuery": "https://www.google.com/maps/search/%E6%A8%82%E8%8F%AF%E5%A4%9C%E5%B8%82",
+                "appleQuery": "https://maps.apple.com/?q=%E6%A8%82%E8%8F%AF%E5%A4%9C%E5%B8%82"
               }
             ],
             "travel": {
@@ -1993,11 +2011,24 @@
             "googleRating": 4.3
           }
         ]
+      },
+      "weather": {
+        "label": "中和・永和",
+        "locations": [
+          {
+            "lat": 25.0146,
+            "lon": 121.4672,
+            "name": "板橋",
+            "start": 0,
+            "end": 23
+          }
+        ]
       }
     },
     {
       "id": 10,
-      "date": "4/10（五）",
+      "date": "2026-04-10",
+      "dayOfWeek": "五",
       "label": "土城・樹林",
       "content": {
         "hotel": {
@@ -2007,7 +2038,9 @@
           ],
           "breakfast": {
             "included": null
-          }
+          },
+          "note": "",
+          "source": "ai"
         },
         "timeline": [
           {
@@ -2017,8 +2050,8 @@
             "locations": [
               {
                 "name": "土城桐花公園",
-                "googleQuery": "https://maps.google.com/?q=土城桐花公園",
-                "appleQuery": "https://maps.apple.com/?q=土城桐花公園"
+                "googleQuery": "https://www.google.com/maps/search/%E5%9C%9F%E5%9F%8E%E6%A1%90%E8%8A%B1%E5%85%AC%E5%9C%92",
+                "appleQuery": "https://maps.apple.com/?q=%E5%9C%9F%E5%9F%8E%E6%A1%90%E8%8A%B1%E5%85%AC%E5%9C%92"
               }
             ],
             "travel": {
@@ -2047,10 +2080,12 @@
                     "blogUrl": "https://girlsplan.com/musashi-shulin/",
                     "googleRating": 4.1,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=麵屋武藏 樹林中山店",
-                      "appleQuery": "https://maps.apple.com/?q=麵屋武藏 樹林中山店"
+                      "googleQuery": "https://www.google.com/maps/search/%E9%BA%B5%E5%B1%8B%E6%AD%A6%E8%97%8F+%E6%A8%B9%E6%9E%97%E4%B8%AD%E5%B1%B1%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E9%BA%B5%E5%B1%8B%E6%AD%A6%E8%97%8F+%E6%A8%B9%E6%9E%97%E4%B8%AD%E5%B1%B1%E5%BA%97",
+                      "name": "麵屋武藏 樹林中山店"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "義大利麵",
@@ -2062,10 +2097,12 @@
                     "blogUrl": "https://bigmouthblog.tw/uno-pasta-shulin/",
                     "googleRating": 3.9,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=UNO 義式廚房 樹林店",
-                      "appleQuery": "https://maps.apple.com/?q=UNO 義式廚房 樹林店"
+                      "googleQuery": "https://www.google.com/maps/search/UNO+%E7%BE%A9%E5%BC%8F%E5%BB%9A%E6%88%BF+%E6%A8%B9%E6%9E%97%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=UNO+%E7%BE%A9%E5%BC%8F%E5%BB%9A%E6%88%BF+%E6%A8%B9%E6%9E%97%E5%BA%97",
+                      "name": "UNO 義式廚房 樹林店"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "特色小吃",
@@ -2077,10 +2114,12 @@
                     "blogUrl": "https://kenalice.tw/tucheng-rice-noodle/",
                     "googleRating": 4,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=土城中央路四號米粉湯",
-                      "appleQuery": "https://maps.apple.com/?q=土城中央路四號米粉湯"
+                      "googleQuery": "https://www.google.com/maps/search/%E5%9C%9F%E5%9F%8E%E4%B8%AD%E5%A4%AE%E8%B7%AF%E5%9B%9B%E8%99%9F%E7%B1%B3%E7%B2%89%E6%B9%AF",
+                      "appleQuery": "https://maps.apple.com/?q=%E5%9C%9F%E5%9F%8E%E4%B8%AD%E5%A4%AE%E8%B7%AF%E5%9B%9B%E8%99%9F%E7%B1%B3%E7%B2%89%E6%B9%AF",
+                      "name": "土城中央路四號米粉湯"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   }
                 ]
               }
@@ -2089,12 +2128,13 @@
             "locations": [
               {
                 "name": "土城中央路商圈",
-                "googleQuery": "https://www.google.com/maps/search/土城中央路商圈",
-                "appleQuery": "https://maps.apple.com/?q=土城中央路商圈"
+                "googleQuery": "https://www.google.com/maps/search/%E5%9C%9F%E5%9F%8E%E4%B8%AD%E5%A4%AE%E8%B7%AF%E5%95%86%E5%9C%88",
+                "appleQuery": "https://maps.apple.com/?q=%E5%9C%9F%E5%9F%8E%E4%B8%AD%E5%A4%AE%E8%B7%AF%E5%95%86%E5%9C%88"
               }
             ],
             "blogUrl": "",
-            "source": "ai"
+            "source": "ai",
+            "note": ""
           },
           {
             "time": "14:00-16:00",
@@ -2103,8 +2143,8 @@
             "locations": [
               {
                 "name": "承天禪寺",
-                "googleQuery": "https://maps.google.com/?q=承天禪寺",
-                "appleQuery": "https://maps.apple.com/?q=承天禪寺"
+                "googleQuery": "https://www.google.com/maps/search/%E6%89%BF%E5%A4%A9%E7%A6%AA%E5%AF%BA",
+                "appleQuery": "https://maps.apple.com/?q=%E6%89%BF%E5%A4%A9%E7%A6%AA%E5%AF%BA"
               }
             ],
             "travel": {
@@ -2133,10 +2173,12 @@
                     "blogUrl": "https://bigmouthblog.tw/ichiran-tucheng/",
                     "googleRating": 4.2,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=一蘭拉麵 土城永寧店",
-                      "appleQuery": "https://maps.apple.com/?q=一蘭拉麵 土城永寧店"
+                      "googleQuery": "https://www.google.com/maps/search/%E4%B8%80%E8%98%AD%E6%8B%89%E9%BA%B5+%E5%9C%9F%E5%9F%8E%E6%B0%B8%E5%AF%A7%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E4%B8%80%E8%98%AD%E6%8B%89%E9%BA%B5+%E5%9C%9F%E5%9F%8E%E6%B0%B8%E5%AF%A7%E5%BA%97",
+                      "name": "一蘭拉麵 土城永寧店"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "義大利麵",
@@ -2148,10 +2190,12 @@
                     "blogUrl": "https://kenalice.tw/justlight-pasta-tucheng/",
                     "googleRating": 4,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=只是光在 義大利麵 土城店",
-                      "appleQuery": "https://maps.apple.com/?q=只是光在 義大利麵 土城店"
+                      "googleQuery": "https://www.google.com/maps/search/%E5%8F%AA%E6%98%AF%E5%85%89%E5%9C%A8+%E7%BE%A9%E5%A4%A7%E5%88%A9%E9%BA%B5+%E5%9C%9F%E5%9F%8E%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E5%8F%AA%E6%98%AF%E5%85%89%E5%9C%A8+%E7%BE%A9%E5%A4%A7%E5%88%A9%E9%BA%B5+%E5%9C%9F%E5%9F%8E%E5%BA%97",
+                      "name": "只是光在 義大利麵 土城店"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "特色小吃",
@@ -2163,10 +2207,12 @@
                     "blogUrl": "https://tisshuang.com/tucheng-popcorn-chicken/",
                     "googleRating": 4.1,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=土城延和路鹽酥雞",
-                      "appleQuery": "https://maps.apple.com/?q=土城延和路鹽酥雞"
+                      "googleQuery": "https://www.google.com/maps/search/%E5%9C%9F%E5%9F%8E%E5%BB%B6%E5%92%8C%E8%B7%AF%E9%B9%BD%E9%85%A5%E9%9B%9E",
+                      "appleQuery": "https://maps.apple.com/?q=%E5%9C%9F%E5%9F%8E%E5%BB%B6%E5%92%8C%E8%B7%AF%E9%B9%BD%E9%85%A5%E9%9B%9E",
+                      "name": "土城延和路鹽酥雞"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   }
                 ]
               }
@@ -2175,19 +2221,33 @@
             "locations": [
               {
                 "name": "土城中央路商圈",
-                "googleQuery": "https://www.google.com/maps/search/土城中央路商圈",
-                "appleQuery": "https://maps.apple.com/?q=土城中央路商圈"
+                "googleQuery": "https://www.google.com/maps/search/%E5%9C%9F%E5%9F%8E%E4%B8%AD%E5%A4%AE%E8%B7%AF%E5%95%86%E5%9C%88",
+                "appleQuery": "https://maps.apple.com/?q=%E5%9C%9F%E5%9F%8E%E4%B8%AD%E5%A4%AE%E8%B7%AF%E5%95%86%E5%9C%88"
               }
             ],
             "blogUrl": "",
-            "source": "ai"
+            "source": "ai",
+            "note": ""
+          }
+        ]
+      },
+      "weather": {
+        "label": "土城・樹林",
+        "locations": [
+          {
+            "lat": 25.0146,
+            "lon": 121.4672,
+            "name": "板橋",
+            "start": 0,
+            "end": 23
           }
         ]
       }
     },
     {
       "id": 11,
-      "date": "4/11（六）",
+      "date": "2026-04-11",
+      "dayOfWeek": "六",
       "label": "土城・樹林",
       "content": {
         "hotel": {
@@ -2197,7 +2257,9 @@
           ],
           "breakfast": {
             "included": null
-          }
+          },
+          "note": "",
+          "source": "ai"
         },
         "timeline": [
           {
@@ -2207,8 +2269,8 @@
             "locations": [
               {
                 "name": "大安圳步道",
-                "googleQuery": "https://maps.google.com/?q=樹林大安圳步道",
-                "appleQuery": "https://maps.apple.com/?q=樹林大安圳步道"
+                "googleQuery": "https://www.google.com/maps/search/%E6%A8%B9%E6%9E%97%E5%A4%A7%E5%AE%89%E5%9C%B3%E6%AD%A5%E9%81%93",
+                "appleQuery": "https://maps.apple.com/?q=%E6%A8%B9%E6%9E%97%E5%A4%A7%E5%AE%89%E5%9C%B3%E6%AD%A5%E9%81%93"
               }
             ],
             "travel": {
@@ -2237,10 +2299,12 @@
                     "blogUrl": "https://girlsplan.com/musashi-shulin/",
                     "googleRating": 4.1,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=麵屋武藏 樹林中山店",
-                      "appleQuery": "https://maps.apple.com/?q=麵屋武藏 樹林中山店"
+                      "googleQuery": "https://www.google.com/maps/search/%E9%BA%B5%E5%B1%8B%E6%AD%A6%E8%97%8F+%E6%A8%B9%E6%9E%97%E4%B8%AD%E5%B1%B1%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E9%BA%B5%E5%B1%8B%E6%AD%A6%E8%97%8F+%E6%A8%B9%E6%9E%97%E4%B8%AD%E5%B1%B1%E5%BA%97",
+                      "name": "麵屋武藏 樹林中山店"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "義大利麵",
@@ -2252,10 +2316,12 @@
                     "blogUrl": "https://bigmouthblog.tw/uno-pasta-shulin/",
                     "googleRating": 3.9,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=UNO 義式廚房 樹林店",
-                      "appleQuery": "https://maps.apple.com/?q=UNO 義式廚房 樹林店"
+                      "googleQuery": "https://www.google.com/maps/search/UNO+%E7%BE%A9%E5%BC%8F%E5%BB%9A%E6%88%BF+%E6%A8%B9%E6%9E%97%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=UNO+%E7%BE%A9%E5%BC%8F%E5%BB%9A%E6%88%BF+%E6%A8%B9%E6%9E%97%E5%BA%97",
+                      "name": "UNO 義式廚房 樹林店"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "特色小吃",
@@ -2267,10 +2333,12 @@
                     "blogUrl": "https://bigmouthblog.tw/shulin-braised-rice/",
                     "googleRating": 4,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=樹林武林街滷肉飯",
-                      "appleQuery": "https://maps.apple.com/?q=樹林武林街滷肉飯"
+                      "googleQuery": "https://www.google.com/maps/search/%E6%A8%B9%E6%9E%97%E6%AD%A6%E6%9E%97%E8%A1%97%E6%BB%B7%E8%82%89%E9%A3%AF",
+                      "appleQuery": "https://maps.apple.com/?q=%E6%A8%B9%E6%9E%97%E6%AD%A6%E6%9E%97%E8%A1%97%E6%BB%B7%E8%82%89%E9%A3%AF",
+                      "name": "樹林武林街滷肉飯"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   }
                 ]
               }
@@ -2279,12 +2347,13 @@
             "locations": [
               {
                 "name": "樹林中山路商圈",
-                "googleQuery": "https://www.google.com/maps/search/樹林中山路商圈",
-                "appleQuery": "https://maps.apple.com/?q=樹林中山路商圈"
+                "googleQuery": "https://www.google.com/maps/search/%E6%A8%B9%E6%9E%97%E4%B8%AD%E5%B1%B1%E8%B7%AF%E5%95%86%E5%9C%88",
+                "appleQuery": "https://maps.apple.com/?q=%E6%A8%B9%E6%9E%97%E4%B8%AD%E5%B1%B1%E8%B7%AF%E5%95%86%E5%9C%88"
               }
             ],
             "blogUrl": "",
-            "source": "ai"
+            "source": "ai",
+            "note": ""
           },
           {
             "time": "17:00-19:30",
@@ -2293,8 +2362,8 @@
             "locations": [
               {
                 "name": "樹林興仁花園夜市",
-                "googleQuery": "https://maps.google.com/?q=樹林興仁花園夜市",
-                "appleQuery": "https://maps.apple.com/?q=樹林興仁花園夜市"
+                "googleQuery": "https://www.google.com/maps/search/%E6%A8%B9%E6%9E%97%E8%88%88%E4%BB%81%E8%8A%B1%E5%9C%92%E5%A4%9C%E5%B8%82",
+                "appleQuery": "https://maps.apple.com/?q=%E6%A8%B9%E6%9E%97%E8%88%88%E4%BB%81%E8%8A%B1%E5%9C%92%E5%A4%9C%E5%B8%82"
               }
             ],
             "travel": {
@@ -2319,7 +2388,8 @@
                     ],
                     "blogUrl": "https://plumpyblog.com/singren-night-market-shopping/",
                     "googleRating": 4,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "購物中心",
@@ -2332,7 +2402,8 @@
                     ],
                     "blogUrl": "https://kenalice.tw/aurora-plaza-tucheng/",
                     "googleRating": 4.1,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "超市",
@@ -2345,7 +2416,8 @@
                     ],
                     "blogUrl": "https://appletrees.tw/pxmart-shulin/",
                     "googleRating": 3.8,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   }
                 ]
               }
@@ -2353,11 +2425,24 @@
             "googleRating": 4
           }
         ]
+      },
+      "weather": {
+        "label": "土城・樹林",
+        "locations": [
+          {
+            "lat": 25.0146,
+            "lon": 121.4672,
+            "name": "板橋",
+            "start": 0,
+            "end": 23
+          }
+        ]
       }
     },
     {
       "id": 12,
-      "date": "4/12（日）",
+      "date": "2026-04-12",
+      "dayOfWeek": "日",
       "label": "土城・樹林",
       "content": {
         "hotel": {
@@ -2367,7 +2452,9 @@
           ],
           "breakfast": {
             "included": null
-          }
+          },
+          "note": "",
+          "source": "ai"
         },
         "timeline": [
           {
@@ -2377,8 +2464,8 @@
             "locations": [
               {
                 "name": "山佳車站",
-                "googleQuery": "https://maps.google.com/?q=山佳車站",
-                "appleQuery": "https://maps.apple.com/?q=山佳車站"
+                "googleQuery": "https://www.google.com/maps/search/%E5%B1%B1%E4%BD%B3%E8%BB%8A%E7%AB%99",
+                "appleQuery": "https://maps.apple.com/?q=%E5%B1%B1%E4%BD%B3%E8%BB%8A%E7%AB%99"
               }
             ],
             "travel": {
@@ -2407,10 +2494,12 @@
                     "blogUrl": "https://girlsplan.com/musashi-shulin/",
                     "googleRating": 4.1,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=麵屋武藏 樹林中山店",
-                      "appleQuery": "https://maps.apple.com/?q=麵屋武藏 樹林中山店"
+                      "googleQuery": "https://www.google.com/maps/search/%E9%BA%B5%E5%B1%8B%E6%AD%A6%E8%97%8F+%E6%A8%B9%E6%9E%97%E4%B8%AD%E5%B1%B1%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E9%BA%B5%E5%B1%8B%E6%AD%A6%E8%97%8F+%E6%A8%B9%E6%9E%97%E4%B8%AD%E5%B1%B1%E5%BA%97",
+                      "name": "麵屋武藏 樹林中山店"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "義大利麵",
@@ -2422,10 +2511,12 @@
                     "blogUrl": "https://bigmouthblog.tw/uno-pasta-shulin/",
                     "googleRating": 3.9,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=UNO 義式廚房 樹林店",
-                      "appleQuery": "https://maps.apple.com/?q=UNO 義式廚房 樹林店"
+                      "googleQuery": "https://www.google.com/maps/search/UNO+%E7%BE%A9%E5%BC%8F%E5%BB%9A%E6%88%BF+%E6%A8%B9%E6%9E%97%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=UNO+%E7%BE%A9%E5%BC%8F%E5%BB%9A%E6%88%BF+%E6%A8%B9%E6%9E%97%E5%BA%97",
+                      "name": "UNO 義式廚房 樹林店"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "特色小吃",
@@ -2437,10 +2528,12 @@
                     "blogUrl": "https://tisshuang.com/shanjia-noodle/",
                     "googleRating": 4,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=山佳老街切仔麵",
-                      "appleQuery": "https://maps.apple.com/?q=山佳老街切仔麵"
+                      "googleQuery": "https://www.google.com/maps/search/%E5%B1%B1%E4%BD%B3%E8%80%81%E8%A1%97%E5%88%87%E4%BB%94%E9%BA%B5",
+                      "appleQuery": "https://maps.apple.com/?q=%E5%B1%B1%E4%BD%B3%E8%80%81%E8%A1%97%E5%88%87%E4%BB%94%E9%BA%B5",
+                      "name": "山佳老街切仔麵"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   }
                 ]
               }
@@ -2449,12 +2542,13 @@
             "locations": [
               {
                 "name": "樹林保安街商圈",
-                "googleQuery": "https://www.google.com/maps/search/樹林保安街",
-                "appleQuery": "https://maps.apple.com/?q=樹林保安街"
+                "googleQuery": "https://www.google.com/maps/search/%E6%A8%B9%E6%9E%97%E4%BF%9D%E5%AE%89%E8%A1%97",
+                "appleQuery": "https://maps.apple.com/?q=%E6%A8%B9%E6%9E%97%E4%BF%9D%E5%AE%89%E8%A1%97"
               }
             ],
             "blogUrl": "",
-            "source": "ai"
+            "source": "ai",
+            "note": ""
           },
           {
             "time": "14:00-16:00",
@@ -2463,8 +2557,8 @@
             "locations": [
               {
                 "name": "鹿角溪人工濕地",
-                "googleQuery": "https://maps.google.com/?q=鹿角溪人工濕地",
-                "appleQuery": "https://maps.apple.com/?q=鹿角溪人工濕地"
+                "googleQuery": "https://www.google.com/maps/search/%E9%B9%BF%E8%A7%92%E6%BA%AA%E4%BA%BA%E5%B7%A5%E6%BF%95%E5%9C%B0",
+                "appleQuery": "https://maps.apple.com/?q=%E9%B9%BF%E8%A7%92%E6%BA%AA%E4%BA%BA%E5%B7%A5%E6%BF%95%E5%9C%B0"
               }
             ],
             "travel": {
@@ -2493,10 +2587,12 @@
                     "blogUrl": "https://bigmouthblog.tw/ichiran-tucheng/",
                     "googleRating": 4.2,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=一蘭拉麵 土城永寧店",
-                      "appleQuery": "https://maps.apple.com/?q=一蘭拉麵 土城永寧店"
+                      "googleQuery": "https://www.google.com/maps/search/%E4%B8%80%E8%98%AD%E6%8B%89%E9%BA%B5+%E5%9C%9F%E5%9F%8E%E6%B0%B8%E5%AF%A7%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E4%B8%80%E8%98%AD%E6%8B%89%E9%BA%B5+%E5%9C%9F%E5%9F%8E%E6%B0%B8%E5%AF%A7%E5%BA%97",
+                      "name": "一蘭拉麵 土城永寧店"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "義大利麵",
@@ -2508,10 +2604,12 @@
                     "blogUrl": "https://kenalice.tw/justlight-pasta-tucheng/",
                     "googleRating": 4,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=只是光在 義大利麵 土城店",
-                      "appleQuery": "https://maps.apple.com/?q=只是光在 義大利麵 土城店"
+                      "googleQuery": "https://www.google.com/maps/search/%E5%8F%AA%E6%98%AF%E5%85%89%E5%9C%A8+%E7%BE%A9%E5%A4%A7%E5%88%A9%E9%BA%B5+%E5%9C%9F%E5%9F%8E%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E5%8F%AA%E6%98%AF%E5%85%89%E5%9C%A8+%E7%BE%A9%E5%A4%A7%E5%88%A9%E9%BA%B5+%E5%9C%9F%E5%9F%8E%E5%BA%97",
+                      "name": "只是光在 義大利麵 土城店"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "特色小吃",
@@ -2523,10 +2621,12 @@
                     "blogUrl": "https://kenalice.tw/shulin-baoan-night/",
                     "googleRating": 4,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=樹林保安街夜市",
-                      "appleQuery": "https://maps.apple.com/?q=樹林保安街夜市"
+                      "googleQuery": "https://www.google.com/maps/search/%E6%A8%B9%E6%9E%97%E4%BF%9D%E5%AE%89%E8%A1%97%E5%A4%9C%E5%B8%82",
+                      "appleQuery": "https://maps.apple.com/?q=%E6%A8%B9%E6%9E%97%E4%BF%9D%E5%AE%89%E8%A1%97%E5%A4%9C%E5%B8%82",
+                      "name": "樹林保安街夜市"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   }
                 ]
               }
@@ -2535,19 +2635,33 @@
             "locations": [
               {
                 "name": "樹林保安街商圈",
-                "googleQuery": "https://www.google.com/maps/search/樹林保安街",
-                "appleQuery": "https://maps.apple.com/?q=樹林保安街"
+                "googleQuery": "https://www.google.com/maps/search/%E6%A8%B9%E6%9E%97%E4%BF%9D%E5%AE%89%E8%A1%97",
+                "appleQuery": "https://maps.apple.com/?q=%E6%A8%B9%E6%9E%97%E4%BF%9D%E5%AE%89%E8%A1%97"
               }
             ],
             "blogUrl": "",
-            "source": "ai"
+            "source": "ai",
+            "note": ""
+          }
+        ]
+      },
+      "weather": {
+        "label": "土城・樹林",
+        "locations": [
+          {
+            "lat": 25.0146,
+            "lon": 121.4672,
+            "name": "板橋",
+            "start": 0,
+            "end": 23
           }
         ]
       }
     },
     {
       "id": 13,
-      "date": "4/13（一）",
+      "date": "2026-04-13",
+      "dayOfWeek": "一",
       "label": "淡水・八里",
       "content": {
         "hotel": {
@@ -2557,7 +2671,9 @@
           ],
           "breakfast": {
             "included": null
-          }
+          },
+          "note": "",
+          "source": "ai"
         },
         "timeline": [
           {
@@ -2567,8 +2683,8 @@
             "locations": [
               {
                 "name": "淡水老街",
-                "googleQuery": "https://maps.google.com/?q=淡水老街",
-                "appleQuery": "https://maps.apple.com/?q=淡水老街"
+                "googleQuery": "https://www.google.com/maps/search/%E6%B7%A1%E6%B0%B4%E8%80%81%E8%A1%97",
+                "appleQuery": "https://maps.apple.com/?q=%E6%B7%A1%E6%B0%B4%E8%80%81%E8%A1%97"
               }
             ],
             "travel": {
@@ -2593,7 +2709,8 @@
                     ],
                     "blogUrl": "https://kenalice.tw/tamsui-old-street-shopping/",
                     "googleRating": 4,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "伴手禮",
@@ -2606,7 +2723,8 @@
                     ],
                     "blogUrl": "https://bunnyann.tw/fishermans-wharf-shopping/",
                     "googleRating": 4,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "伴手禮",
@@ -2619,7 +2737,8 @@
                     ],
                     "blogUrl": "https://bigmouthblog.tw/bali-left-bank-shopping/",
                     "googleRating": 4,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   }
                 ]
               }
@@ -2644,10 +2763,12 @@
                     "blogUrl": "https://tisshuang.com/menya-kei-tamsui/",
                     "googleRating": 4.2,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=麵屋輝 淡水店",
-                      "appleQuery": "https://maps.apple.com/?q=麵屋輝 淡水店"
+                      "googleQuery": "https://www.google.com/maps/search/%E9%BA%B5%E5%B1%8B%E8%BC%9D+%E6%B7%A1%E6%B0%B4%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E9%BA%B5%E5%B1%8B%E8%BC%9D+%E6%B7%A1%E6%B0%B4%E5%BA%97",
+                      "name": "麵屋輝 淡水店"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "義大利麵",
@@ -2659,10 +2780,12 @@
                     "blogUrl": "https://tisshuang.com/huwei-italian-tamsui/",
                     "googleRating": 4.1,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=滬尾義式廚房",
-                      "appleQuery": "https://maps.apple.com/?q=滬尾義式廚房"
+                      "googleQuery": "https://www.google.com/maps/search/%E6%BB%AC%E5%B0%BE%E7%BE%A9%E5%BC%8F%E5%BB%9A%E6%88%BF",
+                      "appleQuery": "https://maps.apple.com/?q=%E6%BB%AC%E5%B0%BE%E7%BE%A9%E5%BC%8F%E5%BB%9A%E6%88%BF",
+                      "name": "滬尾義式廚房"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "特色小吃",
@@ -2674,10 +2797,12 @@
                     "blogUrl": "https://kenalice.tw/wenhua-agei/",
                     "googleRating": 4.1,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=文化阿給",
-                      "appleQuery": "https://maps.apple.com/?q=文化阿給"
+                      "googleQuery": "https://www.google.com/maps/search/%E6%96%87%E5%8C%96%E9%98%BF%E7%B5%A6",
+                      "appleQuery": "https://maps.apple.com/?q=%E6%96%87%E5%8C%96%E9%98%BF%E7%B5%A6",
+                      "name": "文化阿給"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   }
                 ]
               }
@@ -2686,12 +2811,13 @@
             "locations": [
               {
                 "name": "淡水老街",
-                "googleQuery": "https://www.google.com/maps/search/淡水老街",
-                "appleQuery": "https://maps.apple.com/?q=淡水老街"
+                "googleQuery": "https://www.google.com/maps/search/%E6%B7%A1%E6%B0%B4%E8%80%81%E8%A1%97",
+                "appleQuery": "https://maps.apple.com/?q=%E6%B7%A1%E6%B0%B4%E8%80%81%E8%A1%97"
               }
             ],
             "blogUrl": "",
-            "source": "ai"
+            "source": "ai",
+            "note": ""
           },
           {
             "time": "14:00-16:00",
@@ -2700,8 +2826,8 @@
             "locations": [
               {
                 "name": "紅毛城",
-                "googleQuery": "https://maps.google.com/?q=淡水紅毛城",
-                "appleQuery": "https://maps.apple.com/?q=淡水紅毛城"
+                "googleQuery": "https://www.google.com/maps/search/%E6%B7%A1%E6%B0%B4%E7%B4%85%E6%AF%9B%E5%9F%8E",
+                "appleQuery": "https://maps.apple.com/?q=%E6%B7%A1%E6%B0%B4%E7%B4%85%E6%AF%9B%E5%9F%8E"
               }
             ],
             "travel": {
@@ -2730,10 +2856,12 @@
                     "blogUrl": "https://kenalice.tw/menya-kei-bali/",
                     "googleRating": 4.2,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=麵屋輝 八里/淡水近郊店",
-                      "appleQuery": "https://maps.apple.com/?q=麵屋輝 八里/淡水近郊店"
+                      "googleQuery": "https://www.google.com/maps/search/%E9%BA%B5%E5%B1%8B%E8%BC%9D+%E5%85%AB%E9%87%8C%2F%E6%B7%A1%E6%B0%B4%E8%BF%91%E9%83%8A%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E9%BA%B5%E5%B1%8B%E8%BC%9D+%E5%85%AB%E9%87%8C%2F%E6%B7%A1%E6%B0%B4%E8%BF%91%E9%83%8A%E5%BA%97",
+                      "name": "麵屋輝 八里/淡水近郊店"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "義大利麵",
@@ -2745,10 +2873,12 @@
                     "blogUrl": "https://tisshuang.com/between-tamsui/",
                     "googleRating": 4.3,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=之間 茶食器",
-                      "appleQuery": "https://maps.apple.com/?q=之間 茶食器"
+                      "googleQuery": "https://www.google.com/maps/search/%E4%B9%8B%E9%96%93+%E8%8C%B6%E9%A3%9F%E5%99%A8",
+                      "appleQuery": "https://maps.apple.com/?q=%E4%B9%8B%E9%96%93+%E8%8C%B6%E9%A3%9F%E5%99%A8",
+                      "name": "之間 茶食器"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "特色小吃",
@@ -2760,10 +2890,12 @@
                     "blogUrl": "https://appletrees.tw/tamsui-seafood/",
                     "googleRating": 4,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=淡水福佑宮旁海鮮",
-                      "appleQuery": "https://maps.apple.com/?q=淡水福佑宮旁海鮮"
+                      "googleQuery": "https://www.google.com/maps/search/%E6%B7%A1%E6%B0%B4%E7%A6%8F%E4%BD%91%E5%AE%AE%E6%97%81%E6%B5%B7%E9%AE%AE",
+                      "appleQuery": "https://maps.apple.com/?q=%E6%B7%A1%E6%B0%B4%E7%A6%8F%E4%BD%91%E5%AE%AE%E6%97%81%E6%B5%B7%E9%AE%AE",
+                      "name": "淡水福佑宮旁海鮮"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   }
                 ]
               }
@@ -2772,19 +2904,33 @@
             "locations": [
               {
                 "name": "淡水老街",
-                "googleQuery": "https://www.google.com/maps/search/淡水老街",
-                "appleQuery": "https://maps.apple.com/?q=淡水老街"
+                "googleQuery": "https://www.google.com/maps/search/%E6%B7%A1%E6%B0%B4%E8%80%81%E8%A1%97",
+                "appleQuery": "https://maps.apple.com/?q=%E6%B7%A1%E6%B0%B4%E8%80%81%E8%A1%97"
               }
             ],
             "blogUrl": "",
-            "source": "ai"
+            "source": "ai",
+            "note": ""
+          }
+        ]
+      },
+      "weather": {
+        "label": "淡水・八里",
+        "locations": [
+          {
+            "lat": 25.0146,
+            "lon": 121.4672,
+            "name": "板橋",
+            "start": 0,
+            "end": 23
           }
         ]
       }
     },
     {
       "id": 14,
-      "date": "4/14（二）",
+      "date": "2026-04-14",
+      "dayOfWeek": "二",
       "label": "淡水・八里",
       "content": {
         "hotel": {
@@ -2794,7 +2940,9 @@
           ],
           "breakfast": {
             "included": null
-          }
+          },
+          "note": "",
+          "source": "ai"
         },
         "timeline": [
           {
@@ -2804,8 +2952,8 @@
             "locations": [
               {
                 "name": "淡水漁人碼頭",
-                "googleQuery": "https://maps.google.com/?q=淡水漁人碼頭",
-                "appleQuery": "https://maps.apple.com/?q=淡水漁人碼頭"
+                "googleQuery": "https://www.google.com/maps/search/%E6%B7%A1%E6%B0%B4%E6%BC%81%E4%BA%BA%E7%A2%BC%E9%A0%AD",
+                "appleQuery": "https://maps.apple.com/?q=%E6%B7%A1%E6%B0%B4%E6%BC%81%E4%BA%BA%E7%A2%BC%E9%A0%AD"
               }
             ],
             "travel": {
@@ -2834,10 +2982,12 @@
                     "blogUrl": "https://tisshuang.com/menya-kei-tamsui/",
                     "googleRating": 4.2,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=麵屋輝 淡水店",
-                      "appleQuery": "https://maps.apple.com/?q=麵屋輝 淡水店"
+                      "googleQuery": "https://www.google.com/maps/search/%E9%BA%B5%E5%B1%8B%E8%BC%9D+%E6%B7%A1%E6%B0%B4%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E9%BA%B5%E5%B1%8B%E8%BC%9D+%E6%B7%A1%E6%B0%B4%E5%BA%97",
+                      "name": "麵屋輝 淡水店"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "義大利麵",
@@ -2849,10 +2999,12 @@
                     "blogUrl": "https://kenalice.tw/ancheng-fishermans/",
                     "googleRating": 4,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=安乘漁人碼頭店",
-                      "appleQuery": "https://maps.apple.com/?q=安乘漁人碼頭店"
+                      "googleQuery": "https://www.google.com/maps/search/%E5%AE%89%E4%B9%98%E6%BC%81%E4%BA%BA%E7%A2%BC%E9%A0%AD%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E5%AE%89%E4%B9%98%E6%BC%81%E4%BA%BA%E7%A2%BC%E9%A0%AD%E5%BA%97",
+                      "name": "安乘漁人碼頭店"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "特色小吃",
@@ -2864,10 +3016,12 @@
                     "blogUrl": "https://bigmouthblog.tw/fishermans-wharf-seafood/",
                     "googleRating": 3.9,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=漁人碼頭海鮮餐廳",
-                      "appleQuery": "https://maps.apple.com/?q=漁人碼頭海鮮餐廳"
+                      "googleQuery": "https://www.google.com/maps/search/%E6%BC%81%E4%BA%BA%E7%A2%BC%E9%A0%AD%E6%B5%B7%E9%AE%AE%E9%A4%90%E5%BB%B3",
+                      "appleQuery": "https://maps.apple.com/?q=%E6%BC%81%E4%BA%BA%E7%A2%BC%E9%A0%AD%E6%B5%B7%E9%AE%AE%E9%A4%90%E5%BB%B3",
+                      "name": "漁人碼頭海鮮餐廳"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   }
                 ]
               }
@@ -2876,12 +3030,13 @@
             "locations": [
               {
                 "name": "淡水漁人碼頭",
-                "googleQuery": "https://www.google.com/maps/search/淡水漁人碼頭",
-                "appleQuery": "https://maps.apple.com/?q=淡水漁人碼頭"
+                "googleQuery": "https://www.google.com/maps/search/%E6%B7%A1%E6%B0%B4%E6%BC%81%E4%BA%BA%E7%A2%BC%E9%A0%AD",
+                "appleQuery": "https://maps.apple.com/?q=%E6%B7%A1%E6%B0%B4%E6%BC%81%E4%BA%BA%E7%A2%BC%E9%A0%AD"
               }
             ],
             "blogUrl": "",
-            "source": "ai"
+            "source": "ai",
+            "note": ""
           },
           {
             "time": "14:00-16:00",
@@ -2890,8 +3045,8 @@
             "locations": [
               {
                 "name": "淡水海關碼頭",
-                "googleQuery": "https://maps.google.com/?q=淡水海關碼頭",
-                "appleQuery": "https://maps.apple.com/?q=淡水海關碼頭"
+                "googleQuery": "https://www.google.com/maps/search/%E6%B7%A1%E6%B0%B4%E6%B5%B7%E9%97%9C%E7%A2%BC%E9%A0%AD",
+                "appleQuery": "https://maps.apple.com/?q=%E6%B7%A1%E6%B0%B4%E6%B5%B7%E9%97%9C%E7%A2%BC%E9%A0%AD"
               }
             ],
             "travel": {
@@ -2920,10 +3075,12 @@
                     "blogUrl": "https://kenalice.tw/menya-kei-bali/",
                     "googleRating": 4.2,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=麵屋輝 八里/淡水近郊店",
-                      "appleQuery": "https://maps.apple.com/?q=麵屋輝 八里/淡水近郊店"
+                      "googleQuery": "https://www.google.com/maps/search/%E9%BA%B5%E5%B1%8B%E8%BC%9D+%E5%85%AB%E9%87%8C%2F%E6%B7%A1%E6%B0%B4%E8%BF%91%E9%83%8A%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E9%BA%B5%E5%B1%8B%E8%BC%9D+%E5%85%AB%E9%87%8C%2F%E6%B7%A1%E6%B0%B4%E8%BF%91%E9%83%8A%E5%BA%97",
+                      "name": "麵屋輝 八里/淡水近郊店"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "義大利麵",
@@ -2935,10 +3092,12 @@
                     "blogUrl": "https://appletrees.tw/bali-waterfront-italian/",
                     "googleRating": 4,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=八里水岸義式景觀餐廳",
-                      "appleQuery": "https://maps.apple.com/?q=八里水岸義式景觀餐廳"
+                      "googleQuery": "https://www.google.com/maps/search/%E5%85%AB%E9%87%8C%E6%B0%B4%E5%B2%B8%E7%BE%A9%E5%BC%8F%E6%99%AF%E8%A7%80%E9%A4%90%E5%BB%B3",
+                      "appleQuery": "https://maps.apple.com/?q=%E5%85%AB%E9%87%8C%E6%B0%B4%E5%B2%B8%E7%BE%A9%E5%BC%8F%E6%99%AF%E8%A7%80%E9%A4%90%E5%BB%B3",
+                      "name": "八里水岸義式景觀餐廳"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "特色小吃",
@@ -2950,10 +3109,12 @@
                     "blogUrl": "https://bunnyann.tw/xuyi-fish-crisp/",
                     "googleRating": 4.2,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=淡水老街許義魚酥",
-                      "appleQuery": "https://maps.apple.com/?q=淡水老街許義魚酥"
+                      "googleQuery": "https://www.google.com/maps/search/%E6%B7%A1%E6%B0%B4%E8%80%81%E8%A1%97%E8%A8%B1%E7%BE%A9%E9%AD%9A%E9%85%A5",
+                      "appleQuery": "https://maps.apple.com/?q=%E6%B7%A1%E6%B0%B4%E8%80%81%E8%A1%97%E8%A8%B1%E7%BE%A9%E9%AD%9A%E9%85%A5",
+                      "name": "淡水老街許義魚酥"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   }
                 ]
               }
@@ -2962,30 +3123,35 @@
             "locations": [
               {
                 "name": "淡水漁人碼頭",
-                "googleQuery": "https://www.google.com/maps/search/淡水漁人碼頭",
-                "appleQuery": "https://maps.apple.com/?q=淡水漁人碼頭"
+                "googleQuery": "https://www.google.com/maps/search/%E6%B7%A1%E6%B0%B4%E6%BC%81%E4%BA%BA%E7%A2%BC%E9%A0%AD",
+                "appleQuery": "https://maps.apple.com/?q=%E6%B7%A1%E6%B0%B4%E6%BC%81%E4%BA%BA%E7%A2%BC%E9%A0%AD"
               }
             ],
             "blogUrl": "",
-            "source": "ai"
+            "source": "ai",
+            "note": ""
+          }
+        ]
+      },
+      "weather": {
+        "label": "淡水・八里",
+        "locations": [
+          {
+            "lat": 25.0146,
+            "lon": 121.4672,
+            "name": "板橋",
+            "start": 0,
+            "end": 23
           }
         ]
       }
     },
     {
       "id": 15,
-      "date": "4/15（三）",
+      "date": "2026-04-15",
+      "dayOfWeek": "三",
       "label": "淡水・八里",
       "content": {
-        "hotel": {
-          "name": "家",
-          "details": [
-            "新北板橋區合宜一路25號四樓之3"
-          ],
-          "breakfast": {
-            "included": null
-          }
-        },
         "timeline": [
           {
             "time": "10:00-12:00",
@@ -2994,8 +3160,8 @@
             "locations": [
               {
                 "name": "八里左岸",
-                "googleQuery": "https://maps.google.com/?q=八里左岸",
-                "appleQuery": "https://maps.apple.com/?q=八里左岸"
+                "googleQuery": "https://www.google.com/maps/search/%E5%85%AB%E9%87%8C%E5%B7%A6%E5%B2%B8",
+                "appleQuery": "https://maps.apple.com/?q=%E5%85%AB%E9%87%8C%E5%B7%A6%E5%B2%B8"
               }
             ],
             "travel": {
@@ -3024,10 +3190,12 @@
                     "blogUrl": "https://tisshuang.com/menya-kei-tamsui/",
                     "googleRating": 4.2,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=麵屋輝 淡水店",
-                      "appleQuery": "https://maps.apple.com/?q=麵屋輝 淡水店"
+                      "googleQuery": "https://www.google.com/maps/search/%E9%BA%B5%E5%B1%8B%E8%BC%9D+%E6%B7%A1%E6%B0%B4%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E9%BA%B5%E5%B1%8B%E8%BC%9D+%E6%B7%A1%E6%B0%B4%E5%BA%97",
+                      "name": "麵屋輝 淡水店"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "義大利麵",
@@ -3039,10 +3207,12 @@
                     "blogUrl": "https://tisshuang.com/huwei-italian-tamsui/",
                     "googleRating": 4.1,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=滬尾義式廚房",
-                      "appleQuery": "https://maps.apple.com/?q=滬尾義式廚房"
+                      "googleQuery": "https://www.google.com/maps/search/%E6%BB%AC%E5%B0%BE%E7%BE%A9%E5%BC%8F%E5%BB%9A%E6%88%BF",
+                      "appleQuery": "https://maps.apple.com/?q=%E6%BB%AC%E5%B0%BE%E7%BE%A9%E5%BC%8F%E5%BB%9A%E6%88%BF",
+                      "name": "滬尾義式廚房"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "特色小吃",
@@ -3054,10 +3224,12 @@
                     "blogUrl": "https://kenalice.tw/bali-twin-donut/",
                     "googleRating": 4.3,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=八里渡船頭雙胞胎",
-                      "appleQuery": "https://maps.apple.com/?q=八里渡船頭雙胞胎"
+                      "googleQuery": "https://www.google.com/maps/search/%E5%85%AB%E9%87%8C%E6%B8%A1%E8%88%B9%E9%A0%AD%E9%9B%99%E8%83%9E%E8%83%8E",
+                      "appleQuery": "https://maps.apple.com/?q=%E5%85%AB%E9%87%8C%E6%B8%A1%E8%88%B9%E9%A0%AD%E9%9B%99%E8%83%9E%E8%83%8E",
+                      "name": "八里渡船頭雙胞胎"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   }
                 ]
               }
@@ -3066,12 +3238,13 @@
             "locations": [
               {
                 "name": "八里渡船頭",
-                "googleQuery": "https://www.google.com/maps/search/八里渡船頭",
-                "appleQuery": "https://maps.apple.com/?q=八里渡船頭"
+                "googleQuery": "https://www.google.com/maps/search/%E5%85%AB%E9%87%8C%E6%B8%A1%E8%88%B9%E9%A0%AD",
+                "appleQuery": "https://maps.apple.com/?q=%E5%85%AB%E9%87%8C%E6%B8%A1%E8%88%B9%E9%A0%AD"
               }
             ],
             "blogUrl": "",
-            "source": "ai"
+            "source": "ai",
+            "note": ""
           },
           {
             "time": "14:00-16:00",
@@ -3080,8 +3253,8 @@
             "locations": [
               {
                 "name": "十三行博物館",
-                "googleQuery": "https://maps.google.com/?q=十三行博物館",
-                "appleQuery": "https://maps.apple.com/?q=十三行博物館"
+                "googleQuery": "https://www.google.com/maps/search/%E5%8D%81%E4%B8%89%E8%A1%8C%E5%8D%9A%E7%89%A9%E9%A4%A8",
+                "appleQuery": "https://maps.apple.com/?q=%E5%8D%81%E4%B8%89%E8%A1%8C%E5%8D%9A%E7%89%A9%E9%A4%A8"
               }
             ],
             "travel": {
@@ -3110,10 +3283,12 @@
                     "blogUrl": "https://kenalice.tw/menya-kei-bali/",
                     "googleRating": 4.2,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=麵屋輝 八里/淡水近郊店",
-                      "appleQuery": "https://maps.apple.com/?q=麵屋輝 八里/淡水近郊店"
+                      "googleQuery": "https://www.google.com/maps/search/%E9%BA%B5%E5%B1%8B%E8%BC%9D+%E5%85%AB%E9%87%8C%2F%E6%B7%A1%E6%B0%B4%E8%BF%91%E9%83%8A%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E9%BA%B5%E5%B1%8B%E8%BC%9D+%E5%85%AB%E9%87%8C%2F%E6%B7%A1%E6%B0%B4%E8%BF%91%E9%83%8A%E5%BA%97",
+                      "name": "麵屋輝 八里/淡水近郊店"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "義大利麵",
@@ -3125,10 +3300,12 @@
                     "blogUrl": "https://appletrees.tw/bali-waterfront-italian/",
                     "googleRating": 4,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=八里水岸義式景觀餐廳",
-                      "appleQuery": "https://maps.apple.com/?q=八里水岸義式景觀餐廳"
+                      "googleQuery": "https://www.google.com/maps/search/%E5%85%AB%E9%87%8C%E6%B0%B4%E5%B2%B8%E7%BE%A9%E5%BC%8F%E6%99%AF%E8%A7%80%E9%A4%90%E5%BB%B3",
+                      "appleQuery": "https://maps.apple.com/?q=%E5%85%AB%E9%87%8C%E6%B0%B4%E5%B2%B8%E7%BE%A9%E5%BC%8F%E6%99%AF%E8%A7%80%E9%A4%90%E5%BB%B3",
+                      "name": "八里水岸義式景觀餐廳"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "特色小吃",
@@ -3140,10 +3317,12 @@
                     "blogUrl": "https://bunnyann.tw/bali-mussel-king/",
                     "googleRating": 4,
                     "location": {
-                      "googleQuery": "https://maps.google.com/?q=八里佘家孔雀蛤大王",
-                      "appleQuery": "https://maps.apple.com/?q=八里佘家孔雀蛤大王"
+                      "googleQuery": "https://www.google.com/maps/search/%E5%85%AB%E9%87%8C%E4%BD%98%E5%AE%B6%E5%AD%94%E9%9B%80%E8%9B%A4%E5%A4%A7%E7%8E%8B",
+                      "appleQuery": "https://maps.apple.com/?q=%E5%85%AB%E9%87%8C%E4%BD%98%E5%AE%B6%E5%AD%94%E9%9B%80%E8%9B%A4%E5%A4%A7%E7%8E%8B",
+                      "name": "八里佘家孔雀蛤大王"
                     },
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   }
                 ]
               }
@@ -3152,12 +3331,25 @@
             "locations": [
               {
                 "name": "八里渡船頭",
-                "googleQuery": "https://www.google.com/maps/search/八里渡船頭",
-                "appleQuery": "https://maps.apple.com/?q=八里渡船頭"
+                "googleQuery": "https://www.google.com/maps/search/%E5%85%AB%E9%87%8C%E6%B8%A1%E8%88%B9%E9%A0%AD",
+                "appleQuery": "https://maps.apple.com/?q=%E5%85%AB%E9%87%8C%E6%B8%A1%E8%88%B9%E9%A0%AD"
               }
             ],
             "blogUrl": "",
-            "source": "ai"
+            "source": "ai",
+            "note": ""
+          }
+        ]
+      },
+      "weather": {
+        "label": "淡水・八里",
+        "locations": [
+          {
+            "lat": 25.0146,
+            "lon": 121.4672,
+            "name": "板橋",
+            "start": 0,
+            "end": 23
           }
         ]
       }

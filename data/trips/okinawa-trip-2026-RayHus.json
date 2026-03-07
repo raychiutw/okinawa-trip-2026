@@ -28,116 +28,11 @@
     "2026-03-10",
     "2026-03-11"
   ],
-  "weather": [
-    {
-      "id": "hourly-1",
-      "date": "2026-03-06",
-      "dayId": 1,
-      "label": "那霸",
-      "locations": [
-        {
-          "lat": 26.2066,
-          "lon": 127.6476,
-          "name": "那霸",
-          "start": 0,
-          "end": 23
-        }
-      ]
-    },
-    {
-      "id": "hourly-2",
-      "date": "2026-03-07",
-      "dayId": 2,
-      "label": "那霸・本部",
-      "locations": [
-        {
-          "lat": 26.2066,
-          "lon": 127.6476,
-          "name": "那霸",
-          "start": 0,
-          "end": 7
-        },
-        {
-          "lat": 26.6577,
-          "lon": 127.8782,
-          "name": "本部",
-          "start": 8,
-          "end": 18
-        },
-        {
-          "lat": 26.2066,
-          "lon": 127.6476,
-          "name": "那霸",
-          "start": 19,
-          "end": 23
-        }
-      ]
-    },
-    {
-      "id": "hourly-3",
-      "date": "2026-03-08",
-      "dayId": 3,
-      "label": "那霸",
-      "locations": [
-        {
-          "lat": 26.2066,
-          "lon": 127.6476,
-          "name": "那霸",
-          "start": 0,
-          "end": 23
-        }
-      ]
-    },
-    {
-      "id": "hourly-4",
-      "date": "2026-03-09",
-      "dayId": 4,
-      "label": "那霸・來客夢",
-      "locations": [
-        {
-          "lat": 26.2066,
-          "lon": 127.6476,
-          "name": "那霸",
-          "start": 0,
-          "end": 23
-        }
-      ]
-    },
-    {
-      "id": "hourly-5",
-      "date": "2026-03-10",
-      "dayId": 5,
-      "label": "豐崎",
-      "locations": [
-        {
-          "lat": 26.2066,
-          "lon": 127.6476,
-          "name": "那霸",
-          "start": 0,
-          "end": 23
-        }
-      ]
-    },
-    {
-      "id": "hourly-6",
-      "date": "2026-03-11",
-      "dayId": 6,
-      "label": "那霸",
-      "locations": [
-        {
-          "lat": 26.2066,
-          "lon": 127.6476,
-          "name": "那霸",
-          "start": 0,
-          "end": 23
-        }
-      ]
-    }
-  ],
   "days": [
     {
       "id": 1,
-      "date": "3/6（五）",
+      "date": "2026-03-06",
+      "dayOfWeek": "五",
       "label": "抵達那霸",
       "content": {
         "hotel": {
@@ -172,7 +67,8 @@
                   ],
                   "blogUrl": "https://mimigo.tw/okinawa-donki/",
                   "googleRating": 4.2,
-                  "source": "ai"
+                  "source": "ai",
+                  "note": ""
                 },
                 {
                   "category": "超商",
@@ -186,7 +82,8 @@
                   ],
                   "blogUrl": "https://okinawa.letsgojp.com/archives/18216/",
                   "googleRating": 3.5,
-                  "source": "ai"
+                  "source": "ai",
+                  "note": ""
                 },
                 {
                   "category": "超市",
@@ -200,12 +97,14 @@
                   ],
                   "blogUrl": "https://popogo.pixnet.net/blog/posts/3051142200",
                   "googleRating": 4,
-                  "source": "ai"
+                  "source": "ai",
+                  "note": ""
                 }
               ]
             }
           ],
-          "source": "ai"
+          "source": "ai",
+          "note": ""
         },
         "timeline": [
           {
@@ -216,8 +115,8 @@
             "locations": [
               {
                 "name": "桃園國際機場",
-                "googleQuery": "https://maps.google.com/?q=桃園國際機場",
-                "appleQuery": "https://maps.apple.com/?q=桃園國際機場"
+                "googleQuery": "https://www.google.com/maps/search/%E6%A1%83%E5%9C%92%E5%9C%8B%E9%9A%9B%E6%A9%9F%E5%A0%B4",
+                "appleQuery": "https://maps.apple.com/?q=%E6%A1%83%E5%9C%92%E5%9C%8B%E9%9A%9B%E6%A9%9F%E5%A0%B4"
               }
             ],
             "infoBoxes": [
@@ -232,7 +131,8 @@
               }
             ],
             "googleRating": 4,
-            "source": "ai"
+            "source": "ai",
+            "note": ""
           },
           {
             "time": "17:50-18:30",
@@ -241,8 +141,8 @@
             "locations": [
               {
                 "name": "那霸機場",
-                "googleQuery": "https://maps.google.com/?q=那霸機場",
-                "appleQuery": "https://maps.apple.com/?q=那霸機場"
+                "googleQuery": "https://www.google.com/maps/search/%E9%82%A3%E9%9C%B8%E6%A9%9F%E5%A0%B4",
+                "appleQuery": "https://maps.apple.com/?q=%E9%82%A3%E9%9C%B8%E6%A9%9F%E5%A0%B4"
               }
             ],
             "travel": {
@@ -259,8 +159,8 @@
             "locations": [
               {
                 "name": "Living Inn 旭橋駅前",
-                "googleQuery": "https://maps.google.com/?q=Living+Inn+旭橋駅前+那覇",
-                "appleQuery": "https://maps.apple.com/?q=Living+Inn+旭橋駅前+那覇"
+                "googleQuery": "https://www.google.com/maps/search/Living+Inn+%E6%97%AD%E6%A9%8B%E9%A7%85%E5%89%8D+%E9%82%A3%E8%A6%87",
+                "appleQuery": "https://maps.apple.com/?q=Living+Inn+%E6%97%AD%E6%A9%8B%E9%A7%85%E5%89%8D+%E9%82%A3%E8%A6%87"
               }
             ],
             "infoBoxes": [
@@ -279,7 +179,8 @@
                     ],
                     "blogUrl": "https://okinawa.letsgojp.com/archives/668971/",
                     "googleRating": 3.9,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "超商",
@@ -292,13 +193,15 @@
                     ],
                     "blogUrl": "https://marukoblog.tw/lawson-okinawa.html",
                     "googleRating": 3.5,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   }
                 ]
               }
             ],
             "googleRating": 3.8,
-            "source": "ai"
+            "source": "ai",
+            "note": ""
           },
           {
             "time": "19:30-21:00",
@@ -309,8 +212,8 @@
             "locations": [
               {
                 "name": "那霸國際通",
-                "googleQuery": "https://maps.google.com/?q=那覇国際通り",
-                "appleQuery": "https://maps.apple.com/?q=那覇国際通り"
+                "googleQuery": "https://www.google.com/maps/search/%E9%82%A3%E8%A6%87%E5%9B%BD%E9%9A%9B%E9%80%9A%E3%82%8A",
+                "appleQuery": "https://maps.apple.com/?q=%E9%82%A3%E8%A6%87%E5%9B%BD%E9%9A%9B%E9%80%9A%E3%82%8A"
               }
             ],
             "infoBoxes": [
@@ -330,7 +233,8 @@
                     ],
                     "blogUrl": "https://marktrip.tw/okinawa-kokusai-donki-guide/",
                     "googleRating": 4.1,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   }
                 ]
               },
@@ -345,14 +249,15 @@
                     "price": "¥4,500~",
                     "location": {
                       "name": "焼肉もとぶ牧場 国際通り店",
-                      "googleQuery": "https://maps.google.com/?q=焼肉もとぶ牧場+国際通り店",
-                      "appleQuery": "https://maps.apple.com/?q=焼肉もとぶ牧場+国際通り店"
+                      "googleQuery": "https://www.google.com/maps/search/%E7%84%BC%E8%82%89%E3%82%82%E3%81%A8%E3%81%B6%E7%89%A7%E5%A0%B4+%E5%9B%BD%E9%9A%9B%E9%80%9A%E3%82%8A%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E7%84%BC%E8%82%89%E3%82%82%E3%81%A8%E3%81%B6%E7%89%A7%E5%A0%B4+%E5%9B%BD%E9%9A%9B%E9%80%9A%E3%82%8A%E5%BA%97"
                     },
                     "hours": "17:00~22:00",
                     "reservation": "TableCheck 線上預約",
                     "blogUrl": "https://minako.tw/motobu-farm/",
                     "googleRating": 4.3,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "牛排/烤魚",
@@ -361,14 +266,15 @@
                     "price": "¥1,000~",
                     "location": {
                       "name": "やっぱりステーキ 4th 国際通り店",
-                      "googleQuery": "https://maps.google.com/?q=やっぱりステーキ+4th+国際通り店",
-                      "appleQuery": "https://maps.apple.com/?q=やっぱりステーキ+4th+国際通り店"
+                      "googleQuery": "https://www.google.com/maps/search/%E3%82%84%E3%81%A3%E3%81%B1%E3%82%8A%E3%82%B9%E3%83%86%E3%83%BC%E3%82%AD+4th+%E5%9B%BD%E9%9A%9B%E9%80%9A%E3%82%8A%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E3%82%84%E3%81%A3%E3%81%B1%E3%82%8A%E3%82%B9%E3%83%86%E3%83%BC%E3%82%AD+4th+%E5%9B%BD%E9%9A%9B%E9%80%9A%E3%82%8A%E5%BA%97"
                     },
                     "hours": "11:00~翌1:30",
                     "reservation": "不需訂位",
                     "blogUrl": "https://linrosely.pixnet.net/blog/post/349942579",
                     "googleRating": 4.1,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "當地特色",
@@ -377,27 +283,42 @@
                     "price": "¥1,500~",
                     "location": {
                       "name": "琉球料理ぬちがふぅ 那覇",
-                      "googleQuery": "https://maps.google.com/?q=琉球料理+ぬちがふぅ+那覇",
-                      "appleQuery": "https://maps.apple.com/?q=琉球料理+ぬちがふぅ+那覇"
+                      "googleQuery": "https://www.google.com/maps/search/%E7%90%89%E7%90%83%E6%96%99%E7%90%86+%E3%81%AC%E3%81%A1%E3%81%8C%E3%81%B5%E3%81%85+%E9%82%A3%E8%A6%87",
+                      "appleQuery": "https://maps.apple.com/?q=%E7%90%89%E7%90%83%E6%96%99%E7%90%86+%E3%81%AC%E3%81%A1%E3%81%8C%E3%81%B5%E3%81%85+%E9%82%A3%E8%A6%87"
                     },
                     "hours": "11:00~22:00",
                     "reservation": "不需訂位",
                     "blogUrl": "https://myokinawalife.jp/2025/08/13/nuchigafu/",
                     "googleRating": 4.2,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   }
                 ]
               }
             ],
             "googleRating": 4.1,
-            "source": "ai"
+            "source": "ai",
+            "note": ""
+          }
+        ]
+      },
+      "weather": {
+        "label": "那霸",
+        "locations": [
+          {
+            "lat": 26.2066,
+            "lon": 127.6476,
+            "name": "那霸",
+            "start": 0,
+            "end": 23
           }
         ]
       }
     },
     {
       "id": 2,
-      "date": "3/7（六）",
+      "date": "2026-03-07",
+      "dayOfWeek": "六",
       "label": "KKday一日遊",
       "content": {
         "hotel": {
@@ -431,7 +352,8 @@
                   ],
                   "blogUrl": "https://mimigo.tw/okinawa-donki/",
                   "googleRating": 4.2,
-                  "source": "ai"
+                  "source": "ai",
+                  "note": ""
                 },
                 {
                   "category": "超商",
@@ -445,7 +367,8 @@
                   ],
                   "blogUrl": "https://okinawa.letsgojp.com/archives/18216/",
                   "googleRating": 3.5,
-                  "source": "ai"
+                  "source": "ai",
+                  "note": ""
                 },
                 {
                   "category": "超市",
@@ -459,12 +382,14 @@
                   ],
                   "blogUrl": "https://popogo.pixnet.net/blog/posts/3051142200",
                   "googleRating": 4,
-                  "source": "ai"
+                  "source": "ai",
+                  "note": ""
                 }
               ]
             }
           ],
-          "source": "ai"
+          "source": "ai",
+          "note": ""
         },
         "timeline": [
           {
@@ -474,8 +399,8 @@
             "locations": [
               {
                 "name": "沖縄県庁前（縣民廣場）",
-                "googleQuery": "https://maps.google.com/?q=沖縄県庁前+Izumizaki+1-2-3+Naha",
-                "appleQuery": "https://maps.apple.com/?q=沖縄県庁前+Izumizaki+1-2-3+Naha"
+                "googleQuery": "https://www.google.com/maps/search/%E6%B2%96%E7%B8%84%E7%9C%8C%E5%BA%81%E5%89%8D+Izumizaki+1-2-3+Naha",
+                "appleQuery": "https://maps.apple.com/?q=%E6%B2%96%E7%B8%84%E7%9C%8C%E5%BA%81%E5%89%8D+Izumizaki+1-2-3+Naha"
               }
             ],
             "travel": {
@@ -492,8 +417,8 @@
               {
                 "label": "集合地點",
                 "name": "沖縄県庁前（縣民廣場）",
-                "googleQuery": "https://maps.google.com/?q=沖縄県庁前+Naha+City+Izumizaki",
-                "appleQuery": "https://maps.apple.com/?q=沖縄県庁前+Naha+City+Izumizaki"
+                "googleQuery": "https://www.google.com/maps/search/%E6%B2%96%E7%B8%84%E7%9C%8C%E5%BA%81%E5%89%8D+Naha+City+Izumizaki",
+                "appleQuery": "https://maps.apple.com/?q=%E6%B2%96%E7%B8%84%E7%9C%8C%E5%BA%81%E5%89%8D+Naha+City+Izumizaki"
               }
             ],
             "infoBoxes": [
@@ -512,7 +437,8 @@
             ],
             "blogUrl": "https://wanlu937.pixnet.net/blog/post/227218021",
             "googleRating": 4.5,
-            "source": "ai"
+            "source": "ai",
+            "note": ""
           },
           {
             "time": "18:15-19:45",
@@ -522,8 +448,8 @@
             "locations": [
               {
                 "name": "那霸市區",
-                "googleQuery": "https://maps.google.com/?q=那覇市+国際通り",
-                "appleQuery": "https://maps.apple.com/?q=那覇市+国際通り"
+                "googleQuery": "https://www.google.com/maps/search/%E9%82%A3%E8%A6%87%E5%B8%82+%E5%9B%BD%E9%9A%9B%E9%80%9A%E3%82%8A",
+                "appleQuery": "https://maps.apple.com/?q=%E9%82%A3%E8%A6%87%E5%B8%82+%E5%9B%BD%E9%9A%9B%E9%80%9A%E3%82%8A"
               }
             ],
             "infoBoxes": [
@@ -538,14 +464,15 @@
                     "price": "¥2,980~/人（90分鐘）",
                     "location": {
                       "name": "焼肉きんぐ 那覇おもろまち店",
-                      "googleQuery": "https://maps.google.com/?q=焼肉きんぐ+那覇おもろまち店",
-                      "appleQuery": "https://maps.apple.com/?q=焼肉きんぐ+那覇おもろまち店"
+                      "googleQuery": "https://www.google.com/maps/search/%E7%84%BC%E8%82%89%E3%81%8D%E3%82%93%E3%81%90+%E9%82%A3%E8%A6%87%E3%81%8A%E3%82%82%E3%82%8D%E3%81%BE%E3%81%A1%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E7%84%BC%E8%82%89%E3%81%8D%E3%82%93%E3%81%90+%E9%82%A3%E8%A6%87%E3%81%8A%E3%82%82%E3%82%8D%E3%81%BE%E3%81%A1%E5%BA%97"
                     },
                     "hours": "平日17:00~24:00／假日11:00~24:00",
                     "reservation": "EPARK 預約",
                     "blogUrl": "https://purpleswallow.pixnet.net/blog/post/45092685",
                     "googleRating": 4,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "牛排/烤魚",
@@ -554,14 +481,15 @@
                     "price": "¥1,500~",
                     "location": {
                       "name": "ジャッキーステーキハウス",
-                      "googleQuery": "https://maps.google.com/?q=ジャッキーステーキハウス+那覇",
-                      "appleQuery": "https://maps.apple.com/?q=ジャッキーステーキハウス+那覇"
+                      "googleQuery": "https://www.google.com/maps/search/%E3%82%B8%E3%83%A3%E3%83%83%E3%82%AD%E3%83%BC%E3%82%B9%E3%83%86%E3%83%BC%E3%82%AD%E3%83%8F%E3%82%A6%E3%82%B9+%E9%82%A3%E8%A6%87",
+                      "appleQuery": "https://maps.apple.com/?q=%E3%82%B8%E3%83%A3%E3%83%83%E3%82%AD%E3%83%BC%E3%82%B9%E3%83%86%E3%83%BC%E3%82%AD%E3%83%8F%E3%82%A6%E3%82%B9+%E9%82%A3%E8%A6%87"
                     },
                     "hours": "11:00~翌1:30",
                     "reservation": "不需訂位（排隊制）",
                     "blogUrl": "https://amonblog.com/blog/post/jacks-steak",
                     "googleRating": 4.2,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "當地特色",
@@ -570,27 +498,56 @@
                     "price": "¥2,000~",
                     "location": {
                       "name": "古酒と琉球料理 うりずん 安里",
-                      "googleQuery": "https://maps.google.com/?q=古酒と琉球料理+うりずん+那覇",
-                      "appleQuery": "https://maps.apple.com/?q=古酒と琉球料理+うりずん+那覇"
+                      "googleQuery": "https://www.google.com/maps/search/%E5%8F%A4%E9%85%92%E3%81%A8%E7%90%89%E7%90%83%E6%96%99%E7%90%86+%E3%81%86%E3%82%8A%E3%81%9A%E3%82%93+%E9%82%A3%E8%A6%87",
+                      "appleQuery": "https://maps.apple.com/?q=%E5%8F%A4%E9%85%92%E3%81%A8%E7%90%89%E7%90%83%E6%96%99%E7%90%86+%E3%81%86%E3%82%8A%E3%81%9A%E3%82%93+%E9%82%A3%E8%A6%87"
                     },
                     "hours": "17:30~24:00",
                     "reservation": "建議預約（電話 098-885-2178）",
                     "blogUrl": "https://matcha-jp.com/tw/11883",
                     "googleRating": 4.2,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   }
                 ]
               }
             ],
             "googleRating": 4,
-            "source": "ai"
+            "source": "ai",
+            "note": ""
+          }
+        ]
+      },
+      "weather": {
+        "label": "那霸・本部",
+        "locations": [
+          {
+            "lat": 26.2066,
+            "lon": 127.6476,
+            "name": "那霸",
+            "start": 0,
+            "end": 7
+          },
+          {
+            "lat": 26.6577,
+            "lon": 127.8782,
+            "name": "本部",
+            "start": 8,
+            "end": 18
+          },
+          {
+            "lat": 26.2066,
+            "lon": 127.6476,
+            "name": "那霸",
+            "start": 19,
+            "end": 23
           }
         ]
       }
     },
     {
       "id": 3,
-      "date": "3/8（日）",
+      "date": "2026-03-08",
+      "dayOfWeek": "日",
       "label": "Klook一日遊",
       "content": {
         "hotel": {
@@ -624,7 +581,8 @@
                   ],
                   "blogUrl": "https://mimigo.tw/okinawa-donki/",
                   "googleRating": 4.2,
-                  "source": "ai"
+                  "source": "ai",
+                  "note": ""
                 },
                 {
                   "category": "超商",
@@ -638,7 +596,8 @@
                   ],
                   "blogUrl": "https://okinawa.letsgojp.com/archives/18216/",
                   "googleRating": 3.5,
-                  "source": "ai"
+                  "source": "ai",
+                  "note": ""
                 },
                 {
                   "category": "超市",
@@ -652,12 +611,14 @@
                   ],
                   "blogUrl": "https://popogo.pixnet.net/blog/posts/3051142200",
                   "googleRating": 4,
-                  "source": "ai"
+                  "source": "ai",
+                  "note": ""
                 }
               ]
             }
           ],
-          "source": "ai"
+          "source": "ai",
+          "note": ""
         },
         "timeline": [
           {
@@ -669,12 +630,13 @@
             "locations": [
               {
                 "name": "第一牧志公設市場",
-                "googleQuery": "https://maps.google.com/?q=第一牧志公設市場+那覇",
-                "appleQuery": "https://maps.apple.com/?q=第一牧志公設市場+那覇"
+                "googleQuery": "https://www.google.com/maps/search/%E7%AC%AC%E4%B8%80%E7%89%A7%E5%BF%97%E5%85%AC%E8%A8%AD%E5%B8%82%E5%A0%B4+%E9%82%A3%E8%A6%87",
+                "appleQuery": "https://maps.apple.com/?q=%E7%AC%AC%E4%B8%80%E7%89%A7%E5%BF%97%E5%85%AC%E8%A8%AD%E5%B8%82%E5%A0%B4+%E9%82%A3%E8%A6%87"
               }
             ],
             "googleRating": 4.2,
-            "source": "ai"
+            "source": "ai",
+            "note": ""
           },
           {
             "time": "12:00-12:30",
@@ -683,8 +645,8 @@
             "locations": [
               {
                 "name": "Blue Seal Palette 久茂地店",
-                "googleQuery": "https://maps.google.com/?q=Blue+Seal+Palette+久茂地+那覇",
-                "appleQuery": "https://maps.apple.com/?q=Blue+Seal+Palette+久茂地+那覇"
+                "googleQuery": "https://www.google.com/maps/search/Blue+Seal+Palette+%E4%B9%85%E8%8C%82%E5%9C%B0+%E9%82%A3%E8%A6%87",
+                "appleQuery": "https://maps.apple.com/?q=Blue+Seal+Palette+%E4%B9%85%E8%8C%82%E5%9C%B0+%E9%82%A3%E8%A6%87"
               }
             ],
             "travel": {
@@ -701,8 +663,8 @@
               {
                 "label": "集合地點",
                 "name": "Blue Seal Palette 久茂地店",
-                "googleQuery": "https://maps.google.com/?q=Blue+Seal+Palette+久茂地1丁目+那覇",
-                "appleQuery": "https://maps.apple.com/?q=Blue+Seal+Palette+久茂地1丁目+那覇"
+                "googleQuery": "https://www.google.com/maps/search/Blue+Seal+Palette+%E4%B9%85%E8%8C%82%E5%9C%B01%E4%B8%81%E7%9B%AE+%E9%82%A3%E8%A6%87",
+                "appleQuery": "https://maps.apple.com/?q=Blue+Seal+Palette+%E4%B9%85%E8%8C%82%E5%9C%B01%E4%B8%81%E7%9B%AE+%E9%82%A3%E8%A6%87"
               }
             ],
             "infoBoxes": [
@@ -722,7 +684,8 @@
             ],
             "blogUrl": "https://yiping1228.pixnet.net/blog/post/576037076",
             "googleRating": 4.4,
-            "source": "ai"
+            "source": "ai",
+            "note": ""
           },
           {
             "time": "21:30-23:00",
@@ -732,8 +695,8 @@
             "locations": [
               {
                 "name": "那霸市區",
-                "googleQuery": "https://maps.google.com/?q=那覇市+国際通り",
-                "appleQuery": "https://maps.apple.com/?q=那覇市+国際通り"
+                "googleQuery": "https://www.google.com/maps/search/%E9%82%A3%E8%A6%87%E5%B8%82+%E5%9B%BD%E9%9A%9B%E9%80%9A%E3%82%8A",
+                "appleQuery": "https://maps.apple.com/?q=%E9%82%A3%E8%A6%87%E5%B8%82+%E5%9B%BD%E9%9A%9B%E9%80%9A%E3%82%8A"
               }
             ],
             "infoBoxes": [
@@ -748,14 +711,15 @@
                     "price": "¥3,278~/人",
                     "location": {
                       "name": "焼肉きんぐ 那覇久茂地店",
-                      "googleQuery": "https://maps.google.com/?q=焼肉きんぐ+那覇久茂地店",
-                      "appleQuery": "https://maps.apple.com/?q=焼肉きんぐ+那覇久茂地店"
+                      "googleQuery": "https://www.google.com/maps/search/%E7%84%BC%E8%82%89%E3%81%8D%E3%82%93%E3%81%90+%E9%82%A3%E8%A6%87%E4%B9%85%E8%8C%82%E5%9C%B0%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E7%84%BC%E8%82%89%E3%81%8D%E3%82%93%E3%81%90+%E9%82%A3%E8%A6%87%E4%B9%85%E8%8C%82%E5%9C%B0%E5%BA%97"
                     },
                     "hours": "平日 17:00~24:00／假日 11:00~24:00",
                     "reservation": "EPARK 線上預約",
                     "blogUrl": "https://sweet212.pixnet.net/blog/posts/13364784554",
                     "googleRating": 4,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "牛排/烤魚",
@@ -764,14 +728,15 @@
                     "price": "¥1,000~",
                     "location": {
                       "name": "やっぱりステーキ 4th 国際通り店",
-                      "googleQuery": "https://maps.google.com/?q=やっぱりステーキ+4th+国際通り店",
-                      "appleQuery": "https://maps.apple.com/?q=やっぱりステーキ+4th+国際通り店"
+                      "googleQuery": "https://www.google.com/maps/search/%E3%82%84%E3%81%A3%E3%81%B1%E3%82%8A%E3%82%B9%E3%83%86%E3%83%BC%E3%82%AD+4th+%E5%9B%BD%E9%9A%9B%E9%80%9A%E3%82%8A%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E3%82%84%E3%81%A3%E3%81%B1%E3%82%8A%E3%82%B9%E3%83%86%E3%83%BC%E3%82%AD+4th+%E5%9B%BD%E9%9A%9B%E9%80%9A%E3%82%8A%E5%BA%97"
                     },
                     "hours": "11:00~翌1:30",
                     "reservation": "不需訂位",
                     "blogUrl": "https://linrosely.pixnet.net/blog/post/349942579",
                     "googleRating": 4.1,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "當地特色",
@@ -780,27 +745,42 @@
                     "price": "¥700~",
                     "location": {
                       "name": "すばやー 松山店 那覇",
-                      "googleQuery": "https://maps.google.com/?q=すばやー+松山店+那覇",
-                      "appleQuery": "https://maps.apple.com/?q=すばやー+松山店+那覇"
+                      "googleQuery": "https://www.google.com/maps/search/%E3%81%99%E3%81%B0%E3%82%84%E3%83%BC+%E6%9D%BE%E5%B1%B1%E5%BA%97+%E9%82%A3%E8%A6%87",
+                      "appleQuery": "https://maps.apple.com/?q=%E3%81%99%E3%81%B0%E3%82%84%E3%83%BC+%E6%9D%BE%E5%B1%B1%E5%BA%97+%E9%82%A3%E8%A6%87"
                     },
                     "hours": "21:00~翌5:00",
                     "reservation": "不需訂位",
                     "blogUrl": "https://tc.tabirai.net/sightseeing/article/okinawa-naha-midnight-ramen/",
                     "googleRating": 4.1,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   }
                 ]
               }
             ],
             "googleRating": 4,
-            "source": "ai"
+            "source": "ai",
+            "note": ""
+          }
+        ]
+      },
+      "weather": {
+        "label": "那霸",
+        "locations": [
+          {
+            "lat": 26.2066,
+            "lon": 127.6476,
+            "name": "那霸",
+            "start": 0,
+            "end": 23
           }
         ]
       }
     },
     {
       "id": 4,
-      "date": "3/9（一）",
+      "date": "2026-03-09",
+      "dayOfWeek": "一",
       "label": "換飯店・來客夢",
       "content": {
         "hotel": {
@@ -834,7 +814,8 @@
                   ],
                   "blogUrl": "https://tong5410.pixnet.net/blog/post/349864759",
                   "googleRating": 3.5,
-                  "source": "ai"
+                  "source": "ai",
+                  "note": ""
                 },
                 {
                   "category": "超市",
@@ -848,7 +829,8 @@
                   ],
                   "blogUrl": "https://mimigo.tw/kokusai-street/",
                   "googleRating": 3.8,
-                  "source": "ai"
+                  "source": "ai",
+                  "note": ""
                 },
                 {
                   "category": "藥妝",
@@ -862,12 +844,14 @@
                   ],
                   "blogUrl": "https://mimigo.tw/cosmos-drug/",
                   "googleRating": 3.8,
-                  "source": "ai"
+                  "source": "ai",
+                  "note": ""
                 }
               ]
             }
           ],
-          "source": "ai"
+          "source": "ai",
+          "note": ""
         },
         "timeline": [
           {
@@ -878,13 +862,13 @@
               {
                 "label": "退房",
                 "name": "Living Inn 旭橋駅前",
-                "googleQuery": "https://maps.google.com/?q=Living+Inn+旭橋駅前+那覇",
-                "appleQuery": "https://maps.apple.com/?q=Living+Inn+旭橋駅前+那覇"
+                "googleQuery": "https://www.google.com/maps/search/Living+Inn+%E6%97%AD%E6%A9%8B%E9%A7%85%E5%89%8D+%E9%82%A3%E8%A6%87",
+                "appleQuery": "https://maps.apple.com/?q=Living+Inn+%E6%97%AD%E6%A9%8B%E9%A7%85%E5%89%8D+%E9%82%A3%E8%A6%87"
               },
               {
                 "label": "新飯店",
                 "name": "THE NEST NAHA",
-                "googleQuery": "https://maps.google.com/?q=THE+NEST+NAHA+Nishi+Naha",
+                "googleQuery": "https://www.google.com/maps/search/THE+NEST+NAHA+Nishi+Naha",
                 "appleQuery": "https://maps.apple.com/?q=THE+NEST+NAHA+Nishi+Naha"
               }
             ],
@@ -912,8 +896,8 @@
             "locations": [
               {
                 "name": "那霸巴士總站",
-                "googleQuery": "https://maps.google.com/?q=那霸バスターミナル",
-                "appleQuery": "https://maps.apple.com/?q=那霸バスターミナル"
+                "googleQuery": "https://www.google.com/maps/search/%E9%82%A3%E9%9C%B8%E3%83%90%E3%82%B9%E3%82%BF%E3%83%BC%E3%83%9F%E3%83%8A%E3%83%AB",
+                "appleQuery": "https://maps.apple.com/?q=%E9%82%A3%E9%9C%B8%E3%83%90%E3%82%B9%E3%82%BF%E3%83%BC%E3%83%9F%E3%83%8A%E3%83%AB"
               }
             ],
             "travel": {
@@ -931,8 +915,8 @@
             "locations": [
               {
                 "name": "AEON Mall Okinawa Rycom",
-                "googleQuery": "https://maps.google.com/?q=AEON+Mall+Okinawa+Rycom+北中城",
-                "appleQuery": "https://maps.apple.com/?q=AEON+Mall+Okinawa+Rycom+北中城"
+                "googleQuery": "https://www.google.com/maps/search/AEON+Mall+Okinawa+Rycom+%E5%8C%97%E4%B8%AD%E5%9F%8E",
+                "appleQuery": "https://maps.apple.com/?q=AEON+Mall+Okinawa+Rycom+%E5%8C%97%E4%B8%AD%E5%9F%8E"
               }
             ],
             "infoBoxes": [
@@ -957,14 +941,15 @@
                     "price": "¥2,500~",
                     "location": {
                       "name": "焼肉なべしま イオンモール沖縄ライカム店",
-                      "googleQuery": "https://maps.google.com/?q=焼肉なべしま+イオンモール沖縄ライカム店",
-                      "appleQuery": "https://maps.apple.com/?q=焼肉なべしま+イオンモール沖縄ライカム店"
+                      "googleQuery": "https://www.google.com/maps/search/%E7%84%BC%E8%82%89%E3%81%AA%E3%81%B9%E3%81%97%E3%81%BE+%E3%82%A4%E3%82%AA%E3%83%B3%E3%83%A2%E3%83%BC%E3%83%AB%E6%B2%96%E7%B8%84%E3%83%A9%E3%82%A4%E3%82%AB%E3%83%A0%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E7%84%BC%E8%82%89%E3%81%AA%E3%81%B9%E3%81%97%E3%81%BE+%E3%82%A4%E3%82%AA%E3%83%B3%E3%83%A2%E3%83%BC%E3%83%AB%E6%B2%96%E7%B8%84%E3%83%A9%E3%82%A4%E3%82%AB%E3%83%A0%E5%BA%97"
                     },
                     "hours": "11:00~23:00",
                     "reservation": "電話預約 098-923-5529",
                     "blogUrl": "https://imksw.pixnet.net/blog/post/217994640",
                     "googleRating": 4,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "牛排/烤魚",
@@ -973,14 +958,15 @@
                     "price": "¥1,800~",
                     "location": {
                       "name": "炭焼ハラミステーキ 牛米衛 イオンモール沖縄ライカム店",
-                      "googleQuery": "https://maps.google.com/?q=炭焼ハラミステーキ+牛米衛+ライカム",
-                      "appleQuery": "https://maps.apple.com/?q=炭焼ハラミステーキ+牛米衛+ライカム"
+                      "googleQuery": "https://www.google.com/maps/search/%E7%82%AD%E7%84%BC%E3%83%8F%E3%83%A9%E3%83%9F%E3%82%B9%E3%83%86%E3%83%BC%E3%82%AD+%E7%89%9B%E7%B1%B3%E8%A1%9B+%E3%83%A9%E3%82%A4%E3%82%AB%E3%83%A0",
+                      "appleQuery": "https://maps.apple.com/?q=%E7%82%AD%E7%84%BC%E3%83%8F%E3%83%A9%E3%83%9F%E3%82%B9%E3%83%86%E3%83%BC%E3%82%AD+%E7%89%9B%E7%B1%B3%E8%A1%9B+%E3%83%A9%E3%82%A4%E3%82%AB%E3%83%A0"
                     },
                     "hours": "10:00~22:00",
                     "reservation": "不需訂位",
                     "blogUrl": "https://alicedaily.com/okinawa-aeonmall-gyubey-steak/",
                     "googleRating": 3.9,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "當地特色",
@@ -989,14 +975,15 @@
                     "price": "¥780~",
                     "location": {
                       "name": "タコライスcafe きじむなぁ ライカム店",
-                      "googleQuery": "https://maps.google.com/?q=タコライスカフェきじむなぁ+イオンモール沖縄ライカム",
-                      "appleQuery": "https://maps.apple.com/?q=タコライスカフェきじむなぁ+イオンモール沖縄ライカム"
+                      "googleQuery": "https://www.google.com/maps/search/%E3%82%BF%E3%82%B3%E3%83%A9%E3%82%A4%E3%82%B9%E3%82%AB%E3%83%95%E3%82%A7%E3%81%8D%E3%81%98%E3%82%80%E3%81%AA%E3%81%81+%E3%82%A4%E3%82%AA%E3%83%B3%E3%83%A2%E3%83%BC%E3%83%AB%E6%B2%96%E7%B8%84%E3%83%A9%E3%82%A4%E3%82%AB%E3%83%A0",
+                      "appleQuery": "https://maps.apple.com/?q=%E3%82%BF%E3%82%B3%E3%83%A9%E3%82%A4%E3%82%B9%E3%82%AB%E3%83%95%E3%82%A7%E3%81%8D%E3%81%98%E3%82%80%E3%81%AA%E3%81%81+%E3%82%A4%E3%82%AA%E3%83%B3%E3%83%A2%E3%83%BC%E3%83%AB%E6%B2%96%E7%B8%84%E3%83%A9%E3%82%A4%E3%82%AB%E3%83%A0"
                     },
                     "hours": "10:00~22:00",
                     "reservation": "不需訂位",
                     "blogUrl": "https://ajunfun.tw/aeonmall/",
                     "googleRating": 4,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   }
                 ]
               },
@@ -1015,7 +1002,8 @@
                     ],
                     "blogUrl": "https://mimigo.tw/aeon-mall-okinawa-rycom/",
                     "googleRating": 3.9,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "超市",
@@ -1029,7 +1017,8 @@
                     ],
                     "blogUrl": "https://mimigo.tw/aeon-mall-okinawa-rycom/",
                     "googleRating": 4,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "伴手禮",
@@ -1042,13 +1031,15 @@
                     ],
                     "blogUrl": "https://ajunfun.tw/aeonmall/",
                     "googleRating": 4.2,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   }
                 ]
               }
             ],
             "googleRating": 4.2,
-            "source": "ai"
+            "source": "ai",
+            "note": ""
           },
           {
             "time": "19:00前",
@@ -1061,8 +1052,8 @@
             "locations": [
               {
                 "name": "那霸巴士總站",
-                "googleQuery": "https://maps.google.com/?q=那霸バスターミナル",
-                "appleQuery": "https://maps.apple.com/?q=那霸バスターミナル"
+                "googleQuery": "https://www.google.com/maps/search/%E9%82%A3%E9%9C%B8%E3%83%90%E3%82%B9%E3%82%BF%E3%83%BC%E3%83%9F%E3%83%8A%E3%83%AB",
+                "appleQuery": "https://maps.apple.com/?q=%E9%82%A3%E9%9C%B8%E3%83%90%E3%82%B9%E3%82%BF%E3%83%BC%E3%83%9F%E3%83%8A%E3%83%AB"
               }
             ],
             "googleRating": 3.8
@@ -1085,11 +1076,12 @@
                     "blogUrl": "https://pfse64289.pixnet.net/blog/post/347219841",
                     "location": {
                       "name": "焼肉もとぶ牧場 那覇店",
-                      "googleQuery": "https://maps.google.com/?q=焼肉もとぶ牧場+那覇店",
-                      "appleQuery": "https://maps.apple.com/?q=焼肉もとぶ牧場+那覇店"
+                      "googleQuery": "https://www.google.com/maps/search/%E7%84%BC%E8%82%89%E3%82%82%E3%81%A8%E3%81%B6%E7%89%A7%E5%A0%B4+%E9%82%A3%E8%A6%87%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E7%84%BC%E8%82%89%E3%82%82%E3%81%A8%E3%81%B6%E7%89%A7%E5%A0%B4+%E9%82%A3%E8%A6%87%E5%BA%97"
                     },
                     "googleRating": 4.3,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "牛排/烤魚",
@@ -1101,11 +1093,12 @@
                     "blogUrl": "https://mimihan.tw/yappari-steak/",
                     "location": {
                       "name": "やっぱりステーキ 4th 国際通り店",
-                      "googleQuery": "https://maps.google.com/?q=やっぱりステーキ+4th+国際通り店",
-                      "appleQuery": "https://maps.apple.com/?q=やっぱりステーキ+4th+国際通り店"
+                      "googleQuery": "https://www.google.com/maps/search/%E3%82%84%E3%81%A3%E3%81%B1%E3%82%8A%E3%82%B9%E3%83%86%E3%83%BC%E3%82%AD+4th+%E5%9B%BD%E9%9A%9B%E9%80%9A%E3%82%8A%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E3%82%84%E3%81%A3%E3%81%B1%E3%82%8A%E3%82%B9%E3%83%86%E3%83%BC%E3%82%AD+4th+%E5%9B%BD%E9%9A%9B%E9%80%9A%E3%82%8A%E5%BA%97"
                     },
                     "googleRating": 4.1,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "當地特色",
@@ -1115,11 +1108,12 @@
                     "blogUrl": "https://kafuokinawa.com/nuchigafu/",
                     "location": {
                       "name": "琉球料理 ぬちがふぅ 那覇",
-                      "googleQuery": "https://maps.google.com/?q=琉球料理+ぬちがふぅ+那覇",
-                      "appleQuery": "https://maps.apple.com/?q=琉球料理+ぬちがふぅ+那覇"
+                      "googleQuery": "https://www.google.com/maps/search/%E7%90%89%E7%90%83%E6%96%99%E7%90%86+%E3%81%AC%E3%81%A1%E3%81%8C%E3%81%B5%E3%81%85+%E9%82%A3%E8%A6%87",
+                      "appleQuery": "https://maps.apple.com/?q=%E7%90%89%E7%90%83%E6%96%99%E7%90%86+%E3%81%AC%E3%81%A1%E3%81%8C%E3%81%B5%E3%81%85+%E9%82%A3%E8%A6%87"
                     },
                     "googleRating": 4.2,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   }
                 ]
               }
@@ -1127,12 +1121,13 @@
             "locations": [
               {
                 "name": "那霸國際通周邊",
-                "googleQuery": "https://maps.google.com/?q=那覇国際通り",
-                "appleQuery": "https://maps.apple.com/?q=那覇国際通り"
+                "googleQuery": "https://www.google.com/maps/search/%E9%82%A3%E8%A6%87%E5%9B%BD%E9%9A%9B%E9%80%9A%E3%82%8A",
+                "appleQuery": "https://maps.apple.com/?q=%E9%82%A3%E8%A6%87%E5%9B%BD%E9%9A%9B%E9%80%9A%E3%82%8A"
               }
             ],
             "googleRating": 4,
-            "source": "ai"
+            "source": "ai",
+            "note": ""
           },
           {
             "time": "20:00-20:30",
@@ -1142,7 +1137,7 @@
             "locations": [
               {
                 "name": "THE NEST NAHA",
-                "googleQuery": "https://maps.google.com/?q=THE+NEST+NAHA+Nishi+Naha",
+                "googleQuery": "https://www.google.com/maps/search/THE+NEST+NAHA+Nishi+Naha",
                 "appleQuery": "https://maps.apple.com/?q=THE+NEST+NAHA+Nishi+Naha"
               }
             ],
@@ -1162,7 +1157,8 @@
                     ],
                     "blogUrl": "https://linshibi.com/?p=16331",
                     "googleRating": 4.1,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "超商",
@@ -1175,7 +1171,8 @@
                     ],
                     "blogUrl": "https://marukoblog.tw/lawson-okinawa.html",
                     "googleRating": 3.5,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "藥妝",
@@ -1188,20 +1185,35 @@
                     ],
                     "blogUrl": "https://okinawa.letsgojp.com/archives/23916/",
                     "googleRating": 3.7,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   }
                 ]
               }
             ],
             "googleRating": 4.2,
-            "source": "ai"
+            "source": "ai",
+            "note": ""
+          }
+        ]
+      },
+      "weather": {
+        "label": "那霸・來客夢",
+        "locations": [
+          {
+            "lat": 26.2066,
+            "lon": 127.6476,
+            "name": "那霸",
+            "start": 0,
+            "end": 23
           }
         ]
       }
     },
     {
       "id": 5,
-      "date": "3/10（二）",
+      "date": "2026-03-10",
+      "dayOfWeek": "二",
       "label": "iias 豐崎",
       "content": {
         "hotel": {
@@ -1234,7 +1246,8 @@
                   ],
                   "blogUrl": "https://tong5410.pixnet.net/blog/post/349864759",
                   "googleRating": 3.5,
-                  "source": "ai"
+                  "source": "ai",
+                  "note": ""
                 },
                 {
                   "category": "超市",
@@ -1248,7 +1261,8 @@
                   ],
                   "blogUrl": "https://mimigo.tw/kokusai-street/",
                   "googleRating": 3.8,
-                  "source": "ai"
+                  "source": "ai",
+                  "note": ""
                 },
                 {
                   "category": "藥妝",
@@ -1262,12 +1276,14 @@
                   ],
                   "blogUrl": "https://mimigo.tw/cosmos-drug/",
                   "googleRating": 3.8,
-                  "source": "ai"
+                  "source": "ai",
+                  "note": ""
                 }
               ]
             }
           ],
-          "source": "ai"
+          "source": "ai",
+          "note": ""
         },
         "timeline": [
           {
@@ -1278,12 +1294,13 @@
             "locations": [
               {
                 "name": "THE NEST NAHA",
-                "googleQuery": "https://maps.google.com/?q=THE+NEST+NAHA+Nishi+Naha",
+                "googleQuery": "https://www.google.com/maps/search/THE+NEST+NAHA+Nishi+Naha",
                 "appleQuery": "https://maps.apple.com/?q=THE+NEST+NAHA+Nishi+Naha"
               }
             ],
             "googleRating": 4.2,
-            "source": "ai"
+            "source": "ai",
+            "note": ""
           },
           {
             "time": "10:00-10:30",
@@ -1292,8 +1309,8 @@
             "locations": [
               {
                 "name": "那霸巴士總站",
-                "googleQuery": "https://maps.google.com/?q=那霸バスターミナル",
-                "appleQuery": "https://maps.apple.com/?q=那霸バスターミナル"
+                "googleQuery": "https://www.google.com/maps/search/%E9%82%A3%E9%9C%B8%E3%83%90%E3%82%B9%E3%82%BF%E3%83%BC%E3%83%9F%E3%83%8A%E3%83%AB",
+                "appleQuery": "https://maps.apple.com/?q=%E9%82%A3%E9%9C%B8%E3%83%90%E3%82%B9%E3%82%BF%E3%83%BC%E3%83%9F%E3%83%8A%E3%83%AB"
               }
             ],
             "travel": {
@@ -1311,14 +1328,14 @@
             "locations": [
               {
                 "name": "iias 沖繩豐崎",
-                "googleQuery": "https://maps.google.com/?q=iias沖縄豊崎+3-35+Toyosaki+Tomigusuku",
-                "appleQuery": "https://maps.apple.com/?q=iias沖縄豊崎+Toyosaki+Tomigusuku"
+                "googleQuery": "https://www.google.com/maps/search/iias%E6%B2%96%E7%B8%84%E8%B1%8A%E5%B4%8E+3-35+Toyosaki+Tomigusuku",
+                "appleQuery": "https://maps.apple.com/?q=iias%E6%B2%96%E7%B8%84%E8%B1%8A%E5%B4%8E+Toyosaki+Tomigusuku"
               },
               {
                 "label": "附近海灘",
                 "name": "豐崎美麗陽光海灘",
-                "googleQuery": "https://maps.google.com/?q=豊崎美らSUNビーチ+豊見城",
-                "appleQuery": "https://maps.apple.com/?q=豊崎美らSUNビーチ+豊見城"
+                "googleQuery": "https://www.google.com/maps/search/%E8%B1%8A%E5%B4%8E%E7%BE%8E%E3%82%89SUN%E3%83%93%E3%83%BC%E3%83%81+%E8%B1%8A%E8%A6%8B%E5%9F%8E",
+                "appleQuery": "https://maps.apple.com/?q=%E8%B1%8A%E5%B4%8E%E7%BE%8E%E3%82%89SUN%E3%83%93%E3%83%BC%E3%83%81+%E8%B1%8A%E8%A6%8B%E5%9F%8E"
               }
             ],
             "infoBoxes": [
@@ -1343,14 +1360,15 @@
                     "price": "¥780~",
                     "location": {
                       "name": "タコライスcafe きじむなぁ iias豊崎店",
-                      "googleQuery": "https://maps.google.com/?q=タコライスカフェきじむなぁ+iias沖縄豊崎",
-                      "appleQuery": "https://maps.apple.com/?q=タコライスカフェきじむなぁ+iias沖縄豊崎"
+                      "googleQuery": "https://www.google.com/maps/search/%E3%82%BF%E3%82%B3%E3%83%A9%E3%82%A4%E3%82%B9%E3%82%AB%E3%83%95%E3%82%A7%E3%81%8D%E3%81%98%E3%82%80%E3%81%AA%E3%81%81+iias%E6%B2%96%E7%B8%84%E8%B1%8A%E5%B4%8E",
+                      "appleQuery": "https://maps.apple.com/?q=%E3%82%BF%E3%82%B3%E3%83%A9%E3%82%A4%E3%82%B9%E3%82%AB%E3%83%95%E3%82%A7%E3%81%8D%E3%81%98%E3%82%80%E3%81%AA%E3%81%81+iias%E6%B2%96%E7%B8%84%E8%B1%8A%E5%B4%8E"
                     },
                     "hours": "10:00~21:00",
                     "reservation": "不需訂位",
                     "blogUrl": "https://adontrip.com/blog/71454/",
                     "googleRating": 4,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "牛排/烤魚",
@@ -1359,14 +1377,15 @@
                     "price": "¥700~",
                     "location": {
                       "name": "やっぱりちゃん iias豊崎店",
-                      "googleQuery": "https://maps.google.com/?q=やっぱりちゃん+iias沖縄豊崎",
-                      "appleQuery": "https://maps.apple.com/?q=やっぱりちゃん+iias沖縄豊崎"
+                      "googleQuery": "https://www.google.com/maps/search/%E3%82%84%E3%81%A3%E3%81%B1%E3%82%8A%E3%81%A1%E3%82%83%E3%82%93+iias%E6%B2%96%E7%B8%84%E8%B1%8A%E5%B4%8E",
+                      "appleQuery": "https://maps.apple.com/?q=%E3%82%84%E3%81%A3%E3%81%B1%E3%82%8A%E3%81%A1%E3%82%83%E3%82%93+iias%E6%B2%96%E7%B8%84%E8%B1%8A%E5%B4%8E"
                     },
                     "hours": "10:00~21:00",
                     "reservation": "不需訂位",
                     "blogUrl": "https://adontrip.com/blog/71454/",
                     "googleRating": 3.8,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "當地特色",
@@ -1375,14 +1394,15 @@
                     "price": "¥1,050~",
                     "location": {
                       "name": "親父のまぐろ iias豊崎店",
-                      "googleQuery": "https://maps.google.com/?q=親父のまぐろ+iias沖縄豊崎",
-                      "appleQuery": "https://maps.apple.com/?q=親父のまぐろ+iias沖縄豊崎"
+                      "googleQuery": "https://www.google.com/maps/search/%E8%A6%AA%E7%88%B6%E3%81%AE%E3%81%BE%E3%81%90%E3%82%8D+iias%E6%B2%96%E7%B8%84%E8%B1%8A%E5%B4%8E",
+                      "appleQuery": "https://maps.apple.com/?q=%E8%A6%AA%E7%88%B6%E3%81%AE%E3%81%BE%E3%81%90%E3%82%8D+iias%E6%B2%96%E7%B8%84%E8%B1%8A%E5%B4%8E"
                     },
                     "hours": "11:00~21:00",
                     "reservation": "不需訂位",
                     "blogUrl": "https://adontrip.com/blog/71454/",
                     "googleRating": 4,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   }
                 ]
               },
@@ -1401,7 +1421,8 @@
                     ],
                     "blogUrl": "https://bigsharkgogogo.tw/iias-okinawa/",
                     "googleRating": 3.9,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "藥妝",
@@ -1414,7 +1435,8 @@
                     ],
                     "blogUrl": "https://okinawa.letsgojp.com/archives/544483/",
                     "googleRating": 3.8,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "超市",
@@ -1427,13 +1449,15 @@
                     ],
                     "blogUrl": "https://bigsharkgogogo.tw/iias-okinawa/",
                     "googleRating": 4,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   }
                 ]
               }
             ],
             "googleRating": 4,
-            "source": "ai"
+            "source": "ai",
+            "note": ""
           },
           {
             "time": "18:00-19:30",
@@ -1455,14 +1479,15 @@
                     "price": "¥3,000~",
                     "location": {
                       "name": "我那覇豚肉店 カフーナ旭橋店",
-                      "googleQuery": "https://maps.google.com/?q=我那覇豚肉店+カフーナ旭橋店",
-                      "appleQuery": "https://maps.apple.com/?q=我那覇豚肉店+カフーナ旭橋店"
+                      "googleQuery": "https://www.google.com/maps/search/%E6%88%91%E9%82%A3%E8%A6%87%E8%B1%9A%E8%82%89%E5%BA%97+%E3%82%AB%E3%83%95%E3%83%BC%E3%83%8A%E6%97%AD%E6%A9%8B%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E6%88%91%E9%82%A3%E8%A6%87%E8%B1%9A%E8%82%89%E5%BA%97+%E3%82%AB%E3%83%95%E3%83%BC%E3%83%8A%E6%97%AD%E6%A9%8B%E5%BA%97"
                     },
                     "hours": "平日 12:00~14:30, 17:00~22:00／假日 12:00~22:00",
                     "reservation": "電話預約 098-917-2789",
                     "blogUrl": "https://lailai-web.com/ganaha-yakinikuten/",
                     "googleRating": 4,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "牛排/烤魚",
@@ -1471,14 +1496,15 @@
                     "price": "¥2,000~",
                     "location": {
                       "name": "ステーキハウス88 辻本店",
-                      "googleQuery": "https://maps.google.com/?q=ステーキハウス88+辻本店",
-                      "appleQuery": "https://maps.apple.com/?q=ステーキハウス88+辻本店"
+                      "googleQuery": "https://www.google.com/maps/search/%E3%82%B9%E3%83%86%E3%83%BC%E3%82%AD%E3%83%8F%E3%82%A6%E3%82%B988+%E8%BE%BB%E6%9C%AC%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=%E3%82%B9%E3%83%86%E3%83%BC%E3%82%AD%E3%83%8F%E3%82%A6%E3%82%B988+%E8%BE%BB%E6%9C%AC%E5%BA%97"
                     },
                     "hours": "11:00~翌2:00",
                     "reservation": "不需訂位",
                     "blogUrl": "https://slowlifeinokinawa.com/steak88/",
                     "googleRating": 4.1,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "當地特色",
@@ -1487,14 +1513,15 @@
                     "price": "¥2,000~",
                     "location": {
                       "name": "琉球家庭料理 葵屋 旭橋駅前",
-                      "googleQuery": "https://maps.google.com/?q=琉球家庭料理葵屋+旭橋+那覇",
-                      "appleQuery": "https://maps.apple.com/?q=琉球家庭料理葵屋+旭橋+那覇"
+                      "googleQuery": "https://www.google.com/maps/search/%E7%90%89%E7%90%83%E5%AE%B6%E5%BA%AD%E6%96%99%E7%90%86%E8%91%B5%E5%B1%8B+%E6%97%AD%E6%A9%8B+%E9%82%A3%E8%A6%87",
+                      "appleQuery": "https://maps.apple.com/?q=%E7%90%89%E7%90%83%E5%AE%B6%E5%BA%AD%E6%96%99%E7%90%86%E8%91%B5%E5%B1%8B+%E6%97%AD%E6%A9%8B+%E9%82%A3%E8%A6%87"
                     },
                     "hours": "15:00~22:00（週四定休）",
                     "reservation": "可預約",
                     "blogUrl": "https://matcha-jp.com/tw/11883",
                     "googleRating": 4,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   }
                 ]
               }
@@ -1503,26 +1530,32 @@
             "locations": [
               {
                 "name": "那霸國際通周邊",
-                "googleQuery": "https://maps.google.com/?q=那覇国際通り",
-                "appleQuery": "https://maps.apple.com/?q=那覇国際通り"
+                "googleQuery": "https://www.google.com/maps/search/%E9%82%A3%E8%A6%87%E5%9B%BD%E9%9A%9B%E9%80%9A%E3%82%8A",
+                "appleQuery": "https://maps.apple.com/?q=%E9%82%A3%E8%A6%87%E5%9B%BD%E9%9A%9B%E9%80%9A%E3%82%8A"
               }
             ]
+          }
+        ]
+      },
+      "weather": {
+        "label": "豐崎",
+        "locations": [
+          {
+            "lat": 26.2066,
+            "lon": 127.6476,
+            "name": "那霸",
+            "start": 0,
+            "end": 23
           }
         ]
       }
     },
     {
       "id": 6,
-      "date": "3/11（三）",
+      "date": "2026-03-11",
+      "dayOfWeek": "三",
       "label": "返台",
       "content": {
-        "hotel": {
-          "name": "（返台）",
-          "details": [],
-          "breakfast": {
-            "included": null
-          }
-        },
         "timeline": [
           {
             "time": "09:00-09:30",
@@ -1531,7 +1564,7 @@
             "locations": [
               {
                 "name": "THE NEST NAHA",
-                "googleQuery": "https://maps.google.com/?q=THE+NEST+NAHA+Nishi+Naha",
+                "googleQuery": "https://www.google.com/maps/search/THE+NEST+NAHA+Nishi+Naha",
                 "appleQuery": "https://maps.apple.com/?q=THE+NEST+NAHA+Nishi+Naha"
               }
             ],
@@ -1549,12 +1582,13 @@
             "locations": [
               {
                 "name": "那霸機場",
-                "googleQuery": "https://maps.google.com/?q=那霸機場",
-                "appleQuery": "https://maps.apple.com/?q=那霸機場"
+                "googleQuery": "https://www.google.com/maps/search/%E9%82%A3%E9%9C%B8%E6%A9%9F%E5%A0%B4",
+                "appleQuery": "https://maps.apple.com/?q=%E9%82%A3%E9%9C%B8%E6%A9%9F%E5%A0%B4"
               }
             ],
             "googleRating": 3.9,
-            "source": "ai"
+            "source": "ai",
+            "note": ""
           },
           {
             "time": "10:30-11:35",
@@ -1576,11 +1610,12 @@
                     "blogUrl": "https://mimihan.tw/naha-airport-shokudo/",
                     "location": {
                       "name": "空港食堂 那覇空港",
-                      "googleQuery": "https://maps.google.com/?q=空港食堂+那覇空港",
-                      "appleQuery": "https://maps.apple.com/?q=空港食堂+那覇空港"
+                      "googleQuery": "https://www.google.com/maps/search/%E7%A9%BA%E6%B8%AF%E9%A3%9F%E5%A0%82+%E9%82%A3%E8%A6%87%E7%A9%BA%E6%B8%AF",
+                      "appleQuery": "https://maps.apple.com/?q=%E7%A9%BA%E6%B8%AF%E9%A3%9F%E5%A0%82+%E9%82%A3%E8%A6%87%E7%A9%BA%E6%B8%AF"
                     },
                     "googleRating": 4.1,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "牛排/烤魚",
@@ -1592,11 +1627,12 @@
                     "blogUrl": "https://okinawatravelinfo.com/naha-airport-restaurant/",
                     "location": {
                       "name": "天龍 那覇空港店",
-                      "googleQuery": "https://maps.google.com/?q=天龍+那覇空港",
-                      "appleQuery": "https://maps.apple.com/?q=天龍+那覇空港"
+                      "googleQuery": "https://www.google.com/maps/search/%E5%A4%A9%E9%BE%8D+%E9%82%A3%E8%A6%87%E7%A9%BA%E6%B8%AF",
+                      "appleQuery": "https://maps.apple.com/?q=%E5%A4%A9%E9%BE%8D+%E9%82%A3%E8%A6%87%E7%A9%BA%E6%B8%AF"
                     },
                     "googleRating": 3.9,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "當地特色",
@@ -1608,11 +1644,12 @@
                     "blogUrl": "https://solomo.xinmedia.com/japan/116755",
                     "location": {
                       "name": "A&W 那覇空港店",
-                      "googleQuery": "https://maps.google.com/?q=A%26W+那覇空港店",
-                      "appleQuery": "https://maps.apple.com/?q=A%26W+那覇空港店"
+                      "googleQuery": "https://www.google.com/maps/search/A%26W+%E9%82%A3%E8%A6%87%E7%A9%BA%E6%B8%AF%E5%BA%97",
+                      "appleQuery": "https://maps.apple.com/?q=A%26W+%E9%82%A3%E8%A6%87%E7%A9%BA%E6%B8%AF%E5%BA%97"
                     },
                     "googleRating": 4,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   }
                 ]
               }
@@ -1620,12 +1657,13 @@
             "locations": [
               {
                 "name": "那霸機場",
-                "googleQuery": "https://maps.google.com/?q=那霸機場",
-                "appleQuery": "https://maps.apple.com/?q=那霸機場"
+                "googleQuery": "https://www.google.com/maps/search/%E9%82%A3%E9%9C%B8%E6%A9%9F%E5%A0%B4",
+                "appleQuery": "https://maps.apple.com/?q=%E9%82%A3%E9%9C%B8%E6%A9%9F%E5%A0%B4"
               }
             ],
             "googleRating": 3.9,
-            "source": "ai"
+            "source": "ai",
+            "note": ""
           },
           {
             "time": "11:35",
@@ -1646,12 +1684,13 @@
             "locations": [
               {
                 "name": "那霸機場",
-                "googleQuery": "https://maps.google.com/?q=那霸機場",
-                "appleQuery": "https://maps.apple.com/?q=那霸機場"
+                "googleQuery": "https://www.google.com/maps/search/%E9%82%A3%E9%9C%B8%E6%A9%9F%E5%A0%B4",
+                "appleQuery": "https://maps.apple.com/?q=%E9%82%A3%E9%9C%B8%E6%A9%9F%E5%A0%B4"
               }
             ],
             "googleRating": 3.9,
-            "source": "ai"
+            "source": "ai",
+            "note": ""
           },
           {
             "time": "14:20",
@@ -1660,13 +1699,26 @@
             "locations": [
               {
                 "name": "桃園國際機場",
-                "googleQuery": "https://maps.google.com/?q=桃園國際機場",
-                "appleQuery": "https://maps.apple.com/?q=桃園國際機場"
+                "googleQuery": "https://www.google.com/maps/search/%E6%A1%83%E5%9C%92%E5%9C%8B%E9%9A%9B%E6%A9%9F%E5%A0%B4",
+                "appleQuery": "https://maps.apple.com/?q=%E6%A1%83%E5%9C%92%E5%9C%8B%E9%9A%9B%E6%A9%9F%E5%A0%B4"
               }
             ],
             "description": "めんそーれ（歡迎再來）沖繩！祝旅途愉快！",
             "googleRating": 4,
-            "source": "ai"
+            "source": "ai",
+            "note": ""
+          }
+        ]
+      },
+      "weather": {
+        "label": "那霸",
+        "locations": [
+          {
+            "lat": 26.2066,
+            "lon": 127.6476,
+            "name": "那霸",
+            "start": 0,
+            "end": 23
           }
         ]
       }
@@ -1837,29 +1889,61 @@
         {
           "color": "var(--blue-light)",
           "title": "急救與醫療",
-          "items": [
-            "救護車/消防：119",
-            "那霸市立病院（24H急診）：098-884-5111",
-            "地址：那霸市古島2-31-1（單軌電車 市立病院前站直通）"
+          "address": "那霸市古島2-31-1（單軌電車 市立病院前站直通）",
+          "contacts": [
+            {
+              "label": "救護車/消防",
+              "phone": "119",
+              "url": "tel:119"
+            },
+            {
+              "label": "那霸市立病院（24H急診）",
+              "phone": "098-884-5111",
+              "url": "tel:0988845111"
+            }
           ]
         },
         {
           "color": "var(--sand-light)",
           "title": "駐日代表處",
-          "items": [
-            "台北駐日經濟文化代表處那霸分處",
-            "電話：098-862-7008",
-            "24H 緊急聯絡：080-8056-0122",
-            "地址：那霸市久茂地3-15-9 アルテビル那覇 6F"
+          "address": "那霸市久茂地3-15-9 アルテビル那覇 6F",
+          "contacts": [
+            {
+              "label": "電話",
+              "phone": "098-862-7008",
+              "url": "tel:0988627008"
+            },
+            {
+              "label": "24H 緊急聯絡",
+              "phone": "080-8056-0122",
+              "url": "tel:08080560122"
+            }
+          ],
+          "notes": [
+            "台北駐日經濟文化代表處那霸分處"
           ]
         },
         {
           "color": "var(--blue-light)",
           "title": "航空公司與報案",
-          "items": [
-            "樂桃航空客服（台灣）：02-2656-3202",
-            "樂桃航空客服（日本）：03-6731-9242",
-            "警察報案：110",
+          "contacts": [
+            {
+              "label": "樂桃航空客服（台灣）",
+              "phone": "02-2656-3202",
+              "url": "tel:0226563202"
+            },
+            {
+              "label": "樂桃航空客服（日本）",
+              "phone": "03-6731-9242",
+              "url": "tel:0367319242"
+            },
+            {
+              "label": "警察報案",
+              "phone": "110",
+              "url": "tel:110"
+            }
+          ],
+          "notes": [
             "信用卡掛失：請事先記錄各銀行海外掛失電話"
           ]
         }
