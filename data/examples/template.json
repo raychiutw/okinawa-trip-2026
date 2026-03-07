@@ -19,31 +19,28 @@
   "autoScrollDates": [
     "2026-01-01"
   ],
-  "weather": [
-    {
-      "id": "hourly-1",
-      "date": "2026-01-01",
-      "dayId": 1,
-      "label": "",
-      "locations": [
-        {
-          "lat": 0,
-          "lon": 0,
-          "name": "",
-          "start": 0,
-          "end": 23
-        }
-      ]
-    }
-  ],
   "days": [
     {
       "id": 1,
       "date": "2026-01-01",
+      "dayOfWeek": "四",
       "label": "",
+      "weather": {
+        "label": "",
+        "locations": [
+          {
+            "lat": 0,
+            "lon": 0,
+            "name": "",
+            "start": 0,
+            "end": 23
+          }
+        ]
+      },
       "content": {
         "hotel": {
           "name": "",
+          "note": "",
           "source": "ai",
           "url": "",
           "blogUrl": "",
@@ -61,6 +58,7 @@
                 {
                   "category": "",
                   "name": "",
+                  "note": "",
                   "source": "ai",
                   "hours": "",
                   "mustBuy": [],
@@ -80,6 +78,7 @@
           {
             "time": "09:00",
             "title": "",
+            "note": "",
             "source": "ai",
             "description": "",
             "titleUrl": "",
@@ -106,6 +105,7 @@
                   {
                     "category": "",
                     "name": "",
+                    "note": "",
                     "source": "ai",
                     "hours": "",
                     "reservation": "",
@@ -129,6 +129,7 @@
                   {
                     "category": "",
                     "name": "",
+                    "note": "",
                     "source": "ai",
                     "hours": "",
                     "mustBuy": [],
@@ -150,6 +151,7 @@
               {
                 "type": "parking",
                 "title": "",
+                "note": "",
                 "price": "",
                 "location": {
                   "name": "",
@@ -256,7 +258,13 @@
         {
           "color": "var(--blue-light)",
           "title": "",
-          "contacts": []
+          "contacts": [
+            {
+              "label": "",
+              "phone": "",
+              "url": ""
+            }
+          ]
         }
       ]
     }

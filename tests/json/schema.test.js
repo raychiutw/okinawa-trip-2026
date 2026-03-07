@@ -32,8 +32,7 @@ jsonFiles.forEach((file) => {
       expect(data.meta.title).toBeTruthy();
       expect(Array.isArray(data.days)).toBe(true);
       expect(data.days.length).toBeGreaterThan(0);
-      expect(Array.isArray(data.weather)).toBe(true);
-      expect(data.weather.length).toBeGreaterThan(0);
+      expect(data.weather).toBeUndefined();
       expect(Array.isArray(data.autoScrollDates)).toBe(true);
       expect(data.autoScrollDates.length).toBeGreaterThan(0);
       expect(data.suggestions).toBeDefined();
@@ -351,9 +350,19 @@ jsonFiles.forEach((file) => {
 
     // --- 保留原有測試 ---
 
-    it('weather dates are ISO format', () => {
-      data.weather.forEach((w) => {
-        expect(w.date).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+    it('each day has valid weather with numeric lat/lon', () => {
+      data.days.forEach((day, i) => {
+        if (day.weather) {
+          expect(typeof day.weather.label).toBe('string');
+          expect(Array.isArray(day.weather.locations)).toBe(true);
+          day.weather.locations.forEach((loc, j) => {
+            expect(typeof loc.lat).toBe('number');
+            expect(typeof loc.lon).toBe('number');
+            expect(typeof loc.name).toBe('string');
+            expect(typeof loc.start).toBe('number');
+            expect(typeof loc.end).toBe('number');
+          });
+        }
       });
     });
 

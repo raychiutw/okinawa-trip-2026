@@ -28,130 +28,11 @@
     "2026-03-10",
     "2026-03-11"
   ],
-  "weather": [
-    {
-      "id": "hourly-1",
-      "date": "2026-03-06",
-      "dayId": 1,
-      "label": "京都",
-      "locations": [
-        {
-          "lat": 35.0116,
-          "lon": 135.7681,
-          "name": "京都",
-          "start": 0,
-          "end": 23
-        }
-      ]
-    },
-    {
-      "id": "hourly-2",
-      "date": "2026-03-07",
-      "dayId": 2,
-      "label": "京都・宇治",
-      "locations": [
-        {
-          "lat": 35.0116,
-          "lon": 135.7681,
-          "name": "京都",
-          "start": 0,
-          "end": 9
-        },
-        {
-          "lat": 34.8842,
-          "lon": 135.8048,
-          "name": "宇治",
-          "start": 10,
-          "end": 17
-        },
-        {
-          "lat": 35.0116,
-          "lon": 135.7681,
-          "name": "京都",
-          "start": 18,
-          "end": 23
-        }
-      ]
-    },
-    {
-      "id": "hourly-3",
-      "date": "2026-03-08",
-      "dayId": 3,
-      "label": "京都",
-      "locations": [
-        {
-          "lat": 35.0116,
-          "lon": 135.7681,
-          "name": "京都",
-          "start": 0,
-          "end": 23
-        }
-      ]
-    },
-    {
-      "id": "hourly-4",
-      "date": "2026-03-09",
-      "dayId": 4,
-      "label": "京都",
-      "locations": [
-        {
-          "lat": 35.0116,
-          "lon": 135.7681,
-          "name": "京都",
-          "start": 0,
-          "end": 23
-        }
-      ]
-    },
-    {
-      "id": "hourly-5",
-      "date": "2026-03-10",
-      "dayId": 5,
-      "label": "京都",
-      "locations": [
-        {
-          "lat": 34.9671,
-          "lon": 135.7727,
-          "name": "伏見",
-          "start": 9,
-          "end": 12
-        },
-        {
-          "lat": 34.9948,
-          "lon": 135.785,
-          "name": "清水寺",
-          "start": 13,
-          "end": 17
-        },
-        {
-          "lat": 35.0116,
-          "lon": 135.7681,
-          "name": "京都",
-          "start": 18,
-          "end": 23
-        }
-      ]
-    },
-    {
-      "id": "hourly-6",
-      "date": "2026-03-11",
-      "dayId": 6,
-      "label": "京都",
-      "locations": [
-        {
-          "lat": 35.0116,
-          "lon": 135.7681,
-          "name": "京都",
-          "start": 0,
-          "end": 23
-        }
-      ]
-    }
-  ],
   "days": [
     {
       "id": 1,
       "date": "2026-03-06",
+      "dayOfWeek": "五",
       "label": "抵達京都",
       "content": {
         "hotel": {
@@ -181,7 +62,8 @@
                   ],
                   "blogUrl": "https://minako.tw/japan-family/",
                   "googleRating": 3.5,
-                  "source": "ai"
+                  "source": "ai",
+                  "note": ""
                 },
                 {
                   "category": "超市",
@@ -194,7 +76,8 @@
                   ],
                   "blogUrl": "https://mimicat1531.pixnet.net/blog/post/48930056",
                   "googleRating": 3.7,
-                  "source": "ai"
+                  "source": "ai",
+                  "note": ""
                 },
                 {
                   "category": "唐吉軻德",
@@ -207,13 +90,15 @@
                   ],
                   "blogUrl": "https://visitkyototw.pixnet.net/blog/post/93112818",
                   "googleRating": 3.9,
-                  "source": "ai"
+                  "source": "ai",
+                  "note": ""
                 }
               ]
             }
           ],
           "blogUrl": "https://candicecity.com/56704/",
-          "source": "ai"
+          "source": "ai",
+          "note": ""
         },
         "timeline": [
           {
@@ -224,12 +109,13 @@
             "locations": [
               {
                 "name": "關西國際機場",
-                "googleQuery": "https://maps.google.com/?q=Kansai+International+Airport",
+                "googleQuery": "https://www.google.com/maps/search/Kansai+International+Airport",
                 "appleQuery": "https://maps.apple.com/?q=Kansai+International+Airport"
               }
             ],
             "googleRating": 4,
-            "source": "ai"
+            "source": "ai",
+            "note": ""
           },
           {
             "time": "12:00-13:15",
@@ -260,11 +146,12 @@
                     "blogUrl": "https://www.bigfang.tw/blog/post/42179428",
                     "location": {
                       "name": "京都拉麵小路",
-                      "googleQuery": "https://maps.google.com/?q=%E4%BA%AC%E9%83%BD%E6%8B%89%E9%BA%B5%E5%B0%8F%E8%B7%AF+%E4%BA%AC%E9%83%BD%E9%A7%85",
+                      "googleQuery": "https://www.google.com/maps/search/%E4%BA%AC%E9%83%BD%E6%8B%89%E9%BA%B5%E5%B0%8F%E8%B7%AF+%E4%BA%AC%E9%83%BD%E9%A7%85",
                       "appleQuery": "https://maps.apple.com/?q=%E4%BA%AC%E9%83%BD%E6%8B%89%E9%BA%B5%E5%B0%8F%E8%B7%AF"
                     },
                     "googleRating": 3.9,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "和食",
@@ -276,11 +163,12 @@
                     "blogUrl": "https://letsgokyoto.com/gourmet-around-kyoto-station/",
                     "location": {
                       "name": "はしたて",
-                      "googleQuery": "https://maps.google.com/?q=%E3%81%AF%E3%81%97%E3%81%9F%E3%81%A6+%E4%BA%AC%E9%83%BD%E9%A7%85",
+                      "googleQuery": "https://www.google.com/maps/search/%E3%81%AF%E3%81%97%E3%81%9F%E3%81%A6+%E4%BA%AC%E9%83%BD%E9%A7%85",
                       "appleQuery": "https://maps.apple.com/?q=%E3%81%AF%E3%81%97%E3%81%9F%E3%81%A6+%E4%BA%AC%E9%83%BD%E9%A7%85"
                     },
                     "googleRating": 3.8,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "洋食",
@@ -292,11 +180,12 @@
                     "blogUrl": "https://mandyitsen.pixnet.net/blog/posts/10326521389",
                     "location": {
                       "name": "志津屋 京都駅店",
-                      "googleQuery": "https://maps.google.com/?q=%E5%BF%97%E6%B4%A5%E5%B1%8B+%E4%BA%AC%E9%83%BD%E9%A7%85",
+                      "googleQuery": "https://www.google.com/maps/search/%E5%BF%97%E6%B4%A5%E5%B1%8B+%E4%BA%AC%E9%83%BD%E9%A7%85",
                       "appleQuery": "https://maps.apple.com/?q=%E5%BF%97%E6%B4%A5%E5%B1%8B+%E4%BA%AC%E9%83%BD%E9%A7%85"
                     },
                     "googleRating": 3.9,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   }
                 ]
               }
@@ -309,7 +198,8 @@
               }
             ],
             "googleRating": 4.1,
-            "source": "ai"
+            "source": "ai",
+            "note": ""
           },
           {
             "time": "14:00-14:30",
@@ -322,7 +212,7 @@
             "locations": [
               {
                 "name": "Hotel Resol Trinity Kyoto",
-                "googleQuery": "https://maps.google.com/?q=Hotel+Resol+Trinity+Kyoto",
+                "googleQuery": "https://www.google.com/maps/search/Hotel+Resol+Trinity+Kyoto",
                 "appleQuery": "https://maps.apple.com/?q=Hotel+Resol+Trinity+Kyoto"
               }
             ],
@@ -335,7 +225,7 @@
             "locations": [
               {
                 "name": "La Madrague",
-                "googleQuery": "https://maps.google.com/?q=La+Madrague+%E4%BA%AC%E9%83%BD",
+                "googleQuery": "https://www.google.com/maps/search/La+Madrague+%E4%BA%AC%E9%83%BD",
                 "appleQuery": "https://maps.apple.com/?q=La+Madrague+Kyoto"
               }
             ],
@@ -353,7 +243,7 @@
             "locations": [
               {
                 "name": "御金神社",
-                "googleQuery": "https://maps.google.com/?q=%E5%BE%A1%E9%87%91%E7%A5%9E%E7%A4%BE+%E4%BA%AC%E9%83%BD",
+                "googleQuery": "https://www.google.com/maps/search/%E5%BE%A1%E9%87%91%E7%A5%9E%E7%A4%BE+%E4%BA%AC%E9%83%BD",
                 "appleQuery": "https://maps.apple.com/?q=%E5%BE%A1%E9%87%91%E7%A5%9E%E7%A4%BE"
               }
             ],
@@ -370,7 +260,7 @@
             "locations": [
               {
                 "name": "The House of Ki No Bi",
-                "googleQuery": "https://maps.google.com/?q=House+of+Ki+No+Bi+Kyoto",
+                "googleQuery": "https://www.google.com/maps/search/House+of+Ki+No+Bi+Kyoto",
                 "appleQuery": "https://maps.apple.com/?q=House+of+Ki+No+Bi+Kyoto"
               }
             ],
@@ -387,7 +277,7 @@
             "locations": [
               {
                 "name": "河原町",
-                "googleQuery": "https://maps.google.com/?q=%E6%B2%B3%E5%8E%9F%E7%94%BA%E9%80%9A+%E4%BA%AC%E9%83%BD",
+                "googleQuery": "https://www.google.com/maps/search/%E6%B2%B3%E5%8E%9F%E7%94%BA%E9%80%9A+%E4%BA%AC%E9%83%BD",
                 "appleQuery": "https://maps.apple.com/?q=Kawaramachi+Kyoto"
               }
             ],
@@ -411,7 +301,8 @@
                     ],
                     "blogUrl": "https://www.bigfang.tw/blog/post/42911759",
                     "googleRating": 4,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "購物中心",
@@ -424,7 +315,8 @@
                     ],
                     "blogUrl": "https://archerplus.pixnet.net/blog/post/234434154",
                     "googleRating": 3.8,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "伴手禮",
@@ -437,7 +329,8 @@
                     ],
                     "blogUrl": "",
                     "googleRating": 4.2,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   }
                 ]
               }
@@ -451,7 +344,7 @@
             "locations": [
               {
                 "name": "柚子元",
-                "googleQuery": "https://maps.google.com/?q=%E6%9F%9A%E5%AD%90%E5%85%83+%E4%BA%AC%E9%83%BD",
+                "googleQuery": "https://www.google.com/maps/search/%E6%9F%9A%E5%AD%90%E5%85%83+%E4%BA%AC%E9%83%BD",
                 "appleQuery": "https://maps.apple.com/?q=%E6%9F%9A%E5%AD%90%E5%85%83+%E4%BA%AC%E9%83%BD"
               }
             ],
@@ -474,11 +367,12 @@
                     "blogUrl": "https://visitkyototw.pixnet.net/blog/post/110599156",
                     "location": {
                       "name": "先斗町 いづもや",
-                      "googleQuery": "https://maps.google.com/?q=%E5%85%88%E6%96%97%E7%94%BA+%E3%81%84%E3%81%A5%E3%82%82%E3%82%84",
+                      "googleQuery": "https://www.google.com/maps/search/%E5%85%88%E6%96%97%E7%94%BA+%E3%81%84%E3%81%A5%E3%82%82%E3%82%84",
                       "appleQuery": "https://maps.apple.com/?q=%E5%85%88%E6%96%97%E7%94%BA+%E3%81%84%E3%81%A5%E3%82%82%E3%82%84"
                     },
                     "googleRating": 3.8,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "和食",
@@ -490,11 +384,12 @@
                     "blogUrl": "https://cpk24.pixnet.net/blog/post/14275717",
                     "location": {
                       "name": "串くら 本店",
-                      "googleQuery": "https://maps.google.com/?q=%E4%B8%B2%E3%81%8F%E3%82%89+%E6%9C%AC%E5%BA%97+%E6%9C%A8%E5%B1%8B%E7%94%BA",
+                      "googleQuery": "https://www.google.com/maps/search/%E4%B8%B2%E3%81%8F%E3%82%89+%E6%9C%AC%E5%BA%97+%E6%9C%A8%E5%B1%8B%E7%94%BA",
                       "appleQuery": "https://maps.apple.com/?q=%E4%B8%B2%E3%81%8F%E3%82%89+%E6%9C%AC%E5%BA%97"
                     },
                     "googleRating": 4.1,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "洋食",
@@ -506,11 +401,12 @@
                     "blogUrl": "https://geofrania.pixnet.net/blog/post/225911921",
                     "location": {
                       "name": "壹銭洋食",
-                      "googleQuery": "https://maps.google.com/?q=%E5%A3%B9%E9%8A%AD%E6%B4%8B%E9%A3%9F+%E7%A5%87%E5%9C%92",
+                      "googleQuery": "https://www.google.com/maps/search/%E5%A3%B9%E9%8A%AD%E6%B4%8B%E9%A3%9F+%E7%A5%87%E5%9C%92",
                       "appleQuery": "https://maps.apple.com/?q=%E5%A3%B9%E9%8A%AD%E6%B4%8B%E9%A3%9F"
                     },
                     "googleRating": 4,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   }
                 ]
               }
@@ -524,7 +420,7 @@
             "locations": [
               {
                 "name": "C-pla",
-                "googleQuery": "https://maps.google.com/?q=C-pla+%E4%BA%AC%E9%83%BD+%E6%B2%B3%E5%8E%9F%E7%94%BA",
+                "googleQuery": "https://www.google.com/maps/search/C-pla+%E4%BA%AC%E9%83%BD+%E6%B2%B3%E5%8E%9F%E7%94%BA",
                 "appleQuery": "https://maps.apple.com/?q=C-pla+Kyoto"
               }
             ],
@@ -535,17 +431,29 @@
             "googleRating": 4.1
           }
         ]
+      },
+      "weather": {
+        "label": "京都",
+        "locations": [
+          {
+            "lat": 35.0116,
+            "lon": 135.7681,
+            "name": "京都",
+            "start": 0,
+            "end": 23
+          }
+        ]
       }
     },
     {
       "id": 2,
       "date": "2026-03-07",
+      "dayOfWeek": "六",
       "label": "宇治一日遊",
       "content": {
         "hotel": {
           "name": "Hotel Resol Trinity Kyoto",
           "url": "https://www.resol-trinity.com/kyoto/",
-          "details": [],
           "checkout": "11:00",
           "breakfast": {
             "included": null
@@ -566,7 +474,8 @@
                   ],
                   "blogUrl": "https://minako.tw/japan-family/",
                   "googleRating": 3.5,
-                  "source": "ai"
+                  "source": "ai",
+                  "note": ""
                 },
                 {
                   "category": "超市",
@@ -579,7 +488,8 @@
                   ],
                   "blogUrl": "https://mimicat1531.pixnet.net/blog/post/48930056",
                   "googleRating": 3.7,
-                  "source": "ai"
+                  "source": "ai",
+                  "note": ""
                 },
                 {
                   "category": "唐吉軻德",
@@ -592,13 +502,15 @@
                   ],
                   "blogUrl": "https://visitkyototw.pixnet.net/blog/post/93112818",
                   "googleRating": 3.9,
-                  "source": "ai"
+                  "source": "ai",
+                  "note": ""
                 }
               ]
             }
           ],
           "blogUrl": "https://candicecity.com/56704/",
-          "source": "ai"
+          "source": "ai",
+          "note": ""
         },
         "timeline": [
           {
@@ -609,12 +521,13 @@
             "locations": [
               {
                 "name": "Stumptown Coffee Roasters",
-                "googleQuery": "https://maps.google.com/?q=Stumptown+Coffee+Roasters+Kyoto",
+                "googleQuery": "https://www.google.com/maps/search/Stumptown+Coffee+Roasters+Kyoto",
                 "appleQuery": "https://maps.apple.com/?q=Stumptown+Coffee+Roasters+Kyoto"
               }
             ],
             "googleRating": 4.5,
-            "source": "ai"
+            "source": "ai",
+            "note": ""
           },
           {
             "time": "10:00-11:00",
@@ -632,7 +545,7 @@
             "locations": [
               {
                 "name": "MENYA INOICHI",
-                "googleQuery": "https://maps.google.com/?q=MENYA+INOICHI+%E5%AE%87%E6%B2%BB",
+                "googleQuery": "https://www.google.com/maps/search/MENYA+INOICHI+%E5%AE%87%E6%B2%BB",
                 "appleQuery": "https://maps.apple.com/?q=MENYA+INOICHI+%E5%AE%87%E6%B2%BB"
               }
             ],
@@ -651,11 +564,12 @@
                     "blogUrl": "https://www.travalearth.com/post-31410162/",
                     "location": {
                       "name": "しゅばく",
-                      "googleQuery": "https://maps.google.com/?q=%E3%81%97%E3%82%85%E3%81%B0%E3%81%8F+%E5%AE%87%E6%B2%BB",
+                      "googleQuery": "https://www.google.com/maps/search/%E3%81%97%E3%82%85%E3%81%B0%E3%81%8F+%E5%AE%87%E6%B2%BB",
                       "appleQuery": "https://maps.apple.com/?q=%E3%81%97%E3%82%85%E3%81%B0%E3%81%8F+%E5%AE%87%E6%B2%BB"
                     },
                     "googleRating": 4.3,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "和食",
@@ -667,11 +581,12 @@
                     "blogUrl": "https://tisshuang.com/blog/post/itohkyuemon",
                     "location": {
                       "name": "伊藤久右衛門 本店",
-                      "googleQuery": "https://maps.google.com/?q=%E4%BC%8A%E8%97%A4%E4%B9%85%E5%8F%B3%E8%A1%9B%E9%96%80+%E6%9C%AC%E5%BA%97+%E5%AE%87%E6%B2%BB",
+                      "googleQuery": "https://www.google.com/maps/search/%E4%BC%8A%E8%97%A4%E4%B9%85%E5%8F%B3%E8%A1%9B%E9%96%80+%E6%9C%AC%E5%BA%97+%E5%AE%87%E6%B2%BB",
                       "appleQuery": "https://maps.apple.com/?q=%E4%BC%8A%E8%97%A4%E4%B9%85%E5%8F%B3%E8%A1%9B%E9%96%80+%E6%9C%AC%E5%BA%97"
                     },
                     "googleRating": 4.2,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "洋食",
@@ -683,17 +598,19 @@
                     "blogUrl": "https://monicalin0219.pixnet.net/blog/posts/5061695562",
                     "location": {
                       "name": "通圓",
-                      "googleQuery": "https://maps.google.com/?q=%E9%80%9A%E5%9C%93+%E5%AE%87%E6%B2%BB%E6%9C%AC%E5%BA%97",
+                      "googleQuery": "https://www.google.com/maps/search/%E9%80%9A%E5%9C%93+%E5%AE%87%E6%B2%BB%E6%9C%AC%E5%BA%97",
                       "appleQuery": "https://maps.apple.com/?q=%E9%80%9A%E5%9C%93+%E5%AE%87%E6%B2%BB%E6%9C%AC%E5%BA%97"
                     },
                     "googleRating": 4.1,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   }
                 ]
               }
             ],
             "googleRating": 4.3,
-            "source": "ai"
+            "source": "ai",
+            "note": ""
           },
           {
             "time": "12:30-13:30",
@@ -703,7 +620,7 @@
             "locations": [
               {
                 "name": "中村藤吉 宇治本店",
-                "googleQuery": "https://maps.google.com/?q=%E4%B8%AD%E6%9D%91%E8%97%A4%E5%90%89+%E5%AE%87%E6%B2%BB%E6%9C%AC%E5%BA%97",
+                "googleQuery": "https://www.google.com/maps/search/%E4%B8%AD%E6%9D%91%E8%97%A4%E5%90%89+%E5%AE%87%E6%B2%BB%E6%9C%AC%E5%BA%97",
                 "appleQuery": "https://maps.apple.com/?q=%E4%B8%AD%E6%9D%91%E8%97%A4%E5%90%89+%E5%AE%87%E6%B2%BB%E6%9C%AC%E5%BA%97"
               }
             ],
@@ -721,7 +638,7 @@
             "locations": [
               {
                 "name": "平等院",
-                "googleQuery": "https://maps.google.com/?q=%E5%B9%B3%E7%AD%89%E9%99%A2+%E5%AE%87%E6%B2%BB",
+                "googleQuery": "https://www.google.com/maps/search/%E5%B9%B3%E7%AD%89%E9%99%A2+%E5%AE%87%E6%B2%BB",
                 "appleQuery": "https://maps.apple.com/?q=%E5%B9%B3%E7%AD%89%E9%99%A2"
               }
             ],
@@ -738,7 +655,7 @@
             "locations": [
               {
                 "name": "宇治上神社",
-                "googleQuery": "https://maps.google.com/?q=%E5%AE%87%E6%B2%BB%E4%B8%8A%E7%A5%9E%E7%A4%BE",
+                "googleQuery": "https://www.google.com/maps/search/%E5%AE%87%E6%B2%BB%E4%B8%8A%E7%A5%9E%E7%A4%BE",
                 "appleQuery": "https://maps.apple.com/?q=%E5%AE%87%E6%B2%BB%E4%B8%8A%E7%A5%9E%E7%A4%BE"
               }
             ],
@@ -756,7 +673,7 @@
             "locations": [
               {
                 "name": "伊藤久右衛門",
-                "googleQuery": "https://maps.google.com/?q=%E4%BC%8A%E8%97%A4%E4%B9%85%E5%8F%B3%E8%A1%9B%E9%96%80+%E5%AE%87%E6%B2%BB",
+                "googleQuery": "https://www.google.com/maps/search/%E4%BC%8A%E8%97%A4%E4%B9%85%E5%8F%B3%E8%A1%9B%E9%96%80+%E5%AE%87%E6%B2%BB",
                 "appleQuery": "https://maps.apple.com/?q=%E4%BC%8A%E8%97%A4%E4%B9%85%E5%8F%B3%E8%A1%9B%E9%96%80+%E5%AE%87%E6%B2%BB"
               }
             ],
@@ -781,7 +698,7 @@
             "locations": [
               {
                 "name": "燒肉甲",
-                "googleQuery": "https://maps.google.com/?q=%E7%84%BC%E8%82%89%E7%94%B2+%E4%BA%AC%E9%83%BD",
+                "googleQuery": "https://www.google.com/maps/search/%E7%84%BC%E8%82%89%E7%94%B2+%E4%BA%AC%E9%83%BD",
                 "appleQuery": "https://maps.apple.com/?q=%E7%84%BC%E8%82%89%E7%94%B2+%E4%BA%AC%E9%83%BD"
               }
             ],
@@ -804,11 +721,12 @@
                     "blogUrl": "https://kenwhitney.pixnet.net/blog/post/42052645",
                     "location": {
                       "name": "弘 木屋町店",
-                      "googleQuery": "https://maps.google.com/?q=%E5%BC%98+%E6%9C%A8%E5%B1%8B%E7%94%BA%E5%BA%97+%E4%BA%AC%E9%83%BD+%E7%84%BC%E8%82%89",
+                      "googleQuery": "https://www.google.com/maps/search/%E5%BC%98+%E6%9C%A8%E5%B1%8B%E7%94%BA%E5%BA%97+%E4%BA%AC%E9%83%BD+%E7%84%BC%E8%82%89",
                       "appleQuery": "https://maps.apple.com/?q=%E5%BC%98+%E6%9C%A8%E5%B1%8B%E7%94%BA%E5%BA%97"
                     },
                     "googleRating": 4.3,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "和食",
@@ -820,11 +738,12 @@
                     "blogUrl": "https://vickylife.com/tendan/",
                     "location": {
                       "name": "天壇 祇園本店",
-                      "googleQuery": "https://maps.google.com/?q=%E7%84%BC%E8%82%89%E3%81%AE%E5%90%8D%E9%96%80+%E5%A4%A9%E5%A3%87+%E7%A5%87%E5%9C%92%E6%9C%AC%E5%BA%97",
+                      "googleQuery": "https://www.google.com/maps/search/%E7%84%BC%E8%82%89%E3%81%AE%E5%90%8D%E9%96%80+%E5%A4%A9%E5%A3%87+%E7%A5%87%E5%9C%92%E6%9C%AC%E5%BA%97",
                       "appleQuery": "https://maps.apple.com/?q=%E5%A4%A9%E5%A3%87+%E7%A5%87%E5%9C%92%E6%9C%AC%E5%BA%97"
                     },
                     "googleRating": 4.1,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "洋食",
@@ -836,11 +755,12 @@
                     "blogUrl": "",
                     "location": {
                       "name": "肉料理 おか",
-                      "googleQuery": "https://maps.google.com/?q=%E8%82%89%E6%96%99%E7%90%86+%E3%81%8A%E3%81%8B+%E4%BA%AC%E9%83%BD",
+                      "googleQuery": "https://www.google.com/maps/search/%E8%82%89%E6%96%99%E7%90%86+%E3%81%8A%E3%81%8B+%E4%BA%AC%E9%83%BD",
                       "appleQuery": "https://maps.apple.com/?q=%E8%82%89%E6%96%99%E7%90%86+%E3%81%8A%E3%81%8B+%E4%BA%AC%E9%83%BD"
                     },
                     "googleRating": 4.4,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   }
                 ]
               }
@@ -854,7 +774,7 @@
             "locations": [
               {
                 "name": "ドン・キホーテ 京都河原町店",
-                "googleQuery": "https://maps.google.com/?q=%E3%83%89%E3%83%B3%E3%83%BB%E3%82%AD%E3%83%9B%E3%83%BC%E3%83%86+%E4%BA%AC%E9%83%BD%E6%B2%B3%E5%8E%9F%E7%94%BA%E5%BA%97",
+                "googleQuery": "https://www.google.com/maps/search/%E3%83%89%E3%83%B3%E3%83%BB%E3%82%AD%E3%83%9B%E3%83%BC%E3%83%86+%E4%BA%AC%E9%83%BD%E6%B2%B3%E5%8E%9F%E7%94%BA%E5%BA%97",
                 "appleQuery": "https://maps.apple.com/?q=%E3%83%89%E3%83%B3%E3%82%AD%E3%83%9B%E3%83%BC%E3%83%86+%E4%BA%AC%E9%83%BD%E6%B2%B3%E5%8E%9F%E7%94%BA"
               }
             ],
@@ -865,17 +785,43 @@
             "googleRating": 4
           }
         ]
+      },
+      "weather": {
+        "label": "京都・宇治",
+        "locations": [
+          {
+            "lat": 35.0116,
+            "lon": 135.7681,
+            "name": "京都",
+            "start": 0,
+            "end": 9
+          },
+          {
+            "lat": 34.8842,
+            "lon": 135.8048,
+            "name": "宇治",
+            "start": 10,
+            "end": 17
+          },
+          {
+            "lat": 35.0116,
+            "lon": 135.7681,
+            "name": "京都",
+            "start": 18,
+            "end": 23
+          }
+        ]
       }
     },
     {
       "id": 3,
       "date": "2026-03-08",
+      "dayOfWeek": "日",
       "label": "鴨川・錦市場",
       "content": {
         "hotel": {
           "name": "Hotel Resol Trinity Kyoto",
           "url": "https://www.resol-trinity.com/kyoto/",
-          "details": [],
           "checkout": "11:00",
           "breakfast": {
             "included": null
@@ -896,7 +842,8 @@
                   ],
                   "blogUrl": "https://minako.tw/japan-family/",
                   "googleRating": 3.5,
-                  "source": "ai"
+                  "source": "ai",
+                  "note": ""
                 },
                 {
                   "category": "超市",
@@ -909,7 +856,8 @@
                   ],
                   "blogUrl": "https://mimicat1531.pixnet.net/blog/post/48930056",
                   "googleRating": 3.7,
-                  "source": "ai"
+                  "source": "ai",
+                  "note": ""
                 },
                 {
                   "category": "唐吉軻德",
@@ -922,13 +870,15 @@
                   ],
                   "blogUrl": "https://visitkyototw.pixnet.net/blog/post/93112818",
                   "googleRating": 3.9,
-                  "source": "ai"
+                  "source": "ai",
+                  "note": ""
                 }
               ]
             }
           ],
           "blogUrl": "https://candicecity.com/56704/",
-          "source": "ai"
+          "source": "ai",
+          "note": ""
         },
         "timeline": [
           {
@@ -939,12 +889,13 @@
             "locations": [
               {
                 "name": "進進堂 三条店",
-                "googleQuery": "https://maps.google.com/?q=%E9%80%B2%E3%80%85%E5%A0%82+%E4%B8%89%E6%9D%A1%E5%BA%97",
+                "googleQuery": "https://www.google.com/maps/search/%E9%80%B2%E3%80%85%E5%A0%82+%E4%B8%89%E6%9D%A1%E5%BA%97",
                 "appleQuery": "https://maps.apple.com/?q=%E9%80%B2%E9%80%B2%E5%A0%82+%E4%B8%89%E6%9D%A1%E5%BA%97"
               }
             ],
             "googleRating": 4.1,
-            "source": "ai"
+            "source": "ai",
+            "note": ""
           },
           {
             "time": "10:15-11:00",
@@ -953,7 +904,7 @@
             "locations": [
               {
                 "name": "鴨川跳烏龜",
-                "googleQuery": "https://maps.google.com/?q=%E9%B4%A8%E5%B7%9D%E3%83%87%E3%83%AB%E3%82%BF+%E9%A3%9B%E3%81%B3%E7%9F%B3",
+                "googleQuery": "https://www.google.com/maps/search/%E9%B4%A8%E5%B7%9D%E3%83%87%E3%83%AB%E3%82%BF+%E9%A3%9B%E3%81%B3%E7%9F%B3",
                 "appleQuery": "https://maps.apple.com/?q=%E9%B4%A8%E5%B7%9D%E3%83%87%E3%83%AB%E3%82%BF"
               }
             ],
@@ -970,7 +921,7 @@
             "locations": [
               {
                 "name": "村上開新堂",
-                "googleQuery": "https://maps.google.com/?q=%E6%9D%91%E4%B8%8A%E9%96%8B%E6%96%B0%E5%A0%82+%E4%BA%AC%E9%83%BD",
+                "googleQuery": "https://www.google.com/maps/search/%E6%9D%91%E4%B8%8A%E9%96%8B%E6%96%B0%E5%A0%82+%E4%BA%AC%E9%83%BD",
                 "appleQuery": "https://maps.apple.com/?q=%E6%9D%91%E4%B8%8A%E9%96%8B%E6%96%B0%E5%A0%82"
               }
             ],
@@ -987,7 +938,7 @@
             "locations": [
               {
                 "name": "Blue Bottle Coffee 京都六角",
-                "googleQuery": "https://maps.google.com/?q=Blue+Bottle+Coffee+%E4%BA%AC%E9%83%BD%E5%85%AD%E8%A7%92%E3%82%AB%E3%83%95%E3%82%A7",
+                "googleQuery": "https://www.google.com/maps/search/Blue+Bottle+Coffee+%E4%BA%AC%E9%83%BD%E5%85%AD%E8%A7%92%E3%82%AB%E3%83%95%E3%82%A7",
                 "appleQuery": "https://maps.apple.com/?q=Blue+Bottle+Coffee+Kyoto"
               }
             ],
@@ -1004,7 +955,7 @@
             "locations": [
               {
                 "name": "bigoli kyoto",
-                "googleQuery": "https://maps.google.com/?q=bigoli+kyoto",
+                "googleQuery": "https://www.google.com/maps/search/bigoli+kyoto",
                 "appleQuery": "https://maps.apple.com/?q=bigoli+kyoto"
               }
             ],
@@ -1027,11 +978,12 @@
                     "blogUrl": "https://jimmraz.pixnet.net/blog/post/49866548",
                     "location": {
                       "name": "麺屋猪一 離れ",
-                      "googleQuery": "https://maps.google.com/?q=%E9%BA%BA%E5%B1%8B%E7%8C%AA%E4%B8%80+%E9%9B%A2%E3%82%8C+%E4%BA%AC%E9%83%BD",
+                      "googleQuery": "https://www.google.com/maps/search/%E9%BA%BA%E5%B1%8B%E7%8C%AA%E4%B8%80+%E9%9B%A2%E3%82%8C+%E4%BA%AC%E9%83%BD",
                       "appleQuery": "https://maps.apple.com/?q=%E9%BA%BA%E5%B1%8B%E7%8C%AA%E4%B8%80+%E9%9B%A2%E3%82%8C"
                     },
                     "googleRating": 4.2,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "和食",
@@ -1043,11 +995,12 @@
                     "blogUrl": "https://haruhii.pixnet.net/blog/post/45090762-mumokuteki-cafe&foods",
                     "location": {
                       "name": "mumokuteki cafe",
-                      "googleQuery": "https://maps.google.com/?q=mumokuteki+cafe+%E4%BA%AC%E9%83%BD",
+                      "googleQuery": "https://www.google.com/maps/search/mumokuteki+cafe+%E4%BA%AC%E9%83%BD",
                       "appleQuery": "https://maps.apple.com/?q=mumokuteki+cafe"
                     },
                     "googleRating": 4.1,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "洋食",
@@ -1059,11 +1012,12 @@
                     "blogUrl": "https://boo2k.com/%E4%BA%AC%E9%83%BD%E7%BE%8E%E9%A3%9Fquil-fait-bon%E3%82%AD%E3%83%AB%E3%83%95%E3%82%A7%E3%83%9C%E3%83%B3%E4%BA%AC%E9%83%BD%E7%94%9C%E9%BB%9E%E5%BF%85%E5%90%83%E6%96%B0%E9%AE%AE%E6%B0%B4%E6%9E%9C/",
                     "location": {
                       "name": "キルフェボン 京都",
-                      "googleQuery": "https://maps.google.com/?q=%E3%82%AD%E3%83%AB%E3%83%95%E3%82%A7%E3%83%9C%E3%83%B3+%E4%BA%AC%E9%83%BD",
+                      "googleQuery": "https://www.google.com/maps/search/%E3%82%AD%E3%83%AB%E3%83%95%E3%82%A7%E3%83%9C%E3%83%B3+%E4%BA%AC%E9%83%BD",
                       "appleQuery": "https://maps.apple.com/?q=%E3%82%AD%E3%83%AB%E3%83%95%E3%82%A7%E3%83%9C%E3%83%B3+%E4%BA%AC%E9%83%BD"
                     },
                     "googleRating": 4.2,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   }
                 ]
               }
@@ -1078,7 +1032,7 @@
             "locations": [
               {
                 "name": "錦市場",
-                "googleQuery": "https://maps.google.com/?q=%E9%8C%A6%E5%B8%82%E5%A0%B4+%E4%BA%AC%E9%83%BD",
+                "googleQuery": "https://www.google.com/maps/search/%E9%8C%A6%E5%B8%82%E5%A0%B4+%E4%BA%AC%E9%83%BD",
                 "appleQuery": "https://maps.apple.com/?q=%E9%8C%A6%E5%B8%82%E5%A0%B4"
               }
             ],
@@ -1096,12 +1050,13 @@
             "locations": [
               {
                 "name": "Daiyasu Oyster Bar",
-                "googleQuery": "https://maps.google.com/?q=Daiyasu+oyster+bar+%E9%8C%A6%E5%B8%82%E5%A0%B4",
+                "googleQuery": "https://www.google.com/maps/search/Daiyasu+oyster+bar+%E9%8C%A6%E5%B8%82%E5%A0%B4",
                 "appleQuery": "https://maps.apple.com/?q=Daiyasu+oyster+bar"
               }
             ],
             "googleRating": 4.3,
-            "source": "ai"
+            "source": "ai",
+            "note": ""
           },
           {
             "time": "16:00-17:00",
@@ -1110,7 +1065,7 @@
             "locations": [
               {
                 "name": "Beams 京都",
-                "googleQuery": "https://maps.google.com/?q=Beams+%E4%BA%AC%E9%83%BD+%E8%97%A4%E4%BA%95%E5%A4%A7%E4%B8%B8",
+                "googleQuery": "https://www.google.com/maps/search/Beams+%E4%BA%AC%E9%83%BD+%E8%97%A4%E4%BA%95%E5%A4%A7%E4%B8%B8",
                 "appleQuery": "https://maps.apple.com/?q=Beams+%E4%BA%AC%E9%83%BD"
               }
             ],
@@ -1127,7 +1082,7 @@
             "locations": [
               {
                 "name": "WEEKENDERS Coffee",
-                "googleQuery": "https://maps.google.com/?q=WEEKENDERS+Coffee+%E4%BA%AC%E9%83%BD",
+                "googleQuery": "https://www.google.com/maps/search/WEEKENDERS+Coffee+%E4%BA%AC%E9%83%BD",
                 "appleQuery": "https://maps.apple.com/?q=WEEKENDERS+Coffee"
               }
             ],
@@ -1144,7 +1099,7 @@
             "locations": [
               {
                 "name": "charlie izakaya",
-                "googleQuery": "https://maps.google.com/?q=charlie+izakaya+%E4%BA%AC%E9%83%BD",
+                "googleQuery": "https://www.google.com/maps/search/charlie+izakaya+%E4%BA%AC%E9%83%BD",
                 "appleQuery": "https://maps.apple.com/?q=charlie+izakaya+Kyoto"
               }
             ],
@@ -1167,11 +1122,12 @@
                     "blogUrl": "",
                     "location": {
                       "name": "赤垣屋",
-                      "googleQuery": "https://maps.google.com/?q=%E8%B5%A4%E5%9E%A3%E5%B1%8B+%E4%BA%AC%E9%83%BD",
+                      "googleQuery": "https://www.google.com/maps/search/%E8%B5%A4%E5%9E%A3%E5%B1%8B+%E4%BA%AC%E9%83%BD",
                       "appleQuery": "https://maps.apple.com/?q=%E8%B5%A4%E5%9E%A3%E5%B1%8B+%E4%BA%AC%E9%83%BD"
                     },
                     "googleRating": 4,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "和食",
@@ -1183,11 +1139,12 @@
                     "blogUrl": "",
                     "location": {
                       "name": "酒陶 柳野",
-                      "googleQuery": "https://maps.google.com/?q=%E9%85%92%E9%99%B6+%E6%9F%B3%E9%87%8E+%E4%BA%AC%E9%83%BD",
+                      "googleQuery": "https://www.google.com/maps/search/%E9%85%92%E9%99%B6+%E6%9F%B3%E9%87%8E+%E4%BA%AC%E9%83%BD",
                       "appleQuery": "https://maps.apple.com/?q=%E9%85%92%E9%99%B6+%E6%9F%B3%E9%87%8E"
                     },
                     "googleRating": 4.1,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "洋食",
@@ -1199,11 +1156,12 @@
                     "blogUrl": "",
                     "location": {
                       "name": "スタンド きのした",
-                      "googleQuery": "https://maps.google.com/?q=%E3%82%B9%E3%82%BF%E3%83%B3%E3%83%89+%E3%81%8D%E3%81%AE%E3%81%97%E3%81%9F+%E4%BA%AC%E9%83%BD",
+                      "googleQuery": "https://www.google.com/maps/search/%E3%82%B9%E3%82%BF%E3%83%B3%E3%83%89+%E3%81%8D%E3%81%AE%E3%81%97%E3%81%9F+%E4%BA%AC%E9%83%BD",
                       "appleQuery": "https://maps.apple.com/?q=%E3%82%B9%E3%82%BF%E3%83%B3%E3%83%89+%E3%81%8D%E3%81%AE%E3%81%97%E3%81%9F"
                     },
                     "googleRating": 4.2,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   }
                 ]
               }
@@ -1217,8 +1175,8 @@
             "locations": [
               {
                 "name": "L'Escamoteur",
-                "googleQuery": "https://maps.google.com/?q=L%27Escamoteur+%E4%BA%AC%E9%83%BD",
-                "appleQuery": "https://maps.apple.com/?q=L%27Escamoteur+Kyoto"
+                "googleQuery": "https://www.google.com/maps/search/L'Escamoteur+%E4%BA%AC%E9%83%BD",
+                "appleQuery": "https://maps.apple.com/?q=L'Escamoteur+Kyoto"
               }
             ],
             "travel": {
@@ -1228,17 +1186,29 @@
             "googleRating": 4.6
           }
         ]
+      },
+      "weather": {
+        "label": "京都",
+        "locations": [
+          {
+            "lat": 35.0116,
+            "lon": 135.7681,
+            "name": "京都",
+            "start": 0,
+            "end": 23
+          }
+        ]
       }
     },
     {
       "id": 4,
       "date": "2026-03-09",
+      "dayOfWeek": "一",
       "label": "金閣寺・壽喜燒",
       "content": {
         "hotel": {
           "name": "Hotel Resol Trinity Kyoto",
           "url": "https://www.resol-trinity.com/kyoto/",
-          "details": [],
           "checkout": "11:00",
           "breakfast": {
             "included": null
@@ -1259,7 +1229,8 @@
                   ],
                   "blogUrl": "https://minako.tw/japan-family/",
                   "googleRating": 3.5,
-                  "source": "ai"
+                  "source": "ai",
+                  "note": ""
                 },
                 {
                   "category": "超市",
@@ -1272,7 +1243,8 @@
                   ],
                   "blogUrl": "https://mimicat1531.pixnet.net/blog/post/48930056",
                   "googleRating": 3.7,
-                  "source": "ai"
+                  "source": "ai",
+                  "note": ""
                 },
                 {
                   "category": "唐吉軻德",
@@ -1285,13 +1257,15 @@
                   ],
                   "blogUrl": "https://visitkyototw.pixnet.net/blog/post/93112818",
                   "googleRating": 3.9,
-                  "source": "ai"
+                  "source": "ai",
+                  "note": ""
                 }
               ]
             }
           ],
           "blogUrl": "https://candicecity.com/56704/",
-          "source": "ai"
+          "source": "ai",
+          "note": ""
         },
         "timeline": [
           {
@@ -1302,12 +1276,13 @@
             "locations": [
               {
                 "name": "Fuglen Coffee",
-                "googleQuery": "https://maps.google.com/?q=Fuglen+Kyoto",
+                "googleQuery": "https://www.google.com/maps/search/Fuglen+Kyoto",
                 "appleQuery": "https://maps.apple.com/?q=Fuglen+Kyoto"
               }
             ],
             "googleRating": 4.5,
-            "source": "ai"
+            "source": "ai",
+            "note": ""
           },
           {
             "time": "10:00-10:30",
@@ -1316,7 +1291,7 @@
             "locations": [
               {
                 "name": "豪門御守",
-                "googleQuery": "https://maps.google.com/?q=%E8%B1%AA%E9%96%80%E5%BE%A1%E5%AE%88+%E4%BA%AC%E9%83%BD",
+                "googleQuery": "https://www.google.com/maps/search/%E8%B1%AA%E9%96%80%E5%BE%A1%E5%AE%88+%E4%BA%AC%E9%83%BD",
                 "appleQuery": "https://maps.apple.com/?q=%E8%B1%AA%E9%96%80%E5%BE%A1%E5%AE%88+%E4%BA%AC%E9%83%BD"
               }
             ],
@@ -1334,7 +1309,7 @@
             "locations": [
               {
                 "name": "金閣寺",
-                "googleQuery": "https://maps.google.com/?q=%E9%87%91%E9%96%A3%E5%AF%BA+%E4%BA%AC%E9%83%BD",
+                "googleQuery": "https://www.google.com/maps/search/%E9%87%91%E9%96%A3%E5%AF%BA+%E4%BA%AC%E9%83%BD",
                 "appleQuery": "https://maps.apple.com/?q=%E9%87%91%E9%96%A3%E5%AF%BA"
               }
             ],
@@ -1351,7 +1326,7 @@
             "locations": [
               {
                 "name": "炭燒鰻",
-                "googleQuery": "https://maps.google.com/?q=%E7%82%AD%E7%84%BC%E3%81%86%E3%81%AA%E3%81%8E+%E4%BA%AC%E9%83%BD",
+                "googleQuery": "https://www.google.com/maps/search/%E7%82%AD%E7%84%BC%E3%81%86%E3%81%AA%E3%81%8E+%E4%BA%AC%E9%83%BD",
                 "appleQuery": "https://maps.apple.com/?q=%E7%82%AD%E7%84%BC%E3%81%86%E3%81%AA%E3%81%8E+%E4%BA%AC%E9%83%BD"
               }
             ],
@@ -1374,11 +1349,12 @@
                     "blogUrl": "https://mimicat1531.pixnet.net/blog/post/49379880",
                     "location": {
                       "name": "かね正",
-                      "googleQuery": "https://maps.google.com/?q=%E3%81%8B%E3%81%AD%E6%AD%A3+%E4%BA%AC%E9%83%BD+%E9%B0%BB",
+                      "googleQuery": "https://www.google.com/maps/search/%E3%81%8B%E3%81%AD%E6%AD%A3+%E4%BA%AC%E9%83%BD+%E9%B0%BB",
                       "appleQuery": "https://maps.apple.com/?q=%E3%81%8B%E3%81%AD%E6%AD%A3+%E4%BA%AC%E9%83%BD"
                     },
                     "googleRating": 4,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "和食",
@@ -1390,11 +1366,12 @@
                     "blogUrl": "https://www.bigfang.tw/blog/post/kyogoku-kaneyo-kyoto",
                     "location": {
                       "name": "京極かねよ",
-                      "googleQuery": "https://maps.google.com/?q=%E4%BA%AC%E6%A5%B5%E3%81%8B%E3%81%AD%E3%82%88+%E4%BA%AC%E9%83%BD",
+                      "googleQuery": "https://www.google.com/maps/search/%E4%BA%AC%E6%A5%B5%E3%81%8B%E3%81%AD%E3%82%88+%E4%BA%AC%E9%83%BD",
                       "appleQuery": "https://maps.apple.com/?q=%E4%BA%AC%E6%A5%B5%E3%81%8B%E3%81%AD%E3%82%88"
                     },
                     "googleRating": 3.9,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "洋食",
@@ -1406,11 +1383,12 @@
                     "blogUrl": "https://openchiang1113.pixnet.net/blog/post/110365034",
                     "location": {
                       "name": "グリル小宝",
-                      "googleQuery": "https://maps.google.com/?q=%E3%82%B0%E3%83%AA%E3%83%AB%E5%B0%8F%E5%AE%9D+%E4%BA%AC%E9%83%BD",
+                      "googleQuery": "https://www.google.com/maps/search/%E3%82%B0%E3%83%AA%E3%83%AB%E5%B0%8F%E5%AE%9D+%E4%BA%AC%E9%83%BD",
                       "appleQuery": "https://maps.apple.com/?q=%E3%82%B0%E3%83%AA%E3%83%AB%E5%B0%8F%E5%AE%9D"
                     },
                     "googleRating": 4.2,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   }
                 ]
               }
@@ -1424,7 +1402,7 @@
             "locations": [
               {
                 "name": "ARCHI coffee and wine",
-                "googleQuery": "https://maps.google.com/?q=ARCHI+coffee+and+wine+%E4%BA%AC%E9%83%BD",
+                "googleQuery": "https://www.google.com/maps/search/ARCHI+coffee+and+wine+%E4%BA%AC%E9%83%BD",
                 "appleQuery": "https://maps.apple.com/?q=ARCHI+coffee+and+wine"
               }
             ],
@@ -1441,7 +1419,7 @@
             "locations": [
               {
                 "name": "ACTUAL kyoto",
-                "googleQuery": "https://maps.google.com/?q=ACTUAL+kyoto",
+                "googleQuery": "https://www.google.com/maps/search/ACTUAL+kyoto",
                 "appleQuery": "https://maps.apple.com/?q=ACTUAL+kyoto"
               }
             ],
@@ -1458,7 +1436,7 @@
             "locations": [
               {
                 "name": "肉の寿喜焼 ひろ重",
-                "googleQuery": "https://maps.google.com/?q=Sukiyaki+Niku+no+Hiroshige+Kyoto",
+                "googleQuery": "https://www.google.com/maps/search/Sukiyaki+Niku+no+Hiroshige+Kyoto",
                 "appleQuery": "https://maps.apple.com/?q=Niku+no+Hiroshige+Kyoto"
               }
             ],
@@ -1481,11 +1459,12 @@
                     "blogUrl": "https://www.bigfang.tw/blog/post/kyoto-mishimatei-lunch",
                     "location": {
                       "name": "三嶋亭 本店",
-                      "googleQuery": "https://maps.google.com/?q=%E4%B8%89%E5%B6%8B%E4%BA%AD+%E6%9C%AC%E5%BA%97+%E4%BA%AC%E9%83%BD",
+                      "googleQuery": "https://www.google.com/maps/search/%E4%B8%89%E5%B6%8B%E4%BA%AD+%E6%9C%AC%E5%BA%97+%E4%BA%AC%E9%83%BD",
                       "appleQuery": "https://maps.apple.com/?q=%E4%B8%89%E5%B6%8B%E4%BA%AD+%E6%9C%AC%E5%BA%97"
                     },
                     "googleRating": 4.3,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "和食",
@@ -1497,11 +1476,12 @@
                     "blogUrl": "https://jimmraz.pixnet.net/blog/post/50547156",
                     "location": {
                       "name": "モリタ屋 木屋町店",
-                      "googleQuery": "https://maps.google.com/?q=%E3%83%A2%E3%83%AA%E3%82%BF%E5%B1%8B+%E6%9C%A8%E5%B1%8B%E7%94%BA%E5%BA%97",
+                      "googleQuery": "https://www.google.com/maps/search/%E3%83%A2%E3%83%AA%E3%82%BF%E5%B1%8B+%E6%9C%A8%E5%B1%8B%E7%94%BA%E5%BA%97",
                       "appleQuery": "https://maps.apple.com/?q=%E3%83%A2%E3%83%AA%E3%82%BF%E5%B1%8B+%E6%9C%A8%E5%B1%8B%E7%94%BA%E5%BA%97"
                     },
                     "googleRating": 4.2,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "洋食",
@@ -1513,11 +1493,12 @@
                     "blogUrl": "https://www.bring-you.info/zh-tw/juunidanya",
                     "location": {
                       "name": "十二段家 本店",
-                      "googleQuery": "https://maps.google.com/?q=%E5%8D%81%E4%BA%8C%E6%AE%B5%E5%AE%B6+%E6%9C%AC%E5%BA%97+%E4%BA%AC%E9%83%BD",
+                      "googleQuery": "https://www.google.com/maps/search/%E5%8D%81%E4%BA%8C%E6%AE%B5%E5%AE%B6+%E6%9C%AC%E5%BA%97+%E4%BA%AC%E9%83%BD",
                       "appleQuery": "https://maps.apple.com/?q=%E5%8D%81%E4%BA%8C%E6%AE%B5%E5%AE%B6+%E6%9C%AC%E5%BA%97"
                     },
                     "googleRating": 4,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   }
                 ]
               }
@@ -1531,7 +1512,7 @@
             "locations": [
               {
                 "name": "Bar Rocking Chair",
-                "googleQuery": "https://maps.google.com/?q=Bar+Rocking+Chair+%E4%BA%AC%E9%83%BD",
+                "googleQuery": "https://www.google.com/maps/search/Bar+Rocking+Chair+%E4%BA%AC%E9%83%BD",
                 "appleQuery": "https://maps.apple.com/?q=Bar+Rocking+Chair+Kyoto"
               }
             ],
@@ -1542,17 +1523,29 @@
             "googleRating": 4.5
           }
         ]
+      },
+      "weather": {
+        "label": "京都",
+        "locations": [
+          {
+            "lat": 35.0116,
+            "lon": 135.7681,
+            "name": "京都",
+            "start": 0,
+            "end": 23
+          }
+        ]
       }
     },
     {
       "id": 5,
       "date": "2026-03-10",
+      "dayOfWeek": "二",
       "label": "稻荷・清水寺",
       "content": {
         "hotel": {
           "name": "Hotel Resol Trinity Kyoto",
           "url": "https://www.resol-trinity.com/kyoto/",
-          "details": [],
           "checkout": "11:00",
           "breakfast": {
             "included": null
@@ -1573,7 +1566,8 @@
                   ],
                   "blogUrl": "https://minako.tw/japan-family/",
                   "googleRating": 3.5,
-                  "source": "ai"
+                  "source": "ai",
+                  "note": ""
                 },
                 {
                   "category": "超市",
@@ -1586,7 +1580,8 @@
                   ],
                   "blogUrl": "https://mimicat1531.pixnet.net/blog/post/48930056",
                   "googleRating": 3.7,
-                  "source": "ai"
+                  "source": "ai",
+                  "note": ""
                 },
                 {
                   "category": "唐吉軻德",
@@ -1599,13 +1594,15 @@
                   ],
                   "blogUrl": "https://visitkyototw.pixnet.net/blog/post/93112818",
                   "googleRating": 3.9,
-                  "source": "ai"
+                  "source": "ai",
+                  "note": ""
                 }
               ]
             }
           ],
           "blogUrl": "https://candicecity.com/56704/",
-          "source": "ai"
+          "source": "ai",
+          "note": ""
         },
         "timeline": [
           {
@@ -1616,12 +1613,13 @@
             "locations": [
               {
                 "name": "六曜社",
-                "googleQuery": "https://maps.google.com/?q=%E5%85%AD%E6%9B%9C%E7%A4%BE+%E4%BA%AC%E9%83%BD",
+                "googleQuery": "https://www.google.com/maps/search/%E5%85%AD%E6%9B%9C%E7%A4%BE+%E4%BA%AC%E9%83%BD",
                 "appleQuery": "https://maps.apple.com/?q=%E5%85%AD%E6%9B%9C%E7%A4%BE+%E4%BA%AC%E9%83%BD"
               }
             ],
             "googleRating": 4.2,
-            "source": "ai"
+            "source": "ai",
+            "note": ""
           },
           {
             "time": "10:00-12:30",
@@ -1631,7 +1629,7 @@
             "locations": [
               {
                 "name": "伏見稻荷大社",
-                "googleQuery": "https://maps.google.com/?q=%E4%BC%8F%E8%A6%8B%E7%A8%BB%E8%8D%B7%E5%A4%A7%E7%A4%BE",
+                "googleQuery": "https://www.google.com/maps/search/%E4%BC%8F%E8%A6%8B%E7%A8%BB%E8%8D%B7%E5%A4%A7%E7%A4%BE",
                 "appleQuery": "https://maps.apple.com/?q=%E4%BC%8F%E8%A6%8B%E7%A8%BB%E8%8D%B7%E5%A4%A7%E7%A4%BE"
               }
             ],
@@ -1648,7 +1646,7 @@
             "locations": [
               {
                 "name": "宮川豚衛門",
-                "googleQuery": "https://maps.google.com/?q=%E5%AE%AE%E5%B7%9D%E8%B1%9A%E8%A1%9B%E9%96%80+%E4%BA%AC%E9%83%BD",
+                "googleQuery": "https://www.google.com/maps/search/%E5%AE%AE%E5%B7%9D%E8%B1%9A%E8%A1%9B%E9%96%80+%E4%BA%AC%E9%83%BD",
                 "appleQuery": "https://maps.apple.com/?q=%E5%AE%AE%E5%B7%9D%E8%B1%9A%E8%A1%9B%E9%96%80"
               }
             ],
@@ -1671,11 +1669,12 @@
                     "blogUrl": "https://pp761211.pixnet.net/blog/post/222605554",
                     "location": {
                       "name": "かつくら 四条東洞院店",
-                      "googleQuery": "https://maps.google.com/?q=%E3%81%8B%E3%81%A4%E3%81%8F%E3%82%89+%E5%9B%9B%E6%9D%A1%E6%9D%B1%E6%B4%9E%E9%99%A2%E5%BA%97",
+                      "googleQuery": "https://www.google.com/maps/search/%E3%81%8B%E3%81%A4%E3%81%8F%E3%82%89+%E5%9B%9B%E6%9D%A1%E6%9D%B1%E6%B4%9E%E9%99%A2%E5%BA%97",
                       "appleQuery": "https://maps.apple.com/?q=%E3%81%8B%E3%81%A4%E3%81%8F%E3%82%89+%E5%9B%9B%E6%9D%A1%E6%9D%B1%E6%B4%9E%E9%99%A2%E5%BA%97"
                     },
                     "googleRating": 4.1,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "和食",
@@ -1687,11 +1686,12 @@
                     "blogUrl": "https://upssmile.com/33288/nezameya",
                     "location": {
                       "name": "祢ざめ家",
-                      "googleQuery": "https://maps.google.com/?q=%E7%A5%A2%E3%81%96%E3%82%81%E5%AE%B6+%E4%BC%8F%E8%A6%8B%E7%A8%BB%E8%8D%B7",
+                      "googleQuery": "https://www.google.com/maps/search/%E7%A5%A2%E3%81%96%E3%82%81%E5%AE%B6+%E4%BC%8F%E8%A6%8B%E7%A8%BB%E8%8D%B7",
                       "appleQuery": "https://maps.apple.com/?q=%E7%A5%A2%E3%81%96%E3%82%81%E5%AE%B6"
                     },
                     "googleRating": 3.8,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "洋食",
@@ -1703,11 +1703,12 @@
                     "blogUrl": "https://openchiang1113.pixnet.net/blog/post/110365034",
                     "location": {
                       "name": "グリル小宝",
-                      "googleQuery": "https://maps.google.com/?q=%E3%82%B0%E3%83%AA%E3%83%AB%E5%B0%8F%E5%AE%9D+%E4%BA%AC%E9%83%BD",
+                      "googleQuery": "https://www.google.com/maps/search/%E3%82%B0%E3%83%AA%E3%83%AB%E5%B0%8F%E5%AE%9D+%E4%BA%AC%E9%83%BD",
                       "appleQuery": "https://maps.apple.com/?q=%E3%82%B0%E3%83%AA%E3%83%AB%E5%B0%8F%E5%AE%9D"
                     },
                     "googleRating": 4.2,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   }
                 ]
               }
@@ -1722,7 +1723,7 @@
             "locations": [
               {
                 "name": "清水寺",
-                "googleQuery": "https://maps.google.com/?q=%E6%B8%85%E6%B0%B4%E5%AF%BA+%E4%BA%AC%E9%83%BD",
+                "googleQuery": "https://www.google.com/maps/search/%E6%B8%85%E6%B0%B4%E5%AF%BA+%E4%BA%AC%E9%83%BD",
                 "appleQuery": "https://maps.apple.com/?q=%E6%B8%85%E6%B0%B4%E5%AF%BA"
               }
             ],
@@ -1739,7 +1740,7 @@
             "locations": [
               {
                 "name": "祇園北川半兵衛",
-                "googleQuery": "https://maps.google.com/?q=%E7%A5%87%E5%9C%92%E5%8C%97%E5%B7%9D%E5%8D%8A%E5%85%B5%E8%A1%9B",
+                "googleQuery": "https://www.google.com/maps/search/%E7%A5%87%E5%9C%92%E5%8C%97%E5%B7%9D%E5%8D%8A%E5%85%B5%E8%A1%9B",
                 "appleQuery": "https://maps.apple.com/?q=%E7%A5%87%E5%9C%92%E5%8C%97%E5%B7%9D%E5%8D%8A%E5%85%B5%E8%A1%9B"
               }
             ],
@@ -1756,7 +1757,7 @@
             "locations": [
               {
                 "name": "お好み焼き 世都",
-                "googleQuery": "https://maps.google.com/?q=%E3%81%8A%E5%A5%BD%E3%81%BF%E7%84%BC%E3%81%8D+%E4%B8%96%E9%83%BD+%E4%BA%AC%E9%83%BD",
+                "googleQuery": "https://www.google.com/maps/search/%E3%81%8A%E5%A5%BD%E3%81%BF%E7%84%BC%E3%81%8D+%E4%B8%96%E9%83%BD+%E4%BA%AC%E9%83%BD",
                 "appleQuery": "https://maps.apple.com/?q=%E3%81%8A%E5%A5%BD%E3%81%BF%E7%84%BC%E3%81%8D+%E4%B8%96%E9%83%BD"
               }
             ],
@@ -1779,11 +1780,12 @@
                     "blogUrl": "",
                     "location": {
                       "name": "ジャンボ 本店",
-                      "googleQuery": "https://maps.google.com/?q=%E3%81%8A%E5%A5%BD%E3%81%BF%E7%84%BC+%E3%82%B8%E3%83%A3%E3%83%B3%E3%83%9C+%E4%BA%AC%E9%83%BD",
+                      "googleQuery": "https://www.google.com/maps/search/%E3%81%8A%E5%A5%BD%E3%81%BF%E7%84%BC+%E3%82%B8%E3%83%A3%E3%83%B3%E3%83%9C+%E4%BA%AC%E9%83%BD",
                       "appleQuery": "https://maps.apple.com/?q=%E3%82%B8%E3%83%A3%E3%83%B3%E3%83%9C+%E4%BA%AC%E9%83%BD"
                     },
                     "googleRating": 4.1,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "和食",
@@ -1795,11 +1797,12 @@
                     "blogUrl": "",
                     "location": {
                       "name": "吉野 祇園店",
-                      "googleQuery": "https://maps.google.com/?q=%E3%81%8A%E5%A5%BD%E3%81%BF%E7%84%BC+%E5%90%89%E9%87%8E+%E7%A5%87%E5%9C%92",
+                      "googleQuery": "https://www.google.com/maps/search/%E3%81%8A%E5%A5%BD%E3%81%BF%E7%84%BC+%E5%90%89%E9%87%8E+%E7%A5%87%E5%9C%92",
                       "appleQuery": "https://maps.apple.com/?q=%E5%90%89%E9%87%8E+%E7%A5%87%E5%9C%92"
                     },
                     "googleRating": 4,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   },
                   {
                     "category": "洋食",
@@ -1811,11 +1814,12 @@
                     "blogUrl": "https://geofrania.pixnet.net/blog/post/225911921",
                     "location": {
                       "name": "壹銭洋食",
-                      "googleQuery": "https://maps.google.com/?q=%E5%A3%B9%E9%8A%AD%E6%B4%8B%E9%A3%9F+%E7%A5%87%E5%9C%92",
+                      "googleQuery": "https://www.google.com/maps/search/%E5%A3%B9%E9%8A%AD%E6%B4%8B%E9%A3%9F+%E7%A5%87%E5%9C%92",
                       "appleQuery": "https://maps.apple.com/?q=%E5%A3%B9%E9%8A%AD%E6%B4%8B%E9%A3%9F"
                     },
                     "googleRating": 4,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   }
                 ]
               }
@@ -1829,7 +1833,7 @@
             "locations": [
               {
                 "name": "C-pla",
-                "googleQuery": "https://maps.google.com/?q=C-pla+%E4%BA%AC%E9%83%BD+%E6%B2%B3%E5%8E%9F%E7%94%BA",
+                "googleQuery": "https://www.google.com/maps/search/C-pla+%E4%BA%AC%E9%83%BD+%E6%B2%B3%E5%8E%9F%E7%94%BA",
                 "appleQuery": "https://maps.apple.com/?q=C-pla+Kyoto"
               }
             ],
@@ -1840,19 +1844,40 @@
             "googleRating": 4.1
           }
         ]
+      },
+      "weather": {
+        "label": "京都",
+        "locations": [
+          {
+            "lat": 34.9671,
+            "lon": 135.7727,
+            "name": "伏見",
+            "start": 9,
+            "end": 12
+          },
+          {
+            "lat": 34.9948,
+            "lon": 135.785,
+            "name": "清水寺",
+            "start": 13,
+            "end": 17
+          },
+          {
+            "lat": 35.0116,
+            "lon": 135.7681,
+            "name": "京都",
+            "start": 18,
+            "end": 23
+          }
+        ]
       }
     },
     {
       "id": 6,
       "date": "2026-03-11",
+      "dayOfWeek": "三",
       "label": "返回台北",
       "content": {
-        "hotel": {
-          "name": "（退房）",
-          "breakfast": {
-            "included": null
-          }
-        },
         "timeline": [
           {
             "time": "09:00-10:30",
@@ -1862,12 +1887,13 @@
             "locations": [
               {
                 "name": "Smart Coffee",
-                "googleQuery": "https://maps.google.com/?q=%E3%82%B9%E3%83%9E%E3%83%BC%E3%83%88%E7%8F%88%E7%90%B2%E5%BA%97+%E4%BA%AC%E9%83%BD",
+                "googleQuery": "https://www.google.com/maps/search/%E3%82%B9%E3%83%9E%E3%83%BC%E3%83%88%E7%8F%88%E7%90%B2%E5%BA%97+%E4%BA%AC%E9%83%BD",
                 "appleQuery": "https://maps.apple.com/?q=Smart+Coffee+Kyoto"
               }
             ],
             "googleRating": 4.3,
-            "source": "ai"
+            "source": "ai",
+            "note": ""
           },
           {
             "time": "10:30-11:00",
@@ -1889,7 +1915,7 @@
             "locations": [
               {
                 "name": "京都車站",
-                "googleQuery": "https://maps.google.com/?q=%E4%BA%AC%E9%83%BD%E9%A7%85",
+                "googleQuery": "https://www.google.com/maps/search/%E4%BA%AC%E9%83%BD%E9%A7%85",
                 "appleQuery": "https://maps.apple.com/?q=%E4%BA%AC%E9%83%BD%E9%A7%85"
               }
             ],
@@ -1914,11 +1940,12 @@
                     "blogUrl": "",
                     "location": {
                       "name": "Town Gate Cafe",
-                      "googleQuery": "https://maps.google.com/?q=Town+Gate+Kansai+Airport",
+                      "googleQuery": "https://www.google.com/maps/search/Town+Gate+Kansai+Airport",
                       "appleQuery": "https://maps.apple.com/?q=Town+Gate+Kansai+Airport"
                     },
                     "googleRating": 3.5,
-                    "source": "ai"
+                    "source": "ai",
+                    "note": ""
                   }
                 ]
               }
@@ -1926,12 +1953,13 @@
             "locations": [
               {
                 "name": "關西機場 Town Gate",
-                "googleQuery": "https://maps.google.com/?q=Town+Gate+Kansai+Airport",
+                "googleQuery": "https://www.google.com/maps/search/Town+Gate+Kansai+Airport",
                 "appleQuery": "https://maps.apple.com/?q=Town+Gate+Kansai+Airport"
               }
             ],
             "googleRating": 3.8,
-            "source": "ai"
+            "source": "ai",
+            "note": ""
           },
           {
             "time": "14:30",
@@ -1941,12 +1969,25 @@
             "locations": [
               {
                 "name": "關西國際機場",
-                "googleQuery": "https://maps.google.com/?q=Kansai+International+Airport",
+                "googleQuery": "https://www.google.com/maps/search/Kansai+International+Airport",
                 "appleQuery": "https://maps.apple.com/?q=Kansai+International+Airport"
               }
             ],
             "googleRating": 4,
-            "source": "ai"
+            "source": "ai",
+            "note": ""
+          }
+        ]
+      },
+      "weather": {
+        "label": "京都",
+        "locations": [
+          {
+            "lat": 35.0116,
+            "lon": 135.7681,
+            "name": "京都",
+            "start": 0,
+            "end": 23
           }
         ]
       }
@@ -1959,14 +2000,12 @@
         {
           "label": "去程",
           "route": "TPE(T2) → KIX(T1)",
-          "time": "3/6（五）08:05→11:35",
-          "flight": "CI156"
+          "time": "CI156｜3/6（五）08:05→11:35"
         },
         {
           "label": "回程",
           "route": "KIX(T1) → TPE(T2)",
-          "time": "3/11（三）14:30→16:45",
-          "flight": "CI153"
+          "time": "CI153｜3/11（三）14:30→16:45"
         }
       ],
       "airline": {
@@ -2074,19 +2113,23 @@
           "contacts": [
             {
               "label": "日本緊急電話",
-              "value": "110（警察）/ 119（消防救護）"
+              "phone": "110",
+              "url": "tel:110"
             },
             {
               "label": "台北駐大阪經濟文化辦事處",
-              "value": "06-6443-8481"
+              "phone": "06-6443-8481",
+              "url": "tel:0664438481"
             },
             {
               "label": "中華航空客服",
-              "value": "+81-6-6264-0202"
+              "phone": "+81-6-6264-0202",
+              "url": "tel:+81662640202"
             },
             {
               "label": "Hotel Resol Trinity Kyoto",
-              "value": "075-211-9269"
+              "phone": "075-211-9269",
+              "url": "tel:0752119269"
             }
           ]
         }
