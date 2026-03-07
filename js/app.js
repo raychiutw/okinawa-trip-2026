@@ -802,8 +802,11 @@ function formatDayDate(day) {
 }
 
 /* ===== URL Routing ===== */
-function fileToSlug(f) { var m = f.match(/^data\/trips\/(.+)\.json$/); return m ? m[1] : null; }
-function slugToFile(s) { return 'data/trips/' + s + '.json'; }
+function fileToSlug(f) {
+    var m = f.match(/^data\/(?:trips\/(.+)\.json|dist\/([^/]+)\/)$/);
+    return m ? (m[1] || m[2]) : null;
+}
+function slugToFile(s) { return 'data/dist/' + s + '/'; }
 function getUrlTrip() { return new URLSearchParams(window.location.search).get('trip'); }
 function setUrlTrip(slug) {
     var url = new URL(window.location);
@@ -816,167 +819,224 @@ function loadTripPref() { return lsGet('trip-pref'); }
 /* ===== Trip Data Loading ===== */
 var TRIP = null;
 var TRIP_FILE = '';
+var DIST_PATH = '';
+var dayCache = {};
+var weatherCache = {};
+var tripStart = null;
+var tripEnd = null;
 
 function resolveAndLoad() {
-    // 1. URL has ?trip= param
     var slug = getUrlTrip();
-    if (slug && /^[\w-]+$/.test(slug)) { loadTrip(slugToFile(slug)); return; }
-    // 2. localStorage has preference (6-month expiry)
+    if (slug && /^[\w-]+$/.test(slug)) { loadTrip(slug); return; }
     var saved = loadTripPref();
-    if (saved) { loadTrip(slugToFile(saved)); return; }
-    // 3. No trip selected — show message
+    if (saved) { loadTrip(saved); return; }
     document.getElementById('tripContent').innerHTML = '<div class="trip-error">'
         + '<p>請選擇行程</p>'
         + '<a class="trip-error-link" href="setting.html">前往設定頁</a>'
         + '</div>';
 }
 
-function loadTrip(filename) {
-    TRIP_FILE = filename;
-
-    // Update URL + save preference
-    var slug = fileToSlug(filename);
-    if (slug) { setUrlTrip(slug); saveTripPref(slug); }
-
-    // Only allow relative paths (prevent fetching external URLs)
-    if (/^https?:\/\//i.test(filename) || filename.indexOf('..') !== -1) {
-        document.getElementById('tripContent').innerHTML = '<div class="trip-error">\u274c \u7121\u6548\u7684\u884c\u7a0b\u6a94\u8def\u5f91</div>';
-        return;
-    }
-    fetch(filename)
-        .then(function(r) { if (!r.ok) throw new Error(r.status); return r.json(); })
-        .then(function(data) { TRIP = data; renderTrip(data); })
-        .catch(function(e) {
-            lsRemove('trip-pref');
-            document.getElementById('tripContent').innerHTML = '<div class="trip-error">'
-                + '<p>行程不存在：' + escHtml(filename) + '</p>'
-                + '<a class="trip-error-link" href="setting.html">選擇其他行程</a>'
-                + '</div>';
-        });
+/* ===== Skeleton + Slot Rendering ===== */
+function createSkeleton(dayIds) {
+    var html = '';
+    dayIds.forEach(function(id) {
+        html += '<section class="day-section" data-day="' + id + '" style="display:none">';
+        html += '<div class="day-header info-header" id="day' + id + '"><h2>Day ' + id + '</h2></div>';
+        html += '<div class="day-content" id="day-slot-' + id + '">';
+        html += '<div class="slot-loading">' + iconSpan('hourglass') + ' 載入中...</div>';
+        html += '</div></section>';
+    });
+    html += '<div id="flights-slot"></div>';
+    html += '<div id="checklist-slot"></div>';
+    html += '<div id="backup-slot"></div>';
+    html += '<div id="emergency-slot"></div>';
+    html += '<div id="suggestions-slot"></div>';
+    html += '<div id="driving-slot"></div>';
+    html += '<div id="footer-slot"></div>';
+    return html;
 }
 
-function renderTrip(data) {
-    var safe = stripInlineHandlers;
+function renderSlotError(slotId, message) {
+    var el = document.getElementById(slotId);
+    if (el) el.innerHTML = '<div class="slot-error">' + iconSpan('warning') + ' ' + escHtml(message) + '</div>';
+}
 
-    // Update page title & meta tags
-    document.title = data.meta.title;
+function renderNavSlot(meta, dayIds) {
+    document.title = meta.meta.title;
     var metaDesc = document.querySelector('meta[name="description"]');
-    if (metaDesc && data.meta.description) metaDesc.setAttribute('content', data.meta.description);
+    if (metaDesc && meta.meta.description) metaDesc.setAttribute('content', meta.meta.description);
     var ogTitle = document.querySelector('meta[property="og:title"]');
-    if (ogTitle) ogTitle.setAttribute('content', data.meta.title);
+    if (ogTitle) ogTitle.setAttribute('content', meta.meta.title);
     var ogDesc = document.querySelector('meta[property="og:description"]');
-    if (ogDesc && data.meta.ogDescription) ogDesc.setAttribute('content', data.meta.ogDescription);
-
-    // Build nav pills (day.id is numeric, safe)
+    if (ogDesc && meta.meta.ogDescription) ogDesc.setAttribute('content', meta.meta.ogDescription);
     var navHtml = '';
-    data.days.forEach(function(day) {
-        var id = parseInt(day.id) || 0;
+    dayIds.forEach(function(id) {
         navHtml += '<button class="dn" data-day="' + id + '" data-action="switch-day" data-target="day' + id + '">' + id + '</button>';
     });
     document.getElementById('navPills').innerHTML = navHtml;
-    // Set first pill as active
-    var firstPill = document.querySelector('#navPills .dn');
-    if (firstPill) firstPill.classList.add('active');
+}
 
-    // Build sections
-    var html = '';
-
-    // Day sections
-    data.days.forEach(function(day, idx) {
-        var id = parseInt(day.id) || 0;
-        html += '<section class="day-section" data-day="' + id + '">';
-        html += '<div class="day-header info-header" id="day' + id + '">'
-              + '<h2>Day ' + id + ' ' + escHtml(day.label || '') + '</h2>'
-              + '<span class="dh-date">' + escHtml(formatDayDate(day)) + '</span></div>';
-        html += '<div class="day-content">';
-        if (typeof day.content === 'string') {
-            html += safe(day.content || '');
-        } else {
-            var warnings = validateDay(day);
-            if (warnings.length) html += renderWarnings(warnings);
-            // 找出對應此天的 weather id
-            var weatherId = null;
-            if (data.weather) {
-                data.weather.forEach(function(w) { if (w.date === day.date || w.dayId === id) weatherId = w.id; });
-            }
-            html += renderDayContent(day.content || {}, weatherId);
-        }
-        html += '</div>';
-        html += '</section>';
-    });
-
-    // Info sections
-    var infoSections = [
-        { key: 'flights', id: 'sec-flight' },
-        { key: 'checklist', id: 'sec-checklist' },
-        { key: 'backup', id: 'sec-backup' },
-        { key: 'emergency', id: 'sec-emergency' }
-    ];
-    infoSections.forEach(function(sec) {
-        var d = data[sec.key];
-        if (!d) return;
-        html += '<section>';
-        html += '<div class="day-header info-header" id="' + sec.id + '"><h2>' + escHtml(d.title) + '</h2></div>';
-        html += '<div class="day-content">';
-        if (typeof d.content === 'string') {
-            html += safe(d.content || '');
-        } else {
-            if (sec.key === 'flights') html += renderFlights(d.content || {});
-            else if (sec.key === 'checklist') html += renderChecklist(d.content || {});
-            else if (sec.key === 'backup') html += renderBackup(d.content || {});
-            else if (sec.key === 'emergency') html += renderEmergency(d.content || {});
-        }
-        html += '</div>';
-        html += '</section>';
-    });
-
-    // Trip-wide driving stats (independent card)
-    var tripDrivingStats = calcTripDrivingStats(data.days);
-    if (tripDrivingStats) {
-        html += '<section>';
-        html += '<div class="day-header info-header" id="sec-driving"><h2>' + iconSpan('bus') + ' 交通統計</h2></div>';
-        html += '<div class="day-content">' + renderTripDrivingStats(tripDrivingStats) + '</div>';
-        html += '</section>';
-    }
-
-    // Footer
-    html += '<footer>';
-    html += '<h3>' + escHtml(data.footer.title) + '</h3>';
-    html += '<p>' + escHtml(data.footer.dates) + '</p>';
-    if (data.footer.budget) html += '<p class="footer-budget">' + escHtml(data.footer.budget) + '</p>';
-    if (data.footer.exchangeNote) html += '<p class="footer-exchange">' + escHtml(data.footer.exchangeNote) + '</p>';
-    html += '<p>' + escHtml(data.footer.tagline) + '</p>';
+function renderFooterSlot(meta) {
+    var el = document.getElementById('footer-slot');
+    if (!el) return;
+    var f = meta.footer;
+    var html = '<footer>';
+    html += '<h3>' + escHtml(f.title) + '</h3>';
+    html += '<p>' + escHtml(f.dates) + '</p>';
+    if (f.budget) html += '<p class="footer-budget">' + escHtml(f.budget) + '</p>';
+    if (f.exchangeNote) html += '<p class="footer-exchange">' + escHtml(f.exchangeNote) + '</p>';
+    html += '<p>' + escHtml(f.tagline) + '</p>';
     html += '</footer>';
+    el.innerHTML = html;
+}
 
-    document.getElementById('tripContent').innerHTML = html;
+function renderInfoSlot(key, data) {
+    var slotId = key + '-slot';
+    var el = document.getElementById(slotId);
+    if (!el) return;
+    TRIP[key] = data;
+    var secId = key === 'flights' ? 'sec-flight' : 'sec-' + key;
+    var html = '<section>';
+    html += '<div class="day-header info-header" id="' + escHtml(secId) + '"><h2>' + escHtml(data.title) + '</h2></div>';
+    html += '<div class="day-content">';
+    var renderFn = { flights: renderFlights, checklist: renderChecklist, backup: renderBackup, emergency: renderEmergency, suggestions: renderSuggestions };
+    if (typeof data.content === 'string') {
+        html += stripInlineHandlers(data.content || '');
+    } else if (renderFn[key]) {
+        html += renderFn[key](data.content || {});
+    }
+    html += '</div></section>';
+    el.innerHTML = html;
+}
 
-    // Init ARIA
-    initAria();
-
-    // Init weather
-    if (data.weather && data.weather.length) initWeather(data.weather);
-
-    // Hash anchor or auto-switch to today's tab
-    var hash = window.location.hash.replace('#', '');
-    var hashDay = hash && hash.match(/^day(\d+)$/);
-    if (hashDay) {
-        switchDay(parseInt(hashDay[1]));
+function renderDaySlot(day) {
+    var slotId = 'day-slot-' + day.id;
+    var el = document.getElementById(slotId);
+    if (!el) return;
+    var section = el.closest('.day-section');
+    if (section) {
+        var header = section.querySelector('.day-header');
+        if (header) {
+            header.innerHTML = '<h2>Day ' + day.id + ' ' + escHtml(day.label || '') + '</h2>'
+                + '<span class="dh-date">' + escHtml(formatDayDate(day)) + '</span>';
+        }
+    }
+    var html = '';
+    if (typeof day.content === 'string') {
+        html = stripInlineHandlers(day.content || '');
     } else {
-        autoScrollToday(data.autoScrollDates);
+        var warnings = validateDay(day);
+        if (warnings.length) html += renderWarnings(warnings);
+        var weatherId = day.weather ? 'hourly-' + day.id : null;
+        html += renderDayContent(day.content || {}, weatherId);
+    }
+    el.innerHTML = html;
+}
+
+function fetchDay(dayId) {
+    fetch(DIST_PATH + 'day-' + dayId + '.json')
+        .then(function(r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+        .then(function(day) {
+            dayCache[dayId] = day;
+            TRIP.days[dayId - 1] = day;
+            renderDaySlot(day);
+            initAria();
+            if (day.weather) fetchWeatherForDay(day);
+            tryRenderDrivingStats();
+        })
+        .catch(function() {
+            renderSlotError('day-slot-' + dayId, 'Day ' + dayId + ' 載入失敗');
+        });
+}
+
+function tryRenderDrivingStats() {
+    if (!TRIP || !TRIP.days) return;
+    var allLoaded = TRIP.days.every(function(d) { return d && d.content; });
+    if (!allLoaded) return;
+    var el = document.getElementById('driving-slot');
+    if (!el) return;
+    var tripStats = calcTripDrivingStats(TRIP.days);
+    if (tripStats) {
+        el.innerHTML = '<section><div class="day-header info-header" id="sec-driving"><h2>全旅程交通統計</h2></div><div class="day-content">' + renderTripDrivingStats(tripStats) + '</div></section>';
+    }
+}
+
+function loadTrip(slug) {
+    TRIP = {};
+    dayCache = {};
+    weatherCache = {};
+    DIST_PATH = 'data/dist/' + slug + '/';
+    TRIP_FILE = 'data/trips/' + slug + '.json';
+
+    if (!/^[\w-]+$/.test(slug)) {
+        document.getElementById('tripContent').innerHTML = '<div class="trip-error">\u274c \u7121\u6548\u7684\u884c\u7a0b\u6a94\u8def\u5f91</div>';
+        return;
     }
 
-    // Dynamic scroll-margin for sticky nav offset
-    alignStickyNav();
+    setUrlTrip(slug);
+    saveTripPref(slug);
 
-    // Init nav pills overflow arrows
-    initNavOverflow();
+    fetch(DIST_PATH + 'index.json')
+        .then(function(r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+        .then(function(manifest) {
+            return fetch(DIST_PATH + 'meta.json')
+                .then(function(r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+                .then(function(meta) {
+                    TRIP.meta = meta.meta;
+                    TRIP.footer = meta.footer;
+                    TRIP.autoScrollDates = meta.autoScrollDates;
 
-    // Render info panel (desktop ≥1200px only)
-    renderInfoPanel(data);
+                    if (meta.autoScrollDates && meta.autoScrollDates.length) {
+                        tripStart = meta.autoScrollDates[0];
+                        tripEnd = meta.autoScrollDates[meta.autoScrollDates.length - 1];
+                    }
 
-    // Update FAB link with current trip slug
-    var fab = document.getElementById('editFab');
-    if (fab) fab.href = 'edit.html?trip=' + encodeURIComponent(fileToSlug(TRIP_FILE));
+                    var dayIds = manifest
+                        .filter(function(k) { return k.indexOf('day-') === 0; })
+                        .map(function(k) { return parseInt(k.replace('day-', '')); })
+                        .sort(function(a, b) { return a - b; });
+                    TRIP.days = dayIds.map(function(id) { return { id: id }; });
+
+                    document.getElementById('tripContent').innerHTML = createSkeleton(dayIds);
+                    renderNavSlot(meta, dayIds);
+                    renderFooterSlot(meta);
+                    initAria();
+                    alignStickyNav();
+                    initNavOverflow();
+                    renderInfoPanel({ autoScrollDates: meta.autoScrollDates, days: TRIP.days });
+
+                    var fab = document.getElementById('editFab');
+                    if (fab) fab.href = 'edit.html?trip=' + encodeURIComponent(slug);
+
+                    var infoKeys = ['flights', 'checklist', 'backup', 'emergency', 'suggestions'];
+                    infoKeys.forEach(function(key) {
+                        if (manifest.indexOf(key) === -1) return;
+                        fetch(DIST_PATH + key + '.json')
+                            .then(function(r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+                            .then(function(data) { renderInfoSlot(key, data); })
+                            .catch(function() { renderSlotError(key + '-slot', key + ' 載入失敗'); });
+                    });
+
+                    var hash = window.location.hash.replace('#', '');
+                    var hashDay = hash && hash.match(/^day(\d+)$/);
+                    var initialDay = dayIds[0] || 1;
+                    if (hashDay && dayIds.indexOf(parseInt(hashDay[1])) !== -1) {
+                        initialDay = parseInt(hashDay[1]);
+                    } else if (meta.autoScrollDates) {
+                        var todayStr = new Date().toISOString().split('T')[0];
+                        var idx = meta.autoScrollDates.indexOf(todayStr);
+                        if (idx >= 0 && dayIds[idx]) initialDay = dayIds[idx];
+                    }
+                    switchDay(initialDay);
+                });
+        })
+        .catch(function() {
+            lsRemove('trip-pref');
+            document.getElementById('tripContent').innerHTML = '<div class="trip-error">'
+                + '<p>行程不存在：' + escHtml(slug) + '</p>'
+                + '<a class="trip-error-link" href="setting.html">選擇其他行程</a>'
+                + '</div>';
+        });
 }
 
 /* ===== Info Panel (desktop right sidebar) ===== */
@@ -1174,14 +1234,13 @@ function switchDay(dayId) {
     pills.forEach(function(btn) { btn.classList.toggle('active', parseInt(btn.getAttribute('data-day')) === dayId); });
     var activeBtn = document.querySelector('#stickyNav .dh-nav .dn.active');
     if (activeBtn) scrollNavPillIntoView(activeBtn);
-    // 捲到選取的那天
-    var target = document.querySelector('.day-section[data-day="' + dayId + '"]');
-    if (target) {
-        var nav = document.getElementById('stickyNav');
-        var navH = nav ? nav.offsetHeight : 0;
-        var top = target.getBoundingClientRect().top + window.pageYOffset - navH;
-        window.scrollTo({ top: Math.max(0, top) });
-    }
+    // Show only the selected day section
+    document.querySelectorAll('.day-section').forEach(function(sec) {
+        sec.style.display = parseInt(sec.getAttribute('data-day')) === dayId ? '' : 'none';
+    });
+    window.scrollTo({ top: 0 });
+    // Lazy load if not cached
+    if (!dayCache[dayId]) fetchDay(dayId);
     history.replaceState(null, '', '#day' + dayId);
 }
 function toggleHw(el) {
@@ -1202,6 +1261,9 @@ function togglePrint() {
         document.body.classList.remove('dark');
     }
     document.body.classList.toggle('print-mode');
+    if (entering && TRIP && TRIP.days) {
+        TRIP.days.forEach(function(d) { if (!dayCache[d.id]) fetchDay(d.id); });
+    }
     if (!entering && document.body.dataset.wasDark === '1') {
         document.body.classList.add('dark');
         delete document.body.dataset.wasDark;
@@ -1371,81 +1433,87 @@ document.addEventListener('click', function(e) {
 });
 
 /* ===== Hourly Weather API (Open-Meteo) ===== */
-function initWeather(weatherDays) {
-    var WMO={0:'weather-clear',1:'weather-sun-cloud',2:'weather-partly',3:'weather-cloudy',45:'weather-fog',48:'weather-fog',51:'weather-rain-sun',53:'weather-rain-sun',55:'weather-rain',56:'weather-rain',57:'weather-rain',61:'weather-rain-sun',63:'weather-rain',65:'weather-rain',66:'weather-rain',67:'weather-rain',71:'weather-snow',73:'weather-snow',75:'weather-snow',77:'weather-snow',80:'weather-rain-sun',81:'weather-rain',82:'weather-rain',85:'weather-snow',86:'weather-snow',95:'weather-thunder',96:'weather-thunder',99:'weather-thunder'};
+var WMO={0:'weather-clear',1:'weather-sun-cloud',2:'weather-partly',3:'weather-cloudy',45:'weather-fog',48:'weather-fog',51:'weather-rain-sun',53:'weather-rain-sun',55:'weather-rain',56:'weather-rain',57:'weather-rain',61:'weather-rain-sun',63:'weather-rain',65:'weather-rain',66:'weather-rain',67:'weather-rain',71:'weather-snow',73:'weather-snow',75:'weather-snow',77:'weather-snow',80:'weather-rain-sun',81:'weather-rain',82:'weather-rain',85:'weather-snow',86:'weather-snow',95:'weather-thunder',96:'weather-thunder',99:'weather-thunder'};
 
-    function getLocIdx(day,h){for(var i=day.locations.length-1;i>=0;i--)if(h>=day.locations[i].start)return i;return 0;}
+function getLocIdx(day,h){for(var i=day.locations.length-1;i>=0;i--)if(h>=day.locations[i].start)return i;return 0;}
 
-    function renderHourly(c,m,day){
-        var now=new Date(),ch=now.getHours();
-        var minT=99,maxT=-99,minR=100,maxR=0,iconCount={},bestIcon='weather-clear';
-        for(var h=0;h<24;h++){var t=Math.round(m.temps[h]),r=m.rains[h],ic=WMO[m.codes[h]]||'question';if(t<minT)minT=t;if(t>maxT)maxT=t;if(r<minR)minR=r;if(r>maxR)maxR=r;iconCount[ic]=(iconCount[ic]||0)+1;}
-        var maxCnt=0;for(var k in iconCount)if(iconCount[k]>maxCnt){maxCnt=iconCount[k];bestIcon=k;}
-        var locs=day.locations.map(function(l){return escHtml(l.name);}).filter(function(v,i,a){return a.indexOf(v)===i;}).join('→');
-        var html='<div class="hw-summary" data-action="toggle-hw">'+iconSpan(bestIcon)+' '+minT+'~'+maxT+'°C &nbsp;・&nbsp; '+iconSpan('raindrop')+minR+'~'+maxR+'% &nbsp;・&nbsp; '+locs+'<span class="hw-summary-arrow">＋</span></div>';
-        html+='<div class="hw-detail"><div class="hourly-weather-header"><span class="hourly-weather-title">'+iconSpan('timer')+' 7日內預報 — '+escHtml(day.label)+'</span><span class="hw-update-time">'+ch+':'+String(now.getMinutes()).padStart(2,'0')+'</span></div><div class="hw-grid">';
-        for(var h=0;h<=23;h++){
-            var li=getLocIdx(day,h),wIcon=WMO[m.codes[h]]||'question',temp=Math.round(m.temps[h]),rain=m.rains[h],isNow=(h===ch);
-            html+='<div class="hw-block'+(isNow?' hw-now':'')+'" data-hour="'+h+'"><div class="hw-block-time">'+(isNow?'▶ ':'')+h+':00</div>';
-            if(day.locations.length>1)html+='<div class="hw-block-loc hw-loc-'+li+'">'+escHtml(day.locations[li].name)+'</div>';
-            html+='<div class="hw-block-icon">'+iconSpan(wIcon)+'</div><div class="hw-block-temp">'+temp+'°C</div><div class="hw-block-rain'+(rain>=50?' hw-rain-high':'')+'">'+iconSpan('raindrop')+rain+'%</div></div>';
-        }
-        html+='</div></div>';c.innerHTML=html;
-        var nowBlock=c.querySelector('.hw-now');
-        if(nowBlock){var grid=c.querySelector('.hw-grid');if(grid)grid.scrollLeft=nowBlock.offsetLeft-grid.offsetLeft;}
+function renderHourly(c,m,day){
+    var now=new Date(),ch=now.getHours();
+    var minT=99,maxT=-99,minR=100,maxR=0,iconCount={},bestIcon='weather-clear';
+    for(var h=0;h<24;h++){var t=Math.round(m.temps[h]),r=m.rains[h],ic=WMO[m.codes[h]]||'question';if(t<minT)minT=t;if(t>maxT)maxT=t;if(r<minR)minR=r;if(r>maxR)maxR=r;iconCount[ic]=(iconCount[ic]||0)+1;}
+    var maxCnt=0;for(var k in iconCount)if(iconCount[k]>maxCnt){maxCnt=iconCount[k];bestIcon=k;}
+    var locs=day.locations.map(function(l){return escHtml(l.name);}).filter(function(v,i,a){return a.indexOf(v)===i;}).join('→');
+    var html='<div class="hw-summary" data-action="toggle-hw">'+iconSpan(bestIcon)+' '+minT+'~'+maxT+'°C &nbsp;・&nbsp; '+iconSpan('raindrop')+minR+'~'+maxR+'% &nbsp;・&nbsp; '+locs+'<span class="hw-summary-arrow">＋</span></div>';
+    html+='<div class="hw-detail"><div class="hourly-weather-header"><span class="hourly-weather-title">'+iconSpan('timer')+' 7日內預報 — '+escHtml(day.label)+'</span><span class="hw-update-time">'+ch+':'+String(now.getMinutes()).padStart(2,'0')+'</span></div><div class="hw-grid">';
+    for(var h=0;h<=23;h++){
+        var li=getLocIdx(day,h),wIcon=WMO[m.codes[h]]||'question',temp=Math.round(m.temps[h]),rain=m.rains[h],isNow=(h===ch);
+        html+='<div class="hw-block'+(isNow?' hw-now':'')+'" data-hour="'+h+'"><div class="hw-block-time">'+(isNow?'▶ ':'')+h+':00</div>';
+        if(day.locations.length>1)html+='<div class="hw-block-loc hw-loc-'+li+'">'+escHtml(day.locations[li].name)+'</div>';
+        html+='<div class="hw-block-icon">'+iconSpan(wIcon)+'</div><div class="hw-block-temp">'+temp+'°C</div><div class="hw-block-rain'+(rain>=50?' hw-rain-high':'')+'">'+iconSpan('raindrop')+rain+'%</div></div>';
     }
+    html+='</div></div>';c.innerHTML=html;
+    var nowBlock=c.querySelector('.hw-now');
+    if(nowBlock){var grid=c.querySelector('.hw-grid');if(grid)grid.scrollLeft=nowBlock.offsetLeft-grid.offsetLeft;}
+}
 
-    function makeDefaultMg(){var mg={temps:[],rains:[],codes:[]};for(var h=0;h<24;h++){mg.temps.push(0);mg.rains.push(0);mg.codes.push(0);}return mg;}
+function makeDefaultMg(){var mg={temps:[],rains:[],codes:[]};for(var h=0;h<24;h++){mg.temps.push(0);mg.rains.push(0);mg.codes.push(0);}return mg;}
 
-    // Batch: collect unique locations across all days, fetch once per location with full date range
-    var locMap={},minDate=null,maxDate=null;
-    weatherDays.forEach(function(day){
-        if(!minDate||day.date<minDate)minDate=day.date;
-        if(!maxDate||day.date>maxDate)maxDate=day.date;
-        day.locations.forEach(function(l){var k=l.lat+','+l.lon;if(!locMap[k])locMap[k]={lat:l.lat,lon:l.lon};});
-    });
+function toDateStr(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
 
-    // 檢查 maxDate 是否在今天 + 16 天預報範圍內
-    var todayD=new Date(),limitD=new Date(todayD.getTime()+16*24*60*60*1000);
-    var limitStr=limitD.getFullYear()+'-'+String(limitD.getMonth()+1).padStart(2,'0')+'-'+String(limitD.getDate()).padStart(2,'0');
-    if(maxDate>limitStr){
-        weatherDays.forEach(function(day){var c=document.getElementById(day.id);if(c)renderHourly(c,makeDefaultMg(),day);});
+function fetchWeatherForDay(day) {
+    if (!day.weather || !day.weather.locations || !day.weather.locations.length) return;
+    var dayDate = day.date;
+    if (!dayDate || dayDate.indexOf('-') === -1) return;
+
+    // Check if day.date is within forecast range (today ~ today+16)
+    var todayD = new Date(); todayD.setHours(0,0,0,0);
+    var limitD = new Date(todayD.getTime() + 16*86400000);
+    var fetchStart = tripStart && tripStart > toDateStr(todayD) ? tripStart : toDateStr(todayD);
+    var fetchEnd = tripEnd && tripEnd < toDateStr(limitD) ? tripEnd : toDateStr(limitD);
+    if (dayDate > fetchEnd || dayDate < fetchStart) {
+        var c = document.getElementById('hourly-' + day.id);
+        if (c) renderHourly(c, makeDefaultMg(), day.weather);
         return;
     }
 
-    var locKeys=Object.keys(locMap);
-    Promise.all(locKeys.map(function(k){
-        var l=locMap[k];
-        var params = new URLSearchParams({ latitude: l.lat, longitude: l.lon, hourly: 'temperature_2m,precipitation_probability,weather_code', start_date: minDate, end_date: maxDate, timezone: 'Asia/Tokyo' });
+    // Collect unique coordinates for this day
+    var locKeys = [];
+    day.weather.locations.forEach(function(l) {
+        var k = l.lat + ',' + l.lon;
+        if (locKeys.indexOf(k) === -1) locKeys.push(k);
+    });
+
+    // Fetch missing coordinates, use cache for hits
+    Promise.all(locKeys.map(function(k) {
+        if (weatherCache[k]) return Promise.resolve({ key: k, data: weatherCache[k] });
+        var parts = k.split(',');
+        var params = new URLSearchParams({ latitude: parts[0], longitude: parts[1], hourly: 'temperature_2m,precipitation_probability,weather_code', start_date: fetchStart, end_date: fetchEnd, timezone: 'Asia/Tokyo' });
         return fetch('https://api.open-meteo.com/v1/forecast?' + params.toString())
-            .then(function(r){return r.json();})
-            .then(function(d){return{key:k,data:d};});
-    })).then(function(results){
-        var cache={};results.forEach(function(r){cache[r.key]=r.data;});
-        weatherDays.forEach(function(day){
-            var c=document.getElementById(day.id);if(!c)return;
-            // Find hour offset for this day's date in the API response
-            var sample=cache[locKeys[0]];
-            if(!sample||!sample.hourly){renderHourly(c,makeDefaultMg(),day);return;}
-            var dayOffset=sample.hourly.time.indexOf(day.date+'T00:00');
-            if(dayOffset<0){renderHourly(c,makeDefaultMg(),day);return;}
-            var mg={temps:[],rains:[],codes:[]};
-            for(var h=0;h<24;h++){
-                var li=getLocIdx(day,h),l=day.locations[li],d=cache[l.lat+','+l.lon];
-                var idx=dayOffset+h;
-                if(d&&d.hourly&&idx<d.hourly.temperature_2m.length){
-                    mg.temps.push(d.hourly.temperature_2m[idx]);
-                    mg.rains.push(d.hourly.precipitation_probability[idx]);
-                    mg.codes.push(d.hourly.weather_code[idx]);
-                }else{mg.temps.push(0);mg.rains.push(0);mg.codes.push(0);}
-            }
-            renderHourly(c,mg,day);
-        });
-    }).catch(function(e){
-        weatherDays.forEach(function(day){
-            var c=document.getElementById(day.id);
-            if(c)c.innerHTML='<div class="hw-error">天氣資料載入失敗：'+escHtml(e.message)+'</div>';
-        });
+            .then(function(r) { return r.json(); })
+            .then(function(d) { weatherCache[k] = d; return { key: k, data: d }; });
+    })).then(function(results) {
+        var cache = {};
+        results.forEach(function(r) { cache[r.key] = r.data; });
+        var c = document.getElementById('hourly-' + day.id);
+        if (!c) return;
+        var sample = cache[locKeys[0]];
+        if (!sample || !sample.hourly) { renderHourly(c, makeDefaultMg(), day.weather); return; }
+        var dayOffset = sample.hourly.time.indexOf(dayDate + 'T00:00');
+        if (dayOffset < 0) { renderHourly(c, makeDefaultMg(), day.weather); return; }
+        var mg = { temps: [], rains: [], codes: [] };
+        for (var h = 0; h < 24; h++) {
+            var li = getLocIdx(day.weather, h), l = day.weather.locations[li], d = cache[l.lat + ',' + l.lon];
+            var idx = dayOffset + h;
+            if (d && d.hourly && idx < d.hourly.temperature_2m.length) {
+                mg.temps.push(d.hourly.temperature_2m[idx]);
+                mg.rains.push(d.hourly.precipitation_probability[idx]);
+                mg.codes.push(d.hourly.weather_code[idx]);
+            } else { mg.temps.push(0); mg.rains.push(0); mg.codes.push(0); }
+        }
+        renderHourly(c, mg, day.weather);
+    }).catch(function(e) {
+        var c = document.getElementById('hourly-' + day.id);
+        if (c) c.innerHTML = '<div class="hw-error">天氣資料載入失敗：' + escHtml(e.message) + '</div>';
     });
 }
 
@@ -1501,6 +1569,14 @@ if (typeof module !== 'undefined' && module.exports) {
         renderCountdown: renderCountdown,
         renderTripStatsCard: renderTripStatsCard,
         loadTrip: loadTrip,
-        resolveAndLoad: resolveAndLoad
+        resolveAndLoad: resolveAndLoad,
+        createSkeleton: createSkeleton,
+        renderSlotError: renderSlotError,
+        WMO: WMO,
+        getLocIdx: getLocIdx,
+        renderHourly: renderHourly,
+        makeDefaultMg: makeDefaultMg,
+        toDateStr: toDateStr,
+        fetchWeatherForDay: fetchWeatherForDay
     };
 }

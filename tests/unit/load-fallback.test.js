@@ -21,7 +21,7 @@ describe('loadTrip failure', () => {
         var originalFetch = globalThis.fetch;
         globalThis.fetch = () => Promise.resolve({ ok: false, status: 404, json: () => Promise.resolve({}) });
 
-        app.loadTrip('data/trips/nonexistent-trip.json');
+        app.loadTrip('nonexistent-trip');
 
         // Wait for async fetch to resolve
         await new Promise(r => setTimeout(r, 50));

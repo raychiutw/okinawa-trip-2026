@@ -1,0 +1,57 @@
+---
+id: 6
+date: 2026-04-06
+dayOfWeek: 一
+label: 新莊・三重
+weather: {"label":"新莊・三重","locations":[{"lat":25.0146,"lon":121.4672,"name":"板橋","start":0,"end":23}]}
+---
+
+## Hotel: 家
+- source: ai
+- details: 新北板橋區合宜一路25號四樓之3
+
+## Timeline
+
+### 10:00-12:00 幸福水漾公園
+三重大台北都會公園內，彩色地景藝術、大片花海、親子遊憩空間
+- web: https://newtaipei.travel/zh-tw/attractions/detail/109442
+- blog: https://yoyoman822.pixnet.net/blog/post/335556667
+- maps: 幸福水漾公園 | 三重幸福水漾公園
+- rating: 4.2
+- travel: car 開車 約20分鐘
+
+### 12:00-13:00 午餐
+- blog: 
+- source: ai
+- maps: 三重正義北路商圈 | 三重正義北路
+- rating: 4
+
+#### restaurants: 午餐推薦（三重周邊）
+
+| name | category | hours | price | reservation | description | blog | rating | maps | mapcode | source |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 博多一幸舎 新莊店 | 日式拉麵 | 11:00~22:00 | NT$250~380 | 不需訂位 | 福岡豚骨拉麵名店，濃厚博多風白湯，麵條細直可免費加麵 | https://bigmouthblog.tw/ikkousha-xinzhuang/ | 4.1 | 博多一幸舎 新莊店 |  | ai |
+| 歐義式 新莊店 | 義大利麵 | 11:00~21:30 | NT$220~380 | 不需訂位 | 新莊義大利麵專門店，現炒義大利麵配自製醬汁，奶油培根與青醬海鮮最受歡迎 | https://bigmouthblog.tw/ouyi-pasta-xinzhuang/ | 3.9 | 歐義式 新莊店 |  | ai |
+| 今大魯肉飯 | 特色小吃 | 07:00~20:00 | NT$30~80 | 不需訂位 | 三重排隊名店，肥瘦比例完美的魯肉飯，加顆滷蛋絕配 | https://bigmouthblog.tw/jinda-braised-rice/ | 4.3 | 今大魯肉飯 |  | ai |
+
+### 14:00-16:00 空軍三重一村
+全台保存最完整的防砲眷村，已活化為文創園區，展覽與眷村生活體驗
+- web: https://new.culture.ntpc.gov.tw/
+- blog: https://andyventure.com/sanchong-military-village/
+- maps: 空軍三重一村
+- rating: 4.4
+- travel: car 開車 約10分鐘
+
+### 18:00-19:30 晚餐
+- blog: 
+- source: ai
+- maps: 三重正義北路商圈 | 三重正義北路
+- rating: 4
+
+#### restaurants: 晚餐推薦（三重/蘆洲）
+
+| name | category | hours | price | reservation | description | blog | rating | maps | mapcode | source |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 麵屋壹慶 三重店 | 日式拉麵 | 11:00~21:00 | NT$220~320 | 不需訂位 | 三重在地日式拉麵，濃郁豚骨湯頭搭配手工麵條，叉燒厚切多汁 | https://kenalice.tw/menya-ikukei-sanchong/ | 4.2 | 麵屋壹慶 三重店 |  | ai |
+| 小義大利莊園 三重店 | 義大利麵 | 11:30~21:00 | NT$250~420 | 建議訂位 | 三重義式餐廳，窯烤披薩與義大利麵雙主打，義式燉飯香氣濃郁 | https://tisshuang.com/little-italy-sanchong/ | 4 | 小義大利莊園 三重店 |  | ai |
+| 正羊肉榮 三重店 | 特色小吃 | 16:00~01:00 | NT$300~600 | 不需訂位 | 三重人氣羊肉爐，藥膳湯底溫潤，帶皮羊肉軟嫩不騷 | https://tisshuang.com/zhengyangrourong/ | 4.2 | 正羊肉榮 三重店 |  | ai |
