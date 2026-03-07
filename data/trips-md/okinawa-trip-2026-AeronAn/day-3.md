@@ -1,0 +1,91 @@
+---
+id: 3
+date: 2026-04-26
+dayOfWeek: 日
+label: 北部水族館
+weather: {"label":"那霸・本部","locations":[{"lat":26.2066,"lon":127.6476,"name":"那霸","start":0,"end":7},{"lat":26.6577,"lon":127.8782,"name":"本部","start":8,"end":17},{"lat":26.2066,"lon":127.6476,"name":"那霸","start":18,"end":23}]}
+---
+
+## Hotel: ダイワロイネットホテル那覇国際通り
+- url: https://www.daiwaroynet.jp/naha-kokusaidori/
+- checkout: 11:00
+- blog: https://yuziblog.pixnet.net/blog/posts/16017102822
+- rating: 4.2
+- source: ai
+- details: 那覇市牧志1-1-2, 牧志站步行1分鐘
+- breakfast: false 自助早餐 ¥2,200（6:30-10:00），需另付費
+
+### shopping: 飯店附近購物
+
+| name | category | hours | mustBuy | blog | rating | maps | mapcode | source |
+|---|---|---|---|---|---|---|---|---|
+| FamilyMart 國際通り入口店 | 超商 | 24小時 | 沖繩限定飯糰（豬肉蛋）, 沖繩限定冰淇淋, 便當・輕食 | https://furikake.okinawa/other/okinawa-familymart/ | 3.7 |  |  | ai |
+| サンエー那霸メインプレイス | 超市 | 09:00~22:00 | 沖繩本地豬肉（アグー豚）, 島豆腐・海葡萄, 泡盛・Orion 啤酒 | https://nikitarh.pixnet.net/blog/post/5673665 | 4.1 |  |  | ai |
+| 唐吉軻德 國際通店 | 唐吉軻德 | 24小時 | 沖繩限定紫芋 KitKat・紅芋塔, EVE 止痛藥・合利他命, 安耐曬防曬乳・美妝 | https://linshibi.com/?p=16331 | 4.2 |  |  | ai |
+
+## Timeline
+
+### 07:30-10:00 搭高速巴士前往北部
+搭 117 番やんばる急行巴士，從縣廳前直達美麗海水族館，約2.5小時
+- blog: 
+- maps: 縣廳前站 | 県庁前駅 那覇
+- rating: 3.5
+- travel: bus 117 番高速巴士 縣廳前→記念公園前 約150分鐘
+
+#### reservation: 巴士資訊
+- 117 番 やんばる急行巴士
+- 縣廳前→記念公園前 約2~2.5小時
+- 建議購買來回票較划算
+- 車上可能無廁所，建議先上洗手間
+
+### 10:00-13:00 沖繩美麗海水族館
+必看黑潮之海！巨大鯨鯊與鬼蝠魟悠遊的壯觀水槽。園區內還有海龜館、海豚表演
+- web: https://churaumi.okinawa/
+- blog: https://bobbyfun.tw/2024-01-08-2706/
+- source: ai
+- maps: 沖繩美麗海水族館 | 沖縄美ら海水族館
+- rating: 4.5
+
+### 13:00-14:30 午餐
+水族館周邊或本部町午餐
+- blog: 
+- maps: 海洋博公園周邊 | 海洋博公園 本部町
+- rating: 4
+- travel: walk 步行至備瀨福木林道 約15分鐘
+
+#### restaurants: 午餐推薦
+
+| name | category | hours | price | reservation | description | blog | rating | maps | mapcode | source |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 名護漁港 水産物直売所 | 生魚片 | 08:00~18:00 | ¥800~¥1,500 | 免預約 | 名護漁港直營，鮮魚刺身・海鮮丼，漁港直送最新鮮 |  | 4 | 名護漁港 水産物直売所 |  | ai |
+| 焼肉もとぶ牧場 本部店 | 燒肉 | 11:00~22:00 | ¥3,000~ | 建議預約 | 牧場直營本部牛，A4-A5 等級和牛燒肉 |  | 4 | 焼肉もとぶ牧場 本部店 |  | ai |
+| 岸本食堂 | 地方特色 | 11:00~17:00（週三休） | ¥600~¥1,000 | 免預約 | 本部町百年沖繩そば老店，手打粗麵＋三層肉，週三休 |  | 4 | 岸本食堂 本部町 |  | ai |
+
+### 14:30-16:00 備瀨福木林道
+約2萬棵福木形成的綠色隧道，盡頭是美麗海灘。可租腳踏車悠閒遊覽
+- blog: 
+- maps: 備瀨福木林道 | 備瀬のフクギ並木
+- rating: 4.5
+- travel: bus 117 番高速巴士回程 記念公園前→縣廳前 約150分鐘
+
+### 16:00-19:00 搭巴士返回那霸
+搭 117 番回程巴士返回那霸市區
+- blog: 
+- source: ai
+- maps: 那霸巴士總站 | 那覇バスターミナル
+- rating: 3.5
+
+### 19:00-20:00 晚餐
+回到那霸晚餐
+- blog: 
+- source: ai
+- maps: 那霸國際通 | 那覇国際通り
+- rating: 4
+
+#### restaurants: 晚餐推薦
+
+| name | category | hours | price | reservation | description | blog | rating | maps | mapcode | source |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 牧志公設市場 2F 食堂 | 生魚片 | 10:00~20:00 | ¥2,000~¥4,000 | 免預約 | 1F 買海鮮 2F 代客料理，生魚片・龍蝦・夜光貝，現買現吃最新鮮 | https://bobbyfun.tw/2024-01-07-2705/ | 4 | 牧志公設市場 2F \| 那覇市第一牧志公設市場 |  | ai |
+| ステーキハウス88 國際通店 | 燒肉 | 11:00~22:00 | ¥1,500~¥4,000 | 免預約 | 沖繩老牌牛排館，200g 沙朗 ¥2,200 起，在地人也愛 | https://nancyik2001.pixnet.net/blog/post/234815610 | 4.1 | ステーキハウス88 国際通り店 |  | ai |
+| 山羊料理 さかえ | 地方特色 | 17:00~22:00 | ¥2,000~¥4,000 | 建議預約 | 沖繩傳統山羊料理，山羊汁・山羊刺身，在地人推薦 | https://relney.pixnet.net/blog/post/300906707 | 4 | 山羊料理さかえ 那覇 \| 山羊料理 さかえ 那覇 |  | ai |

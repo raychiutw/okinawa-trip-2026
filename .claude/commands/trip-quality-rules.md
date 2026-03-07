@@ -16,15 +16,15 @@
 - `mapcode` 格式為 `XX XXX XXX*XX`（如 `33 530 406*00`），正則：`/^\d{2,4}\s\d{3}\s\d{3}\*\d{2}$/`。僅 `meta.countries` 含 `"JP"` 且 `meta.selfDrive === true` 時必填。
 
 #### 根層級必填欄位
-- 必填：`meta`（含 `title` 非空字串、`selfDrive` boolean、`countries` 非空陣列，值為 ISO 3166-1 alpha-2 國碼如 `["JP"]`）、`days`（非空陣列）、`weather`（非空陣列）、`autoScrollDates`（非空陣列）、`footer`（含 `title`、`dates`）、`highlights`、`suggestions`、`checklist`。
+- 必填：`meta`（含 `title` 非空字串、`selfDrive` boolean、`countries` 非空陣列，值為 ISO 3166-1 alpha-2 國碼如 `["JP"]`）、`days`（非空陣列）、`autoScrollDates`（非空陣列）、`footer`（含 `title`、`dates`）、`suggestions`、`checklist`。
 - 選填：`flights`、`emergency`（存在時驗證結構）。
 - `meta` 不得包含已移除欄位（`themeColor`、`name`）。
 
 #### 每日結構
 - 每日必填：`id`、`date`（非空字串）、`label`、`content.timeline`（陣列）。
+- 每日選填：`weather`（物件，含 `label` 字串、`locations` 陣列）。`weather.locations[].lat` 和 `lon` 須為 number 型別。
 - `days[i].id` 必須等於 `i + 1`（從 1 開始的連續整數）。
-- `weather[].date` 和 `autoScrollDates[]` 須為 ISO 格式 `YYYY-MM-DD`。
-- `weather[].locations[].lat` 和 `lon` 須為 number 型別。
+- `autoScrollDates[]` 須為 ISO 格式 `YYYY-MM-DD`。
 
 #### Timeline event 結構
 - 每個 event 必填：`time`（非空字串）、`title`（非空字串）。
@@ -41,9 +41,6 @@
 - 須含 `title`（非空字串）和 `content.segments`（陣列）。
 - 每個 segment 須含 `label`（非空字串）、`route`（非空字串），以及 `time`（字串）或 `depart` + `arrive`（皆為字串）。
 - `content.airline` 為必填物件，含 `name`（非空字串）和 `note`（字串）。
-
-#### Highlights 結構
-- 須含 `title`（非空字串）和 `content`（含 `summary` string 和 `tags` array）。
 
 #### Suggestions 結構
 - `suggestions.content.cards[].priority` 值只能為 `high`、`medium` 或 `low`。
@@ -94,9 +91,6 @@ shop.category 使用標準分類（共 7 類）：超市、超商、唐吉軻德
 
 ### R8 早餐欄位
 每日 hotel 物件須包含 `breakfast` 欄位。使用者指定飯店含早餐時：`{ "included": true, "note": "早餐說明" }`。自行解決：`{ "included": false }`。未指定：`{ "included": null }`（顯示「資料未提供」，此為 R0 null 禁用的唯一例外）。若查得到飯店最晚退房時間，以 `hotel.checkout` 記錄（如 `"11:00"`）。使用者安排的入退房時間在 timeline events 中，hotel 不重複。
-
-### R9 AI 亮點精簡
-`highlights.content.summary` 須為 50 字以內的旅程風格評語。不列舉具體景點、不使用「Day X」開頭的行程描述。以旅程整體風格、特色、適合對象等角度撰寫。`tags` 陣列保持不變。
 
 ### R10 還車加油站
 自駕行程（`meta.selfDrive` 為 `true`）產生或修改還車 timeline event 時，SHALL 附上最近的加油站資訊。以 `gasStation` infoBox 結構化呈現（含 name、address、hours、service、phone，選填 location）。優先推薦フルサービス（人工加油站），標註 `service: "フルサービス（人工）"`；若附近僅有自助加油站，標註 `service: "セルフ（自助）"`。搜尋方式：Google「{還車地點} 附近 人工加油站」。

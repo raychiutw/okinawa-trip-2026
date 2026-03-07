@@ -1,0 +1,57 @@
+---
+id: 7
+date: 2026-07-08
+dayOfWeek: 三
+label: 回程
+weather: {"label":"那霸","locations":[{"lat":26.2066,"lon":127.6476,"name":"那霸","start":0,"end":23}]}
+---
+
+## Timeline
+
+### 10:00 沖繩那霸美居飯店 退房
+- blog: 
+- source: ai
+- maps: メルキュール沖縄那覇
+- mapcode: 33 155 267*37
+- rating: 4
+
+### 11:14 機場午餐
+在那霸機場用午餐
+- blog: https://bobbyfun.tw/2024-01-07-2702/
+- source: ai
+- maps: 那覇空港 国内線ターミナル | 那覇空港
+- mapcode: 33 122 298*54
+- rating: 4
+
+#### restaurants: 機場午餐推薦
+
+| name | category | hours | price | reservation | description | blog | rating | maps | mapcode | source | appleMaps |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| 空港食堂 | 沖繩料理 | 09:00~20:00 | ¥600~ | {"available":"no","recommended":false} | 隱藏版員工食堂，在地人也愛吃 | https://mimihan.tw/naha-airport-shokudo/ | 4 | 空港食堂 那覇空港 |  | ai |  |
+| 天龍 那覇空港店 | 海鮮 | 07:00~20:30 | ¥800~ | {"available":"no","recommended":false} | 沖繩そば＆定食老店，機場人氣名店 | https://okinawatravelinfo.com/naha-airport-restaurant/ | 3.8 | 天龍 那覇空港店 \| 天龍 那覇空港 |  | ai |  |
+| A&W 那覇空港店 | 甜點 | 06:30~20:30 | ¥600~ | {"available":"no","recommended":false} | 沖繩限定美式漢堡，根啤酒必喝 | https://solomo.xinmedia.com/japan/116755 | 3.8 | A&W 那覇空港店 \| A&W 那覇空港 |  | ai | A |
+
+### 11:15-12:15 那霸機場退稅
+辦理退稅手續，集中處理免稅商品
+- blog: 
+- source: ai
+- maps: 那覇空港 国内線ターミナル | 那覇空港
+- mapcode: 33 122 298*54
+- rating: 4
+
+#### reservation: 退稅注意事項
+- 退稅櫃檯位於國內線 1F（出發大廳旁）
+- 免稅商品須以密封袋包裝，離境前不可拆封
+- 攜帶護照正本 + 購物收據（需附免稅單據）
+- 同一店家同日消費滿 ¥5,000（未稅）可退稅
+- 一般物品與消耗品分開計算
+- 建議提前整理好所有免稅單據與商品，加快流程
+- 退稅後商品須隨身攜帶或放入託運行李
+
+### 12:15-13:15 那霸機場
+樂桃 MM927，辦理登機、機場購物、回程
+- blog: https://bobbyfun.tw/2024-01-07-2702/
+- source: ai
+- maps: 那霸機場
+- mapcode: 33 122 298*54
+- rating: 4

@@ -92,11 +92,11 @@ test.describe('導航功能（Tab 切換）', () => {
 
     // 點擊 Day 3 pill
     await page.locator('#navPills .dn[data-day="3"]').click();
-    await page.waitForTimeout(300);
+    await page.waitForTimeout(500);
 
-    // Day 3 可見，Day 1 也可見（可往上捲看前面的天）
+    // Day 3 可見，Day 1 隱藏（tab 切換只顯示選中天）
     await expect(day3).toBeVisible();
-    await expect(day1).toBeVisible();
+    await expect(day1).not.toBeVisible();
   });
 
   test('點擊 pill 更新 active class', async ({ page }) => {
@@ -278,7 +278,7 @@ test.describe('可收合區塊', () => {
     await page.goto('/');
     const colRow = page.locator('.col-row').first();
 
-    await expect(colRow).toHaveAttribute('aria-expanded', 'false');
+    await expect(colRow).toHaveAttribute('aria-expanded', 'false', { timeout: 10000 });
     await colRow.click();
     await expect(colRow).toHaveAttribute('aria-expanded', 'true');
   });
@@ -311,7 +311,7 @@ test.describe('地圖連結與餐廳', () => {
     expect(count).toBeGreaterThan(0);
 
     const href = await gLinks.first().getAttribute('href');
-    expect(href).toMatch(/maps\.google\.com/);
+    expect(href).toMatch(/google\.com.*maps|maps\.google\.com/);
   });
 
   test('Apple Map 連結存在', async ({ page }) => {
@@ -551,22 +551,70 @@ test.describe('Dark + Print 互動', () => {
   });
 });
 
-/* ===== 18. 所有天都可見（可自由捲動） ===== */
+/* ===== 18. Day 區段 tab 切換 ===== */
 test.describe('Day 區段可見性', () => {
-  test('所有 Day 區段初始都可見', async ({ page }) => {
+  test('初始只有第一天可見，其餘隱藏', async ({ page }) => {
     await page.goto('/');
     const day1 = page.locator('.day-section[data-day="1"]');
     const day2 = page.locator('.day-section[data-day="2"]');
     await expect(day1).toBeVisible();
-    await expect(day2).toBeVisible();
+    await expect(day2).not.toBeVisible();
   });
 
-  test('點擊 pill 後對應天仍可見', async ({ page }) => {
+  test('點擊 pill 後對應天可見、其他天隱藏', async ({ page }) => {
     await page.goto('/');
     await page.locator('#navPills .dn[data-day="4"]').click();
-    await page.waitForTimeout(300);
+    await page.waitForTimeout(500);
     const day4 = page.locator('.day-section[data-day="4"]');
+    const day1 = page.locator('.day-section[data-day="1"]');
     await expect(day4).toBeVisible();
+    await expect(day1).not.toBeVisible();
+  });
+});
+
+/* ===== 18b. Day Lazy Loading ===== */
+test.describe('Day Lazy Loading', () => {
+  test('切換到新的 Day 後該 Day 內容被載入', async ({ page }) => {
+    await page.goto('/');
+    // Day 1 content should be loaded
+    await expect(page.locator('.day-section[data-day="1"] .tl-event').first()).toBeAttached({ timeout: 5000 });
+
+    // Switch to Day 3
+    await page.locator('#navPills .dn[data-day="3"]').click();
+    await page.waitForTimeout(1000);
+
+    // Day 3 content should be loaded (timeline events present)
+    await expect(page.locator('.day-section[data-day="3"] .tl-event').first()).toBeAttached({ timeout: 5000 });
+  });
+
+  test('切回已載入的 Day 使用快取（不重新載入）', async ({ page }) => {
+    await page.goto('/');
+    await expect(page.locator('.day-section[data-day="1"] .tl-event').first()).toBeAttached({ timeout: 5000 });
+
+    // Switch to Day 2 then back to Day 1
+    await page.locator('#navPills .dn[data-day="2"]').click();
+    await page.waitForTimeout(500);
+    await page.locator('#navPills .dn[data-day="1"]').click();
+    await page.waitForTimeout(300);
+
+    // Day 1 still has content (from cache)
+    await expect(page.locator('.day-section[data-day="1"] .tl-event').first()).toBeAttached();
+  });
+
+  test('列印模式載入所有 Day', async ({ page }) => {
+    await page.goto('/');
+    await expect(page.locator('.day-section[data-day="1"] .tl-event').first()).toBeAttached({ timeout: 5000 });
+
+    // Enter print mode
+    await page.locator('.nav-actions [data-action="toggle-print"]').click();
+    await page.waitForTimeout(2000);
+
+    // All day sections should be visible
+    const daySections = page.locator('.day-section');
+    const count = await daySections.count();
+    for (let i = 0; i < count; i++) {
+      await expect(daySections.nth(i)).toBeVisible();
+    }
   });
 });
 
@@ -591,18 +639,22 @@ test.describe('每日交通統計', () => {
 
 /* ===== 20. 全旅程交通統計 ===== */
 test.describe('全旅程交通統計', () => {
-  test('航班後出現交通統計區塊', async ({ page }) => {
+  test('所有 Day 載入後出現交通統計區塊', async ({ page }) => {
     await page.goto('/');
+    // 進入列印模式載入所有 Day
+    await page.locator('.nav-actions [data-action="toggle-print"]').click();
+    await page.waitForTimeout(3000);
     const summary = page.locator('.driving-summary');
-    await expect(summary).toBeAttached();
+    await expect(summary).toBeAttached({ timeout: 10000 });
   });
 
-  test('包含多種交通類型（常駐展開，不需點擊）', async ({ page }) => {
+  test('包含多種交通類型', async ({ page }) => {
     await page.goto('/');
+    await page.locator('.nav-actions [data-action="toggle-print"]').click();
+    await page.waitForTimeout(3000);
     const summary = page.locator('.driving-summary');
-    // 全旅程統計常駐展開，無需點擊
     const typeSummary = summary.locator('.transport-type-summary').first();
-    await expect(typeSummary).toBeAttached();
+    await expect(typeSummary).toBeAttached({ timeout: 10000 });
   });
 });
 

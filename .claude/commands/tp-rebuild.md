@@ -78,8 +78,5 @@ shop.category 使用標準分類（共 7 類，timeline 景點購物與飯店購
 ### R8 早餐欄位
 每日 hotel 物件須包含 `breakfast` 欄位。使用者指定飯店含早餐時：`{ "included": true, "note": "早餐說明" }`。自行解決：`{ "included": false }`。未指定：`{ "included": null }`（顯示「資料未提供」）。若查得到飯店最晚退房時間，以 `hotel.checkout` 記錄（如 `"11:00"`）。使用者安排的入退房時間在 timeline events 中，hotel 不重複。
 
-### R9 AI 亮點精簡
-`highlights.content.summary` 須為 50 字以內的旅程風格評語。不列舉具體景點、不使用「Day X」開頭的行程描述。以旅程整體風格、特色、適合對象等角度撰寫。`tags` 陣列保持不變。
-
 ### R10 還車加油站
 自駕行程（`meta.tripType` 為 `"self-drive"` 或 `"mixed"`）產生或修改還車 timeline event 時，SHALL 附上最近的加油站資訊。以 `gasStation` infoBox 結構化呈現（含 name、address、hours、service、phone，選填 location）。優先推薦フルサービス（人工加油站），標註 `service: "フルサービス（人工）"`；若附近僅有自助加油站，標註 `service: "セルフ（自助）"`。搜尋方式：Google「{還車地點} 附近 人工加油站」。
