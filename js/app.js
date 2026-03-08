@@ -3,6 +3,7 @@ var ARROW_EXPAND = '＋';
 var ARROW_COLLAPSE = '－';
 var DRIVING_WARN_MINUTES = 120;
 var DRIVING_WARN_LABEL = '超過 2 小時';
+var MS_PER_DAY = 86400000;
 var TRANSPORT_TYPE_ORDER = ['car', 'train', 'walking'];
 
 /* ===== Safe Color Validation ===== */
@@ -216,7 +217,7 @@ function parseTimeRange(timeStr) {
     }
     return { start: start, end: end, duration: duration };
 }
-function fmtDuration(mins) {
+function formatDuration(mins) {
     if (mins <= 0) return '';
     var h = Math.floor(mins / 60);
     var m = mins % 60;
@@ -252,7 +253,7 @@ function renderTimelineEvent(entry, idx, isLast) {
     }
     html += '</span>';
     if (typeof entry.googleRating === 'number') html += ' <span class="rating">★ ' + entry.googleRating.toFixed(1) + '</span>';
-    var durationText = fmtDuration(parsed.duration);
+    var durationText = formatDuration(parsed.duration);
     if (durationText) html += '<span class="tl-duration">' + iconSpan('clock') + ' ' + durationText + '</span>';
     html += '</div>';
 
@@ -779,7 +780,7 @@ function renderWarnings(warnings) {
     return html;
 }
 // Renew all on page load
-lsRenewAll();
+if (!sessionStorage.getItem('lsRenewed')) { lsRenewAll(); sessionStorage.setItem('lsRenewed', '1'); }
 
 /* ===== Date Display ===== */
 function formatDayDate(day) {
@@ -1016,12 +1017,12 @@ function renderCountdown(autoScrollDates) {
     var endDate = new Date(end + 'T00:00:00');
     var html = '<div class="info-card countdown-card">';
     if (today < startDate) {
-        var diff = Math.ceil((startDate - today) / 86400000);
+        var diff = Math.ceil((startDate - today) / MS_PER_DAY);
         html += '<div class="countdown-number">' + diff + '</div>';
         html += '<div class="countdown-label">天後出發</div>';
         html += '<div class="countdown-date">' + escHtml(start) + '</div>';
     } else if (today <= endDate) {
-        var dayN = Math.floor((today - startDate) / 86400000) + 1;
+        var dayN = Math.floor((today - startDate) / MS_PER_DAY) + 1;
         html += '<div class="countdown-number">Day ' + dayN + '</div>';
         html += '<div class="countdown-label">旅行進行中</div>';
     } else {
@@ -1222,7 +1223,7 @@ function openSpeedDialContent(contentKey) {
     } else {
         if (sheetTitle) sheetTitle.textContent = '';
     }
-    sheetBody.innerHTML = html || '<p style="color:var(--gray);text-align:center;">無相關資料</p>';
+    sheetBody.innerHTML = html || '<p style="color:var(--text-muted);text-align:center;">無相關資料</p>';
     openInfoSheet();
 }
 
@@ -1513,7 +1514,7 @@ function fetchWeatherForDay(day) {
 
     // Check if day.date is within forecast range (today ~ today+16)
     var todayD = new Date(); todayD.setHours(0,0,0,0);
-    var limitD = new Date(todayD.getTime() + 16*86400000);
+    var limitD = new Date(todayD.getTime() + 16 * MS_PER_DAY);
     var fetchStart = tripStart && tripStart > toDateStr(todayD) ? tripStart : toDateStr(todayD);
     var fetchEnd = tripEnd && tripEnd < toDateStr(limitD) ? tripEnd : toDateStr(limitD);
     if (dayDate > fetchEnd || dayDate < fetchStart) {

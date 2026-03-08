@@ -2,8 +2,8 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; connect-src 'self' https://api.open-meteo.com https://api.github.com; img-src 'self' https: data:;">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self' https://api.open-meteo.com https://api.github.com; img-src 'self' https: data:;">
     <meta name="description" content="旅遊行程規劃：每日景點、餐廳推薦、地圖導航、天氣預報、預算規劃，一頁搞定。">
     <meta name="theme-color" content="#C4704F">
     <meta property="og:title" content="Trip Planner">
@@ -14,10 +14,7 @@
     <link rel="icon" href="images/favicon-32x32.png" sizes="32x32" type="image/png">
     <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
     <title>Trip Planner</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://api.open-meteo.com">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/shared.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -36,7 +33,7 @@
     </div>
     <div class="page-layout">
         <div class="container">
-            <div id="tripContent"><div style="text-align:center;padding:40px;color:var(--gray);"><svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" style="vertical-align:-4px"><path d="M6 2v6h.01L6 8.01 10 12l-4 4 .01.01H6V22h12v-5.99h-.01L18 16l-4-4 4-3.99-.01-.01H18V2H6z"/></svg> 載入行程資料中...</div></div>
+            <div id="tripContent"><div style="text-align:center;padding:40px;color:var(--text-muted);"><svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" style="vertical-align:-4px"><path d="M6 2v6h.01L6 8.01 10 12l-4 4 .01.01H6V22h12v-5.99h-.01L18 16l-4-4 4-3.99-.01-.01H18V2H6z"/></svg> 載入行程資料中...</div></div>
         </div>
         <aside class="info-panel" id="infoPanel"></aside>
     </div>
