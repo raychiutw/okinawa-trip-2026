@@ -1,11 +1,24 @@
-/* ===== Setting Page — simple block layout (no flex needed, no sidebar) ===== */
+/* ===== Setting Page — neutralise shared.css scroll infrastructure ===== */
 html.page-setting {
     scroll-behavior: auto;
+    scrollbar-gutter: auto;
+    overflow: visible;
+    overscroll-behavior: none;
 }
 .page-setting {
     max-width: none;
+    overflow: visible;
 }
-.page-setting .page-layout { display: block; }
+.page-setting .page-layout {
+    display: block;
+    min-height: 0;
+}
+.page-setting .container {
+    transition: none;
+}
+.page-setting .sticky-nav {
+    position: relative;
+}
 
 /* ===== Setting Page Layout ===== */
 .setting-page { max-width: 520px; margin: 0 auto; padding: 16px; }
