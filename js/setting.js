@@ -123,7 +123,7 @@
             })
             .catch(function() {
                 var container = document.getElementById('tripList');
-                if (container) container.innerHTML = '<div style="color:var(--gray);padding:16px">無法載入行程清單</div>';
+                if (container) container.innerHTML = '<div style="color:var(--text-muted);padding:16px">無法載入行程清單</div>';
                 renderColorMode(colorMode);
             });
     }

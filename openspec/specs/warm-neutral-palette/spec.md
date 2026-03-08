@@ -4,30 +4,37 @@
 
 系統 SHALL 在 `css/shared.css` 的 `:root` 與 `body.dark` 兩個區塊中集中定義所有色彩 CSS variables，light mode 與 dark mode 各一套，其他 CSS 檔案 MUST 只引用這些變數，不得自行宣告色彩值。舊的 `--blue`、`--blue-light`、`--sand`、`--sand-light` 別名 MUST 刪除，改以語意正確的 `--accent-light` 與 `--accent-muted` 取代。
 
-完整變數列表：
+完整色彩變數列表（當前值）：
 
-| 變數 | Light 值 | Dark 值 | 用途 | 變動 |
-|------|----------|---------|------|------|
-| `--bg` | `#FAF9F5` | `#1A1A1A` | body 背景 | 無異動 |
-| `--card-bg` | `#F5F0E8` | `#2B2B2B` | 卡片背景 | 無異動 |
-| `--hover-bg` | `#EDE8E0` | `#3D3A37` | 互動 hover 底色 | 無異動 |
-| `--bubble-bg` | `#F0EDE8` | `#3D3A35` | 聊天氣泡背景 | 無異動 |
-| `--text` | `#1A1A1A` | `#E8E8E8` | 主要文字 | 無異動 |
-| `--text-muted` | `#6B6B6B` | `#9B9B9B` | 次要文字 | 無異動 |
-| `--border` | `#E5E0DA` | `#3A3A3A` | 邊線色 | 無異動 |
-| `--accent` | `#C4704F` | `#D4845E` | 強調色 | 無異動 |
-| `--accent-light` | `#F5EDE8` | `#302A25` | 強調色淺色背景 | 新增（取代 `--blue-light`） |
-| `--accent-muted` | `#F5EDE0` | `#302A22` | 強調色柔和背景 | 新增（取代 `--sand-light`） |
-| `--gray` | `#6B6B6B` | `#9B9590` | 裝飾灰 | 無異動 |
-| `--gray-light` | `#EDEBE8` | `#343130` | 淺灰背景 | 無異動 |
-| `--white` | `#FAF9F5` | `#292624` | body 背景別名 | 無異動 |
-| `--error` | `#D32F2F` | `#FCA5A5` | 錯誤文字 | 無異動 |
-| `--error-bg` | `#FFEBEE` | `rgba(220,38,38,0.12)` | 錯誤背景 | 無異動 |
-| `--success` | `#10B981` | `#6EE7B7` | 成功狀態 | 無異動 |
-| `--blue` | — | — | 茶赭色別名 | **已刪除** |
-| `--blue-light` | — | — | 淺色別名 | **已刪除** |
-| `--sand` | — | — | 重複別名 | **已刪除** |
-| `--sand-light` | — | — | 柔和色別名 | **已刪除** |
+| 變數 | Light 值 | Dark 值 | 用途 |
+|------|----------|---------|------|
+| `--accent` | `#C4704F` | `#D4845E` | 強調色 |
+| `--accent-subtle` | `#F9F3EF` | `#252220` | 強調淺底（selection） |
+| `--accent-bg` | `#F5EDE8` | `#3D2F27` | 強調背景 |
+| `--bg` | `#FAF9F5` | `#1A1A1A` | 頁面背景 |
+| `--bg-secondary` | `#F5F0E8` | `#2B2B2B` | 卡片/次層背景 |
+| `--bg-tertiary` | `#F0EDE8` | `#3D3A35` | 第三層背景 |
+| `--hover-bg` | `#EDE8E0` | `#3D3A37` | hover 底色 |
+| `--text` | `#1A1A1A` | `#E8E8E8` | 主要文字 |
+| `--text-muted` | `#6B6B6B` | `#9B9B9B` | 次要文字 |
+| `--text-on-accent` | `#FFFFFF` | `#FFFFFF` | accent 上文字 |
+| `--border` | `#E5E0DA` | `#3A3A3A` | 邊線色 |
+| `--error` | `#D32F2F` | `#FCA5A5` | 錯誤文字 |
+| `--error-bg` | `#FFEBEE` | `rgba(220,38,38,0.12)` | 錯誤背景 |
+| `--success` | `#10B981` | `#6EE7B7` | 成功狀態 |
+| `--overlay` | `rgba(0,0,0,0.3)` | `rgba(0,0,0,0.55)` | backdrop 遮罩 |
+
+歷史變動紀錄：
+- `--card-bg` → 改名為 `--bg-secondary`
+- `--bubble-bg` → 改名為 `--bg-tertiary`
+- `--accent-light` → 改名為 `--accent-subtle`
+- `--accent-muted` → 合併為 `--accent-bg`
+- `--gray`、`--gray-light`、`--white` → 已刪除（語意不明確）
+- `--blue`、`--blue-light`、`--sand`、`--sand-light` → 已刪除（舊別名）
+- `--text-tertiary`、`--text-quaternary` → 已刪除（無使用處）
+- `--shadow-sm` → 已刪除（無使用處）
+- `--overlay` → 新增（backdrop 遮罩統一 token）
+- `--text-on-accent` → 新增（取代硬寫 `#fff`）
 
 #### Scenario: --accent-light 在 light mode 存在且值正確
 

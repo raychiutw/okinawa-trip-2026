@@ -4,8 +4,8 @@
 
 ```
 index.html          edit.html           setting.html
-css/                shared.css  menu.css  style.css  edit.css  setting.css
-js/                 shared.js   menu.js   icons.js   app.js   edit.js   setting.js
+css/                shared.css  style.css  edit.css  setting.css
+js/                 shared.js   icons.js   app.js   edit.js   setting.js
 data/trips-md/      {slug}/meta.md  day-*.md  flights.md  checklist.md  backup.md  suggestions.md  emergency.md
 data/dist/          trips.json  {slug}/meta.json  day-*.json  ...（build 產物，嚴禁手動編輯）
 data/examples/      meta.md  day-*.md  flights.md  ...（行程 MD 格式範本）
@@ -28,6 +28,18 @@ openspec/                 config.yaml  specs/  changes/
 - **行程品質**：產生或修改行程 MD 須遵守 `.claude/commands/trip-quality-rules.md`，完成後執行 `/tp-check`；異動 MD 格式時須同步更新 `data/examples/*.md`
 - **內容**：繁體中文台灣用語、transit 含 type + 分鐘數、days 變動同步 checklist/backup/suggestions
 - **UI**：無框線設計、卡片統一、全站 inline SVG（Material Symbols Rounded）
+- **CSS HIG 紀律**（`tests/unit/css-hig.test.js` 自動守護 12 條規則）：
+  - **font-size**：僅用 11 級 Apple text style token（`--fs-large-title` 至 `--fs-caption2`）
+  - **duration**：僅用 `var(--duration-fast/normal/slow)`，禁止硬編碼秒數
+  - **spacing**：margin/padding/gap 須為 4pt grid（4 的倍數），裝飾 pseudo-element 除外
+  - **touch target**：互動元素最小 44px（`var(--tap-min)`）
+  - **border-radius**：5 級 token（`--radius-xs/sm/md/lg/full`）
+  - **focus-visible**：`outline: none` 必須搭配 `box-shadow: var(--shadow-ring)`；表單輸入（textarea/input）用文字游標顯示焦點，不需 box-shadow
+  - **overlay/backdrop**：使用 `var(--overlay)` token，不得硬寫 `rgba(0,0,0,...)`
+  - **frosted glass nav**：sticky-nav 用 `color-mix(in srgb, var(--bg) 85%, transparent)` + `backdrop-filter`，不得用實色 `var(--bg)`
+  - **dark mode**：若 base 已用 `var(--token)` 且 token 在 `body.dark` 有覆寫，不需額外寫 `body.dark .class` 規則
+  - **#fff 禁令**：`color: #fff` 改用 `var(--text-on-accent)`
+  - **color mode preview**：使用 `var(--cmp-*)` token，不得硬寫色碼
 - **Agent Teams**：teammates 用 sonnet，獨立工作用 `run_in_background: true`，多 agent 並行時用 `isolation: "worktree"` 隔離；需共享進度用 `TeamCreate` 建團隊
 - **OpenSpec**：功能開發遵守 openspec 流程（proposal → design → specs → tasks → apply），除非使用者同意跳過
 
