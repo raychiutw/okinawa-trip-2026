@@ -147,10 +147,10 @@
         html += '<div class="edit-input-card">';
         html += '<textarea class="edit-textarea" id="editText" maxlength="65536" placeholder="例如：&#10;· Day 3 午餐換成通堂拉麵&#10;· 刪除美麗海水族館，改去萬座毛&#10;· Day 5 下午加一個 AEON 購物" rows="1"></textarea>';
         html += '<div class="edit-input-toolbar">';
-        html += '<select class="edit-mode-select" id="issueMode">';
-        html += '<option value="trip-edit">\u270F\uFE0F \u4FEE\u6539\u884C\u7A0B</option>';
-        html += '<option value="trip-plan">\uD83D\uDCA1 \u554F\u5EFA\u8B70</option>';
-        html += '</select>';
+        html += '<div class="edit-mode-toggle" id="issueMode" data-value="trip-edit">';
+        html += '<button class="edit-mode-pill selected" data-mode="trip-edit">\u6539\u884C\u7A0B</button>';
+        html += '<button class="edit-mode-pill" data-mode="trip-plan">\u554F\u5EFA\u8B70</button>';
+        html += '</div>';
         html += '<button class="edit-send-btn" id="submitBtn" disabled aria-label="送出">';
         html += '<svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M11 5.83L6.41 10.41 5 9l7-7 7 7-1.41 1.41L13 5.83V20h-2V5.83z"/></svg>';
         html += '</button>';
@@ -190,6 +190,16 @@
             submitRequest();
         });
 
+        // pill toggle 切換
+        var modeToggle = document.getElementById('issueMode');
+        modeToggle.addEventListener('click', function(e) {
+            var pill = e.target.closest('.edit-mode-pill');
+            if (!pill || pill.classList.contains('selected')) return;
+            modeToggle.querySelectorAll('.edit-mode-pill').forEach(function(p) { p.classList.remove('selected'); });
+            pill.classList.add('selected');
+            modeToggle.dataset.value = pill.dataset.mode;
+        });
+
         // 標題列
         var navTitle = document.getElementById('navTitle');
         if (navTitle) {
@@ -213,7 +223,7 @@
 
         var title = config.owner + ': ' + text.substring(0, 50);
         var mode = document.getElementById('issueMode');
-        var modeLabel = mode ? mode.value : 'trip-edit';
+        var modeLabel = mode ? mode.dataset.value : 'trip-edit';
 
         ghFetch('/repos/' + GH_OWNER + '/' + GH_REPO + '/issues', {
             method: 'POST',
