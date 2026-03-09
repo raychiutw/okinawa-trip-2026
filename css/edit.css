@@ -149,22 +149,32 @@
 }
 .edit-textarea:focus-visible { outline: none; }
 
-/* ===== Mode Selector ===== */
-.edit-mode-select {
+/* ===== Mode Toggle ===== */
+.edit-mode-toggle {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.edit-mode-pill {
     appearance: none;
-    -webkit-appearance: none;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 4px 28px 4px 8px;
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
     font-family: inherit;
     font-size: var(--fs-footnote);
-    color: var(--text);
-    background: var(--bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24'%3E%3Cpath fill='%23888' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E") no-repeat right 8px center;
-    min-height: var(--tap-min);
+    font-weight: 400;
+    padding: 8px 12px;
+    border-radius: var(--radius-full);
     cursor: pointer;
-    transition: border-color var(--duration-fast);
+    min-height: var(--tap-min);
+    transition: background var(--duration-fast), color var(--duration-fast), font-weight var(--duration-fast);
 }
-.edit-mode-select:focus-visible {
+.edit-mode-pill.selected {
+    background: var(--hover-bg);
+    color: var(--text);
+    font-weight: 600;
+}
+.edit-mode-pill:focus-visible {
     outline: none;
     box-shadow: var(--shadow-ring);
 }
@@ -202,7 +212,7 @@ body.dark .issue-mode-badge.mode-plan { background: #1B3A1F; color: #66BB6A; }
     align-items: center;
     gap: 8px;
     margin-top: 8px;
-    justify-content: flex-end;
+    justify-content: space-between;
 }
 .edit-send-btn {
     width: var(--tap-min);
