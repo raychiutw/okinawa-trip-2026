@@ -81,7 +81,7 @@ D1 Tables:
 - **Skills**：所有 tp-* skills 透過 API 操作行程資料，不操作本地檔案，不需 git commit/push 資料變更
 - **內容**：繁體中文台灣用語、travel 含 type + 分鐘數、days 變動同步 checklist/backup/suggestions
 - **UI**：無框線設計、卡片統一、全站 inline SVG（Material Symbols Rounded）
-- **CSS HIG 紀律**：12 條規則由 `tests/unit/css-hig.test.js` 自動守護，完整規範見 `.claude/commands/tp-hig.md`
+- **CSS HIG 紀律**：12 條規則由 `tests/unit/css-hig.test.js` 自動守護，完整規範見 `.claude/commands/tp-ux-verify.md`
 - **Agent / Sub Agent**：
   - **Model**：所有 sub agent 一律使用 `model: "sonnet"`；僅在需要高度判斷力時才指定 `model: "opus"`
   - **並行**：獨立任務盡量同時發送多個 Agent tool call

@@ -1,5 +1,5 @@
 ---
-name: tp-hig
+name: tp-ux-verify
 description: Use when adding or modifying HTML/CSS in the trip-planner project to ensure compliance with Apple-inspired HIG design rules, tokens, and page structure patterns.
 user-invocable: false
 ---
