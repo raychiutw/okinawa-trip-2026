@@ -23,19 +23,21 @@ user-invocable: true
 
 ## 步驟
 
-1. 取得需要處理的請求（webhook 失敗 + open 狀態）：
+1. **判斷處理範圍**：
+   - 使用者 prompt 包含「全部」、「所有」、「all」→ 查所有 open 請求
+   - 否則（預設）→ **只查 webhook 失敗的請求**：
    ```bash
    curl -s -H "CF-Access-Client-Id: REDACTED_CLIENT_ID" \
         -H "CF-Access-Client-Secret: REDACTED_CLIENT_SECRET" \
         "https://trip-planner-dby.pages.dev/api/requests?status=open&webhook_failed=1"
    ```
-   若無結果，再查所有 open 請求（含 webhook_status 為 null 的舊資料）：
+   若使用者要求處理全部：
    ```bash
    curl -s -H "CF-Access-Client-Id: REDACTED_CLIENT_ID" \
         -H "CF-Access-Client-Secret: REDACTED_CLIENT_SECRET" \
         "https://trip-planner-dby.pages.dev/api/requests?status=open"
    ```
-2. 無 open 請求 → 回報「沒有待處理的請求」並結束
+2. 無符合條件的請求 → 回報「沒有待處理的請求」並結束
 3. 依序處理每個請求：
 
 ### 3a. 解析 metadata
