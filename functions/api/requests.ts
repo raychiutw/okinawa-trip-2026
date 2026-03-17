@@ -130,7 +130,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
         'INSERT INTO webhook_logs (request_id, tunnel_url, status, http_status, error) VALUES (?, ?, ?, ?, ?)'
       ).bind(reqId, tunnelUrl, status, httpStatus, error).run();
 
-    context.waitUntil((async () => {
+    const webhookTask = (async () => {
       if (!env.TUNNEL_KV || !env.WEBHOOK_SECRET) {
         await logWebhook(null, 'skip', null, `TUNNEL_KV=${!!env.TUNNEL_KV} WEBHOOK_SECRET=${!!env.WEBHOOK_SECRET}`);
         return;
@@ -163,7 +163,8 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
         await env.DB.prepare('UPDATE requests SET webhook_status = ? WHERE id = ?').bind('failed', reqId).run();
         await logWebhook(tunnelUrl, 'failed', null, e instanceof Error ? e.message : String(e));
       }
-    })());
+    })();
+    context.waitUntil(webhookTask);
   }
 
   return json(result, 201);
