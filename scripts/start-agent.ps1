@@ -10,7 +10,7 @@ if (-not (Test-Path $cloudflared)) {
 
 # Start Quick Tunnel in background, redirect stderr to log file
 $logFile = Join-Path $projectDir "server\tunnel.log"
-$tunnelProcess = Start-Process -NoNewWindow -PassThru -RedirectStandardError $logFile $cloudflared "tunnel --url http://localhost:3001"
+$tunnelProcess = Start-Process -NoNewWindow -PassThru -RedirectStandardError $logFile $cloudflared "tunnel --url http://localhost:3001 --protocol http2"
 Write-Host "Quick Tunnel starting (PID: $($tunnelProcess.Id))..."
 
 # Wait for tunnel URL to appear in log
