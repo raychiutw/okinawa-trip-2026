@@ -15,9 +15,21 @@ user-invocable: true
   - `CF-Access-Client-Id`: `REDACTED_CLIENT_ID`
   - `CF-Access-Client-Secret`: `REDACTED_CLIENT_SECRET`
 
+## 觸發模式
+
+本 skill 有兩種觸發方式：
+1. **即時（webhook）**：旅伴送出請求 → Pages Function 透過 Tunnel 呼叫本機 Agent Server → 即時處理
+2. **排程 fallback**：Windows Task Scheduler 定期執行本 skill，只處理 webhook 失敗的請求
+
 ## 步驟
 
-1. 取得所有 open 請求：
+1. 取得需要處理的請求（webhook 失敗 + open 狀態）：
+   ```bash
+   curl -s -H "CF-Access-Client-Id: REDACTED_CLIENT_ID" \
+        -H "CF-Access-Client-Secret: REDACTED_CLIENT_SECRET" \
+        "https://trip-planner-dby.pages.dev/api/requests?status=open&webhook_failed=1"
+   ```
+   若無結果，再查所有 open 請求（含 webhook_status 為 null 的舊資料）：
    ```bash
    curl -s -H "CF-Access-Client-Id: REDACTED_CLIENT_ID" \
         -H "CF-Access-Client-Secret: REDACTED_CLIENT_SECRET" \
