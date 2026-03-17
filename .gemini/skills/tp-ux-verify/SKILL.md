@@ -1,9 +1,9 @@
 ---
-name: tp-hig
+name: tp-ux-verify
 description: 網頁 HIG 設計規範（Apple-inspired）。適用於新增或修改 HTML/CSS 時，確保 UI 符合專案的視覺與互動標準。
 ---
 
-# tp-hig
+# tp-ux-verify
 
 網頁 HIG 設計規範（Apple-inspired）。
 
