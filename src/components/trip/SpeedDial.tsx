@@ -16,6 +16,8 @@ const DIAL_ITEMS: SpeedDialItemConfig[] = [
   { key: 'emergency', icon: 'emergency', label: '緊急聯絡' },
   { key: 'suggestions', icon: 'lightbulb', label: 'AI 行程建議' },
   { key: 'driving', icon: 'car', label: '交通統計' },
+  { key: 'printer', icon: 'printer', label: '列印模式' },
+  { key: 'settings', icon: 'gear', label: '設定' },
 ];
 
 /* ===== Props ===== */
@@ -23,6 +25,8 @@ const DIAL_ITEMS: SpeedDialItemConfig[] = [
 interface SpeedDialProps {
   /** Called when a speed dial item is clicked. Receives the content key. */
   onItemClick: (contentKey: string) => void;
+  /** 可選：觸發列印模式切換 */
+  onPrint?: () => void;
 }
 
 /* ===== Component ===== */
@@ -31,7 +35,7 @@ interface SpeedDialProps {
  * Mobile floating action button menu.
  * Renders a trigger button, backdrop, and 6 item buttons.
  */
-export default function SpeedDial({ onItemClick }: SpeedDialProps) {
+export default function SpeedDial({ onItemClick, onPrint }: SpeedDialProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleToggle = useCallback(() => {
@@ -45,9 +49,19 @@ export default function SpeedDial({ onItemClick }: SpeedDialProps) {
   const handleItemClick = useCallback(
     (contentKey: string) => {
       setIsOpen(false);
+      /* 列印模式：呼叫 onPrint 而非 onItemClick */
+      if (contentKey === 'printer') {
+        onPrint?.();
+        return;
+      }
+      /* 設定頁：直接跳轉 */
+      if (contentKey === 'settings') {
+        window.location.href = 'setting.html';
+        return;
+      }
       onItemClick(contentKey);
     },
-    [onItemClick],
+    [onItemClick, onPrint],
   );
 
   /* --- Prevent scroll through on backdrop --- */
@@ -69,6 +83,7 @@ export default function SpeedDial({ onItemClick }: SpeedDialProps) {
           <button
             key={item.key}
             className="speed-dial-item"
+            data-content={item.key}
             aria-label={item.label}
             onClick={() => handleItemClick(item.key)}
           >
