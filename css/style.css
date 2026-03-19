@@ -1,3 +1,15 @@
+/* ===== Theme Background Illustrations ===== */
+body.theme-sun { background-image: url('../images/bg-sun-light.svg'); background-size: cover; background-attachment: fixed; background-position: center; }
+body.theme-sun.dark { background-image: url('../images/bg-sun-dark.svg'); }
+body.theme-sky { background-image: url('../images/bg-sky-light.svg'); background-size: cover; background-attachment: fixed; background-position: center; }
+body.theme-sky.dark { background-image: url('../images/bg-sky-dark.svg'); }
+body.theme-zen { background-image: url('../images/bg-zen-light.svg'); background-size: cover; background-attachment: fixed; background-position: center; }
+body.theme-zen.dark { background-image: url('../images/bg-zen-dark.svg'); }
+
+/* 列印模式隱藏背景插畫 */
+body.print-mode, body.print-mode.dark { background-image: none !important; }
+@media print { body { background-image: none !important; } }
+
 /* ===== Global Link Reset ===== */
 #tripContent a { color: var(--text); text-decoration: underline; }
 #tripContent a:visited { color: var(--text); }
@@ -385,16 +397,32 @@ body.dark .info-box { background: var(--accent-bg); }
 body.dark .tl-card { background: var(--bg-tertiary); }
 body.dark .tl-travel-content { background: var(--accent-bg); }
 
+/* ===== 主題背景時卡片半透明化 ===== */
+/* 有背景主題時，tl-card 改為半透明 + backdrop blur */
+body[class*="theme-"] .tl-card {
+    background: color-mix(in srgb, var(--bg) 92%, transparent);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+body[class*="theme-"].dark .tl-card {
+    background: color-mix(in srgb, var(--bg-tertiary) 88%, transparent);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+/* info-panel 半透明化 */
+body[class*="theme-"] .info-panel {
+    background: color-mix(in srgb, var(--bg-secondary) 90%, transparent);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+/* 列印模式還原不透明 */
+body.print-mode .tl-card { background: #fff !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+body.print-mode .info-panel { background: var(--bg-secondary) !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+
 /* ===== Nav Brand ===== */
-.nav-brand { font-weight: 700; font-size: var(--fs-title3); color: var(--accent); white-space: nowrap; display: none; }
+.nav-brand { font-weight: 700; font-size: var(--fs-title3); color: var(--accent); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: none; }
 @media (min-width: 768px) { .nav-brand { display: inline; min-width: 140px; } }
 
-/* ===== Nav Actions ===== */
-.nav-actions { display: flex; align-items: center; gap: 4px; flex-shrink: 0; margin-left: auto; min-width: 140px; justify-content: flex-end; }
-.nav-action-btn { display: inline-flex; align-items: center; gap: 4px; background: none; border: none; color: var(--text-muted); padding: 8px; border-radius: var(--radius-sm); font-family: inherit; font-size: var(--fs-footnote); text-decoration: none; white-space: nowrap; min-height: var(--tap-min); }
-.nav-action-btn:hover { color: var(--accent); background: var(--accent-bg); }
-.nav-action-label { display: none; }
-@media (min-width: 768px) { .nav-action-label { display: inline; } }
 
 /* ===== Speed Dial FAB ===== */
 .speed-dial { position: fixed; bottom: max(88px, calc(68px + env(safe-area-inset-bottom))); right: 20px; z-index: 300; }
@@ -437,6 +465,9 @@ body.dark .tl-travel-content { background: var(--accent-bg); }
 .speed-dial.open .speed-dial-item:nth-child(3) { transition-delay: 60ms; }
 .speed-dial.open .speed-dial-item:nth-child(4) { transition-delay: 90ms; }
 .speed-dial.open .speed-dial-item:nth-child(5) { transition-delay: 120ms; }
+.speed-dial.open .speed-dial-item:nth-child(6) { transition-delay: 150ms; }
+.speed-dial.open .speed-dial-item:nth-child(7) { transition-delay: 180ms; }
+.speed-dial.open .speed-dial-item:nth-child(8) { transition-delay: 210ms; }
 .speed-dial-item:hover { transform: scale(1.15); }
 body.dark .speed-dial-item { background: var(--bg-secondary); }
 
