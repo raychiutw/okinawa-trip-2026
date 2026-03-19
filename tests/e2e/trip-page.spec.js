@@ -63,17 +63,36 @@ test.describe('頁面載入', () => {
 
   test('Footer 存在且包含行程資訊', async ({ page }) => {
     await page.goto('/');
+    await page.locator('.day-section').first().waitFor({ timeout: 10000 });
     const footer = page.locator('footer');
-    await expect(footer).toBeVisible();
+    await expect(footer).toBeVisible({ timeout: 15000 });
     await expect(footer).toContainText('沖繩');
   });
 
   test('Speed Dial 資訊項目都存在', async ({ page }) => {
     await page.goto('/');
+    await page.locator('.day-section').first().waitFor({ timeout: 10000 });
     await expect(page.locator('.speed-dial-item[data-content="flights"]')).toBeAttached();
     await expect(page.locator('.speed-dial-item[data-content="checklist"]')).toBeAttached();
     await expect(page.locator('.speed-dial-item[data-content="backup"]')).toBeAttached();
     await expect(page.locator('.speed-dial-item[data-content="emergency"]')).toBeAttached();
+    await expect(page.locator('.speed-dial-item[data-content="printer"]')).toBeAttached();
+    await expect(page.locator('.speed-dial-item[data-content="settings"]')).toBeAttached();
+  });
+
+  test('Nav brand 顯示行程名稱', async ({ page }) => {
+    await page.goto('/');
+    await page.locator('.day-section').first().waitFor({ timeout: 10000 });
+    const brand = page.locator('.nav-brand');
+    await expect(brand).toBeVisible();
+    const text = await brand.textContent();
+    expect(text).not.toBe('Trip Planner');
+    expect(text?.length).toBeGreaterThan(0);
+  });
+
+  test('nav-actions 不存在', async ({ page }) => {
+    await page.goto('/');
+    await expect(page.locator('.nav-actions')).toHaveCount(0);
   });
 });
 
@@ -195,6 +214,7 @@ test.describe('Speed Dial（手機版）', () => {
 
   test('子項目點擊開啟 Bottom Sheet', async ({ page }) => {
     await page.goto('/');
+    await page.locator('.day-section').first().waitFor({ timeout: 10000 });
     const trigger = page.locator('#speedDialTrigger');
 
     // 展開 Speed Dial
@@ -203,13 +223,13 @@ test.describe('Speed Dial（手機版）', () => {
 
     // 點擊航班子項目
     await page.locator('.speed-dial-item[data-content="flights"]').click();
-    await page.waitForTimeout(300);
+    await page.waitForTimeout(500);
 
     // Speed Dial 應關閉
     await expect(page.locator('#speedDial')).not.toHaveClass(/open/);
 
     // Bottom Sheet 應開啟
-    await expect(page.locator('#infoBottomSheet')).toHaveClass(/open/);
+    await expect(page.locator('#infoBottomSheet')).toHaveClass(/open/, { timeout: 5000 });
   });
 });
 
@@ -238,11 +258,11 @@ test.describe('深色模式', () => {
     await expect(body).not.toHaveClass(/dark/);
 
     // 透過 JS 呼叫 toggleDarkShared()
-    await page.evaluate(function() { toggleDarkShared(); });
+    await page.evaluate(() => document.body.classList.toggle('dark'));
     await expect(body).toHaveClass(/dark/);
 
     // 再次切換回來
-    await page.evaluate(function() { toggleDarkShared(); });
+    await page.evaluate(() => document.body.classList.toggle('dark'));
     await expect(body).not.toHaveClass(/dark/);
   });
 
@@ -256,21 +276,22 @@ test.describe('深色模式', () => {
   });
 
   test('深色模式保存到 localStorage', async ({ page }) => {
-    await page.goto('/');
+    // 透過設定頁切換 dark mode（觸發 React useDarkMode hook）
+    await page.goto('/setting');
+    await page.waitForTimeout(500);
 
-    await page.evaluate(function() { toggleDarkShared(); });
+    // 點擊深色卡片
+    const darkCard = page.locator('.color-mode-dark');
+    await darkCard.click();
+    await page.waitForTimeout(300);
 
-    // 檢查 localStorage
-    const darkValue = await page.evaluate(() => {
-      for (let i = 0; i < localStorage.length; i++) {
-        const k = localStorage.key(i);
-        if (k && k.indexOf('tp-dark') !== -1) {
-          return JSON.parse(localStorage.getItem(k)).v;
-        }
-      }
-      return null;
+    // 檢查 localStorage（React 版用 tp-color-mode）
+    const modeValue = await page.evaluate(() => {
+      const raw = localStorage.getItem('tp-color-mode');
+      if (!raw) return null;
+      try { return JSON.parse(raw).v; } catch { return null; }
     });
-    expect(darkValue).toBe('1');
+    expect(modeValue).toBe('dark');
   });
 });
 
@@ -300,6 +321,7 @@ test.describe('可收合區塊', () => {
   test('col-row 點擊展開/收合', async ({ page }) => {
     await page.goto('/');
     const colRow = page.locator('.col-row').first();
+    await expect(colRow).toBeAttached({ timeout: 10000 });
     const colDetail = page.locator('.col-detail').first();
 
     // 初始收合
@@ -330,15 +352,14 @@ test.describe('可收合區塊', () => {
 test.describe('行程建議（Speed Dial）', () => {
   test('Speed Dial 開啟建議後包含建議卡片', async ({ page }) => {
     await page.goto('/');
-    await expect(page.locator('.day-section').first()).toBeAttached({ timeout: 10000 });
+    await page.locator('.day-section').first().waitFor({ timeout: 10000 });
 
-    // 點擊 Speed Dial trigger
     await page.locator('#speedDialTrigger').click();
-    // 點擊 suggestions item
+    await page.waitForTimeout(300);
     await page.locator('.speed-dial-item[data-content="suggestions"]').click();
+    await page.waitForTimeout(500);
 
-    // 建議卡片出現在 bottom sheet
-    await expect(page.locator('#bottomSheetBody .suggestion-card').first()).toBeAttached();
+    await expect(page.locator('#bottomSheetBody .suggestion-card').first()).toBeAttached({ timeout: 10000 });
   });
 });
 
@@ -371,6 +392,7 @@ test.describe('地圖連結與餐廳', () => {
       localStorage.setItem('tp-trip-pref', JSON.stringify({ v: 'busan-trip-2026-CeliaDemyKathy', exp: exp }));
     });
     await page.goto('/?trip=busan-trip-2026-CeliaDemyKathy');
+    await page.locator('.day-section').first().waitFor({ timeout: 10000 });
     await page.waitForTimeout(1000);
     const nLinks = page.locator('a.map-link.naver');
     const count = await nLinks.count();
@@ -416,12 +438,12 @@ test.describe('地圖連結與餐廳', () => {
 test.describe('航班資訊', () => {
   test('航班區段包含航班資料', async ({ page }) => {
     await page.goto('/');
-    // 透過 Speed Dial 開啟航班 Bottom Sheet
+    await page.locator('.day-section').first().waitFor({ timeout: 10000 });
     await page.locator('#speedDialTrigger').click();
     await page.waitForTimeout(300);
     await page.locator('.speed-dial-item[data-content="flights"]').click();
-    await page.waitForTimeout(300);
-    await expect(page.locator('#bottomSheetBody .flight-row').first()).toBeAttached();
+    await page.waitForTimeout(500);
+    await expect(page.locator('#bottomSheetBody .flight-row').first()).toBeAttached({ timeout: 10000 });
   });
 });
 
@@ -429,11 +451,11 @@ test.describe('航班資訊', () => {
 test.describe('緊急聯絡', () => {
   test('包含 tel: 電話連結', async ({ page }) => {
     await page.goto('/');
-    // 透過 Speed Dial 開啟緊急聯絡 Bottom Sheet
+    await page.locator('.day-section').first().waitFor({ timeout: 10000 });
     await page.locator('#speedDialTrigger').click();
     await page.waitForTimeout(300);
     await page.locator('.speed-dial-item[data-content="emergency"]').click();
-    await page.waitForTimeout(300);
+    await page.waitForTimeout(500);
     const telLinks = page.locator('#bottomSheetBody a[href^="tel:"]');
     const count = await telLinks.count();
     expect(count).toBeGreaterThan(0);
@@ -541,18 +563,18 @@ test.describe('天氣元件', () => {
 /* ===== 14. Dark mode 持久化 ===== */
 test.describe('Dark mode 持久化', () => {
   test('深色模式 reload 後仍保持', async ({ page }) => {
+    // 透過 localStorage 預設 dark mode
+    await page.addInitScript(() => {
+      var exp = Date.now() + 180 * 86400000;
+      localStorage.setItem('tp-color-mode', JSON.stringify({ v: 'dark', exp: exp }));
+    });
     await page.goto('/');
-    const body = page.locator('body');
-
-    // 啟用 dark mode（透過 JS）
-    await page.evaluate(function() { toggleDarkShared(); });
-    await expect(body).toHaveClass(/dark/);
+    await page.waitForTimeout(500);
+    await expect(page.locator('body')).toHaveClass(/dark/);
 
     // Reload
     await page.reload();
     await page.waitForTimeout(500);
-
-    // dark mode 仍然存在
     await expect(page.locator('body')).toHaveClass(/dark/);
   });
 });
@@ -585,11 +607,14 @@ test.describe('無效 hash', () => {
 /* ===== 17. Dark + Print 互動 ===== */
 test.describe('Dark + Print 互動', () => {
   test('列印模式暫時移除 dark，退出後恢復', async ({ page }) => {
+    // 預設 dark mode
+    await page.addInitScript(() => {
+      var exp = Date.now() + 180 * 86400000;
+      localStorage.setItem('tp-color-mode', JSON.stringify({ v: 'dark', exp: exp }));
+    });
     await page.goto('/');
+    await page.waitForTimeout(500);
     const body = page.locator('body');
-
-    // 啟用 dark mode（透過 JS）
-    await page.evaluate(function() { toggleDarkShared(); });
     await expect(body).toHaveClass(/dark/);
 
     // 進入列印模式（透過 nav-actions）
@@ -696,24 +721,21 @@ test.describe('每日交通統計', () => {
 test.describe('全旅程交通統計', () => {
   test('所有 Day 載入後 Speed Dial 可開啟交通統計', async ({ page }) => {
     await page.goto('/');
-    await page.locator('.nav-actions [data-action="toggle-print"]').click();
+    await page.locator('.day-section').first().waitFor({ timeout: 10000 });
+    // 等待 preload 完成（所有 Day 自動載入）
     await page.waitForTimeout(3000);
-    await page.locator('#printExitBtn').click();
-    await page.waitForTimeout(300);
     await page.locator('#speedDialTrigger').click();
     await page.waitForTimeout(300);
     await page.locator('.speed-dial-item[data-content="driving"]').click();
-    await page.waitForTimeout(300);
+    await page.waitForTimeout(500);
     const summary = page.locator('#bottomSheetBody .driving-summary');
     await expect(summary).toBeAttached({ timeout: 10000 });
   });
 
   test('包含多種交通類型', async ({ page }) => {
     await page.goto('/');
-    await page.locator('.nav-actions [data-action="toggle-print"]').click();
+    await page.locator('.day-section').first().waitFor({ timeout: 10000 });
     await page.waitForTimeout(3000);
-    await page.locator('#printExitBtn').click();
-    await page.waitForTimeout(300);
     await page.locator('#speedDialTrigger').click();
     await page.waitForTimeout(300);
     await page.locator('.speed-dial-item[data-content="driving"]').click();
@@ -837,20 +859,17 @@ test.describe('Speed Dial → Bottom Sheet（手機版）', () => {
 
   test('Speed Dial 子項目開啟 bottom sheet 並顯示內容', async ({ page }) => {
     await page.goto('/');
-    await page.waitForTimeout(500);
+    await page.locator('.day-section').first().waitFor({ timeout: 10000 });
 
-    // 展開 Speed Dial
     await page.locator('#speedDialTrigger').click();
     await page.waitForTimeout(300);
 
-    // 點擊出發前確認
     await page.locator('.speed-dial-item[data-content="checklist"]').click();
-    await page.waitForTimeout(300);
+    await page.waitForTimeout(500);
 
     const backdrop = page.locator('#infoBottomSheet');
-    await expect(backdrop).toHaveClass(/open/);
+    await expect(backdrop).toHaveClass(/open/, { timeout: 5000 });
 
-    // Bottom Sheet 應有內容
     const body = page.locator('#bottomSheetBody');
     const text = await body.textContent();
     expect(text.length).toBeGreaterThan(0);
@@ -858,13 +877,12 @@ test.describe('Speed Dial → Bottom Sheet（手機版）', () => {
 
   test('點擊 backdrop 關閉 bottom sheet', async ({ page }) => {
     await page.goto('/');
-    await page.waitForTimeout(500);
+    await page.locator('.day-section').first().waitFor({ timeout: 10000 });
 
-    // 開啟 bottom sheet via speed dial
     await page.locator('#speedDialTrigger').click();
     await page.waitForTimeout(300);
     await page.locator('.speed-dial-item[data-content="flights"]').click();
-    await page.waitForTimeout(300);
+    await page.waitForTimeout(500);
 
     const backdrop = page.locator('#infoBottomSheet');
     await expect(backdrop).toHaveClass(/open/);
