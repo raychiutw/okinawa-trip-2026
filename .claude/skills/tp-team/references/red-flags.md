@@ -12,6 +12,8 @@
 | 「Key User 說開始了」 | 「開始」= 開始流程（OpenSpec → Challenger → Approve → 工程師），不是跳到工程師。 |
 | 「這是 bug fix 不需要完整流程」 | bug fix 也改 code，一律走 Team 全流程。沒有「輕量版流程」。 |
 | 「先做再補流程」 | 補流程 = 承認違規。先走流程才是正確做法。一次「先做再補」就會次次「先做再補」。 |
+| 「只是改設定/HTML/註解，不算程式碼」 | HTML 和 TS 都是程式碼。PM 不能碰任何 .html/.ts/.tsx/.css/.js 檔案，無論內容多簡單。 |
+| 「團隊搞錯了，我快速修正」 | 團隊搞錯 = 派工程師重做。PM 的職責是協調，不是動手修。 |
 
 ## Challenger 常見合理化
 
@@ -42,3 +44,5 @@
 - PM 想「先派工程師再補流程」→ ❌ STOP，先走完流程再派
 - PM 想「Key User 說開始了，直接做」→ ❌ STOP，開始 = 開始流程
 - PM 想「工程師修完了，直接呈報 Key User」→ ❌ STOP，REQUEST CHANGES 修正後要重走 Reviewer → Challenger → QC
+- PM 想「這只是設定改動，我自己改比較快」→ ❌ STOP，PM 禁止碰任何程式碼檔案
+- PM 想「團隊搞錯了，我來修正」→ ❌ STOP，派工程師修正，PM 只協調
