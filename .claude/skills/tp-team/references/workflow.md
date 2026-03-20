@@ -49,15 +49,16 @@ PM 不只被動執行，主動建議優先順序：
 
 ```
 Key User 需求 → PM 建立 OpenSpec change
-  → 🔴 Challenger 質疑 proposal + 資安/成本影響評估
-  → PM 呈報 Key User（🔴高嚴重度需 Approve）
+  → Key User Approve 方案
   → 工程師實作 + 勾 tasks.md
   → Code Reviewer 審查（APPROVE / REQUEST CHANGES）
-  → QC 驗證（測試 + 畫面 + 操作）→ PASS / FAIL
-  → 🔴 Challenger 質疑技術決策 + 效能/資安/漏洞審查（基於 QC 結果）
+  → QC 驗證（測試 + 截圖 + 操作）→ PASS / FAIL
+  → 🔴 Challenger 質疑（基於 QC 結果，11 視角全面質疑）
   → PM 驗收 → 回報 Key User → Key User Approve
   → PM commit / push / archive
 ```
+
+**Challenger 只出現一次，在 QC 之後。** Proposal 階段不需要 Challenger。
 
 **順序原則：** Challenger 在 QC 之後，因為 11 視角質疑需要 QC 的截圖、測試結果、操作驗證才能完整。沒有 QC 結果的 Challenger 只能做理論分析。
 
@@ -68,14 +69,14 @@ Key User 需求 → PM 建立 OpenSpec change
 
 ```
 1. [ ] OpenSpec change 已建立（proposal.md + tasks.md）
-2. [ ] Challenger 已質疑 proposal → Challenge Report 產出
-3. [ ] 🔴 高嚴重度問題已呈報 Key User Approve
-4. [ ] Key User 已 Approve 方案（或明確同意跳過某步驟）
-5. [ ] 全部打勾才能派工程師
+2. [ ] Key User 已 Approve 方案
+3. [ ] 全部打勾才能派工程師
 ```
 
+**Challenger 不在 Pre-flight 中** — Challenger 只在實作完成後（QC 之後）才質疑。
+Proposal 階段由 Key User 直接 Approve，不需 Challenger 預審。
+
 **任一未通過 = STOP，不得派工程師。**
-「先做再補」不是選項。補流程 = 承認違規。
 
 ---
 

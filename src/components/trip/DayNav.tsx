@@ -195,9 +195,6 @@ export default function DayNav({ days, currentDayNum, onSwitchDay, todayDayNum }
               onTouchEnd={handleTouchEnd}
             >
               {formatPillLabel(d)}
-              {isActive && d.label && (
-                <span className="dn-active-label">{d.label}</span>
-              )}
               {showTooltip && (
                 <span id={tooltipId} className="dn-tooltip" role="tooltip">
                   {formatTooltip(d)}

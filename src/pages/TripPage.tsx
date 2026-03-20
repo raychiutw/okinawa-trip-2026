@@ -919,10 +919,9 @@ export default function TripPage() {
           </div>
         </div>
 
-        {/* Desktop sidebar: Countdown + TripStatsCard only */}
+        {/* Desktop sidebar: TodaySummary + Hotel + Transport */}
         {!loading && trip && (
           <InfoPanel
-            autoScrollDates={autoScrollDates}
             days={loadedDays}
             currentDay={currentDay}
           />
