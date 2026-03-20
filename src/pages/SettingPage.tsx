@@ -158,12 +158,12 @@ export default function SettingPage() {
                 <div className="setting-section-title">選擇行程</div>
                 <div className="setting-trip-list" id="tripList">
                   {loading && (
-                    <div style={{ textAlign: 'center', padding: '40px', color: 'var(--text-muted)' }}>
+                    <div style={{ textAlign: 'center', padding: '40px', color: 'var(--color-muted)' }}>
                       載入中...
                     </div>
                   )}
                   {loadError && (
-                    <div style={{ color: 'var(--text-muted)', padding: '16px' }}>
+                    <div style={{ color: 'var(--color-muted)', padding: '16px' }}>
                       無法載入行程清單
                     </div>
                   )}

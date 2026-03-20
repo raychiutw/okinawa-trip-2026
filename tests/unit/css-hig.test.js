@@ -12,12 +12,15 @@ const CSS_FILES = {
 const ALL_CSS = Object.values(CSS_FILES).join('\n');
 
 /**
- * Strip :root { … } and body.dark { … } token definition blocks.
- * These blocks ARE the single source of truth; we only lint usage sites.
+ * Strip token definition blocks (single source of truth); we only lint usage sites.
+ * Handles: :root { … }, @theme { … }, @layer base { nested… }, body.theme-* { … }
  */
 function stripTokenBlocks(css) {
     return css
+        .replace(/@theme\s*\{[^}]*\}/g, '')
+        .replace(/@layer\s+base\s*\{[^{}]*(?:\{[^}]*\}[^{}]*)*\}/g, '')
         .replace(/:root\s*\{[^}]*\}/g, '')
+        .replace(/body\.theme-[\w.-]*\s*\{[^}]*\}/g, '')
         .replace(/body\.dark\s*\{[^}]*\}/g, '');
 }
 
@@ -208,7 +211,7 @@ describe('CSS HIG Compliance', () => {
 
     describe('Visual consistency', () => {
 
-        it('.sticky-nav has no solid var(--bg) or rgba() background', () => {
+        it('.sticky-nav has no solid var(--color-background) or rgba() background', () => {
             const cleaned = stripPrintBlocks(ALL_CSS);
             const rules = extractRules(cleaned);
             const violations = [];
@@ -216,8 +219,8 @@ describe('CSS HIG Compliance', () => {
             for (const { selector, body } of rules) {
                 if (!selector.includes('sticky-nav')) continue;
                 // Check for background: var(--bg) (solid, not color-mix)
-                if (/background\s*:\s*var\(--bg\)/.test(body)) {
-                    violations.push(`${selector}: background: var(--bg) [should use color-mix or inherit frosted glass]`);
+                if (/background\s*:\s*var\(--color-background\)/.test(body)) {
+                    violations.push(`${selector}: background: var(--color-background) [should use color-mix or inherit frosted glass]`);
                 }
                 // Check for rgba( background
                 if (/background\s*:\s*rgba\(/.test(body)) {

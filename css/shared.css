@@ -1,11 +1,51 @@
-/* ===== Shared Variables (non-color tokens) ===== */
-:root {
-    --shadow-ring: 0 0 0 2px var(--accent);
+@import "tailwindcss/theme" layer(theme);
+@import "tailwindcss/utilities" layer(utilities);
+
+/* ===== @theme: design token source of truth (default = sun-light) ===== */
+@theme {
+    /* Colors — generate bg-*, text-*, border-* utilities */
+    --color-accent: #E86A4A;
+    --color-accent-subtle: #FDE8E2;
+    --color-accent-bg: #F9DDD4;
+    --color-background: #FBF3E8;
+    --color-secondary: #F0DABC;
+    --color-tertiary: #E5CBA8;
+    --color-hover: #EACFAE;
+    --color-foreground: #2E2418;
+    --color-muted: #7A6A56;
+    --color-accent-foreground: #FBF3E8;
+    --color-border: #DDCEB8;
+    --color-destructive: #C83030;
+    --color-destructive-bg: #FDECEC;
+    --color-success: #3D8E5A;
+    --color-overlay: rgba(0,0,0,0.35);
+    --color-priority-high-bg: rgba(239, 68, 68, 0.15);
+    --color-priority-high-dot: #EF4444;
+    --color-priority-medium-bg: rgba(234, 179, 8, 0.15);
+    --color-priority-medium-dot: #EAB308;
+    --color-priority-low-bg: rgba(74, 158, 106, 0.10);
+    --color-priority-low-dot: #4A9E6A;
+    --color-badge-open: #1A7F37;
+    --color-badge-closed: #6E40C9;
+    --color-plan-bg: #E8F5E9;
+    --color-plan-text: #2E7D32;
+    --color-plan-hover: #C8E6C9;
+
+    /* Radius — generate rounded-* utilities */
     --radius-xs: 4px;
     --radius-sm: 8px;
     --radius-md: 12px;
     --radius-lg: 16px;
     --radius-full: 99px;
+
+    /* Shadow — generate shadow-* utilities */
+    --shadow-md: 0 4px 16px rgba(46,36,24,0.12);
+    --shadow-lg: 0 6px 20px rgba(46,36,24,0.18);
+}
+
+/* ===== Non-utility tokens (no Tailwind utilities needed) ===== */
+:root {
+    --shadow-ring: 0 0 0 2px var(--color-accent);
     --fs-large-title: 2.125rem;
     --fs-title: 1.75rem;
     --fs-title2: 1.375rem;
@@ -41,306 +81,277 @@
     --z-print-exit: 9999;
 }
 
-/* ===== Theme: 陽光 (Sun) — Light ===== */
-body.theme-sun {
-    --accent: #E86A4A;
-    --accent-subtle: #FDE8E2;
-    --accent-bg: #F9DDD4;
-    --bg: #FBF3E8;
-    --bg-secondary: #F0DABC;
-    --bg-tertiary: #E5CBA8;
-    --hover-bg: #EACFAE;
-    --text: #2E2418;
-    --text-muted: #7A6A56;
-    --text-on-accent: #FBF3E8;
-    --border: #DDCEB8;
-    --error: #C83030;
-    --error-bg: #FDECEC;
-    --success: #3D8E5A;
-    --shadow-md: 0 4px 16px rgba(46,36,24,0.12);
-    --shadow-lg: 0 6px 20px rgba(46,36,24,0.18);
-    --priority-high-bg: rgba(239, 68, 68, 0.15);
-    --priority-high-dot: #EF4444;
-    --priority-medium-bg: rgba(234, 179, 8, 0.15);
-    --priority-medium-dot: #EAB308;
-    --priority-low-bg: rgba(74, 158, 106, 0.10);
-    --priority-low-dot: #4A9E6A;
-    --scrollbar-thumb: #C8B89E;
-    --scrollbar-thumb-hover: #B8A88E;
-    --cmp-light-bg: #F0DABC;
-    --cmp-light-surface: #FBF3E8;
-    --cmp-light-input: #DDCEB8;
-    --cmp-dark-bg: #1E1A16;
-    --cmp-dark-surface: #2A2520;
-    --cmp-dark-input: #3E3830;
-    --overlay: rgba(0,0,0,0.35);
-    --badge-open-bg: #1A7F37;
-    --badge-closed-bg: #6E40C9;
-    --plan-mode-bg: #E8F5E9;
-    --plan-mode-text: #2E7D32;
-    --plan-mode-bg-hover: #C8E6C9;
-}
+/* ===== Theme overrides (@layer base) ===== */
+/* NOTE: Light theme first, then dark override. Dark inherits --cmp-* from light. */
 
-/* ===== Theme: 陽光 (Sun) — Dark ===== */
-/* NOTE: Dark theme inherits --cmp-* variables from the preceding light theme rule.
-   These rules must remain in order: light theme first, then dark override. */
-body.theme-sun.dark {
-    --accent: #F4A08A;
-    --accent-subtle: #2A1E18;
-    --accent-bg: #3D2A20;
-    --bg: #1E1A16;
-    --bg-secondary: #2A2520;
-    --bg-tertiary: #36302A;
-    --hover-bg: #332C26;
-    --text: #EAE2D6;
-    --text-muted: #A09688;
-    --text-on-accent: #1E1A16;
-    --border: #3E3830;
-    --error: #E8A0A0;
-    --error-bg: rgba(212, 64, 64, 0.15);
-    --success: #7EC89A;
-    --shadow-md: 0 4px 16px rgba(0,0,0,0.20);
-    --shadow-lg: 0 6px 20px rgba(0,0,0,0.30);
-    --priority-high-bg: rgba(232, 160, 160, 0.18);
-    --priority-high-dot: #E8A0A0;
-    --priority-medium-bg: rgba(234, 179, 8, 0.18);
-    --priority-medium-dot: #F0D060;
-    --priority-low-bg: rgba(126, 200, 154, 0.12);
-    --priority-low-dot: #7EC89A;
-    --scrollbar-thumb: #504840;
-    --scrollbar-thumb-hover: #605850;
-    --overlay: rgba(0,0,0,0.55);
-    --badge-open-bg: #2EA043;
-    --badge-closed-bg: #8B5CF6;
-    --plan-mode-bg: #1B3A1F;
-    --plan-mode-text: #66BB6A;
-    --plan-mode-bg-hover: #2E4A32;
-    background: var(--bg);
-}
+@layer base {
+    /* --- 陽光 (Sun) — Light --- */
+    body.theme-sun {
+        --scrollbar-thumb: #C8B89E;
+        --scrollbar-thumb-hover: #B8A88E;
+        --cmp-light-bg: #F0DABC;
+        --cmp-light-surface: #FBF3E8;
+        --cmp-light-input: #DDCEB8;
+        --cmp-dark-bg: #1E1A16;
+        --cmp-dark-surface: #2A2520;
+        --cmp-dark-input: #3E3830;
+    }
 
-/* ===== Theme: 晴空 (Sky) — Light ===== */
-body.theme-sky {
-    --accent: #2870A0;
-    --accent-subtle: #D0E4F2;
-    --accent-bg: #B8D4E8;
-    --bg: #FFF9F0;
-    --bg-secondary: #E0EDF5;
-    --bg-tertiary: #C8DDE8;
-    --hover-bg: #E8F2F8;
-    --text: #2A3A40;
-    --text-muted: #587888;
-    --text-on-accent: #FFF9F0;
-    --border: #A0C0D8;
-    --error: #D44040;
-    --error-bg: #FDECEC;
-    --success: #7ECBB0;
-    --shadow-md: 0 4px 16px rgba(42,58,64,0.10);
-    --shadow-lg: 0 6px 20px rgba(42,58,64,0.16);
-    --priority-high-bg: rgba(239, 68, 68, 0.15);
-    --priority-high-dot: #EF4444;
-    --priority-medium-bg: rgba(234, 179, 8, 0.15);
-    --priority-medium-dot: #EAB308;
-    --priority-low-bg: rgba(126, 203, 176, 0.12);
-    --priority-low-dot: #7ECBB0;
-    --scrollbar-thumb: #B8D0DC;
-    --scrollbar-thumb-hover: #A0BCC8;
-    --cmp-light-bg: #E8F4F8;
-    --cmp-light-surface: #FFF9F0;
-    --cmp-light-input: #D0E4EE;
-    --cmp-dark-bg: #161C20;
-    --cmp-dark-surface: #202A30;
-    --cmp-dark-input: #303E46;
-    --overlay: rgba(0,0,0,0.3);
-    --badge-open-bg: #1A7F37;
-    --badge-closed-bg: #6E40C9;
-    --plan-mode-bg: #E8F5E9;
-    --plan-mode-text: #2E7D32;
-    --plan-mode-bg-hover: #C8E6C9;
-}
+    /* --- 陽光 (Sun) — Dark --- */
+    body.theme-sun.dark {
+        --color-accent: #F4A08A;
+        --color-accent-subtle: #2A1E18;
+        --color-accent-bg: #3D2A20;
+        --color-background: #1E1A16;
+        --color-secondary: #2A2520;
+        --color-tertiary: #36302A;
+        --color-hover: #332C26;
+        --color-foreground: #EAE2D6;
+        --color-muted: #A09688;
+        --color-accent-foreground: #1E1A16;
+        --color-border: #3E3830;
+        --color-destructive: #E8A0A0;
+        --color-destructive-bg: rgba(212, 64, 64, 0.15);
+        --color-success: #7EC89A;
+        --shadow-md: 0 4px 16px rgba(0,0,0,0.20);
+        --shadow-lg: 0 6px 20px rgba(0,0,0,0.30);
+        --color-priority-high-bg: rgba(232, 160, 160, 0.18);
+        --color-priority-high-dot: #E8A0A0;
+        --color-priority-medium-bg: rgba(234, 179, 8, 0.18);
+        --color-priority-medium-dot: #F0D060;
+        --color-priority-low-bg: rgba(126, 200, 154, 0.12);
+        --color-priority-low-dot: #7EC89A;
+        --scrollbar-thumb: #504840;
+        --scrollbar-thumb-hover: #605850;
+        --color-overlay: rgba(0,0,0,0.55);
+        --color-badge-open: #2EA043;
+        --color-badge-closed: #8B5CF6;
+        --color-plan-bg: #1B3A1F;
+        --color-plan-text: #66BB6A;
+        --color-plan-hover: #2E4A32;
+        background: var(--color-background);
+    }
 
-/* ===== Theme: 晴空 (Sky) — Dark ===== */
-/* NOTE: Dark theme inherits --cmp-* variables from the preceding light theme rule.
-   These rules must remain in order: light theme first, then dark override. */
-body.theme-sky.dark {
-    --accent: #7EC0E8;
-    --accent-subtle: #182228;
-    --accent-bg: #1E3040;
-    --bg: #161C20;
-    --bg-secondary: #202A30;
-    --bg-tertiary: #2A363E;
-    --hover-bg: #263038;
-    --text: #E0EAF0;
-    --text-muted: #8AAAB8;
-    --text-on-accent: #161C20;
-    --border: #303E46;
-    --error: #E8A0A0;
-    --error-bg: rgba(212, 64, 64, 0.15);
-    --success: #90DCC0;
-    --shadow-md: 0 4px 16px rgba(0,0,0,0.20);
-    --shadow-lg: 0 6px 20px rgba(0,0,0,0.30);
-    --priority-high-bg: rgba(232, 160, 160, 0.18);
-    --priority-high-dot: #E8A0A0;
-    --priority-medium-bg: rgba(234, 179, 8, 0.18);
-    --priority-medium-dot: #F0D060;
-    --priority-low-bg: rgba(144, 220, 192, 0.12);
-    --priority-low-dot: #90DCC0;
-    --scrollbar-thumb: #3E4E58;
-    --scrollbar-thumb-hover: #506068;
-    --overlay: rgba(0,0,0,0.55);
-    --badge-open-bg: #2EA043;
-    --badge-closed-bg: #8B5CF6;
-    --plan-mode-bg: #1B3A1F;
-    --plan-mode-text: #66BB6A;
-    --plan-mode-bg-hover: #2E4A32;
-    background: var(--bg);
-}
+    /* --- 晴空 (Sky) — Light --- */
+    body.theme-sky {
+        --color-accent: #2870A0;
+        --color-accent-subtle: #D0E4F2;
+        --color-accent-bg: #B8D4E8;
+        --color-background: #FFF9F0;
+        --color-secondary: #E0EDF5;
+        --color-tertiary: #C8DDE8;
+        --color-hover: #E8F2F8;
+        --color-foreground: #2A3A40;
+        --color-muted: #587888;
+        --color-accent-foreground: #FFF9F0;
+        --color-border: #A0C0D8;
+        --color-destructive: #D44040;
+        --color-destructive-bg: #FDECEC;
+        --color-success: #7ECBB0;
+        --shadow-md: 0 4px 16px rgba(42,58,64,0.10);
+        --shadow-lg: 0 6px 20px rgba(42,58,64,0.16);
+        --color-priority-high-bg: rgba(239, 68, 68, 0.15);
+        --color-priority-high-dot: #EF4444;
+        --color-priority-medium-bg: rgba(234, 179, 8, 0.15);
+        --color-priority-medium-dot: #EAB308;
+        --color-priority-low-bg: rgba(126, 203, 176, 0.12);
+        --color-priority-low-dot: #7ECBB0;
+        --scrollbar-thumb: #B8D0DC;
+        --scrollbar-thumb-hover: #A0BCC8;
+        --cmp-light-bg: #E8F4F8;
+        --cmp-light-surface: #FFF9F0;
+        --cmp-light-input: #D0E4EE;
+        --cmp-dark-bg: #161C20;
+        --cmp-dark-surface: #202A30;
+        --cmp-dark-input: #303E46;
+        --color-overlay: rgba(0,0,0,0.3);
+        --color-badge-open: #1A7F37;
+        --color-badge-closed: #6E40C9;
+        --color-plan-bg: #E8F5E9;
+        --color-plan-text: #2E7D32;
+        --color-plan-hover: #C8E6C9;
+    }
 
-/* ===== Theme: 和風 (Zen) — Light ===== */
-body.theme-zen {
-    --accent: #9A6B50;
-    --accent-subtle: #F0E5DD;
-    --accent-bg: #E5D8CC;
-    --bg: #F5F0E8;
-    --bg-secondary: #ECE5DA;
-    --bg-tertiary: #E0D8CC;
-    --hover-bg: #E6DED2;
-    --text: #3A3028;
-    --text-muted: #8A7E6E;
-    --text-on-accent: #F5F0E8;
-    --border: #DDD5C8;
-    --error: #C44040;
-    --error-bg: #FDECEC;
-    --success: #7A9A88;
-    --shadow-md: 0 4px 16px rgba(58,48,40,0.10);
-    --shadow-lg: 0 6px 20px rgba(58,48,40,0.16);
-    --priority-high-bg: rgba(239, 68, 68, 0.15);
-    --priority-high-dot: #EF4444;
-    --priority-medium-bg: rgba(234, 179, 8, 0.15);
-    --priority-medium-dot: #EAB308;
-    --priority-low-bg: rgba(158, 184, 168, 0.12);
-    --priority-low-dot: #9EB8A8;
-    --scrollbar-thumb: #C8BEA8;
-    --scrollbar-thumb-hover: #B0A898;
-    --cmp-light-bg: #ECE5DA;
-    --cmp-light-surface: #F5F0E8;
-    --cmp-light-input: #DDD5C8;
-    --cmp-dark-bg: #1A1816;
-    --cmp-dark-surface: #262320;
-    --cmp-dark-input: #3A3630;
-    --overlay: rgba(0,0,0,0.3);
-    --badge-open-bg: #1A7F37;
-    --badge-closed-bg: #6E40C9;
-    --plan-mode-bg: #E8F5E9;
-    --plan-mode-text: #2E7D32;
-    --plan-mode-bg-hover: #C8E6C9;
-}
+    /* --- 晴空 (Sky) — Dark --- */
+    body.theme-sky.dark {
+        --color-accent: #7EC0E8;
+        --color-accent-subtle: #182228;
+        --color-accent-bg: #1E3040;
+        --color-background: #161C20;
+        --color-secondary: #202A30;
+        --color-tertiary: #2A363E;
+        --color-hover: #263038;
+        --color-foreground: #E0EAF0;
+        --color-muted: #8AAAB8;
+        --color-accent-foreground: #161C20;
+        --color-border: #303E46;
+        --color-destructive: #E8A0A0;
+        --color-destructive-bg: rgba(212, 64, 64, 0.15);
+        --color-success: #90DCC0;
+        --shadow-md: 0 4px 16px rgba(0,0,0,0.20);
+        --shadow-lg: 0 6px 20px rgba(0,0,0,0.30);
+        --color-priority-high-bg: rgba(232, 160, 160, 0.18);
+        --color-priority-high-dot: #E8A0A0;
+        --color-priority-medium-bg: rgba(234, 179, 8, 0.18);
+        --color-priority-medium-dot: #F0D060;
+        --color-priority-low-bg: rgba(144, 220, 192, 0.12);
+        --color-priority-low-dot: #90DCC0;
+        --scrollbar-thumb: #3E4E58;
+        --scrollbar-thumb-hover: #506068;
+        --color-overlay: rgba(0,0,0,0.55);
+        --color-badge-open: #2EA043;
+        --color-badge-closed: #8B5CF6;
+        --color-plan-bg: #1B3A1F;
+        --color-plan-text: #66BB6A;
+        --color-plan-hover: #2E4A32;
+        background: var(--color-background);
+    }
 
-/* ===== Theme: 和風 (Zen) — Dark ===== */
-/* NOTE: Dark theme inherits --cmp-* variables from the preceding light theme rule.
-   These rules must remain in order: light theme first, then dark override. */
-body.theme-zen.dark {
-    --accent: #D4A88E;
-    --accent-subtle: #221C18;
-    --accent-bg: #342820;
-    --bg: #1A1816;
-    --bg-secondary: #262320;
-    --bg-tertiary: #32302A;
-    --hover-bg: #2E2C26;
-    --text: #E8E0D4;
-    --text-muted: #9B9080;
-    --text-on-accent: #1A1816;
-    --border: #3A3630;
-    --error: #E8A0A0;
-    --error-bg: rgba(196, 64, 64, 0.15);
-    --success: #B8D0C0;
-    --shadow-md: 0 4px 16px rgba(0,0,0,0.20);
-    --shadow-lg: 0 6px 20px rgba(0,0,0,0.30);
-    --priority-high-bg: rgba(232, 160, 160, 0.18);
-    --priority-high-dot: #E8A0A0;
-    --priority-medium-bg: rgba(234, 179, 8, 0.18);
-    --priority-medium-dot: #F0D060;
-    --priority-low-bg: rgba(184, 208, 192, 0.12);
-    --priority-low-dot: #B8D0C0;
-    --scrollbar-thumb: #4A4640;
-    --scrollbar-thumb-hover: #5A5650;
-    --overlay: rgba(0,0,0,0.55);
-    --badge-open-bg: #2EA043;
-    --badge-closed-bg: #8B5CF6;
-    --plan-mode-bg: #1B3A1F;
-    --plan-mode-text: #66BB6A;
-    --plan-mode-bg-hover: #2E4A32;
-    background: var(--bg);
-}
+    /* --- 和風 (Zen) — Light --- */
+    body.theme-zen {
+        --color-accent: #9A6B50;
+        --color-accent-subtle: #F0E5DD;
+        --color-accent-bg: #E5D8CC;
+        --color-background: #F5F0E8;
+        --color-secondary: #ECE5DA;
+        --color-tertiary: #E0D8CC;
+        --color-hover: #E6DED2;
+        --color-foreground: #3A3028;
+        --color-muted: #8A7E6E;
+        --color-accent-foreground: #F5F0E8;
+        --color-border: #DDD5C8;
+        --color-destructive: #C44040;
+        --color-destructive-bg: #FDECEC;
+        --color-success: #7A9A88;
+        --shadow-md: 0 4px 16px rgba(58,48,40,0.10);
+        --shadow-lg: 0 6px 20px rgba(58,48,40,0.16);
+        --color-priority-high-bg: rgba(239, 68, 68, 0.15);
+        --color-priority-high-dot: #EF4444;
+        --color-priority-medium-bg: rgba(234, 179, 8, 0.15);
+        --color-priority-medium-dot: #EAB308;
+        --color-priority-low-bg: rgba(158, 184, 168, 0.12);
+        --color-priority-low-dot: #9EB8A8;
+        --scrollbar-thumb: #C8BEA8;
+        --scrollbar-thumb-hover: #B0A898;
+        --cmp-light-bg: #ECE5DA;
+        --cmp-light-surface: #F5F0E8;
+        --cmp-light-input: #DDD5C8;
+        --cmp-dark-bg: #1A1816;
+        --cmp-dark-surface: #262320;
+        --cmp-dark-input: #3A3630;
+        --color-overlay: rgba(0,0,0,0.3);
+        --color-badge-open: #1A7F37;
+        --color-badge-closed: #6E40C9;
+        --color-plan-bg: #E8F5E9;
+        --color-plan-text: #2E7D32;
+        --color-plan-hover: #C8E6C9;
+    }
 
-/* ===== Theme: 列印 (Print) ===== */
-body.theme-print {
-    --accent: #8B8580;
-    --accent-subtle: #F0EDEA;
-    --accent-bg: #E8E4E0;
-    --bg: #FFFFFF;
-    --bg-secondary: #FFFFFF;
-    --bg-tertiary: #F5F3F0;
-    --hover-bg: #F0EDEA;
-    --text: #1A1A1A;
-    --text-muted: #6B6B6B;
-    --text-on-accent: #FFFFFF;
-    --border: #D0CCC8;
-    --error: #C83030;
-    --error-bg: #FDECEC;
-    --success: #3D8E5A;
-    --shadow-md: none;
-    --shadow-lg: none;
-    --priority-high-bg: rgba(239, 68, 68, 0.12);
-    --priority-high-dot: #EF4444;
-    --priority-medium-bg: rgba(234, 179, 8, 0.12);
-    --priority-medium-dot: #EAB308;
-    --priority-low-bg: rgba(74, 158, 106, 0.08);
-    --priority-low-dot: #4A9E6A;
-    --scrollbar-thumb: #C8C4C0;
-    --scrollbar-thumb-hover: #B0ACA8;
-    --overlay: rgba(0,0,0,0.2);
-    --badge-open-bg: #1A7F37;
-    --badge-closed-bg: #6E40C9;
-    --plan-mode-bg: #E8F5E9;
-    --plan-mode-text: #2E7D32;
-    --plan-mode-bg-hover: #C8E6C9;
+    /* --- 和風 (Zen) — Dark --- */
+    body.theme-zen.dark {
+        --color-accent: #D4A88E;
+        --color-accent-subtle: #221C18;
+        --color-accent-bg: #342820;
+        --color-background: #1A1816;
+        --color-secondary: #262320;
+        --color-tertiary: #32302A;
+        --color-hover: #2E2C26;
+        --color-foreground: #E8E0D4;
+        --color-muted: #9B9080;
+        --color-accent-foreground: #1A1816;
+        --color-border: #3A3630;
+        --color-destructive: #E8A0A0;
+        --color-destructive-bg: rgba(196, 64, 64, 0.15);
+        --color-success: #B8D0C0;
+        --shadow-md: 0 4px 16px rgba(0,0,0,0.20);
+        --shadow-lg: 0 6px 20px rgba(0,0,0,0.30);
+        --color-priority-high-bg: rgba(232, 160, 160, 0.18);
+        --color-priority-high-dot: #E8A0A0;
+        --color-priority-medium-bg: rgba(234, 179, 8, 0.18);
+        --color-priority-medium-dot: #F0D060;
+        --color-priority-low-bg: rgba(184, 208, 192, 0.12);
+        --color-priority-low-dot: #B8D0C0;
+        --scrollbar-thumb: #4A4640;
+        --scrollbar-thumb-hover: #5A5650;
+        --color-overlay: rgba(0,0,0,0.55);
+        --color-badge-open: #2EA043;
+        --color-badge-closed: #8B5CF6;
+        --color-plan-bg: #1B3A1F;
+        --color-plan-text: #66BB6A;
+        --color-plan-hover: #2E4A32;
+        background: var(--color-background);
+    }
+
+    /* --- 列印 (Print) --- */
+    body.theme-print {
+        --color-accent: #8B8580;
+        --color-accent-subtle: #F0EDEA;
+        --color-accent-bg: #E8E4E0;
+        --color-background: #FFFFFF;
+        --color-secondary: #FFFFFF;
+        --color-tertiary: #F5F3F0;
+        --color-hover: #F0EDEA;
+        --color-foreground: #1A1A1A;
+        --color-muted: #6B6B6B;
+        --color-accent-foreground: #FFFFFF;
+        --color-border: #D0CCC8;
+        --color-destructive: #C83030;
+        --color-destructive-bg: #FDECEC;
+        --color-success: #3D8E5A;
+        --shadow-md: none;
+        --shadow-lg: none;
+        --color-priority-high-bg: rgba(239, 68, 68, 0.12);
+        --color-priority-high-dot: #EF4444;
+        --color-priority-medium-bg: rgba(234, 179, 8, 0.12);
+        --color-priority-medium-dot: #EAB308;
+        --color-priority-low-bg: rgba(74, 158, 106, 0.08);
+        --color-priority-low-dot: #4A9E6A;
+        --scrollbar-thumb: #C8C4C0;
+        --scrollbar-thumb-hover: #B0ACA8;
+        --color-overlay: rgba(0,0,0,0.2);
+        --color-badge-open: #1A7F37;
+        --color-badge-closed: #6E40C9;
+        --color-plan-bg: #E8F5E9;
+        --color-plan-text: #2E7D32;
+        --color-plan-hover: #C8E6C9;
+    }
 }
 
 /* ===== Selection ===== */
-::selection { background: var(--accent-subtle); color: var(--text); }
+::selection { background: var(--color-accent-subtle); color: var(--color-foreground); }
 
 /* ===== Reset & Base ===== */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; scrollbar-gutter: stable; }
 .page-layout { overflow-x: clip; }
-body { font-family: var(--font-system); background: var(--bg); font-size: var(--fs-body); color: var(--text); line-height: var(--lh-normal); transition: background-color var(--duration-slow) var(--ease-apple), color var(--duration-slow) var(--ease-apple); }
+body { font-family: var(--font-system); background: var(--color-background); font-size: var(--fs-body); color: var(--color-foreground); line-height: var(--lh-normal); transition: background-color var(--duration-slow) var(--ease-apple), color var(--duration-slow) var(--ease-apple); }
 
 /* ===== Page Layout ===== */
 .page-layout { display: flex; min-height: 100dvh; }
 
 /* ===== Trip Buttons (shared by switch + edit) ===== */
-.trip-btn { display: block; width: 100%; text-align: left; padding: 16px; border-radius: var(--radius-sm); border: 2px solid transparent; background: var(--accent-bg); font-family: inherit; font-size: var(--fs-body); color: var(--text); text-decoration: none; }
-.trip-btn:hover { background: var(--bg-secondary); }
-.trip-btn.active { border-color: var(--accent); }
+.trip-btn { display: block; width: 100%; text-align: left; padding: 16px; border-radius: var(--radius-sm); border: 2px solid transparent; background: var(--color-accent-bg); font-family: inherit; font-size: var(--fs-body); color: var(--color-foreground); text-decoration: none; }
+.trip-btn:hover { background: var(--color-secondary); }
+.trip-btn.active { border-color: var(--color-accent); }
 .trip-btn strong { display: block; font-size: var(--fs-title3); }
-.trip-btn .trip-sub { font-size: var(--fs-caption); color: var(--text-muted); margin-top: 4px; display: block; }
+.trip-btn .trip-sub { font-size: var(--fs-caption); color: var(--color-muted); margin-top: 4px; display: block; }
 
 /* ===== Dark Mode (shared base — trip-btn overrides) ===== */
-body.dark .trip-btn { background: var(--hover-bg); }
-body.dark .trip-btn:hover { background: var(--bg-tertiary); }
+body.dark .trip-btn { background: var(--color-hover); }
+body.dark .trip-btn:hover { background: var(--color-tertiary); }
 
 /* ===== Container & Sticky Nav (shared by index + edit) ===== */
 .container { flex: 1; min-width: 0; max-width: 100%; margin: 0 auto; padding: 0; transition: transform var(--duration-slow) var(--ease-apple), border-radius var(--duration-slow); }
-.sticky-nav { position: sticky; top: 0; z-index: var(--z-sticky-nav); background: color-mix(in srgb, var(--bg) 85%, transparent); -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px); color: var(--text); padding: 8px var(--padding-h); display: flex; align-items: center; gap: 8px; }
+.sticky-nav { position: sticky; top: 0; z-index: var(--z-sticky-nav); background: color-mix(in srgb, var(--color-background) 85%, transparent); -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px); color: var(--color-foreground); padding: 8px var(--padding-h); display: flex; align-items: center; gap: 8px; }
 
 /* ===== Nav Title (shared by edit + setting) ===== */
-.nav-title { font-size: var(--fs-title3); font-weight: 700; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; min-width: 0; }
+.nav-title { font-size: var(--fs-title3); font-weight: 700; color: var(--color-foreground); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; min-width: 0; }
 
 /* ===== Nav Close Button (shared by edit + setting) ===== */
-.nav-back-btn { display: flex; align-items: center; justify-content: center; width: var(--tap-min); height: var(--tap-min); border: none; border-radius: var(--radius-full); background: transparent; color: var(--text); flex-shrink: 0; cursor: pointer; transition: background var(--duration-fast), color var(--duration-fast); }
-.nav-back-btn:hover { color: var(--accent); background: var(--accent-bg); }
-.nav-close-btn { display: flex; align-items: center; justify-content: center; width: var(--tap-min); height: var(--tap-min); border: none; border-radius: var(--radius-full); background: transparent; color: var(--text); flex-shrink: 0; transition: background var(--duration-fast), color var(--duration-fast); }
-.nav-close-btn:hover { color: var(--accent); background: var(--accent-bg); }
+.nav-back-btn { display: flex; align-items: center; justify-content: center; width: var(--tap-min); height: var(--tap-min); border: none; border-radius: var(--radius-full); background: transparent; color: var(--color-foreground); flex-shrink: 0; cursor: pointer; transition: background var(--duration-fast), color var(--duration-fast); }
+.nav-back-btn:hover { color: var(--color-accent); background: var(--color-accent-bg); }
+.nav-close-btn { display: flex; align-items: center; justify-content: center; width: var(--tap-min); height: var(--tap-min); border: none; border-radius: var(--radius-full); background: transparent; color: var(--color-foreground); flex-shrink: 0; transition: background var(--duration-fast), color var(--duration-fast); }
+.nav-close-btn:hover { color: var(--color-accent); background: var(--color-accent-bg); }
 .nav-close-btn:focus-visible { outline: none; box-shadow: var(--shadow-ring); }
 
 /* ===== SVG Icon Wrapper ===== */

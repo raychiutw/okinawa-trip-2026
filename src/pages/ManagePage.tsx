@@ -343,7 +343,7 @@ export default function ManagePage() {
         <main className="manage-main" id="manageMain">
           {/* Loading state */}
           {pageState.kind === 'loading' && (
-            <div style={{ textAlign: 'center', padding: 40, color: 'var(--text-muted)' }}>
+            <div style={{ textAlign: 'center', padding: 40, color: 'var(--color-muted)' }}>
               載入中...
             </div>
           )}

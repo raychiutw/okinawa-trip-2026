@@ -34,8 +34,8 @@ import type { SuggestionsData } from '../components/trip/Suggestions';
 
 /* ===== Module-level constants (#14: hoist inline styles) ===== */
 
-const LOADING_STYLE: React.CSSProperties = { textAlign: 'center', padding: 40, color: 'var(--text-muted)' };
-const UNPUBLISHED_STYLE: React.CSSProperties = { color: 'var(--text-muted)', marginTop: 8 };
+const LOADING_STYLE: React.CSSProperties = { textAlign: 'center', padding: 40, color: 'var(--color-muted)' };
+const UNPUBLISHED_STYLE: React.CSSProperties = { color: 'var(--color-muted)', marginTop: 8 };
 
 /* ===== Static early-return views (#13: hoist to module level) ===== */
 
@@ -776,7 +776,7 @@ export default function TripPage() {
             <button className="tool-action-btn" onClick={() => { handleSheetClose(); togglePrint(); }}>
               <Icon name="printer" /><span>列印模式</span>
             </button>
-            <hr style={{ border: 'none', borderTop: '1px solid var(--border)', margin: '4px 0' }} />
+            <hr style={{ border: 'none', borderTop: '1px solid var(--color-border)', margin: '4px 0' }} />
             <button className="tool-action-btn" onClick={() => { handleSheetClose(); togglePrint(); setTimeout(() => window.print(), 300); }}>
               <Icon name="download" /><span>匯出 PDF</span>
             </button>
