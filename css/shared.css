@@ -349,6 +349,7 @@ body.dark .trip-btn:hover { background: var(--bg-tertiary); }
 
 /* ===== Focus Visible (remove default outline, use box-shadow) ===== */
 button:focus-visible { outline: none; box-shadow: var(--shadow-ring); }
+[role="button"]:focus-visible { outline: none; box-shadow: var(--shadow-ring); border-radius: var(--radius-xs); }
 .dn:focus-visible { outline: none; box-shadow: var(--shadow-ring); }
 
 /* ===== Custom Scrollbar (global) ===== */
@@ -370,12 +371,16 @@ button:focus-visible { outline: none; box-shadow: var(--shadow-ring); }
     }
 }
 
-/* === Reduced Motion === */
+/* === Reduced Motion: disable decorative animations only === */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  html { scroll-behavior: auto; }
+  .arrow, .speed-dial-trigger, .edit-fab,
+  .hw-detail, .col-body, .info-sheet,
+  .info-sheet-backdrop, .download-backdrop {
+    transition-duration: 0.01ms !important;
+  }
+  .day-header, [class*="fade"], [class*="slide"] {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
   }
 }

@@ -1,5 +1,5 @@
 import { logAudit, computeDiff } from '../../../_audit';
-import { hasPermission } from '../../../_auth';
+import { hasPermission, verifyShoppingBelongsToTrip } from '../../../_auth';
 
 interface Env {
   DB: D1Database;
@@ -21,6 +21,10 @@ export const onRequestPatch: PagesFunction<Env> = async (context) => {
 
   if (!await hasPermission(db, auth.email, id, auth.isAdmin)) {
     return json({ error: '權限不足' }, 403);
+  }
+
+  if (!await verifyShoppingBelongsToTrip(db, Number(sid), id)) {
+    return json({ error: 'Not found' }, 404);
   }
 
   const oldRow = await db.prepare('SELECT * FROM shopping WHERE id = ?').bind(Number(sid)).first() as Record<string, unknown> | null;
@@ -68,6 +72,10 @@ export const onRequestDelete: PagesFunction<Env> = async (context) => {
 
   if (!await hasPermission(db, auth.email, id, auth.isAdmin)) {
     return json({ error: '權限不足' }, 403);
+  }
+
+  if (!await verifyShoppingBelongsToTrip(db, Number(sid), id)) {
+    return json({ error: 'Not found' }, 404);
   }
 
   const oldRow = await db.prepare('SELECT * FROM shopping WHERE id = ?').bind(Number(sid)).first() as Record<string, unknown> | null;

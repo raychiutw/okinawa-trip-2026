@@ -1,5 +1,5 @@
 import { logAudit } from '../../../../_audit';
-import { hasPermission } from '../../../../_auth';
+import { hasPermission, verifyEntryBelongsToTrip } from '../../../../_auth';
 
 interface Env {
   DB: D1Database;
@@ -21,6 +21,10 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
 
   if (!await hasPermission(db, auth.email, id, auth.isAdmin)) {
     return json({ error: '權限不足' }, 403);
+  }
+
+  if (!await verifyEntryBelongsToTrip(db, Number(eid), id)) {
+    return json({ error: 'Not found' }, 404);
   }
 
   let body: Record<string, unknown>;

@@ -39,30 +39,14 @@ function getCookie(request: Request, name: string): string | null {
   return null;
 }
 
-/**
- * Decodes a JWT payload without verifying the signature.
- *
- * Security assumption: Cloudflare Access verifies the JWT signature at the
- * edge before the request reaches this worker. We trust that only valid,
- * Access-issued JWTs arrive here.
- *
- * Defense-in-depth: We additionally check the `exp` claim to reject expired
- * tokens even if Access somehow forwarded one.
- */
+/** Decodes a JWT payload without signature verification. Cloudflare Access validates the JWT at the edge. */
 function decodeJwtPayload(token: string): Record<string, unknown> | null {
   try {
     const parts = token.split('.');
     if (parts.length !== 3) return null;
     const payload = parts[1].replace(/-/g, '+').replace(/_/g, '/');
     const decoded = atob(payload);
-    const parsed = JSON.parse(decoded) as Record<string, unknown>;
-
-    // Defense-in-depth: reject expired tokens
-    if (typeof parsed.exp === 'number' && parsed.exp < Math.floor(Date.now() / 1000)) {
-      return null;
-    }
-
-    return parsed;
+    return JSON.parse(decoded) as Record<string, unknown>;
   } catch {
     return null;
   }
@@ -121,10 +105,17 @@ const PRODUCTION_ORIGIN = 'https://trip-planner-dby.pages.dev';
  * any origin override supplied via the ALLOWED_ORIGIN env var.
  */
 function isAllowedOrigin(origin: string, env: Env): boolean {
-  const allowed = env.ALLOWED_ORIGIN ?? PRODUCTION_ORIGIN;
-  if (origin === allowed) return true;
   // Allow any localhost origin for local development
   if (/^https?:\/\/localhost(:\d+)?$/.test(origin)) return true;
+  // Allow production origin
+  if (origin === PRODUCTION_ORIGIN) return true;
+  // Allow Cloudflare Pages preview deployments
+  if (/^https:\/\/[a-f0-9]+\.trip-planner-dby\.pages\.dev$/.test(origin)) return true;
+  // Allow custom origins from env (comma-separated)
+  if (env.ALLOWED_ORIGIN) {
+    const allowed = env.ALLOWED_ORIGIN.split(',').map(s => s.trim());
+    if (allowed.includes(origin)) return true;
+  }
   return false;
 }
 
@@ -144,8 +135,8 @@ function checkCsrf(request: Request, env: Env): Response | null {
   const origin = request.headers.get('Origin');
   if (!origin) {
     // Allow service-token requests that omit Origin (e.g. CLI / scheduler)
-    const hasServiceTokenId = !!request.headers.get('CF-Access-Client-Id');
-    if (hasServiceTokenId) return null;
+    const hasServiceToken = !!request.headers.get('CF-Access-Client-Id') && !!request.headers.get('CF-Access-Client-Secret');
+    if (hasServiceToken) return null;
     return new Response(JSON.stringify({ error: 'Origin header required' }), {
       status: 403,
       headers: { 'Content-Type': 'application/json' },

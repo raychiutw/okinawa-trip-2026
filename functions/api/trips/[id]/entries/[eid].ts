@@ -1,5 +1,5 @@
 import { logAudit, computeDiff } from '../../../_audit';
-import { hasPermission } from '../../../_auth';
+import { hasPermission, verifyEntryBelongsToTrip } from '../../../_auth';
 
 interface Env {
   DB: D1Database;
@@ -21,6 +21,10 @@ export const onRequestPatch: PagesFunction<Env> = async (context) => {
 
   if (!await hasPermission(db, auth.email, id, auth.isAdmin)) {
     return json({ error: '權限不足' }, 403);
+  }
+
+  if (!await verifyEntryBelongsToTrip(db, Number(eid), id)) {
+    return json({ error: 'Not found' }, 404);
   }
 
   const oldRow = await db.prepare('SELECT * FROM entries WHERE id = ?').bind(Number(eid)).first() as Record<string, unknown> | null;
@@ -70,11 +74,15 @@ export const onRequestDelete: PagesFunction<Env> = async (context) => {
     return json({ error: '權限不足' }, 403);
   }
 
+  if (!await verifyEntryBelongsToTrip(db, Number(eid), id)) {
+    return json({ error: 'Not found' }, 404);
+  }
+
   const oldRow = await db.prepare('SELECT * FROM entries WHERE id = ?').bind(Number(eid)).first() as Record<string, unknown> | null;
 
   // Cascade delete restaurants and shopping before deleting the entry
   await db.batch([
-    db.prepare("DELETE FROM restaurants WHERE parent_type = 'entry' AND parent_id = ?").bind(Number(eid)),
+    db.prepare("DELETE FROM restaurants WHERE entry_id = ?").bind(Number(eid)),
     db.prepare("DELETE FROM shopping WHERE parent_type = 'entry' AND parent_id = ?").bind(Number(eid)),
     db.prepare('DELETE FROM entries WHERE id = ?').bind(Number(eid)),
   ]);

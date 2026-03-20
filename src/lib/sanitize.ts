@@ -42,7 +42,11 @@ export function sanitizeHtml(html: string): string {
         el.removeAttribute(attr.name);
       }
       if (attr.name === 'style') {
-        el.removeAttribute(attr.name);
+        const val = attr.value.toLowerCase();
+        // Remove styles that could execute JS or load external resources
+        if (/expression\s*\(|javascript:|url\s*\(|@import|behavior\s*:|binding\s*:|-moz-binding/i.test(val)) {
+          el.removeAttribute(attr.name);
+        }
       }
       if (
         attr.name === 'href' ||

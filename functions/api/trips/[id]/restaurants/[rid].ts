@@ -1,5 +1,5 @@
 import { logAudit, computeDiff } from '../../../_audit';
-import { hasPermission } from '../../../_auth';
+import { hasPermission, verifyRestaurantBelongsToTrip } from '../../../_auth';
 
 interface Env {
   DB: D1Database;
@@ -21,6 +21,10 @@ export const onRequestPatch: PagesFunction<Env> = async (context) => {
 
   if (!await hasPermission(db, auth.email, id, auth.isAdmin)) {
     return json({ error: '權限不足' }, 403);
+  }
+
+  if (!await verifyRestaurantBelongsToTrip(db, Number(rid), id)) {
+    return json({ error: 'Not found' }, 404);
   }
 
   const oldRow = await db.prepare('SELECT * FROM restaurants WHERE id = ?').bind(Number(rid)).first() as Record<string, unknown> | null;
@@ -68,6 +72,11 @@ export const onRequestDelete: PagesFunction<Env> = async (context) => {
   if (!await hasPermission(db, auth.email, id, auth.isAdmin)) {
     return json({ error: '權限不足' }, 403);
   }
+
+  if (!await verifyRestaurantBelongsToTrip(db, Number(rid), id)) {
+    return json({ error: 'Not found' }, 404);
+  }
+
   const changedBy = auth?.email || 'anonymous';
 
   const oldRow = await db.prepare('SELECT * FROM restaurants WHERE id = ?').bind(Number(rid)).first() as Record<string, unknown> | null;

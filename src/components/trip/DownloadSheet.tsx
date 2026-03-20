@@ -2,6 +2,19 @@ import React, { useState, useCallback } from 'react';
 import { apiFetch } from '../../hooks/useApi';
 import Icon from '../shared/Icon';
 
+async function pMap<T, R>(items: T[], fn: (item: T) => Promise<R>, concurrency: number): Promise<R[]> {
+  const results: R[] = [];
+  let i = 0;
+  async function next(): Promise<void> {
+    const idx = i++;
+    if (idx >= items.length) return;
+    results[idx] = await fn(items[idx]);
+    return next();
+  }
+  await Promise.all(Array.from({ length: Math.min(concurrency, items.length) }, () => next()));
+  return results;
+}
+
 interface DownloadSheetProps {
   isOpen: boolean;
   onClose: () => void;
@@ -63,8 +76,10 @@ export default function DownloadSheet({ isOpen, onClose, tripId, tripName }: Dow
       let md = `# ${String(meta.name || tripName)}\n\n`;
       if (meta.title) md += `${String(meta.title)}\n\n`;
 
-      const allDayData = await Promise.all(
-        daySummaries.map(ds => apiFetch<DayData>(`/trips/${tripId}/days/${ds.day_num}`))
+      const allDayData = await pMap(
+        daySummaries,
+        ds => apiFetch<DayData>(`/trips/${tripId}/days/${ds.day_num}`),
+        5,
       );
       for (let i = 0; i < daySummaries.length; i++) {
         const ds = daySummaries[i];
@@ -120,8 +135,10 @@ export default function DownloadSheet({ isOpen, onClose, tripId, tripName }: Dow
 
       const rows: string[][] = [['Day', '日期', '時間', '地點', '評分', '交通方式', '交通時間(分鐘)', '備註']];
 
-      const allDayData = await Promise.all(
-        daySummaries.map(ds => apiFetch<DayData>(`/trips/${tripId}/days/${ds.day_num}`))
+      const allDayData = await pMap(
+        daySummaries,
+        ds => apiFetch<DayData>(`/trips/${tripId}/days/${ds.day_num}`),
+        5,
       );
       for (let i = 0; i < daySummaries.length; i++) {
         const ds = daySummaries[i];
