@@ -12,6 +12,7 @@ interface Env {
   CF_ACCESS_APP_ID: string;
   CF_ACCESS_POLICY_ID: string;
   ADMIN_EMAIL: string;
+  ALLOWED_ORIGIN?: string;
 }
 
 interface AuthData {
@@ -38,13 +39,30 @@ function getCookie(request: Request, name: string): string | null {
   return null;
 }
 
+/**
+ * Decodes a JWT payload without verifying the signature.
+ *
+ * Security assumption: Cloudflare Access verifies the JWT signature at the
+ * edge before the request reaches this worker. We trust that only valid,
+ * Access-issued JWTs arrive here.
+ *
+ * Defense-in-depth: We additionally check the `exp` claim to reject expired
+ * tokens even if Access somehow forwarded one.
+ */
 function decodeJwtPayload(token: string): Record<string, unknown> | null {
   try {
     const parts = token.split('.');
     if (parts.length !== 3) return null;
     const payload = parts[1].replace(/-/g, '+').replace(/_/g, '/');
     const decoded = atob(payload);
-    return JSON.parse(decoded);
+    const parsed = JSON.parse(decoded) as Record<string, unknown>;
+
+    // Defense-in-depth: reject expired tokens
+    if (typeof parsed.exp === 'number' && parsed.exp < Math.floor(Date.now() / 1000)) {
+      return null;
+    }
+
+    return parsed;
   } catch {
     return null;
   }
@@ -95,17 +113,74 @@ export const onRequest: PagesFunction<Env> = async (context) => {
 /**
  * 原有的認證邏輯，抽成獨立函式以便被錯誤記錄 wrapper 包裹。
  */
+const PRODUCTION_ORIGIN = 'https://trip-planner-dby.pages.dev';
+
+/**
+ * Returns true if the given origin is allowed.
+ * Accepts the configured production origin, localhost origins for dev, and
+ * any origin override supplied via the ALLOWED_ORIGIN env var.
+ */
+function isAllowedOrigin(origin: string, env: Env): boolean {
+  const allowed = env.ALLOWED_ORIGIN ?? PRODUCTION_ORIGIN;
+  if (origin === allowed) return true;
+  // Allow any localhost origin for local development
+  if (/^https?:\/\/localhost(:\d+)?$/.test(origin)) return true;
+  return false;
+}
+
+/**
+ * CSRF protection for mutating requests.
+ *
+ * Validates the Origin header for POST/PUT/PATCH/DELETE requests.
+ * Requests without an Origin header are only permitted when they carry a
+ * CF-Access-Client-Id header (i.e. service-token CLI calls that don't set
+ * Origin).
+ */
+function checkCsrf(request: Request, env: Env): Response | null {
+  const method = request.method.toUpperCase();
+  const mutating = ['POST', 'PUT', 'PATCH', 'DELETE'].includes(method);
+  if (!mutating) return null;
+
+  const origin = request.headers.get('Origin');
+  if (!origin) {
+    // Allow service-token requests that omit Origin (e.g. CLI / scheduler)
+    const hasServiceTokenId = !!request.headers.get('CF-Access-Client-Id');
+    if (hasServiceTokenId) return null;
+    return new Response(JSON.stringify({ error: 'Origin header required' }), {
+      status: 403,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
+  if (!isAllowedOrigin(origin, env)) {
+    return new Response(JSON.stringify({ error: 'Forbidden: invalid origin' }), {
+      status: 403,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
+  return null;
+}
+
 async function handleAuth(
   context: EventContext<Env, string, Record<string, unknown>>,
 ): Promise<Response> {
   const { request, env } = context;
   const url = new URL(request.url);
 
+  // CSRF protection for all mutating requests
+  const csrfError = checkCsrf(request, env);
+  if (csrfError) return csrfError;
+
   // 公開讀取：GET /api/trips/** 不需認證
   if (request.method === 'GET' && url.pathname.startsWith('/api/trips')) {
     // Service Token（CLI / scheduler）→ admin
+    // Security assumption: Cloudflare Access validates CF-Access-Client-Id and
+    // CF-Access-Client-Secret at the edge. We require both headers as
+    // defense-in-depth so that a leaked Client-Id alone is not sufficient.
     const stClientId = request.headers.get('CF-Access-Client-Id');
-    if (stClientId) {
+    const stClientSecret = request.headers.get('CF-Access-Client-Secret');
+    if (stClientId && stClientSecret) {
       (context.data as Record<string, unknown>).auth = {
         email: env.ADMIN_EMAIL,
         isAdmin: true,
@@ -138,8 +213,12 @@ async function handleAuth(
   }
 
   // Service Token 辨識（header 未被 Access 消化時）
+  // Security assumption: Cloudflare Access validates both headers at the edge.
+  // We require both CF-Access-Client-Id AND CF-Access-Client-Secret as
+  // defense-in-depth so a leaked Client-Id alone does not grant admin access.
   const clientId = request.headers.get('CF-Access-Client-Id');
-  if (clientId) {
+  const clientSecret = request.headers.get('CF-Access-Client-Secret');
+  if (clientId && clientSecret) {
     (context.data as Record<string, unknown>).auth = {
       email: env.ADMIN_EMAIL,
       isAdmin: true,

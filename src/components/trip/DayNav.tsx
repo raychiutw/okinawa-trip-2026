@@ -108,13 +108,15 @@ export default function DayNav({ days, currentDayNum, onSwitchDay }: DayNavProps
         className="dh-nav-arrow"
         aria-label="向左捲動"
         aria-hidden={!canScrollLeft}
+        tabIndex={canScrollLeft ? 0 : -1}
+        disabled={!canScrollLeft}
         onClick={handleArrowLeft}
       >
         &#8249;
       </button>
       <div className="dh-nav" id="navPills" ref={navRef}>
         {days.map((d) => {
-          const dayNum = d.day_num;
+          const dayNum = d.day_num ?? d.id;
           const isActive = dayNum === currentDayNum;
           return (
             <button
@@ -134,6 +136,8 @@ export default function DayNav({ days, currentDayNum, onSwitchDay }: DayNavProps
         className="dh-nav-arrow"
         aria-label="向右捲動"
         aria-hidden={!canScrollRight}
+        tabIndex={canScrollRight ? 0 : -1}
+        disabled={!canScrollRight}
         onClick={handleArrowRight}
       >
         &#8250;

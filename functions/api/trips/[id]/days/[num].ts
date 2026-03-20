@@ -1,4 +1,5 @@
 import { logAudit } from '../../../_audit';
+import { hasPermission } from '../../../_auth';
 
 interface Env {
   DB: D1Database;
@@ -91,13 +92,10 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
     };
   });
 
-  // 6. Assemble response — map snake_case to camelCase for frontend
-  const { id: _id, trip_id: _trip_id, day_num, day_of_week, weather_json, ...dayFields } = day;
+  // 6. Assemble response
+  const { id: _id, trip_id: _trip_id, ...dayFields } = day;
   return json({
     id: dayId,
-    dayNum: day_num,
-    dayOfWeek: day_of_week,
-    weather: weather_json,
     ...dayFields,
     hotel,
     timeline,
@@ -119,15 +117,24 @@ export const onRequestPut: PagesFunction<Env> = async (context) => {
 
   if (!day) return json({ error: 'Not found' }, 404);
 
+  if (!await hasPermission(db, auth.email, id, auth.isAdmin)) {
+    return json({ error: '權限不足' }, 403);
+  }
+
   const dayId = day.id;
-  const body = await context.request.json() as {
+  let body: {
     date?: string;
     dayOfWeek?: string;
     label?: string;
     weather?: unknown;
-    hotel?: Record<string, unknown> & { shopping?: unknown[]; parking?: unknown };
-    timeline?: Array<Record<string, unknown> & { restaurants?: unknown[]; shopping?: unknown[] }>;
+    hotel?: Record<string, unknown> & { shopping?: unknown[]; parking?: unknown; details?: unknown; address?: unknown; breakfast?: unknown };
+    timeline?: Array<Record<string, unknown> & { restaurants?: unknown[]; shopping?: unknown[]; travel?: { type?: unknown; desc?: unknown; min?: unknown } }>;
   };
+  try {
+    body = await context.request.json() as typeof body;
+  } catch {
+    return json({ error: 'Invalid JSON' }, 400);
+  }
 
   // Build batch statements: delete old data, then insert new
   const stmts: D1PreparedStatement[] = [];
@@ -136,7 +143,7 @@ export const onRequestPut: PagesFunction<Env> = async (context) => {
   stmts.push(
     db.prepare("DELETE FROM shopping WHERE parent_type = 'hotel' AND parent_id IN (SELECT id FROM hotels WHERE day_id = ?)").bind(dayId),
     db.prepare('DELETE FROM hotels WHERE day_id = ?').bind(dayId),
-    db.prepare("DELETE FROM restaurants WHERE parent_type = 'entry' AND parent_id IN (SELECT id FROM entries WHERE day_id = ?)").bind(dayId),
+    db.prepare("DELETE FROM restaurants WHERE entry_id IN (SELECT id FROM entries WHERE day_id = ?)").bind(dayId),
     db.prepare("DELETE FROM shopping WHERE parent_type = 'entry' AND parent_id IN (SELECT id FROM entries WHERE day_id = ?)").bind(dayId),
     db.prepare('DELETE FROM entries WHERE day_id = ?').bind(dayId),
   );
@@ -146,9 +153,9 @@ export const onRequestPut: PagesFunction<Env> = async (context) => {
     db.prepare('UPDATE days SET date = ?, day_of_week = ?, label = ?, weather_json = ? WHERE id = ?')
       .bind(
         body.date ?? null,
-        body.day_of_week ?? null,
+        body.dayOfWeek ?? null,
         body.label ?? null,
-        body.weather_json ? JSON.stringify(body.weather_json) : null,
+        body.weather ? JSON.stringify(body.weather) : null,
         dayId,
       ),
   );
@@ -159,23 +166,24 @@ export const onRequestPut: PagesFunction<Env> = async (context) => {
   if (body.hotel) {
     const h = body.hotel;
     const hotelResult = await db
-      .prepare('INSERT INTO hotels (day_id, name, checkout, address, maps, note) VALUES (?, ?, ?, ?, ?, ?)')
-      .bind(dayId, h.name ?? null, h.checkout ?? null, h.address ?? null, h.maps ?? null, h.note ?? null)
+      .prepare('INSERT INTO hotels (day_id, name, checkout, details, breakfast, note, parking_json) VALUES (?, ?, ?, ?, ?, ?, ?)')
+      .bind(
+        dayId,
+        h.name ?? null,
+        h.checkout ?? null,
+        h.details ?? h.address ?? null,
+        h.breakfast ?? null,
+        h.note ?? null,
+        h.parking ? JSON.stringify(h.parking) : null,
+      )
       .run();
 
     const hotelId = hotelResult.meta.last_row_id as number;
 
-    if (h.parking) {
-      await db
-        .prepare('UPDATE hotels SET parking = ? WHERE id = ?')
-        .bind(JSON.stringify(h.parking), hotelId)
-        .run();
-    }
-
     if (Array.isArray(h.shopping) && h.shopping.length > 0) {
       const shopStmts = (h.shopping as Record<string, unknown>[]).map(s =>
-        db.prepare("INSERT INTO shopping (parent_type, parent_id, name, price, note) VALUES ('hotel', ?, ?, ?, ?)")
-          .bind(hotelId, s.name ?? null, s.price ?? null, s.note ?? null)
+        db.prepare("INSERT INTO shopping (parent_type, parent_id, name, must_buy, note) VALUES ('hotel', ?, ?, ?, ?)")
+          .bind(hotelId, s.name ?? null, s.must_buy ?? null, s.note ?? null)
       );
       await db.batch(shopStmts);
     }
@@ -185,13 +193,14 @@ export const onRequestPut: PagesFunction<Env> = async (context) => {
   if (Array.isArray(body.timeline) && body.timeline.length > 0) {
     for (let i = 0; i < body.timeline.length; i++) {
       const e = body.timeline[i];
+      const travel = e.travel as { type?: unknown; desc?: unknown; min?: unknown } | undefined;
       const entryResult = await db
-        .prepare('INSERT INTO entries (day_id, sort_order, time, title, body, maps, rating, note, travel) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)')
+        .prepare('INSERT INTO entries (day_id, sort_order, time, title, body, maps, rating, note, travel_type, travel_desc, travel_min) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)')
         .bind(
           dayId, i,
           e.time ?? null, e.title ?? null, e.body ?? null,
           e.maps ?? null, e.rating ?? null, e.note ?? null,
-          e.travel ? JSON.stringify(e.travel) : null,
+          travel?.type ?? null, travel?.desc ?? null, travel?.min ?? null,
         )
         .run();
 
@@ -202,8 +211,8 @@ export const onRequestPut: PagesFunction<Env> = async (context) => {
       if (Array.isArray(e.restaurants)) {
         for (const r of e.restaurants as Record<string, unknown>[]) {
           nestedStmts.push(
-            db.prepare("INSERT INTO restaurants (parent_type, parent_id, name, address, maps, note) VALUES ('entry', ?, ?, ?, ?, ?)")
-              .bind(entryId, r.name ?? null, r.address ?? null, r.maps ?? null, r.note ?? null)
+            db.prepare("INSERT INTO restaurants (entry_id, name, category, hours, price, reservation, reservation_url, description, note, rating, maps, mapcode, source) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
+              .bind(entryId, r.name ?? null, r.category ?? null, r.hours ?? null, r.price ?? null, r.reservation ?? null, r.reservation_url ?? null, r.description ?? null, r.note ?? null, r.rating ?? null, r.maps ?? null, r.mapcode ?? null, r.source ?? null)
           );
         }
       }
@@ -211,8 +220,8 @@ export const onRequestPut: PagesFunction<Env> = async (context) => {
       if (Array.isArray(e.shopping)) {
         for (const s of e.shopping as Record<string, unknown>[]) {
           nestedStmts.push(
-            db.prepare("INSERT INTO shopping (parent_type, parent_id, name, price, note) VALUES ('entry', ?, ?, ?, ?)")
-              .bind(entryId, s.name ?? null, s.price ?? null, s.note ?? null)
+            db.prepare("INSERT INTO shopping (parent_type, parent_id, name, must_buy, note) VALUES ('entry', ?, ?, ?, ?)")
+              .bind(entryId, s.name ?? null, s.must_buy ?? null, s.note ?? null)
           );
         }
       }

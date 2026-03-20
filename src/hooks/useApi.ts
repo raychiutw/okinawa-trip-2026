@@ -1,6 +1,6 @@
 /* ===== Typed API Fetch Helper ===== */
 
-export async function apiFetch<T>(path: string, opts?: RequestInit): Promise<T> {
+export async function apiFetch<T>(path: string, opts?: RequestInit & { signal?: AbortSignal }): Promise<T> {
   const response = await fetch('/api' + path, {
     ...opts,
     headers: {
