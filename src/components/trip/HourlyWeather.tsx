@@ -199,7 +199,7 @@ export default function HourlyWeather({
       id={`hourly-${dayId}`}
     >
       {/* Summary row (clickable) */}
-      <div className="hw-summary" data-action="toggle-hw" onClick={handleToggle}>
+      <div className="hw-summary" data-action="toggle-hw" onClick={handleToggle} role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleToggle(); } }}>
         <Icon name={bestIcon} />{' '}
         {minT}~{maxT}&deg;C{' '}
         &nbsp;&middot;&nbsp;{' '}

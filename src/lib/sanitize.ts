@@ -41,6 +41,9 @@ export function sanitizeHtml(html: string): string {
       if (attr.name.indexOf('on') === 0) {
         el.removeAttribute(attr.name);
       }
+      if (attr.name === 'style') {
+        el.removeAttribute(attr.name);
+      }
       if (
         attr.name === 'href' ||
         attr.name === 'src' ||
