@@ -50,7 +50,7 @@ body.dark .day-header {
 }
 .day-header h2 { font-size: var(--font-size-title2); font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .dh-date { font-size: var(--font-size-subheadline); color: var(--color-muted); margin-left: auto; white-space: nowrap; }
-.dh-nav-wrap { position: relative; display: flex; align-items: center; min-width: 0; margin-left: auto; padding-bottom: 20px; }
+.dh-nav-wrap { position: relative; display: flex; align-items: center; min-width: 0; margin-left: auto; }
 .dh-nav { display: flex; gap: 8px; flex: 1; overflow-x: auto; overflow-y: visible; scrollbar-width: none; scroll-behavior: smooth; padding: 4px 0; }
 .dh-nav::-webkit-scrollbar { display: none; }
 .dn { position: relative; background: var(--color-accent-bg); color: var(--color-accent); border: none; padding: 8px 12px; border-radius: var(--radius-md); font-size: var(--font-size-footnote); font-family: inherit; font-weight: 600; min-width: var(--tap-min); min-height: var(--tap-min); text-align: center; white-space: nowrap; transition: background var(--transition-duration-fast) var(--transition-timing-function-apple), color var(--transition-duration-fast) var(--transition-timing-function-apple); }
@@ -113,20 +113,6 @@ body.dark .day-header {
     background: var(--color-accent-foreground);
 }
 
-/* ===== DayNav Active Label ===== */
-.dn-active-label {
-    position: absolute;
-    top: calc(100% + 4px);
-    left: 50%;
-    transform: translateX(-50%);
-    white-space: nowrap;
-    font-size: var(--font-size-footnote);
-    color: var(--color-foreground);
-    pointer-events: none;
-    max-width: 120px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
 
 /* ===== DayNav Tooltip ===== */
 .dn-tooltip {
@@ -176,7 +162,7 @@ body.dark .day-header {
 .hw-error { text-align: center; padding: 12px; color: var(--color-foreground); font-size: var(--font-size-callout); background: var(--color-accent-bg); border-radius: var(--radius-sm); }
 
 /* ===== Collapsible Row (Hotel / Budget) ===== */
-.col-row { display: flex; align-items: center; gap: 8px; padding: var(--spacing-1) var(--spacing-2); margin: 0 calc(-1 * var(--spacing-2)); user-select: none; cursor: pointer; border-radius: var(--radius-sm); transition: background var(--transition-duration-fast) var(--transition-timing-function-apple); }
+.col-row { display: flex; align-items: center; gap: 8px; padding: var(--spacing-2) var(--spacing-3); margin: 0 calc(-1 * var(--spacing-3)); user-select: none; cursor: pointer; border-radius: var(--radius-sm); transition: background var(--transition-duration-fast) var(--transition-timing-function-apple); }
 .col-row:hover { background: var(--color-accent-bg); }
 .col-row .arrow { margin-left: auto; color: var(--color-muted); font-size: var(--font-size-subheadline); }
 .col-detail { display: none; padding: 12px 0; font-size: var(--font-size-body); line-height: var(--line-height-relaxed); }
@@ -451,7 +437,7 @@ body.dark .day-header {
 }
 
 /* ===== Weather Collapsible ===== */
-.hw-summary { display: flex; justify-content: flex-start; align-items: center; gap: 8px; padding: var(--spacing-1) var(--spacing-2); margin: 0 calc(-1 * var(--spacing-2)); font-size: var(--font-size-subheadline); color: var(--color-muted); user-select: none; cursor: pointer; border-radius: var(--radius-sm); transition: color var(--transition-duration-fast) var(--transition-timing-function-apple), background var(--transition-duration-fast) var(--transition-timing-function-apple); }
+.hw-summary { display: flex; justify-content: flex-start; align-items: center; gap: 8px; padding: var(--spacing-2) var(--spacing-3); margin: 0 calc(-1 * var(--spacing-3)); font-size: var(--font-size-subheadline); color: var(--color-muted); user-select: none; cursor: pointer; border-radius: var(--radius-sm); transition: color var(--transition-duration-fast) var(--transition-timing-function-apple), background var(--transition-duration-fast) var(--transition-timing-function-apple); }
 .hw-summary:hover { color: var(--color-accent); background: var(--color-hover); }
 .hw-summary:focus-visible { outline: none; box-shadow: var(--shadow-ring); border-radius: var(--radius-xs); }
 .hw-summary-arrow { margin-left: auto; flex-shrink: 0; font-weight: 700; font-size: var(--font-size-subheadline); color: var(--color-muted); }
@@ -499,10 +485,23 @@ body.dark .day-header {
 
 /* ===== Today Summary (InfoPanel) ===== */
 .today-summary-list { list-style: none; padding: 0; margin: 0; }
-.today-summary-item { display: flex; gap: 8px; padding: var(--spacing-1) var(--spacing-2); margin: 0 calc(-1 * var(--spacing-2)); font-size: var(--font-size-callout); cursor: pointer; border-radius: var(--radius-sm); transition: background var(--transition-duration-fast); }
+.today-summary-item { display: flex; gap: 8px; padding: var(--spacing-2) var(--spacing-3); margin: 0 calc(-1 * var(--spacing-3)); font-size: var(--font-size-callout); cursor: pointer; border-radius: var(--radius-sm); transition: background var(--transition-duration-fast); align-items: center; }
 .today-summary-item:hover { background: var(--color-hover); }
 .today-summary-time { font-weight: 600; color: var(--color-accent); white-space: nowrap; min-width: 40px; }
-.today-summary-title { color: var(--color-foreground); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.today-summary-title { color: var(--color-foreground); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; min-width: 0; }
+.today-summary-links { display: flex; gap: 4px; flex-shrink: 0; align-items: center; }
+.today-summary-map-link { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: var(--radius-full); font-size: var(--font-size-caption2); font-weight: 700; text-decoration: none; }
+.today-summary-map-link .g-icon { color: var(--color-google-maps); }
+.today-summary-map-link.naver .n-icon { color: var(--color-naver-maps); }
+
+/* ===== Hotel Summary Card (InfoPanel) ===== */
+.hotel-summary-name { font-weight: 600; font-size: var(--font-size-body); }
+.hotel-summary-checkout { font-size: var(--font-size-callout); color: var(--color-muted); margin-top: 4px; }
+
+/* ===== Transport Summary Card (InfoPanel) ===== */
+.transport-summary-row { display: flex; align-items: center; gap: 8px; padding: 4px 0; font-size: var(--font-size-callout); }
+.transport-summary-label { color: var(--color-muted); }
+.transport-summary-value { font-weight: 600; margin-left: auto; }
 
 /* ===== Today Route Sheet ===== */
 .today-route-list { display: flex; flex-direction: column; gap: 8px; }
@@ -569,7 +568,7 @@ body.print-mode .info-panel { background: var(--color-secondary) !important; bac
 .speed-dial.open .speed-dial-backdrop { opacity: 1; pointer-events: auto; }
 
 .speed-dial-items {
-    position: absolute; bottom: calc(var(--fab-size) + 16px); right: 0;
+    position: absolute; bottom: calc(var(--fab-size) + 16px); right: 36px;
     display: grid; grid-template-rows: repeat(4, 1fr); grid-auto-flow: column; gap: 12px;
     opacity: 0; pointer-events: none; transform: translateY(10px);
     transition: opacity var(--transition-duration-normal) var(--transition-timing-function-apple), transform var(--transition-duration-normal) var(--transition-timing-function-apple);
@@ -607,12 +606,16 @@ body.print-mode .info-panel { background: var(--color-secondary) !important; bac
     white-space: nowrap;
     pointer-events: none;
     background: var(--color-secondary);
-    padding: 4px 8px;
-    border-radius: var(--radius-sm);
+    padding: 4px 12px;
+    border-radius: var(--radius-full);
     box-shadow: var(--shadow-md);
     opacity: 0;
     transition: opacity var(--transition-duration-fast) var(--transition-timing-function-apple);
 }
+/* Left column (children 1-4): label extends left */
+.speed-dial-item:nth-child(-n+4) .speed-dial-label { right: calc(100% + 8px); left: auto; }
+/* Right column (children 5-8): label extends right */
+.speed-dial-item:nth-child(n+5) .speed-dial-label { left: calc(100% + 8px); right: auto; }
 .speed-dial.open .speed-dial-label { opacity: 1; }
 .print-mode .speed-dial { display: none !important; }
 @media print { .speed-dial { display: none !important; } }
