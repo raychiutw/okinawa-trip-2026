@@ -124,6 +124,11 @@
     --color-naver-maps: #03C75A;
     /* Focus ring */
     --shadow-ring: 0 0 0 2px var(--color-accent);
+    /* Theme personality (overridden per theme) */
+    --theme-header-gradient: none;
+    --theme-font-weight-headline: var(--font-weight-semibold);
+    --theme-line-height-body: var(--line-height-normal);
+    --theme-section-gap: var(--spacing-6);
     /* Layout */
     --content-max-w: 720px;
     --info-panel-w: 280px;
@@ -194,6 +199,7 @@
 
     /* --- 晴空 (Sky) — Light --- */
     body.theme-sky {
+        --theme-header-gradient: linear-gradient(90deg, var(--color-accent-bg) 0%, color-mix(in srgb, var(--color-accent) 40%, transparent) 100%);
         --color-accent: #2870A0;
         --color-accent-subtle: #D0E4F2;
         --color-accent-bg: #B8D4E8;
@@ -231,6 +237,7 @@
 
     /* --- 晴空 (Sky) — Dark --- */
     body.theme-sky.dark {
+        --theme-header-gradient: linear-gradient(90deg, var(--color-accent-bg) 0%, color-mix(in srgb, var(--color-accent) 20%, transparent) 100%);
         --color-accent: #7EC0E8;
         --color-accent-subtle: #182228;
         --color-accent-bg: #1E3040;
@@ -272,6 +279,9 @@
 
     /* --- 和風 (Zen) — Light --- */
     body.theme-zen {
+        --theme-font-weight-headline: var(--font-weight-medium);
+        --theme-line-height-body: var(--line-height-relaxed);
+        --theme-section-gap: var(--spacing-8);
         --color-accent: #9A6B50;
         --color-accent-subtle: #F0E5DD;
         --color-accent-bg: #E5D8CC;
@@ -307,6 +317,9 @@
 
     /* --- 和風 (Zen) — Dark --- */
     body.theme-zen.dark {
+        --theme-font-weight-headline: var(--font-weight-medium);
+        --theme-line-height-body: var(--line-height-relaxed);
+        --theme-section-gap: var(--spacing-8);
         --color-accent: #D4A88E;
         --color-accent-subtle: #221C18;
         --color-accent-bg: #342820;
@@ -339,6 +352,246 @@
         --color-info-bg: rgba(212, 168, 142, 0.15);
         --color-disabled: #5A5650;
         --color-disabled-foreground: #3A3630;
+        --color-badge-open: #2EA043;
+        --color-badge-closed: #8B5CF6;
+        --color-plan-bg: #1B3A1F;
+        --color-plan-text: #66BB6A;
+        --color-plan-hover: #2E4A32;
+    }
+
+    /* --- 森林 (Forest) — Light --- */
+    body.theme-forest {
+        --theme-header-gradient: linear-gradient(135deg, var(--color-accent-bg) 0%, color-mix(in srgb, var(--color-accent) 30%, transparent) 100%);
+        --color-accent: #4A8C5C;
+        --color-accent-subtle: #E2F0E6;
+        --color-accent-bg: #D0E4D6;
+        --color-background: #F0F5EE;
+        --color-secondary: #DCE8DE;
+        --color-tertiary: #C8D8CC;
+        --color-hover: #D4E0D6;
+        --color-foreground: #1E2E22;
+        --color-muted: #5C7A62;
+        --color-accent-foreground: #F0F5EE;
+        --color-border: #B0C8B6;
+        --color-destructive: #C44040;
+        --color-destructive-bg: #FDECEC;
+        --color-success: #3D8E5A;
+        --shadow-md: 0 4px 16px rgba(30,46,34,0.10);
+        --shadow-lg: 0 6px 20px rgba(30,46,34,0.16);
+        --color-priority-high-bg: rgba(239, 68, 68, 0.15);
+        --color-priority-high-dot: #EF4444;
+        --color-priority-medium-bg: rgba(234, 179, 8, 0.15);
+        --color-priority-medium-dot: #EAB308;
+        --color-priority-low-bg: rgba(74, 140, 92, 0.12);
+        --color-priority-low-dot: #4A8C5C;
+        --scrollbar-thumb: #A8C8AE;
+        --scrollbar-thumb-hover: #90B498;
+        --cmp-light-bg: #DCE8DE;
+        --cmp-light-surface: #F0F5EE;
+        --cmp-light-input: #B0C8B6;
+        --cmp-dark-bg: #161C18;
+        --cmp-dark-surface: #202A22;
+        --cmp-dark-input: #304038;
+        --color-overlay: rgba(0,0,0,0.3);
+        --color-info: #2870A0;
+        --color-info-bg: rgba(40, 112, 160, 0.12);
+    }
+
+    /* --- 森林 (Forest) — Dark --- */
+    body.theme-forest.dark {
+        --theme-header-gradient: linear-gradient(135deg, var(--color-accent-bg) 0%, color-mix(in srgb, var(--color-accent) 15%, transparent) 100%);
+        --color-accent: #7EC89A;
+        --color-accent-subtle: #1A2A1E;
+        --color-accent-bg: #243D2A;
+        --color-background: #161C18;
+        --color-secondary: #202A22;
+        --color-tertiary: #2A362E;
+        --color-hover: #263028;
+        --color-foreground: #D8E8DC;
+        --color-muted: #8AB090;
+        --color-accent-foreground: #161C18;
+        --color-border: #304038;
+        --color-destructive: #E8A0A0;
+        --color-destructive-bg: rgba(196, 64, 64, 0.15);
+        --color-success: #7EC89A;
+        --shadow-md: 0 4px 16px rgba(0,0,0,0.20);
+        --shadow-lg: 0 6px 20px rgba(0,0,0,0.30);
+        --color-priority-high-bg: rgba(232, 160, 160, 0.18);
+        --color-priority-high-dot: #E8A0A0;
+        --color-priority-medium-bg: rgba(234, 179, 8, 0.18);
+        --color-priority-medium-dot: #F0D060;
+        --color-priority-low-bg: rgba(126, 200, 154, 0.12);
+        --color-priority-low-dot: #7EC89A;
+        --scrollbar-thumb: #3A4E40;
+        --scrollbar-thumb-hover: #4A5E50;
+        --color-overlay: rgba(0,0,0,0.55);
+        --color-success-bg: rgba(126, 200, 154, 0.15);
+        --color-warning: #F0D060;
+        --color-warning-bg: rgba(240, 208, 96, 0.15);
+        --color-info: #7EC0E8;
+        --color-info-bg: rgba(126, 192, 232, 0.15);
+        --color-disabled: #4A5E50;
+        --color-disabled-foreground: #304038;
+        --color-badge-open: #2EA043;
+        --color-badge-closed: #8B5CF6;
+        --color-plan-bg: #1B3A1F;
+        --color-plan-text: #66BB6A;
+        --color-plan-hover: #2E4A32;
+    }
+
+    /* --- 櫻花 (Sakura) — Light --- */
+    body.theme-sakura {
+        --theme-header-gradient: linear-gradient(90deg, var(--color-accent-bg) 0%, color-mix(in srgb, var(--color-accent) 25%, transparent) 100%);
+        --color-accent: #D4708A;
+        --color-accent-subtle: #FDE8EE;
+        --color-accent-bg: #F8D0DA;
+        --color-background: #FFF5F7;
+        --color-secondary: #F5E0E6;
+        --color-tertiary: #E8CED6;
+        --color-hover: #F0D8DE;
+        --color-foreground: #2E1820;
+        --color-muted: #8A6070;
+        --color-accent-foreground: #FFF5F7;
+        --color-border: #D8B8C4;
+        --color-destructive: #C44040;
+        --color-destructive-bg: #FDECEC;
+        --color-success: #5A9A78;
+        --shadow-md: 0 4px 16px rgba(46,24,32,0.10);
+        --shadow-lg: 0 6px 20px rgba(46,24,32,0.16);
+        --color-priority-high-bg: rgba(239, 68, 68, 0.15);
+        --color-priority-high-dot: #EF4444;
+        --color-priority-medium-bg: rgba(234, 179, 8, 0.15);
+        --color-priority-medium-dot: #EAB308;
+        --color-priority-low-bg: rgba(90, 154, 120, 0.12);
+        --color-priority-low-dot: #5A9A78;
+        --scrollbar-thumb: #D0B0BC;
+        --scrollbar-thumb-hover: #C0A0AC;
+        --cmp-light-bg: #F5E0E6;
+        --cmp-light-surface: #FFF5F7;
+        --cmp-light-input: #D8B8C4;
+        --cmp-dark-bg: #1C1618;
+        --cmp-dark-surface: #2A2024;
+        --cmp-dark-input: #403038;
+        --color-overlay: rgba(0,0,0,0.3);
+        --color-info: #2870A0;
+        --color-info-bg: rgba(40, 112, 160, 0.12);
+    }
+
+    /* --- 櫻花 (Sakura) — Dark --- */
+    body.theme-sakura.dark {
+        --theme-header-gradient: linear-gradient(90deg, var(--color-accent-bg) 0%, color-mix(in srgb, var(--color-accent) 15%, transparent) 100%);
+        --color-accent: #F0A0B8;
+        --color-accent-subtle: #2A181E;
+        --color-accent-bg: #3D2028;
+        --color-background: #1C1618;
+        --color-secondary: #2A2024;
+        --color-tertiary: #362A30;
+        --color-hover: #302428;
+        --color-foreground: #F0D8E0;
+        --color-muted: #B88898;
+        --color-accent-foreground: #1C1618;
+        --color-border: #403038;
+        --color-destructive: #E8A0A0;
+        --color-destructive-bg: rgba(196, 64, 64, 0.15);
+        --color-success: #8AD0A0;
+        --shadow-md: 0 4px 16px rgba(0,0,0,0.20);
+        --shadow-lg: 0 6px 20px rgba(0,0,0,0.30);
+        --color-priority-high-bg: rgba(232, 160, 160, 0.18);
+        --color-priority-high-dot: #E8A0A0;
+        --color-priority-medium-bg: rgba(234, 179, 8, 0.18);
+        --color-priority-medium-dot: #F0D060;
+        --color-priority-low-bg: rgba(138, 208, 160, 0.12);
+        --color-priority-low-dot: #8AD0A0;
+        --scrollbar-thumb: #4A3640;
+        --scrollbar-thumb-hover: #5A4650;
+        --color-overlay: rgba(0,0,0,0.55);
+        --color-success-bg: rgba(138, 208, 160, 0.15);
+        --color-warning: #F0D060;
+        --color-warning-bg: rgba(240, 208, 96, 0.15);
+        --color-info: #F0A0B8;
+        --color-info-bg: rgba(240, 160, 184, 0.15);
+        --color-disabled: #5A4650;
+        --color-disabled-foreground: #403038;
+        --color-badge-open: #2EA043;
+        --color-badge-closed: #8B5CF6;
+        --color-plan-bg: #1B3A1F;
+        --color-plan-text: #66BB6A;
+        --color-plan-hover: #2E4A32;
+    }
+
+    /* --- 深海 (Ocean) — Light --- */
+    body.theme-ocean {
+        --theme-header-gradient: linear-gradient(90deg, color-mix(in srgb, var(--color-accent) 20%, transparent) 0%, color-mix(in srgb, var(--color-accent) 50%, transparent) 100%);
+        --color-accent: #1A6B8A;
+        --color-accent-subtle: #D8EEF5;
+        --color-accent-bg: #C0DEE8;
+        --color-background: #EFF7FA;
+        --color-secondary: #D4E8F0;
+        --color-tertiary: #B8D4E0;
+        --color-hover: #CCE0EA;
+        --color-foreground: #0E2830;
+        --color-muted: #4A7888;
+        --color-accent-foreground: #EFF7FA;
+        --color-border: #A0C4D4;
+        --color-destructive: #D44040;
+        --color-destructive-bg: #FDECEC;
+        --color-success: #3D8E6A;
+        --shadow-md: 0 4px 16px rgba(14,40,48,0.10);
+        --shadow-lg: 0 6px 20px rgba(14,40,48,0.16);
+        --color-priority-high-bg: rgba(239, 68, 68, 0.15);
+        --color-priority-high-dot: #EF4444;
+        --color-priority-medium-bg: rgba(234, 179, 8, 0.15);
+        --color-priority-medium-dot: #EAB308;
+        --color-priority-low-bg: rgba(61, 142, 106, 0.12);
+        --color-priority-low-dot: #3D8E6A;
+        --scrollbar-thumb: #98BCC8;
+        --scrollbar-thumb-hover: #80A8B8;
+        --cmp-light-bg: #D4E8F0;
+        --cmp-light-surface: #EFF7FA;
+        --cmp-light-input: #A0C4D4;
+        --cmp-dark-bg: #101A1E;
+        --cmp-dark-surface: #1A2830;
+        --cmp-dark-input: #2A3E48;
+        --color-overlay: rgba(0,0,0,0.3);
+        --color-info: #1A6B8A;
+        --color-info-bg: rgba(26, 107, 138, 0.12);
+    }
+
+    /* --- 深海 (Ocean) — Dark --- */
+    body.theme-ocean.dark {
+        --theme-header-gradient: linear-gradient(90deg, color-mix(in srgb, var(--color-accent) 10%, transparent) 0%, color-mix(in srgb, var(--color-accent) 25%, transparent) 100%);
+        --color-accent: #60C0E0;
+        --color-accent-subtle: #142028;
+        --color-accent-bg: #1E3442;
+        --color-background: #101A1E;
+        --color-secondary: #1A2830;
+        --color-tertiary: #243440;
+        --color-hover: #202E38;
+        --color-foreground: #D0E8F0;
+        --color-muted: #80B8C8;
+        --color-accent-foreground: #101A1E;
+        --color-border: #2A3E48;
+        --color-destructive: #E8A0A0;
+        --color-destructive-bg: rgba(212, 64, 64, 0.15);
+        --color-success: #70D0A0;
+        --shadow-md: 0 4px 16px rgba(0,0,0,0.20);
+        --shadow-lg: 0 6px 20px rgba(0,0,0,0.30);
+        --color-priority-high-bg: rgba(232, 160, 160, 0.18);
+        --color-priority-high-dot: #E8A0A0;
+        --color-priority-medium-bg: rgba(234, 179, 8, 0.18);
+        --color-priority-medium-dot: #F0D060;
+        --color-priority-low-bg: rgba(112, 208, 160, 0.12);
+        --color-priority-low-dot: #70D0A0;
+        --scrollbar-thumb: #2A4450;
+        --scrollbar-thumb-hover: #3A5460;
+        --color-overlay: rgba(0,0,0,0.55);
+        --color-success-bg: rgba(112, 208, 160, 0.15);
+        --color-warning: #F0D060;
+        --color-warning-bg: rgba(240, 208, 96, 0.15);
+        --color-info: #60C0E0;
+        --color-info-bg: rgba(96, 192, 224, 0.15);
+        --color-disabled: #2A4450;
+        --color-disabled-foreground: #2A3E48;
         --color-badge-open: #2EA043;
         --color-badge-closed: #8B5CF6;
         --color-plan-bg: #1B3A1F;
