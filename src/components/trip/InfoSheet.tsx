@@ -44,6 +44,9 @@ export default function InfoSheet({
   const previousFocusRef = useRef<Element | null>(null);
   const [heightStyle, setHeightStyle] = useState<string>('');
   const dragStartY = useRef(0);
+  const dragStartTime = useRef(0);
+  const lastTouchY = useRef(0);
+  const lastTouchTime = useRef(0);
   const dragging = useRef(false);
 
   /* --- Reset height when opening --- */
@@ -97,6 +100,9 @@ export default function InfoSheet({
   const handleDragStart = useCallback((y: number) => {
     dragging.current = true;
     dragStartY.current = y;
+    dragStartTime.current = Date.now();
+    lastTouchY.current = y;
+    lastTouchTime.current = Date.now();
   }, []);
 
   const handleDragEnd = useCallback(
@@ -104,18 +110,23 @@ export default function InfoSheet({
       if (!dragging.current) return;
       dragging.current = false;
       const delta = dragStartY.current - y; // positive = drag up
-      if (Math.abs(delta) < DRAG_THRESHOLD) return;
+      const dt = Date.now() - lastTouchTime.current;
+      const velocity = dt > 0 ? (lastTouchY.current - y) / dt : 0; // px/ms, positive = up
+
+      // Use velocity for fast flicks, position for slow drags
+      const useVelocity = Math.abs(velocity) > 0.5;
+
+      if (!useVelocity && Math.abs(delta) < DRAG_THRESHOLD) return;
 
       const cur = currentStop();
       const idx = STOPS.indexOf(cur);
+      const goUp = useVelocity ? velocity > 0 : delta > 0;
 
-      if (delta > 0) {
-        // Drag up -> next larger stop
+      if (goUp) {
         if (idx < STOPS.length - 1) {
           setHeightStyle(STOPS[idx + 1] + 'dvh');
         }
       } else {
-        // Drag down -> next smaller stop or close
         if (idx > 0) {
           setHeightStyle(STOPS[idx - 1] + 'dvh');
         } else {
@@ -136,7 +147,11 @@ export default function InfoSheet({
   );
 
   const handleTouchMove = useCallback((e: React.TouchEvent) => {
-    if (dragging.current) e.preventDefault();
+    if (dragging.current) {
+      e.preventDefault();
+      lastTouchY.current = e.touches[0].clientY;
+      lastTouchTime.current = Date.now();
+    }
   }, []);
 
   const handleTouchEnd = useCallback(

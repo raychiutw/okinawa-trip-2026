@@ -249,19 +249,13 @@ export default function HourlyWeather({
                   {isNow ? '\u25B6 ' : ''}
                   {h}:00
                 </div>
-                {weatherDay.locations.length > 1 && (
-                  <div className={`hw-block-loc hw-loc-${li}`}>
-                    {weatherDay.locations[li].name}
-                  </div>
-                )}
-                <div className="hw-block-icon">
+                <div className="hw-block-icon-temp">
                   <Icon name={wIcon} />
+                  <span>{temp}&deg;</span>
                 </div>
-                <div className="hw-block-temp">{temp}&deg;C</div>
                 <div
                   className={clsx('hw-block-rain', rain >= 50 && 'hw-rain-high')}
                 >
-                  <Icon name="raindrop" />
                   {rain}%
                 </div>
               </div>
