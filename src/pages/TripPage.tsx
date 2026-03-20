@@ -20,6 +20,7 @@ import Emergency from '../components/trip/Emergency';
 import Suggestions from '../components/trip/Suggestions';
 import Icon from '../components/shared/Icon';
 import { DayHeaderArt, DividerArt, FooterArt, NavArt } from '../components/trip/ThemeArt';
+import DestinationArt from '../components/trip/DestinationArt';
 import DownloadSheet from '../components/trip/DownloadSheet';
 import TodayRouteSheet from '../components/trip/TodayRouteSheet';
 import { toTimelineEntry, toHotelData } from '../lib/mapDay';
@@ -883,6 +884,7 @@ export default function TripPage() {
     <>
       {/* Sticky Nav */}
       <div className="sticky-nav" id="stickyNav">
+        {activeTripId && <DestinationArt tripId={activeTripId} dark={isDark} />}
         <span className="nav-brand">{trip?.name || 'Trip Planner'}</span>
         <DayNav days={days} currentDayNum={currentDayNum} onSwitchDay={handleSwitchDay} todayDayNum={todayDayNum} />
         <NavArt theme={colorTheme} dark={isDark} />
