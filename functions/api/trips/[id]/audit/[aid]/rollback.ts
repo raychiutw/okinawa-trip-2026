@@ -54,10 +54,11 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
 
   const { table_name, record_id, action, diff_json, snapshot } = auditRow;
 
-  if (!ALLOWED_TABLES.includes(table_name as AllowedTable)) {
+  const safeTable = ALLOWED_TABLES.find(t => t === table_name);
+  if (!safeTable) {
     return json({ error: 'Invalid table name' }, 400);
   }
-  const allowedCols = TABLE_COLUMNS[table_name as AllowedTable];
+  const allowedCols = TABLE_COLUMNS[safeTable];
 
   if (action === 'delete') {
     // Re-INSERT using the snapshot
@@ -81,11 +82,18 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     const placeholders = snapshotKeys.map(() => '?').join(', ');
     const values = snapshotKeys.map(k => snapshotRow[k] ?? null);
 
-    await db.prepare(`INSERT OR REPLACE INTO ${table_name} (${cols}) VALUES (${placeholders})`).bind(...values).run();
+    // Check if a record with this id already exists to avoid overwriting newer data
+    if (snapshotRow.id != null) {
+      const existing = await db.prepare(`SELECT 1 FROM ${safeTable} WHERE id = ?`).bind(snapshotRow.id).first();
+      if (existing) {
+        return json({ error: 'Cannot rollback: a record with this id already exists' }, 409);
+      }
+    }
+    await db.prepare(`INSERT INTO ${safeTable} (${cols}) VALUES (${placeholders})`).bind(...values).run();
 
     await logAudit(db, {
       tripId: id,
-      tableName: table_name,
+      tableName: safeTable,
       recordId: record_id,
       action: 'insert',
       changedBy,
@@ -119,7 +127,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     const values = [...revertFields.map(f => diff[f].old ?? null), record_id];
 
     const result = await db
-      .prepare(`UPDATE ${table_name} SET ${setClauses} WHERE id = ?`)
+      .prepare(`UPDATE ${safeTable} SET ${setClauses} WHERE id = ?`)
       .bind(...values)
       .run();
 
@@ -128,7 +136,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     const revertedFields = Object.fromEntries(revertFields.map(f => [f, diff[f].old]));
     await logAudit(db, {
       tripId: id,
-      tableName: table_name,
+      tableName: safeTable,
       recordId: record_id,
       action: 'update',
       changedBy,
@@ -142,13 +150,13 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     // DELETE the record that was inserted
     if (record_id === null) return json({ error: 'No record_id for insert rollback' }, 400);
 
-    const oldRow = await db.prepare(`SELECT * FROM ${table_name} WHERE id = ?`).bind(record_id).first() as Record<string, unknown> | null;
+    const oldRow = await db.prepare(`SELECT * FROM ${safeTable} WHERE id = ?`).bind(record_id).first() as Record<string, unknown> | null;
 
-    await db.prepare(`DELETE FROM ${table_name} WHERE id = ?`).bind(record_id).run();
+    await db.prepare(`DELETE FROM ${safeTable} WHERE id = ?`).bind(record_id).run();
 
     await logAudit(db, {
       tripId: id,
-      tableName: table_name,
+      tableName: safeTable,
       recordId: record_id,
       action: 'delete',
       changedBy,
