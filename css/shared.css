@@ -687,7 +687,7 @@
 
     /* Desktop Page Layout Gap */
     @media (min-width: 1200px) {
-        .page-layout { gap: var(--spacing-3); }
+        .page-layout { gap: var(--spacing-3); align-items: flex-start; }
     }
 
     /* Desktop Padding Override */
