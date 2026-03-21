@@ -737,5 +737,38 @@ body.print-mode .info-panel { background: var(--color-secondary) !important; bac
 @media (min-width: 768px) {
     .info-sheet-body > * { max-width: 600px; margin-left: auto; margin-right: auto; }
 }
+/* --- Mobile multi-detent --- */
+/* Breakpoint: 767px (max-width) — keep in sync with MOBILE_BREAKPOINT (768) in InfoSheet.tsx */
+@media (max-width: 767px) {
+    .info-sheet-panel { height: 50vh; min-height: 280px; }
+    @supports (height: 1dvh) { .info-sheet-panel { height: 50dvh; } }
+    .info-sheet-panel.detent-full { height: 100vh; }
+    @supports (height: 1dvh) { .info-sheet-panel.detent-full { height: 100dvh; } }
+    .info-sheet-panel {
+        transition: transform var(--transition-duration-slow) var(--transition-timing-function-apple),
+                    height var(--transition-duration-slow) var(--transition-timing-function-apple);
+    }
+    /* 7-1/1-1: visually-hidden for a11y — VoiceOver can still read it */
+    .info-sheet-panel .sheet-close-btn {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+        padding: 0;
+    }
+    /* 11-1: gradient hint at bottom in half detent */
+    .info-sheet-panel:not(.detent-full) .info-sheet-body::after {
+        content: '';
+        position: sticky;
+        bottom: 0;
+        display: block;
+        height: 24px;
+        background: linear-gradient(transparent, var(--color-secondary));
+        pointer-events: none;
+    }
+}
 
 

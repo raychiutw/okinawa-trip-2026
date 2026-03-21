@@ -1,4 +1,4 @@
-import { useRef, useCallback, useEffect } from 'react';
+import { useRef, useCallback, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import Icon from '../shared/Icon';
 
@@ -16,6 +16,9 @@ interface InfoSheetProps {
 }
 
 /* ===== Constants ===== */
+
+/** Mobile breakpoint — keep in sync with @media (max-width: 767px) in css/style.css */
+const MOBILE_BREAKPOINT = 768;
 
 /** Selectors for focusable elements inside the panel. */
 const FOCUSABLE =
@@ -40,6 +43,23 @@ export default function InfoSheet({
   const previousFocusRef = useRef<Element | null>(null);
   // C.5: saved scroll position for iOS body lock
   const savedBodyScrollY = useRef(0);
+
+  /* --- Multi-detent state (mobile only) --- */
+  const [detent, setDetent] = useState<'half' | 'full'>('half');
+
+  // 2-2: ref to avoid re-binding touch listeners on every detent change
+  const detentRef = useRef(detent);
+  detentRef.current = detent;
+
+  // 2-3: ref wrapper so touch/escape effects don't re-bind when onClose identity changes
+  const onCloseRef = useRef(onClose);
+  onCloseRef.current = onClose;
+
+  // 2-4: reset detent synchronously on close to avoid flash when re-opening
+  const handleClose = useCallback(() => {
+    setDetent('half');
+    onCloseRef.current();
+  }, []);
 
   /* --- C.5: Body scroll lock (iOS Safari safe) --- */
   useEffect(() => {
@@ -84,12 +104,113 @@ export default function InfoSheet({
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         e.preventDefault();
-        onClose();
+        handleClose();
       }
     };
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [open, onClose]);
+  }, [open, handleClose]);
+
+  /* --- Touch gesture for multi-detent (mobile only) --- */
+  const isDragging = useRef(false);
+
+  useEffect(() => {
+    if (!open) return;
+    // 2-1: use shared constant for breakpoint
+    if (window.innerWidth >= MOBILE_BREAKPOINT) return;
+
+    const panel = panelRef.current;
+    const body = bodyRef.current;
+    if (!panel || !body) return;
+
+    let startY = 0;
+    let currentTranslateY = 0;
+
+    // 8-3: passive: false so subsequent touchmove preventDefault works in Chrome
+    const onTouchStart = (e: TouchEvent) => {
+      const handle = panel.querySelector('.sheet-handle');
+      const isOnHandle = handle?.contains(e.target as Node);
+      const isAtTop = body.scrollTop <= 0;
+      const d = detentRef.current;
+
+      // Half detent: drag from anywhere
+      // Full detent: drag from handle, or from body when scrolled to top
+      if (d === 'half' || isOnHandle || (d === 'full' && isAtTop)) {
+        startY = e.touches[0].clientY;
+        isDragging.current = true;
+        currentTranslateY = 0;
+        panel.style.transition = 'none'; // Remove animation during drag
+      }
+    };
+
+    const onTouchMove = (e: TouchEvent) => {
+      if (!isDragging.current) return;
+      const deltaY = e.touches[0].clientY - startY;
+      const d = detentRef.current;
+
+      // Full detent: only allow downward drag (positive delta)
+      if (d === 'full' && deltaY < 0) {
+        isDragging.current = false;
+        panel.style.transition = '';
+        panel.style.transform = '';
+        return;
+      }
+
+      // Half detent: allow both up (negative) and down (positive)
+      // Clamp upward drag so panel doesn't go above viewport
+      if (d === 'half' && deltaY > 0) {
+        e.preventDefault();
+        currentTranslateY = deltaY;
+        panel.style.transform = `translateY(${deltaY}px)`;
+      } else if (d === 'half' && deltaY < 0) {
+        e.preventDefault();
+        currentTranslateY = deltaY;
+        // Resist upward pull slightly — don't move, just track delta
+        panel.style.transform = `translateY(${deltaY * 0.3}px)`;
+      } else if (d === 'full' && deltaY > 0) {
+        e.preventDefault();
+        currentTranslateY = deltaY;
+        panel.style.transform = `translateY(${deltaY}px)`;
+      }
+    };
+
+    const onTouchEnd = () => {
+      if (!isDragging.current) return;
+      isDragging.current = false;
+      panel.style.transition = '';
+      panel.style.transform = '';
+
+      const d = detentRef.current;
+      const expandThreshold = 60;   // swipe up to expand
+      const closeThreshold = 100;   // 11-2: raised from 60px to reduce accidental close
+      const collapseThreshold = 60; // swipe down from full → half
+
+      if (d === 'half') {
+        if (currentTranslateY < -expandThreshold) {
+          setDetent('full'); // Swipe up → full
+        } else if (currentTranslateY > closeThreshold) {
+          handleClose(); // Swipe down → close
+        }
+      } else if (d === 'full') {
+        if (currentTranslateY > collapseThreshold) {
+          setDetent('half'); // Swipe down → half
+        }
+      }
+
+      currentTranslateY = 0;
+    };
+
+    panel.addEventListener('touchstart', onTouchStart, { passive: false });
+    panel.addEventListener('touchmove', onTouchMove, { passive: false });
+    panel.addEventListener('touchend', onTouchEnd);
+
+    return () => {
+      panel.removeEventListener('touchstart', onTouchStart);
+      panel.removeEventListener('touchmove', onTouchMove);
+      panel.removeEventListener('touchend', onTouchEnd);
+    };
+    // 2-2/2-3: detent & onClose tracked via refs — only re-bind when sheet opens/closes
+  }, [open, handleClose]);
 
   /* --- Fix 2: Passive event listener for scroll prevention on backdrop --- */
   const backdropRef = useRef<HTMLDivElement>(null);
@@ -149,11 +270,11 @@ export default function InfoSheet({
       className={clsx('info-sheet-backdrop', open && 'open')}
       id="infoBottomSheet"
       ref={backdropRef}
-      onClick={onClose}
+      onClick={handleClose}
       style={{ overscrollBehavior: 'contain' }}
     >
       <div
-        className="info-sheet-panel"
+        className={clsx('info-sheet-panel', detent === 'full' && 'detent-full')}
         id="infoSheet"
         ref={panelRef}
         role="dialog"
@@ -177,7 +298,7 @@ export default function InfoSheet({
             id="sheetCloseBtn"
             aria-label="關閉"
             ref={closeBtnRef}
-            onClick={onClose}
+            onClick={handleClose}
           >
             <Icon name="x-mark" />
           </button>
