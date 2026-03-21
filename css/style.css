@@ -3,6 +3,7 @@
 #tripContent a:visited:not(.map-link):not(.map-link-inline) { color: var(--color-foreground); }
 
 /* ===== Section Card Style ===== */
+#tripContent { padding-top: var(--spacing-3); }
 #tripContent section { background: var(--color-secondary); border-radius: var(--radius-md); margin-bottom: 12px; overflow: hidden; }
 .day-header { border-radius: var(--radius-md) var(--radius-md) 0 0; }
 footer { background: var(--color-secondary); border-radius: var(--radius-md); padding: 16px; padding-bottom: max(16px, env(safe-area-inset-bottom)); margin-bottom: 12px; text-align: center; }
@@ -734,7 +735,8 @@ body.print-mode .info-panel { background: var(--color-secondary) !important; bac
 .sheet-header-spacer { width: var(--tap-min); flex-shrink: 0; }
 .info-sheet-body { overflow-y: auto; font-size: var(--font-size-body); flex: 1; min-height: 0; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; touch-action: pan-y; }
 @media (min-width: 768px) {
-    .info-sheet-body { display: flex; flex-direction: column; align-items: center; padding: 0 var(--spacing-8); }
+    .info-sheet-body { display: flex; flex-direction: column; align-items: center; }
+    .info-sheet-body > * { width: 100%; max-width: 600px; }
 }
 
 
