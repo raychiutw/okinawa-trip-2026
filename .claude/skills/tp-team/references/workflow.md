@@ -48,10 +48,12 @@ PM 不只被動執行，主動建議優先順序：
 ## 工作流程
 
 ```
-Key User 需求 → PM 建立 OpenSpec change
+Key User 需求
+  → PM 從 master 建立 feature branch（git checkout -b feat/change-name）
+  → PM 在 feature branch 上建立 OpenSpec change
   → PM 執行 node scripts/workflow-stage.js init "change-name"（stage=1）
   → Key User Approve 方案
-  → 工程師實作（feature branch）+ 勾 tasks.md + advance engineer（stage=2）
+  → 工程師在 feature branch 上實作 + 勾 tasks.md + advance engineer（stage=2）
   → Code Reviewer 審查（APPROVE / REQUEST CHANGES）+ advance reviewer（stage=3）
   → QC 驗證（測試 + 截圖 + 操作）→ PASS / FAIL + advance qc（stage=4）
   → 🔴 Challenger 質疑（基於 QC 結果，11 視角全面質疑）→ PM advance challenger（stage=5）
