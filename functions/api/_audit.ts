@@ -1,3 +1,5 @@
+import { detectGarbledText } from './_validate';
+
 export async function logAudit(db: D1Database, opts: {
   tripId: string;
   tableName: string;
@@ -8,6 +10,15 @@ export async function logAudit(db: D1Database, opts: {
   diffJson?: string;
   snapshot?: string;
 }) {
+  let finalDiffJson = opts.diffJson ?? null;
+  if (finalDiffJson && detectGarbledText(finalDiffJson)) {
+    try {
+      const parsed = JSON.parse(finalDiffJson);
+      parsed._encoding_warning = true;
+      finalDiffJson = JSON.stringify(parsed);
+    } catch { /* keep original */ }
+  }
+
   await db.prepare(
     'INSERT INTO audit_log (trip_id, table_name, record_id, action, changed_by, request_id, diff_json, snapshot) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
   ).bind(
@@ -16,9 +27,9 @@ export async function logAudit(db: D1Database, opts: {
     opts.recordId,
     opts.action,
     opts.changedBy,
-    opts.requestId || null,
-    opts.diffJson || null,
-    opts.snapshot || null,
+    opts.requestId ?? null,
+    finalDiffJson,
+    opts.snapshot ?? null,
   ).run();
 }
 

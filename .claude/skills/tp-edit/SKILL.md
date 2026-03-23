@@ -12,8 +12,8 @@ user-invocable: true
 
 - **Base URL**: `https://trip-planner-dby.pages.dev`
 - **認證**: Service Token headers（寫入操作必填）
-  - `CF-Access-Client-Id`: `e5902a9d6f5181b8f70e12f1c11ebca3.access`
-  - `CF-Access-Client-Secret`: `9c7d873d558eaf65cdc4160f9ec8f0c06d4f387fc069c7a7e1add0b8196b43a8`
+  - `CF-Access-Client-Id`: `$CF_ACCESS_CLIENT_ID`
+  - `CF-Access-Client-Secret`: `$CF_ACCESS_CLIENT_SECRET`
 
 ## 輸入方式
 
@@ -38,35 +38,42 @@ user-invocable: true
 4. 修改的部分須符合 R0-R15 品質規則
 4b. 韓國行程（`meta.countries` 含 `"KR"`）新增或修改 POI 時，須為 location 新增 `naverQuery`（Naver Maps URL，優先精確 place URL，查不到時用搜尋式 URL `https://map.naver.com/v5/search/{韓文關鍵字}`）
 5. 依修改類型選擇對應 API：
+   > ⚠️ Windows encoding 注意：curl -d 中的中文在 Windows shell 會變亂碼，一律用 node writeFileSync + --data @file
+
    - **修改單一 entry**（title/time/description/location/travel 等）：
      ```bash
+     node -e "require('fs').writeFileSync('/tmp/patch.json', JSON.stringify({...修改欄位...}), 'utf8')"
      curl -s -X PATCH \
-       -H "CF-Access-Client-Id: e5902a9d6f5181b8f70e12f1c11ebca3.access" \
-       -H "CF-Access-Client-Secret: 9c7d873d558eaf65cdc4160f9ec8f0c06d4f387fc069c7a7e1add0b8196b43a8" \
+       -H "CF-Access-Client-Id: $CF_ACCESS_CLIENT_ID" \
+       -H "CF-Access-Client-Secret: $CF_ACCESS_CLIENT_SECRET" \
        -H "Content-Type: application/json" \
-       -d '{...修改欄位...}' \
+       --data @/tmp/patch.json \
        "https://trip-planner-dby.pages.dev/api/trips/{tripId}/entries/{eid}"
      ```
    - **覆寫整天**（插入/移除/重排 entry，或整天大幅修改）：
      ```bash
+     node -e "require('fs').writeFileSync('/tmp/day.json', JSON.stringify({...完整一天資料...}), 'utf8')"
      curl -s -X PUT \
-       -H "CF-Access-Client-Id: e5902a9d6f5181b8f70e12f1c11ebca3.access" \
-       -H "CF-Access-Client-Secret: 9c7d873d558eaf65cdc4160f9ec8f0c06d4f387fc069c7a7e1add0b8196b43a8" \
+       -H "CF-Access-Client-Id: $CF_ACCESS_CLIENT_ID" \
+       -H "CF-Access-Client-Secret: $CF_ACCESS_CLIENT_SECRET" \
        -H "Content-Type: application/json" \
-       -d '{...完整一天資料...}' \
+       --data @/tmp/day.json \
        "https://trip-planner-dby.pages.dev/api/trips/{tripId}/days/{dayNum}"
      ```
+
+   **注意**：覆寫整天（PUT）時，必須保留原始的 `date`、`dayOfWeek`、`label`，不得送出 null。缺少任一欄位 API 將回傳 400。
    - **新增餐廳**：POST `/api/trips/{tripId}/entries/{eid}/restaurants`
    - **修改/刪除餐廳**：PATCH/DELETE `/api/trips/{tripId}/restaurants/{rid}`
    - **新增購物（entry 下）**：POST `/api/trips/{tripId}/entries/{eid}/shopping`
    - **修改/刪除購物**：PATCH/DELETE `/api/trips/{tripId}/shopping/{sid}`
    - **更新 doc**（checklist/backup/suggestions 等）：
      ```bash
+     node -e "require('fs').writeFileSync('/tmp/doc.json', JSON.stringify({content:'...'}), 'utf8')"
      curl -s -X PUT \
-       -H "CF-Access-Client-Id: e5902a9d6f5181b8f70e12f1c11ebca3.access" \
-       -H "CF-Access-Client-Secret: 9c7d873d558eaf65cdc4160f9ec8f0c06d4f387fc069c7a7e1add0b8196b43a8" \
+       -H "CF-Access-Client-Id: $CF_ACCESS_CLIENT_ID" \
+       -H "CF-Access-Client-Secret: $CF_ACCESS_CLIENT_SECRET" \
        -H "Content-Type: application/json" \
-       -d '{"content":"..."}' \
+       --data @/tmp/doc.json \
        "https://trip-planner-dby.pages.dev/api/trips/{tripId}/docs/{type}"
      ```
 6. 若影響到 checklist、backup、suggestions，同步更新對應 doc

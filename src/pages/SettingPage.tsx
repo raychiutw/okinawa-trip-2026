@@ -1,7 +1,9 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import clsx from 'clsx';
 import { apiFetch } from '../hooks/useApi';
 import { useDarkMode, type ColorMode, type ColorTheme } from '../hooks/useDarkMode';
 import { lsGet, lsSet } from '../lib/localStorage';
+import { COLOR_MODE_OPTIONS, THEME_ACCENTS, COLOR_THEMES } from '../lib/appearance';
 import type { TripListItem } from '../types/trip';
 
 /* ===== Types ===== */
@@ -14,19 +16,7 @@ interface TripDisplay {
   published: number;
 }
 
-/* ===== Color Mode Definitions ===== */
-
-const COLOR_MODES: { key: ColorMode; label: string; desc: string }[] = [
-  { key: 'light', label: '淺色', desc: 'Light' },
-  { key: 'auto', label: '自動', desc: 'Auto' },
-  { key: 'dark', label: '深色', desc: 'Dark' },
-];
-
-const COLOR_THEMES: { key: ColorTheme; label: string; desc: string; swatch: string; swatchDark: string }[] = [
-  { key: 'sun', label: '陽光', desc: 'Sunshine', swatch: '#F47B5E', swatchDark: '#F4A08A' },
-  { key: 'sky', label: '晴空', desc: 'Clear Sky', swatch: '#2870A0', swatchDark: '#7EC0E8' },
-  { key: 'zen', label: '和風', desc: 'Japanese Zen', swatch: '#9A6B50', swatchDark: '#D4A88E' },
-];
+/* ===== Color Mode/Theme — imported from ../lib/appearance ===== */
 
 /* ===== Component ===== */
 
@@ -36,6 +26,12 @@ export default function SettingPage() {
   const [currentTripId, setCurrentTripId] = useState<string>('');
   const [loadError, setLoadError] = useState(false);
   const [loading, setLoading] = useState(true);
+
+  /* --- URL section filter --- */
+  const section = useMemo(
+    () => new URLSearchParams(window.location.search).get('section'),
+    [],
+  );
 
   /* --- page-setting class on html + body --- */
   useEffect(() => {
@@ -49,8 +45,10 @@ export default function SettingPage() {
 
   /* --- fetch trips --- */
   useEffect(() => {
+    let cancelled = false;
     apiFetch<TripListItem[]>('/trips')
       .then((data) => {
+        if (cancelled) return;
         const mapped: TripDisplay[] = data.map((t) => {
           let footer = t.footer_json as string | Record<string, unknown> | null;
           if (typeof footer === 'string') {
@@ -82,9 +80,13 @@ export default function SettingPage() {
         setLoading(false);
       })
       .catch(() => {
+        if (cancelled) return;
         setLoadError(true);
         setLoading(false);
       });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   /* --- handlers --- */
@@ -111,7 +113,9 @@ export default function SettingPage() {
       <div className="container">
         {/* Sticky Nav */}
         <div className="sticky-nav" id="stickyNav">
-          <span className="nav-title">設定</span>
+          <span className="nav-title">
+            {section === 'trip' ? '切換行程' : section === 'appearance' ? '外觀與主題' : '設定'}
+          </span>
           <button
             className="nav-close-btn"
             id="navCloseBtn"
@@ -128,81 +132,107 @@ export default function SettingPage() {
         <main className="setting-main" id="settingMain">
           <div className="setting-page">
             {/* Trip List Section */}
-            <div className="setting-section">
-              <div className="setting-section-title">選擇行程</div>
-              <div className="setting-trip-list" id="tripList">
-                {loading && (
-                  <div style={{ textAlign: 'center', padding: '40px', color: 'var(--text-muted)' }}>
-                    載入中...
-                  </div>
-                )}
-                {loadError && (
-                  <div style={{ color: 'var(--text-muted)', padding: '16px' }}>
-                    無法載入行程清單
-                  </div>
-                )}
-                {!loading &&
-                  !loadError &&
-                  trips.map((t) => (
+            {(!section || section === 'trip') && (
+              <div className="setting-section">
+                <div className="setting-section-title">選擇行程</div>
+                <div className="setting-trip-list" id="tripList">
+                  {loading && (
+                    <div className="text-center p-10 text-[var(--color-muted)]">
+                      載入中...
+                    </div>
+                  )}
+                  {loadError && (
+                    <div className="text-[var(--color-muted)] p-4">
+                      無法載入行程清單
+                    </div>
+                  )}
+                  {!loading &&
+                    !loadError &&
+                    trips.map((t) => (
+                      <button
+                        key={t.tripId}
+                        className={clsx('trip-btn', t.tripId === currentTripId && 'active')}
+                        data-trip-id={t.tripId}
+                        onClick={() => handleTripClick(t.tripId)}
+                      >
+                        <strong>{t.name}</strong>
+                        <span className="trip-sub">
+                          {t.dates} · {t.owner}
+                        </span>
+                      </button>
+                    ))}
+                </div>
+              </div>
+            )}
+
+            {/* Appearance + Color Theme Section (merged) */}
+            {(!section || section === 'appearance') && (
+              <div className="setting-section">
+                <div className="setting-section-title">外觀與主題</div>
+                <div className="color-mode-grid" id="colorModeGrid">
+                  {COLOR_MODE_OPTIONS.map((m) => (
                     <button
-                      key={t.tripId}
-                      className={`trip-btn${t.tripId === currentTripId ? ' active' : ''}`}
-                      data-trip-id={t.tripId}
-                      onClick={() => handleTripClick(t.tripId)}
+                      key={m.key}
+                      className={clsx('color-mode-card', m.key === colorMode && 'active')}
+                      data-mode={m.key}
+                      onClick={() => handleColorModeClick(m.key)}
                     >
-                      <strong>{t.name}</strong>
-                      <span className="trip-sub">
-                        {t.dates} · {t.owner}
-                      </span>
+                      <div className={`color-mode-preview color-mode-${m.key}`}>
+                        <div className="cmp-top"></div>
+                        <div className="cmp-bottom">
+                          <div className="cmp-input"></div>
+                          <div className="cmp-dot"></div>
+                        </div>
+                      </div>
+                      <div className="color-mode-label">{m.label}</div>
+                      <div className="color-mode-desc">{m.desc}</div>
                     </button>
                   ))}
+                </div>
+                <div className="setting-subsection-title">色彩主題</div>
+                <div className="color-theme-grid" id="colorThemeGrid">
+                  {COLOR_THEMES.map((t) => (
+                    <button
+                      key={t.key}
+                      className={clsx('color-theme-card', t.key === colorTheme && 'active')}
+                      data-theme={t.key}
+                      onClick={() => handleThemeClick(t.key)}
+                    >
+                      <div
+                        className="color-theme-swatch"
+                        style={{ background: isDark ? THEME_ACCENTS[t.key].dark : THEME_ACCENTS[t.key].light }}
+                      />
+                      <div className="color-theme-label">{t.label}</div>
+                      <div className="color-theme-desc">{t.desc}</div>
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
 
-            {/* Color Mode Section */}
-            <div className="setting-section">
-              <div className="setting-section-title">外觀</div>
-              <div className="color-mode-grid" id="colorModeGrid">
-                {COLOR_MODES.map((m) => (
-                  <button
-                    key={m.key}
-                    className={`color-mode-card${m.key === colorMode ? ' active' : ''}`}
-                    data-mode={m.key}
-                    onClick={() => handleColorModeClick(m.key)}
-                  >
-                    <div className={`color-mode-preview color-mode-${m.key}`}>
-                      <div className="cmp-top"></div>
-                      <div className="cmp-bottom">
-                        <div className="cmp-input"></div>
-                        <div className="cmp-dot"></div>
-                      </div>
-                    </div>
-                    <div className="color-mode-label">{m.label}</div>
-                    <div className="color-mode-desc">{m.desc}</div>
-                  </button>
-                ))}
+            {/* Color Theme Section (standalone — only when section === 'theme') */}
+            {section === 'theme' && (
+              <div className="setting-section">
+                <div className="setting-section-title">色彩主題</div>
+                <div className="color-theme-grid" id="colorThemeGrid">
+                  {COLOR_THEMES.map((t) => (
+                    <button
+                      key={t.key}
+                      className={clsx('color-theme-card', t.key === colorTheme && 'active')}
+                      data-theme={t.key}
+                      onClick={() => handleThemeClick(t.key)}
+                    >
+                      <div
+                        className="color-theme-swatch"
+                        style={{ background: isDark ? THEME_ACCENTS[t.key].dark : THEME_ACCENTS[t.key].light }}
+                      />
+                      <div className="color-theme-label">{t.label}</div>
+                      <div className="color-theme-desc">{t.desc}</div>
+                    </button>
+                  ))}
+                </div>
               </div>
-
-              {/* Color Theme Sub-section */}
-              <div className="setting-subsection-title">色彩主題</div>
-              <div className="color-theme-grid" id="colorThemeGrid">
-                {COLOR_THEMES.map((t) => (
-                  <button
-                    key={t.key}
-                    className={`color-theme-card${t.key === colorTheme ? ' active' : ''}`}
-                    data-theme={t.key}
-                    onClick={() => handleThemeClick(t.key)}
-                  >
-                    <div
-                      className="color-theme-swatch"
-                      style={{ background: isDark ? t.swatchDark : t.swatch }}
-                    />
-                    <div className="color-theme-label">{t.label}</div>
-                    <div className="color-theme-desc">{t.desc}</div>
-                  </button>
-                ))}
-              </div>
-            </div>
+            )}
           </div>
         </main>
       </div>

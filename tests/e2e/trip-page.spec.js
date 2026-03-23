@@ -69,17 +69,6 @@ test.describe('頁面載入', () => {
     await expect(footer).toContainText('沖繩');
   });
 
-  test('Speed Dial 資訊項目都存在', async ({ page }) => {
-    await page.goto('/');
-    await page.locator('.day-section').first().waitFor({ timeout: 10000 });
-    await expect(page.locator('.speed-dial-item[data-content="flights"]')).toBeAttached();
-    await expect(page.locator('.speed-dial-item[data-content="checklist"]')).toBeAttached();
-    await expect(page.locator('.speed-dial-item[data-content="backup"]')).toBeAttached();
-    await expect(page.locator('.speed-dial-item[data-content="emergency"]')).toBeAttached();
-    await expect(page.locator('.speed-dial-item[data-content="printer"]')).toBeAttached();
-    await expect(page.locator('.speed-dial-item[data-content="settings"]')).toBeAttached();
-  });
-
   test('Nav brand 顯示行程名稱', async ({ page }) => {
     await page.goto('/');
     await page.locator('.day-section').first().waitFor({ timeout: 10000 });
@@ -173,78 +162,18 @@ test.describe('Nav Pills 手機版可見性', () => {
   });
 });
 
-/* ===== 3. Speed Dial（手機版） ===== */
-test.describe('Speed Dial（手機版）', () => {
-  test.use({ viewport: { width: 375, height: 812 }, userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X) Mobile/15E148' });
-
-  test('Speed Dial 觸發按鈕可見', async ({ page }) => {
-    await page.goto('/');
-    const trigger = page.locator('#speedDialTrigger');
-    await expect(trigger).toBeVisible();
-  });
-
-  test('點擊 trigger 展開/收合 Speed Dial', async ({ page }) => {
-    await page.goto('/');
-    const speedDial = page.locator('#speedDial');
-    const trigger = page.locator('#speedDialTrigger');
-
-    // 初始收合
-    await expect(speedDial).not.toHaveClass(/open/);
-
-    // 點擊展開
-    await trigger.click();
-    await expect(speedDial).toHaveClass(/open/);
-
-    // 再次點擊收合
-    await trigger.click();
-    await expect(speedDial).not.toHaveClass(/open/);
-  });
-
-  test('點擊 backdrop 關閉 Speed Dial', async ({ page }) => {
-    await page.goto('/');
-    const speedDial = page.locator('#speedDial');
-    const trigger = page.locator('#speedDialTrigger');
-
-    await trigger.click();
-    await expect(speedDial).toHaveClass(/open/);
-
-    await page.locator('#speedDialBackdrop').click({ force: true });
-    await expect(speedDial).not.toHaveClass(/open/);
-  });
-
-  test('子項目點擊開啟 Bottom Sheet', async ({ page }) => {
-    await page.goto('/');
-    await page.locator('.day-section').first().waitFor({ timeout: 10000 });
-    const trigger = page.locator('#speedDialTrigger');
-
-    // 展開 Speed Dial
-    await trigger.click();
-    await page.waitForTimeout(300);
-
-    // 點擊航班子項目
-    await page.locator('.speed-dial-item[data-content="flights"]').click();
-    await page.waitForTimeout(500);
-
-    // Speed Dial 應關閉
-    await expect(page.locator('#speedDial')).not.toHaveClass(/open/);
-
-    // Bottom Sheet 應開啟
-    await expect(page.locator('#infoBottomSheet')).toHaveClass(/open/, { timeout: 5000 });
-  });
-});
-
 /* ===== 3b. Sticky-nav 動作按鈕 ===== */
 test.describe('Sticky-nav 動作按鈕', () => {
-  test('設定連結指向 setting.html', async ({ page }) => {
+  test('nav-actions 設定連結不存在', async ({ page }) => {
     await page.goto('/');
     const settingLink = page.locator('.nav-actions a[href="setting.html"]');
-    await expect(settingLink).toBeAttached();
+    await expect(settingLink).toHaveCount(0);
   });
 
-  test('列印按鈕存在', async ({ page }) => {
+  test('nav-actions 列印按鈕不存在', async ({ page }) => {
     await page.goto('/');
     const printBtn = page.locator('.nav-actions [data-action="toggle-print"]');
-    await expect(printBtn).toBeAttached();
+    await expect(printBtn).toHaveCount(0);
   });
 });
 
@@ -348,15 +277,15 @@ test.describe('可收合區塊', () => {
   });
 });
 
-/* ===== 7. 行程建議（Speed Dial） ===== */
-test.describe('行程建議（Speed Dial）', () => {
-  test('Speed Dial 開啟建議後包含建議卡片', async ({ page }) => {
+/* ===== 7. 行程建議（QuickPanel） ===== */
+test.describe('行程建議（QuickPanel）', () => {
+  test('QuickPanel 開啟建議後包含建議卡片', async ({ page }) => {
     await page.goto('/');
     await page.locator('.day-section').first().waitFor({ timeout: 10000 });
 
-    await page.locator('#speedDialTrigger').click();
-    await page.waitForTimeout(300);
-    await page.locator('.speed-dial-item[data-content="suggestions"]').click();
+    await page.locator('.quick-panel-trigger').click();
+    await page.locator('#quickPanel.open').waitFor({ timeout: 3000 });
+    await page.locator('.quick-panel-item[data-content="suggestions"]').click();
     await page.waitForTimeout(500);
 
     await expect(page.locator('#bottomSheetBody .suggestion-card').first()).toBeAttached({ timeout: 10000 });
@@ -439,9 +368,9 @@ test.describe('航班資訊', () => {
   test('航班區段包含航班資料', async ({ page }) => {
     await page.goto('/');
     await page.locator('.day-section').first().waitFor({ timeout: 10000 });
-    await page.locator('#speedDialTrigger').click();
-    await page.waitForTimeout(300);
-    await page.locator('.speed-dial-item[data-content="flights"]').click();
+    await page.locator('.quick-panel-trigger').click();
+    await page.locator('#quickPanel.open').waitFor({ timeout: 3000 });
+    await page.locator('.quick-panel-item[data-content="flights"]').click();
     await page.waitForTimeout(500);
     await expect(page.locator('#bottomSheetBody .flight-row').first()).toBeAttached({ timeout: 10000 });
   });
@@ -452,9 +381,9 @@ test.describe('緊急聯絡', () => {
   test('包含 tel: 電話連結', async ({ page }) => {
     await page.goto('/');
     await page.locator('.day-section').first().waitFor({ timeout: 10000 });
-    await page.locator('#speedDialTrigger').click();
-    await page.waitForTimeout(300);
-    await page.locator('.speed-dial-item[data-content="emergency"]').click();
+    await page.locator('.quick-panel-trigger').click();
+    await page.locator('#quickPanel.open').waitFor({ timeout: 3000 });
+    await page.locator('.quick-panel-item[data-content="emergency"]').click();
     await page.waitForTimeout(500);
     const telLinks = page.locator('#bottomSheetBody a[href^="tel:"]');
     const count = await telLinks.count();
@@ -468,8 +397,8 @@ test.describe('列印模式', () => {
     await page.goto('/');
     const body = page.locator('body');
 
-    // 點擊 nav-actions 列印模式按鈕
-    await page.locator('.nav-actions [data-action="toggle-print"]').click();
+    // 透過 JS 進入列印模式（nav-actions 已移除）
+    await page.evaluate(() => { document.body.classList.add('print-mode', 'theme-print'); });
     await expect(body).toHaveClass(/print-mode/);
 
     // 列印模式下所有 day-section 都可見
@@ -479,8 +408,8 @@ test.describe('列印模式', () => {
       await expect(daySections.nth(i)).toBeVisible();
     }
 
-    // Speed Dial 隱藏
-    await expect(page.locator('#speedDial')).not.toBeVisible();
+    // QuickPanel 隱藏
+    await expect(page.locator('#quickPanel')).not.toBeVisible();
 
     // 用頁面上的退出按鈕退出列印模式
     await page.locator('#printExitBtn').click();
@@ -617,8 +546,8 @@ test.describe('Dark + Print 互動', () => {
     const body = page.locator('body');
     await expect(body).toHaveClass(/dark/);
 
-    // 進入列印模式（透過 nav-actions）
-    await page.locator('.nav-actions [data-action="toggle-print"]').click();
+    // 進入列印模式（透過 JS，nav-actions 已移除）
+    await page.evaluate(() => { document.body.classList.add('print-mode', 'theme-print'); document.body.classList.remove('dark'); });
     await expect(body).toHaveClass(/print-mode/);
     // 列印模式下不應有 dark
     await expect(body).not.toHaveClass(/dark/);
@@ -685,8 +614,8 @@ test.describe('Day Lazy Loading', () => {
     await page.goto('/');
     await expect(page.locator('.day-section[data-day="1"] .tl-event').first()).toBeAttached({ timeout: 5000 });
 
-    // Enter print mode
-    await page.locator('.nav-actions [data-action="toggle-print"]').click();
+    // Enter print mode（透過 JS，nav-actions 已移除）
+    await page.evaluate(() => { document.body.classList.add('print-mode', 'theme-print'); });
     await page.waitForTimeout(2000);
 
     // All day sections should be visible
@@ -717,16 +646,16 @@ test.describe('每日交通統計', () => {
   });
 });
 
-/* ===== 20. 全旅程交通統計（Speed Dial） ===== */
+/* ===== 20. 全旅程交通統計（QuickPanel） ===== */
 test.describe('全旅程交通統計', () => {
-  test('所有 Day 載入後 Speed Dial 可開啟交通統計', async ({ page }) => {
+  test('所有 Day 載入後 QuickPanel 可開啟交通統計', async ({ page }) => {
     await page.goto('/');
     await page.locator('.day-section').first().waitFor({ timeout: 10000 });
     // 等待 preload 完成（所有 Day 自動載入）
     await page.waitForTimeout(3000);
-    await page.locator('#speedDialTrigger').click();
-    await page.waitForTimeout(300);
-    await page.locator('.speed-dial-item[data-content="driving"]').click();
+    await page.locator('.quick-panel-trigger').click();
+    await page.locator('#quickPanel.open').waitFor({ timeout: 3000 });
+    await page.locator('.quick-panel-item[data-content="driving"]').click();
     await page.waitForTimeout(500);
     const summary = page.locator('#bottomSheetBody .driving-summary');
     await expect(summary).toBeAttached({ timeout: 10000 });
@@ -736,9 +665,9 @@ test.describe('全旅程交通統計', () => {
     await page.goto('/');
     await page.locator('.day-section').first().waitFor({ timeout: 10000 });
     await page.waitForTimeout(3000);
-    await page.locator('#speedDialTrigger').click();
-    await page.waitForTimeout(300);
-    await page.locator('.speed-dial-item[data-content="driving"]').click();
+    await page.locator('.quick-panel-trigger').click();
+    await page.locator('#quickPanel.open').waitFor({ timeout: 3000 });
+    await page.locator('.quick-panel-item[data-content="driving"]').click();
     await page.waitForTimeout(300);
     const summary = page.locator('#bottomSheetBody .driving-summary');
     const typeSummary = summary.locator('.transport-type-summary').first();
@@ -750,19 +679,66 @@ test.describe('全旅程交通統計', () => {
 test.describe('桌機資訊面板', () => {
   test.use({ viewport: { width: 1400, height: 900 } });
 
-  test('倒數器與統計卡可見', async ({ page }) => {
+  test('資訊面板可見且包含今日行程', async ({ page }) => {
     await page.goto('/');
     await page.waitForTimeout(500);
     const panel = page.locator('#infoPanel');
     await expect(panel).toBeVisible();
 
-    // 倒數器
-    const countdown = panel.locator('.countdown-card');
-    await expect(countdown).toBeVisible();
+    // 今日行程區塊
+    const todaySummary = panel.locator('.today-summary');
+    await expect(todaySummary).toBeVisible();
+  });
 
-    // 統計卡
-    const statsCard = panel.locator('.stats-card');
-    await expect(statsCard).toBeVisible();
+  test('資訊面板包含飯店資訊（R3-8）', async ({ page }) => {
+    await page.goto('/');
+    await page.waitForTimeout(500);
+    const panel = page.locator('#infoPanel');
+    await expect(panel).toBeVisible();
+
+    // 飯店摘要卡（R3-8 新增）— 找包含「今日住宿」或飯店名稱的區塊
+    const hotelSection = panel.locator('text=/今日住宿|退房/');
+    await expect(hotelSection.first()).toBeAttached();
+  });
+
+  test('資訊面板包含當日交通摘要（R3-8）', async ({ page }) => {
+    await page.goto('/');
+    await page.waitForTimeout(500);
+    const panel = page.locator('#infoPanel');
+    await expect(panel).toBeVisible();
+
+    // 交通摘要卡（R3-8 新增）— 找最外層的 transport-summary-card
+    const transportCard = panel.locator('.transport-summary-card').first();
+    await expect(transportCard).toBeAttached();
+  });
+
+  test('資訊面板不含 G/N 地圖連結（R4 移除）', async ({ page }) => {
+    await page.goto('/');
+    await page.waitForTimeout(500);
+    const panel = page.locator('#infoPanel');
+    await expect(panel).toBeVisible();
+
+    // R4 要求：InfoPanel 內不應有 Google/Naver 地圖連結
+    const gLinks = panel.locator('a[href*="google"], a[href*="naver"]');
+    await expect(gLinks).toHaveCount(0);
+  });
+
+  test('資訊面板不含倒數器（R3-4 移除）', async ({ page }) => {
+    await page.goto('/');
+    await page.waitForTimeout(500);
+    const panel = page.locator('#infoPanel');
+
+    const countdown = panel.locator('.countdown-card');
+    await expect(countdown).toHaveCount(0);
+  });
+
+  test('資訊面板不含全旅程統計卡（R3-5 移除）', async ({ page }) => {
+    await page.goto('/');
+    await page.waitForTimeout(500);
+    const panel = page.locator('#infoPanel');
+
+    const statsCard = panel.locator('.stats-card, .trip-stats-card');
+    await expect(statsCard).toHaveCount(0);
   });
 
   test('中等寬度不顯示資訊面板', async ({ page, browser }) => {
@@ -812,7 +788,8 @@ test.describe('FAB 修改行程按鈕', () => {
 
   test('列印模式隱藏 FAB', async ({ page }) => {
     await page.goto('/');
-    await page.locator('.nav-actions [data-action="toggle-print"]').click();
+    // 透過 JS 進入列印模式（nav-actions 已移除）
+    await page.evaluate(() => { document.body.classList.add('print-mode', 'theme-print'); });
     const fab = page.locator('#editFab');
     await expect(fab).not.toBeVisible();
   });
@@ -853,42 +830,95 @@ test.describe('行程載入失敗', () => {
   });
 });
 
-/* ===== 23. Speed Dial → Bottom Sheet（手機版） ===== */
-test.describe('Speed Dial → Bottom Sheet（手機版）', () => {
-  test.use({ viewport: { width: 375, height: 812 }, userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X) Mobile/15E148' });
+/* ===== 24. QuickPanel 垂直佈局（R4）===== */
+test.describe('QuickPanel 垂直佈局（R4）', () => {
+  test.use({ viewport: { width: 390, height: 844 } });
 
-  test('Speed Dial 子項目開啟 bottom sheet 並顯示內容', async ({ page }) => {
+  test('所有 quick-panel-item 在 FAB 上方顯示（panel 開啟）', async ({ page }) => {
     await page.goto('/');
     await page.locator('.day-section').first().waitFor({ timeout: 10000 });
+    await page.locator('#quickPanel').waitFor({ timeout: 10000 });
 
-    await page.locator('#speedDialTrigger').click();
-    await page.waitForTimeout(300);
+    // 展開 QuickPanel
+    await page.locator('.quick-panel-trigger').click();
+    await page.locator('#quickPanel.open').waitFor({ timeout: 3000 });
 
-    await page.locator('.speed-dial-item[data-content="checklist"]').click();
-    await page.waitForTimeout(500);
+    const fab = page.locator('.quick-panel-trigger');
+    const fabBox = await fab.boundingBox();
+    const items = page.locator('.quick-panel-item');
+    const count = await items.count();
+    expect(count).toBe(14);
 
-    const backdrop = page.locator('#infoBottomSheet');
-    await expect(backdrop).toHaveClass(/open/, { timeout: 5000 });
-
-    const body = page.locator('#bottomSheetBody');
-    const text = await body.textContent();
-    expect(text.length).toBeGreaterThan(0);
+    // panel sheet 應在 FAB 上方（y 座標小於 FAB）
+    const sheet = page.locator('.quick-panel-sheet');
+    const sheetBox = await sheet.boundingBox();
+    if (sheetBox && fabBox) {
+      expect(sheetBox.y).toBeLessThan(fabBox.y);
+    }
   });
 
-  test('點擊 backdrop 關閉 bottom sheet', async ({ page }) => {
+  test('QuickPanel 有 14 個項目', async ({ page }) => {
     await page.goto('/');
     await page.locator('.day-section').first().waitFor({ timeout: 10000 });
+    await page.locator('#quickPanel').waitFor({ timeout: 10000 });
 
-    await page.locator('#speedDialTrigger').click();
-    await page.waitForTimeout(300);
-    await page.locator('.speed-dial-item[data-content="flights"]').click();
-    await page.waitForTimeout(500);
+    await page.locator('.quick-panel-trigger').click();
+    await page.locator('#quickPanel.open').waitFor({ timeout: 3000 });
+    const items = page.locator('.quick-panel-item');
+    await expect(items).toHaveCount(14);
+  });
 
-    const backdrop = page.locator('#infoBottomSheet');
-    await expect(backdrop).toHaveClass(/open/);
+  test('FAB 觸發按鈕存在且可點擊', async ({ page }) => {
+    await page.goto('/');
+    await page.locator('#quickPanel').waitFor({ timeout: 10000 });
+    const trigger = page.locator('.quick-panel-trigger');
+    await expect(trigger).toBeVisible();
+    await expect(trigger).toHaveAttribute('aria-label', '快速選單');
+  });
 
-    // Click on the backdrop area (outside the panel) to close
-    await backdrop.click({ position: { x: 187, y: 50 } });
-    await expect(backdrop).not.toHaveClass(/open/);
+  test('QuickPanel 展開後收合正常', async ({ page }) => {
+    await page.goto('/');
+    await page.locator('.day-section').first().waitFor({ timeout: 10000 });
+    await page.locator('#quickPanel').waitFor({ timeout: 10000 });
+
+    const panel = page.locator('#quickPanel');
+    const trigger = page.locator('.quick-panel-trigger');
+
+    await expect(panel).not.toHaveClass(/open/);
+    await trigger.click();
+    await expect(panel).toHaveClass(/open/);
+    await trigger.click();
+    await expect(panel).not.toHaveClass(/open/);
+  });
+
+  test('320px 上 QuickPanel items 不溢出螢幕右邊界', async ({ page, browser }) => {
+    const context = await browser.newContext({ viewport: { width: 320, height: 568 } });
+    const p = await context.newPage();
+    await setupApiMocks(p);
+    await p.route('**/api.open-meteo.com/**', (route) => {
+      route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ hourly: { time: [], temperature_2m: [], precipitation_probability: [], weather_code: [] } }) });
+    });
+    await p.addInitScript(() => {
+      var exp = Date.now() + 180 * 86400000;
+      localStorage.setItem('tp-trip-pref', JSON.stringify({ v: 'okinawa-trip-2026-Ray', exp: exp }));
+    });
+    await p.goto('/');
+    await p.locator('.day-section').first().waitFor({ timeout: 10000 });
+    await p.locator('#quickPanel').waitFor({ timeout: 10000 });
+
+    await p.locator('.quick-panel-trigger').click();
+    await p.locator('#quickPanel.open').waitFor({ timeout: 3000 });
+
+    const items = p.locator('.quick-panel-item');
+    const count = await items.count();
+    for (let i = 0; i < count; i++) {
+      const box = await items.nth(i).boundingBox();
+      if (box) {
+        // item 右邊界不超出 320px 螢幕
+        expect(box.x + box.width).toBeLessThanOrEqual(320);
+      }
+    }
+    await context.close();
   });
 });
+

@@ -18,9 +18,13 @@ function buildLocation(
   name?: string | null,
 ): NavLocation | null {
   if (!maps && !mapcode) return null;
+  // maps 是 URL 時作為 googleQuery；非 URL（地名）時作為 name fallback，避免產生空查詢 `?q=`
+  const isUrl = maps ? /^https?:/i.test(maps) : false;
+  const nameValue: string | undefined =
+    (name ?? undefined) || (!isUrl && maps ? maps : undefined) || undefined;
   return {
-    name: name || undefined,
-    googleQuery: maps || undefined,
+    name: nameValue,
+    googleQuery: isUrl ? (maps ?? undefined) : undefined,
     mapcode: mapcode || undefined,
   };
 }
@@ -156,6 +160,7 @@ export function toHotelData(hotel: Record<string, unknown>): HotelData {
       type: 'parking',
       title: ((parking.info ?? parking.name) as string) || '停車場',
       price: (parking.price as string) ?? null,
+      note: (parking.note as string) ?? null,
       location: buildLocation(
         parking.maps as string,
         parking.mapcode as string,

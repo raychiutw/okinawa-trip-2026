@@ -1,14 +1,9 @@
 import { logAudit } from '../../../_audit';
-
-interface Env {
-  DB: D1Database;
-}
+import { hasPermission } from '../../../_auth';
+import { json } from '../../../_utils';
+import type { Env } from '../../../_types';
 
 const VALID_TYPES = new Set(['flights', 'checklist', 'backup', 'suggestions', 'emergency']);
-
-function json(data: unknown, status = 200) {
-  return new Response(JSON.stringify(data), { status, headers: { 'Content-Type': 'application/json' } });
-}
 
 export const onRequestGet: PagesFunction<Env> = async (context) => {
   const { id, type } = context.params as { id: string; type: string };
@@ -26,13 +21,22 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
 
 export const onRequestPut: PagesFunction<Env> = async (context) => {
   const auth = (context.data as any)?.auth;
-  if (!auth) return new Response(JSON.stringify({ error: '未認證' }), { status: 401, headers: { 'Content-Type': 'application/json' } });
+  if (!auth) return json({ error: '未認證' }, 401);
 
   const { id, type } = context.params as { id: string; type: string };
 
   if (!VALID_TYPES.has(type)) return json({ error: 'Invalid doc type' }, 400);
 
-  const body = await context.request.json() as { content?: string };
+  if (!await hasPermission(context.env.DB, auth.email, id, auth.isAdmin)) {
+    return json({ error: '權限不足' }, 403);
+  }
+
+  let body: { content?: string };
+  try {
+    body = await context.request.json() as { content?: string };
+  } catch {
+    return json({ error: 'Invalid JSON' }, 400);
+  }
   const content = body.content ?? '';
   const changedBy = auth?.email || 'anonymous';
 

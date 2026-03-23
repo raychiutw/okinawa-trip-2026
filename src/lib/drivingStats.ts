@@ -63,10 +63,11 @@ export function calcDrivingStats(timeline: Entry[] | undefined | null): DayDrivi
     if (!entry.travel) return;
     const t = entry.travel;
     const type = t.type || '';
-    const text = t.desc || (typeof t === 'string' ? (t as unknown as string) : '');
+    const text = t.desc || (typeof t === 'string' ? t : '');
     const typeInfo = TRANSPORT_TYPES[type];
     if (!typeInfo) return;
 
+    if (!text) return;
     const m = String(text).match(/(\d+)/);
     if (!m) return;
     const mins = parseInt(m[1], 10);
@@ -102,8 +103,7 @@ export function calcDrivingStats(timeline: Entry[] | undefined | null): DayDrivi
 /* ===== Trip-wide stats ===== */
 
 interface DayLike {
-  id?: number;
-  dayNum?: number;
+  dayNum: number;
   date?: string | null;
   dayOfWeek?: string | null;
   timeline: Entry[];
@@ -124,7 +124,7 @@ export function calcTripDrivingStats(days: DayLike[]): TripDrivingStats | null {
     const stats = calcDrivingStats(day.timeline);
     if (!stats) return;
 
-    const dayId = day.dayNum ?? day.id ?? 0;
+    const dayId = day.dayNum;
     const d = day.date || '';
     const dm = d.match(/^\d{4}-(\d{2})-(\d{2})$/);
     let dateStr = d;

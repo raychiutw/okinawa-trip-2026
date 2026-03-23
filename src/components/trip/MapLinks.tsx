@@ -1,6 +1,8 @@
 /* ===== MapLinks Component ===== */
 /* Renders Google Map / Apple Map / Naver Map links + optional mapcode display */
 
+import { memo } from 'react';
+import clsx from 'clsx';
 import Icon from '../shared/Icon';
 import { escUrl } from '../../lib/sanitize';
 
@@ -49,8 +51,8 @@ function resolveAppleUrl(loc: MapLocation): string {
   return aq;
 }
 
-export default function MapLinks({ location: loc, inline = false }: MapLinksProps) {
-  const cls = inline ? 'map-link map-link-inline' : 'map-link';
+export const MapLinks = memo(function MapLinks({ location: loc, inline = false }: MapLinksProps) {
+  const cls = clsx('map-link', inline && 'map-link-inline');
   const googleUrl = resolveGoogleUrl(loc);
   const appleUrl = resolveAppleUrl(loc);
   const naverUrl = escUrl(loc.naverQuery || '');
@@ -61,7 +63,7 @@ export default function MapLinks({ location: loc, inline = false }: MapLinksProp
       <a href={googleUrl} target="_blank" rel="noopener noreferrer" className={cls}>
         <span className="g-icon">G</span> Map
       </a>
-      <a href={appleUrl} target="_blank" rel="noopener noreferrer" className={`${cls} apple`}>
+      <a href={appleUrl} target="_blank" rel="noopener noreferrer" className={clsx(cls, 'apple')}>
         <span
           className="apple-icon"
           dangerouslySetInnerHTML={{ __html: APPLE_SVG }}
@@ -69,18 +71,20 @@ export default function MapLinks({ location: loc, inline = false }: MapLinksProp
         {' '}Map
       </a>
       {showNaver && (
-        <a href={naverUrl} target="_blank" rel="noopener noreferrer" className={`${cls} naver`}>
+        <a href={naverUrl} target="_blank" rel="noopener noreferrer" className={clsx(cls, 'naver')}>
           <span className="n-icon">N</span> N Map
         </a>
       )}
       {loc.mapcode && (
-        <span className={`${cls} mapcode`}>
+        <span className={clsx(cls, 'mapcode')}>
           <Icon name="device" /> {loc.mapcode}
         </span>
       )}
     </>
   );
-}
+});
+
+export default MapLinks;
 
 /* ===== NavLinks — renders labelled groups of map links ===== */
 
@@ -92,7 +96,7 @@ interface NavLinksProps {
   locations: NavLocation[];
 }
 
-export function NavLinks({ locations }: NavLinksProps) {
+export const NavLinks = memo(function NavLinks({ locations }: NavLinksProps) {
   if (!locations || locations.length === 0) return null;
   return (
     <div className="nav-links">
@@ -104,4 +108,4 @@ export function NavLinks({ locations }: NavLinksProps) {
       ))}
     </div>
   );
-}
+});

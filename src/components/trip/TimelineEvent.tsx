@@ -2,6 +2,8 @@
 /* Renders a single timeline entry: time flag, card (title, description, */
 /* locations, info boxes), and optional travel segment to next entry.    */
 
+import { memo } from 'react';
+import clsx from 'clsx';
 import Icon from '../shared/Icon';
 import MarkdownText from '../shared/MarkdownText';
 import { NavLinks, type NavLocation } from './MapLinks';
@@ -79,9 +81,13 @@ interface TimelineEventProps {
   entry: TimelineEntryData;
   /** 1-based index displayed in the flag */
   index: number;
+  /** Whether this is the current active entry */
+  isNow?: boolean;
+  /** Whether this entry's time has passed */
+  isPast?: boolean;
 }
 
-export default function TimelineEvent({ entry, index }: TimelineEventProps) {
+export const TimelineEvent = memo(function TimelineEvent({ entry, index, isNow, isPast }: TimelineEventProps) {
   const parsed = parseTimeRange(entry.time);
   const hasBody =
     entry.description ||
@@ -103,7 +109,7 @@ export default function TimelineEvent({ entry, index }: TimelineEventProps) {
   return (
     <>
       {/* ---- Main event ---- */}
-      <div className="tl-event expanded">
+      <div className={clsx('tl-event', 'expanded', isNow && 'tl-now', isPast && 'tl-past')}>
         {/* Arrival flag */}
         <div className="tl-flag tl-flag-arrive">
           <span className="tl-flag-num">{index}</span>
@@ -165,4 +171,6 @@ export default function TimelineEvent({ entry, index }: TimelineEventProps) {
       )}
     </>
   );
-}
+});
+
+export default TimelineEvent;

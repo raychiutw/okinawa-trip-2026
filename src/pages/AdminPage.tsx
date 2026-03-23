@@ -1,8 +1,12 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
+import clsx from 'clsx';
 import type { TripListItem } from '../types/trip';
 import type { Permission } from '../types/api';
 import { useDarkMode } from '../hooks/useDarkMode';
+import { useOnlineStatus } from '../hooks/useOnlineStatus';
 import { lsGet, lsSet } from '../lib/localStorage';
+import TpLogo from '../components/shared/TpLogo';
+import Toast from '../components/shared/Toast';
 
 /* ===== Raw fetch helper (need status-code inspection) ===== */
 function apiFetchRaw(path: string, opts?: RequestInit): Promise<Response> {
@@ -23,6 +27,7 @@ interface StatusMsg {
 
 export default function AdminPage() {
   useDarkMode();
+  const isOnline = useOnlineStatus();
 
   const [trips, setTrips] = useState<TripListItem[]>([]);
   const [tripsError, setTripsError] = useState('');
@@ -36,6 +41,25 @@ export default function AdminPage() {
 
   const currentTripIdRef = useRef(currentTripId);
   currentTripIdRef.current = currentTripId;
+
+  const [showOffline, setShowOffline] = useState(false);
+  const [showReconnect, setShowReconnect] = useState(false);
+  const wasOffline = useRef(false);
+
+  useEffect(() => {
+    if (!isOnline) {
+      wasOffline.current = true;
+      setShowOffline(true);
+      const t = setTimeout(() => setShowOffline(false), 2000);
+      return () => clearTimeout(t);
+    } else if (wasOffline.current) {
+      wasOffline.current = false;
+      setShowOffline(false);
+      setShowReconnect(true);
+      const t = setTimeout(() => setShowReconnect(false), 2000);
+      return () => clearTimeout(t);
+    }
+  }, [isOnline]);
 
   /* ===== Load Permissions ===== */
   const loadPermissions = useCallback(async (tripId: string) => {
@@ -227,6 +251,7 @@ export default function AdminPage() {
     <div className="page-layout">
       <div className="container">
         <div className="sticky-nav" id="stickyNav">
+          <TpLogo isOnline={isOnline} />
           <span className="nav-title">權限管理</span>
           <button className="nav-close-btn" id="navCloseBtn" aria-label="關閉" onClick={handleClose}>
             <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
@@ -234,7 +259,23 @@ export default function AdminPage() {
             </svg>
           </button>
         </div>
-        <main className="admin-main" id="adminMain">
+        {/* Toast notifications — conditionally rendered to avoid hidden DOM nodes */}
+        {showOffline && (
+          <Toast
+            message="已離線 — 無法管理權限"
+            icon="offline"
+            visible={showOffline}
+          />
+        )}
+        {showReconnect && (
+          <Toast
+            message="已恢復連線"
+            icon="online"
+            visible={showReconnect}
+          />
+        )}
+
+        <main className={clsx('admin-main', !isOnline && 'offline-disabled')} id="adminMain">
           <div className="admin-page">
             {/* Section: Trip Select */}
             <div className="admin-section">
@@ -281,11 +322,13 @@ export default function AdminPage() {
                     新增
                   </button>
                 </div>
-                {addStatus && (
-                  <div className={`admin-status ${addStatus.type}`}>
-                    {addStatus.text}
-                  </div>
-                )}
+                <div aria-live="polite">
+                  {addStatus && (
+                    <div className={`admin-status ${addStatus.type}`}>
+                      {addStatus.text}
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>

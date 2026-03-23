@@ -1,7 +1,12 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import clsx from 'clsx';
 import Icon from '../components/shared/Icon';
+import TpLogo from '../components/shared/TpLogo';
+import Toast from '../components/shared/Toast';
+import RequestStepper from '../components/shared/RequestStepper';
 import { apiFetch } from '../hooks/useApi';
 import { useDarkMode } from '../hooks/useDarkMode';
+import { useOnlineStatus } from '../hooks/useOnlineStatus';
 import { sanitizeHtml } from '../lib/sanitize';
 import { lsGet, lsSet } from '../lib/localStorage';
 
@@ -13,13 +18,11 @@ interface RawRequest {
   id: number;
   trip_id: string;
   mode: string;
-  title: string;
-  body: string;
-  submitted_by?: string | null;
-  reply?: string | null;
-  status: string;
+  message: string;
+  submitted_by: string | null;
+  reply: string | null;
+  status: 'open' | 'received' | 'processing' | 'completed';
   created_at: string;
-  processed_by?: string | null;
 }
 
 interface MyTrip {
@@ -34,43 +37,48 @@ interface TripInfo {
 
 /* ===== Request Item Component ===== */
 
-function RequestItem({ req }: { req: RawRequest }) {
-  const date = new Date(req.created_at + 'Z').toLocaleString('zh-TW', {
+function formatDate(iso: string): string {
+  return new Date(iso + 'Z').toLocaleString('zh-TW', {
     month: 'numeric',
     day: 'numeric',
     hour: '2-digit',
     minute: '2-digit',
   });
-  const stateClass = req.status === 'open' ? 'open' : 'closed';
-  const badgeText = req.status === 'open' ? '處理中' : '已處理';
-  const badgeIconName = req.status === 'open' ? 'circle-dot' : 'check-circle';
-  const mode = req.mode === 'trip-plan' ? 'plan' : 'edit';
-  const modeBadgeText = mode === 'plan' ? '問建議' : '改行程';
+}
 
+function RequestItem({ req }: { req: RawRequest }) {
   const replyHtml = req.reply
-    ? sanitizeHtml(marked.parse(req.reply) as string)
+    ? sanitizeHtml(marked.parse(req.reply) as string).replace(
+        /<table([^>]*)>/g,
+        '<div class="table-wrap"><table$1>',
+      ).replace(/<\/table>/g, '</table></div>')
     : '';
 
   return (
-    <div className={`request-item ${stateClass}`}>
+    <div className="request-item">
+      {/* Header: mode badge + time */}
       <div className="request-item-header">
-        <span className={`request-badge ${stateClass}`}>
-          <Icon name={badgeIconName} />
-          {badgeText}
+        <span className={clsx('request-mode-badge', `mode-${req.mode === 'trip-edit' ? 'edit' : 'plan'}`)}>
+          {req.mode === 'trip-edit' ? '改行程' : '問建議'}
         </span>
-        <span className={`request-mode-badge mode-${mode}`}>{modeBadgeText}</span>
-        <span className="request-item-title">{req.title}</span>
+        <span className="request-item-meta">{formatDate(req.created_at)}</span>
       </div>
-      {req.body && <div className="request-item-body">{req.body}</div>}
-      <div className="request-item-meta">
-        #{req.id} · {date}
-        {req.submitted_by && <> · {req.submitted_by}</>}
-      </div>
+
+      {/* Message */}
+      <div className="request-item-message">{req.message}</div>
+
+      {/* Submitted by */}
+      {req.submitted_by && <div className="request-item-submitter">{req.submitted_by}</div>}
+
+      {/* Stepper */}
+      <RequestStepper status={req.status} />
+
+      {/* Reply (if completed) */}
       {req.reply && (
-        <div
-          className="request-reply"
-          dangerouslySetInnerHTML={{ __html: replyHtml }}
-        />
+        <>
+          <div className="request-reply-divider" />
+          <div className="request-reply" dangerouslySetInnerHTML={{ __html: replyHtml }} />
+        </>
       )}
     </div>
   );
@@ -86,6 +94,7 @@ type PageState =
 
 export default function ManagePage() {
   useDarkMode();
+  const isOnline = useOnlineStatus();
 
   /* ----- State ----- */
   const [pageState, setPageState] = useState<PageState>({ kind: 'loading' });
@@ -98,6 +107,25 @@ export default function ManagePage() {
   const [mode, setMode] = useState<'trip-edit' | 'trip-plan'>('trip-edit');
   const [submitStatus, setSubmitStatus] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
   const [submitting, setSubmitting] = useState(false);
+
+  const [showOffline, setShowOffline] = useState(false);
+  const [showReconnect, setShowReconnect] = useState(false);
+  const wasOffline = useRef(false);
+
+  useEffect(() => {
+    if (!isOnline) {
+      wasOffline.current = true;
+      setShowOffline(true);
+      const t = setTimeout(() => setShowOffline(false), 2000);
+      return () => clearTimeout(t);
+    } else if (wasOffline.current) {
+      wasOffline.current = false;
+      setShowOffline(false);
+      setShowReconnect(true);
+      const t = setTimeout(() => setShowReconnect(false), 2000);
+      return () => clearTimeout(t);
+    }
+  }, [isOnline]);
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -219,8 +247,6 @@ export default function ManagePage() {
     setSubmitting(true);
     setSubmitStatus(null);
 
-    const title = trimmed.substring(0, 50);
-
     try {
       const res = await fetch('/api/requests', {
         method: 'POST',
@@ -228,8 +254,7 @@ export default function ManagePage() {
         body: JSON.stringify({
           tripId: currentTripId,
           mode,
-          title,
-          body: trimmed,
+          message: trimmed,
         }),
       });
 
@@ -311,6 +336,7 @@ export default function ManagePage() {
       <div className="container">
         {/* ----- Sticky Nav ----- */}
         <div className="sticky-nav" id="stickyNav">
+          <TpLogo isOnline={isOnline} />
           {pageState.kind === 'ready' && (
             <select
               className="manage-trip-select manage-trip-select--center"
@@ -337,25 +363,41 @@ export default function ManagePage() {
           </button>
         </div>
 
+        {/* Toast notifications — conditionally rendered to avoid hidden DOM nodes */}
+        {showOffline && (
+          <Toast
+            message="已離線 — 無法送出修改請求"
+            icon="offline"
+            visible={showOffline}
+          />
+        )}
+        {showReconnect && (
+          <Toast
+            message="已恢復連線"
+            icon="online"
+            visible={showReconnect}
+          />
+        )}
+
         {/* ----- Main Content ----- */}
-        <main className="manage-main" id="manageMain">
+        <main className={clsx('manage-main', !isOnline && 'offline-disabled')} id="manageMain">
           {/* Loading state */}
           {pageState.kind === 'loading' && (
-            <div style={{ textAlign: 'center', padding: 40, color: 'var(--text-muted)' }}>
+            <div className="text-center p-10 text-[var(--color-muted)]">
               載入中...
             </div>
           )}
 
           {/* Auth required */}
           {pageState.kind === 'auth-required' && (
-            <div className="manage-no-permission" style={{ margin: '40px var(--padding-h)' }}>
+            <div className="manage-no-permission mx-[var(--padding-h)] my-10">
               請先登入
             </div>
           )}
 
           {/* No permission / no published trips */}
           {pageState.kind === 'no-permission' && (
-            <div className="manage-no-permission" style={{ margin: '40px var(--padding-h)' }}>
+            <div className="manage-no-permission mx-[var(--padding-h)] my-10">
               {pageState.message}
             </div>
           )}
@@ -366,9 +408,10 @@ export default function ManagePage() {
               {/* Messages area */}
               <div className="chat-messages">
                 <div
-                  className={`chat-messages-inner${
-                    showEmptyOrLoading && !hasRequests ? ' chat-messages-inner--centered' : ''
-                  }`}
+                  className={clsx(
+                    'chat-messages-inner',
+                    showEmptyOrLoading && !hasRequests && 'chat-messages-inner--centered',
+                  )}
                 >
                   <div id="manageRequests">
                     {requestsLoading && (
@@ -410,23 +453,23 @@ export default function ManagePage() {
                   <div className="manage-input-toolbar">
                     <div className="manage-mode-toggle" id="requestMode" data-value={mode}>
                       <button
-                        className={`manage-mode-pill${mode === 'trip-edit' ? ' selected' : ''}`}
+                        className={clsx('manage-mode-pill', mode === 'trip-edit' && 'selected')}
                         data-mode="trip-edit"
                         onClick={() => setMode('trip-edit')}
                       >
                         改行程
                       </button>
                       <button
-                        className={`manage-mode-pill${mode === 'trip-plan' ? ' selected-plan' : ''}`}
+                        className={clsx('manage-mode-pill', mode === 'trip-plan' && 'selected-plan')}
                         data-mode="trip-plan"
                         onClick={() => setMode('trip-plan')}
                       >
                         問建議
                       </button>
                     </div>
-                    <div id="submitStatus">
+                    <div id="submitStatus" aria-live="polite">
                       {submitStatus && (
-                        <div className={`manage-status ${submitStatus.type}`}>
+                        <div className={clsx('manage-status', submitStatus.type)}>
                           {submitStatus.type === 'success' && <Icon name="check-circle" />}
                           {submitStatus.type === 'error' && <Icon name="x-circle" />}
                           {submitStatus.type === 'error' ? ' ' : ''}

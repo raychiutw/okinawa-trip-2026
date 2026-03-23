@@ -23,18 +23,33 @@ Get-ChildItem -Path $logDir -File | Where-Object { $_.LastWriteTime -lt (Get-Dat
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 $env:PYTHONIOENCODING = "utf-8"
 
+# 從 .env.local 讀取環境變數（Service Token 等敏感資料）
+$envFile = Join-Path $projectDir ".env.local"
+if (Test-Path $envFile) {
+    Get-Content $envFile | ForEach-Object {
+        if ($_ -match '^(\w+)=(.+)$') {
+            [Environment]::SetEnvironmentVariable($matches[1], $matches[2], 'Process')
+        }
+    }
+}
+
 Log "--- 排程啟動 ---"
 
 # Query open requests
 $headers = @{
-    "CF-Access-Client-Id"     = "e5902a9d6f5181b8f70e12f1c11ebca3.access"
-    "CF-Access-Client-Secret" = "9c7d873d558eaf65cdc4160f9ec8f0c06d4f387fc069c7a7e1add0b8196b43a8"
+    "CF-Access-Client-Id"     = "$env:CF_ACCESS_CLIENT_ID"
+    "CF-Access-Client-Secret" = "$env:CF_ACCESS_CLIENT_SECRET"
+    "Origin"                  = "https://trip-planner-dby.pages.dev"
 }
 
 Log "呼叫 API: GET /api/requests?status=open"
 
 try {
-    $response = Invoke-RestMethod -Uri "https://trip-planner-dby.pages.dev/api/requests?status=open" -Headers $headers -ErrorAction Stop
+    $rawJson = curl.exe -s `
+        -H "CF-Access-Client-Id: $env:CF_ACCESS_CLIENT_ID" `
+        -H "CF-Access-Client-Secret: $env:CF_ACCESS_CLIENT_SECRET" `
+        "https://trip-planner-dby.pages.dev/api/requests?status=open"
+    $response = $rawJson | ConvertFrom-Json
 }
 catch {
     Log "API 呼叫失敗: $_"
@@ -52,14 +67,28 @@ if ($count -eq 0) {
     exit 0
 }
 
-# Log each request summary
+# Log each request summary and PATCH status → received
 for ($i = 0; $i -lt $count; $i++) {
     $req = if ($response -is [System.Array]) { $response[$i] } else { $response }
     $rid = $req.id
     $tripId = $req.trip_id
     $mode = $req.mode
-    $title = $req.title
-    Log "  [$($i+1)/$count] id=$rid trip=$tripId mode=$mode title=$title"
+    $msg = if ($req.message) { $req.message.Substring(0, [Math]::Min(50, $req.message.Length)) } else { "(empty)" }
+    Log "  [$($i+1)/$count] id=$rid trip=$tripId mode=$mode msg=$msg"
+
+    # PATCH status → received（系統已接收）— 使用 curl 避免 PowerShell 過濾 headers
+    try {
+        $patchResult = curl.exe -s -X PATCH `
+            -H "CF-Access-Client-Id: $env:CF_ACCESS_CLIENT_ID" `
+            -H "CF-Access-Client-Secret: $env:CF_ACCESS_CLIENT_SECRET" `
+            -H "Content-Type: application/json" `
+            -d "{`"status`":`"received`"}" `
+            "https://trip-planner-dby.pages.dev/api/requests/$rid"
+        Log "  id=$rid status → received ($patchResult)"
+    }
+    catch {
+        Log "  id=$rid PATCH received 失敗: $_"
+    }
 }
 
 # Invoke Claude tp-request
@@ -73,6 +102,25 @@ try {
 }
 catch {
     Log "Claude 執行失敗: $_"
+
+    # 回滾：將所有已設為 received 的請求退回 open
+    for ($i = 0; $i -lt $count; $i++) {
+        $req = if ($response -is [System.Array]) { $response[$i] } else { $response }
+        $rid = $req.id
+        try {
+            $rollbackResult = curl.exe -s -X PATCH `
+                -H "CF-Access-Client-Id: $env:CF_ACCESS_CLIENT_ID" `
+                -H "CF-Access-Client-Secret: $env:CF_ACCESS_CLIENT_SECRET" `
+                -H "Content-Type: application/json" `
+                -d "{`"status`":`"open`"}" `
+                "https://trip-planner-dby.pages.dev/api/requests/$rid"
+            Log "  id=$rid 回滾 status → open ($rollbackResult)"
+        }
+        catch {
+            Log "  id=$rid 回滾失敗: $_"
+        }
+    }
+
     Log "--- 排程結束（錯誤）---"
     exit 1
 }

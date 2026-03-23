@@ -10,8 +10,8 @@ user-invocable: true
 
 - **Base URL**: `https://trip-planner-dby.pages.dev`
 - **認證**: Service Token headers（寫入操作必填）
-  - `CF-Access-Client-Id`: `e5902a9d6f5181b8f70e12f1c11ebca3.access`
-  - `CF-Access-Client-Secret`: `9c7d873d558eaf65cdc4160f9ec8f0c06d4f387fc069c7a7e1add0b8196b43a8`
+  - `CF-Access-Client-Id`: `$CF_ACCESS_CLIENT_ID`
+  - `CF-Access-Client-Secret`: `$CF_ACCESS_CLIENT_SECRET`
 
 ## 指令格式
 
@@ -68,12 +68,15 @@ user-invocable: true
    - 餐廳：PATCH `/api/trips/{tripId}/restaurants/{rid}`
    - 購物：PATCH `/api/trips/{tripId}/shopping/{sid}`
 
+   > ⚠️ Windows encoding 注意：curl -d 中的中文在 Windows shell 會變亂碼，一律用 node writeFileSync + --data @file
+
    ```bash
+   node -e "require('fs').writeFileSync('/tmp/patch.json', JSON.stringify({'{field}':{value}}), 'utf8')"
    curl -s -X PATCH \
-     -H "CF-Access-Client-Id: e5902a9d6f5181b8f70e12f1c11ebca3.access" \
-     -H "CF-Access-Client-Secret: 9c7d873d558eaf65cdc4160f9ec8f0c06d4f387fc069c7a7e1add0b8196b43a8" \
+     -H "CF-Access-Client-Id: $CF_ACCESS_CLIENT_ID" \
+     -H "CF-Access-Client-Secret: $CF_ACCESS_CLIENT_SECRET" \
      -H "Content-Type: application/json" \
-     -d '{"{field}": {value}}' \
+     --data @/tmp/patch.json \
      "https://trip-planner-dby.pages.dev/api/trips/{tripId}/entries/{eid}"
    ```
    - 找不到的值不填預設（`googleRating` 省略、`reservation` 維持 unknown）

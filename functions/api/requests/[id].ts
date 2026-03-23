@@ -3,23 +3,8 @@
  */
 
 import { logAudit, computeDiff } from '../_audit';
-
-interface Env {
-  DB: D1Database;
-}
-
-interface AuthData {
-  email: string;
-  isAdmin: boolean;
-  isServiceToken: boolean;
-}
-
-function json(data: unknown, status = 200) {
-  return new Response(JSON.stringify(data), {
-    status,
-    headers: { 'Content-Type': 'application/json' },
-  });
-}
+import { json } from '../_utils';
+import type { Env, AuthData } from '../_types';
 
 export const onRequestPatch: PagesFunction<Env> = async (context) => {
   const { env, params } = context;
@@ -46,19 +31,12 @@ export const onRequestPatch: PagesFunction<Env> = async (context) => {
     values.push(body.reply);
   }
   if (body.status !== undefined) {
-    if (body.status !== 'open' && body.status !== 'closed') {
-      return json({ error: 'status 必須是 open 或 closed' }, 400);
+    const validStatuses = ['open', 'received', 'processing', 'completed'];
+    if (!validStatuses.includes(body.status)) {
+      return json({ error: 'status 必須是 open、received、processing 或 completed' }, 400);
     }
     updates.push('status = ?');
     values.push(body.status);
-  }
-
-  if (body.processed_by !== undefined) {
-    if (body.processed_by !== 'agent' && body.processed_by !== 'scheduler') {
-      return json({ error: 'processed_by 必須是 agent 或 scheduler' }, 400);
-    }
-    updates.push('processed_by = ?');
-    values.push(body.processed_by);
   }
 
   if (updates.length === 0) {

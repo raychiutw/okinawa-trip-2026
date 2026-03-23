@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
+import clsx from 'clsx';
 import Icon from '../shared/Icon';
 import { ARROW_EXPAND, ARROW_COLLAPSE } from '../../lib/constants';
 import {
@@ -24,6 +25,17 @@ interface HourlyWeatherProps {
   tripEnd?: string | null;
 }
 
+/* ===== Helpers ===== */
+
+/** Return the number of calendar days between today and a date string "YYYY-MM-DD". */
+function daysUntil(dateStr: string): number {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const target = new Date(dateStr);
+  target.setHours(0, 0, 0, 0);
+  return Math.round((target.getTime() - today.getTime()) / 86_400_000);
+}
+
 /* ===== Component ===== */
 
 export default function HourlyWeather({
@@ -33,16 +45,29 @@ export default function HourlyWeather({
   tripStart,
   tripEnd,
 }: HourlyWeatherProps) {
+  /* --- Days until this day (computed at render time) --- */
+  const diff = daysUntil(dayDate);
+  const tooFarAway = diff > 16;
+
+  /* --- Location chain (used by all 3 states) --- */
+  const locs = weatherDay.locations
+    .map((l) => l.name)
+    .filter((v, i, a) => a.indexOf(v) === i)
+    .join('\u2192');
+
+  /* --- All hooks declared unconditionally (Rules of Hooks) --- */
   const [mg, setMg] = useState<MergedHourly | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!tooFarAway);
   const [error, setError] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const gridRef = useRef<HTMLDivElement>(null);
   const weatherDayRef = useRef(weatherDay);
   weatherDayRef.current = weatherDay;
 
-  /* --- Fetch weather data on mount --- */
+  /* --- Fetch weather data on mount — skipped when tooFarAway --- */
   useEffect(() => {
+    if (tooFarAway) return;
+
     let cancelled = false;
     setLoading(true);
     setError(null);
@@ -64,7 +89,7 @@ export default function HourlyWeather({
     return () => {
       cancelled = true;
     };
-  }, [dayId, dayDate, tripStart, tripEnd]);
+  }, [dayId, dayDate, tripStart, tripEnd, tooFarAway]);
 
   /* --- Toggle expand/collapse --- */
   const handleToggle = useCallback(() => {
@@ -90,6 +115,17 @@ export default function HourlyWeather({
     });
   }, []);
 
+  /* ===== State A: more than 16 days away — no API call ===== */
+  if (tooFarAway) {
+    return (
+      <div className="hourly-weather" id={`hourly-${dayId}`}>
+        <div className="hw-summary">
+          ☀️ 天氣預報將於出發前 16 天開放 &nbsp;&middot;&nbsp; {locs}
+        </div>
+      </div>
+    );
+  }
+
   /* --- Loading state --- */
   if (loading) {
     return (
@@ -110,10 +146,25 @@ export default function HourlyWeather({
     );
   }
 
-  /* --- No data --- */
+  /* --- Resolve data --- */
   const data = mg || makeDefaultMg();
 
-  /* --- Compute summary values --- */
+  /* --- Detect whether data is meaningful (not all-zero placeholder) --- */
+  const hasData = data.temps.some((t) => t !== 0);
+
+  /* ===== State B: within 16 days but API returned all-zero data ===== */
+  if (!hasData) {
+    return (
+      <div className="hourly-weather" id={`hourly-${dayId}`}>
+        <div className="hw-summary">
+          ☁️ 超出預報範圍，暫無資料 &nbsp;&middot;&nbsp; {locs}
+        </div>
+      </div>
+    );
+  }
+
+  /* ===== State C: has real data — normal display ===== */
+
   const now = new Date();
   const currentHour = now.getHours();
   let minT = 99;
@@ -142,23 +193,29 @@ export default function HourlyWeather({
     }
   }
 
-  /* --- Location chain for summary --- */
-  const locs = weatherDay.locations
-    .map((l) => l.name)
-    .filter((v, i, a) => a.indexOf(v) === i)
-    .join('\u2192');
-
-  /* --- Render --- */
+  /* --- Render State C --- */
   return (
     <div
-      className={`hourly-weather${isOpen ? ' hw-open' : ''}`}
+      className={clsx('hourly-weather', isOpen && 'hw-open')}
       id={`hourly-${dayId}`}
     >
       {/* Summary row (clickable) */}
-      <div className="hw-summary" data-action="toggle-hw" onClick={handleToggle}>
-        <Icon name={bestIcon} /> {minT}~{maxT}&deg;C &nbsp;&middot;&nbsp;{' '}
+      <div
+        className="hw-summary"
+        data-action="toggle-hw"
+        role="button"
+        tabIndex={0}
+        aria-expanded={isOpen}
+        aria-label={isOpen ? '收合天氣' : '展開天氣'}
+        onClick={handleToggle}
+        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleToggle(); } }}
+      >
+        <Icon name={bestIcon} />{' '}
+        {minT}~{maxT}&deg;C{' '}
+        &nbsp;&middot;&nbsp;{' '}
         <Icon name="raindrop" />
-        {minR}~{maxR}% &nbsp;&middot;&nbsp; {locs}
+        {minR}~{maxR}%{' '}
+        &nbsp;&middot;&nbsp; {locs}
         <span className="hw-summary-arrow">
           {isOpen ? ARROW_COLLAPSE : ARROW_EXPAND}
         </span>
@@ -185,26 +242,20 @@ export default function HourlyWeather({
             return (
               <div
                 key={h}
-                className={`hw-block${isNow ? ' hw-now' : ''}`}
+                className={clsx('hw-block', isNow && 'hw-now')}
                 data-hour={h}
               >
                 <div className="hw-block-time">
                   {isNow ? '\u25B6 ' : ''}
                   {h}:00
                 </div>
-                {weatherDay.locations.length > 1 && (
-                  <div className={`hw-block-loc hw-loc-${li}`}>
-                    {weatherDay.locations[li].name}
-                  </div>
-                )}
-                <div className="hw-block-icon">
+                <div className="hw-block-icon-temp">
                   <Icon name={wIcon} />
+                  <span>{temp}&deg;</span>
                 </div>
-                <div className="hw-block-temp">{temp}&deg;C</div>
                 <div
-                  className={`hw-block-rain${rain >= 50 ? ' hw-rain-high' : ''}`}
+                  className={clsx('hw-block-rain', rain >= 50 && 'hw-rain-high')}
                 >
-                  <Icon name="raindrop" />
                   {rain}%
                 </div>
               </div>

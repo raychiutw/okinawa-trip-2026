@@ -1,12 +1,10 @@
 import { logAudit } from '../../../../_audit';
+import { hasPermission, verifyEntryBelongsToTrip } from '../../../../_auth';
+import { validateRestaurantBody } from '../../../../_validate';
+import { json } from '../../../../_utils';
+import type { Env } from '../../../../_types';
 
-interface Env {
-  DB: D1Database;
-}
-
-function json(data: unknown, status = 200) {
-  return new Response(JSON.stringify(data), { status, headers: { 'Content-Type': 'application/json' } });
-}
+const ALLOWED_FIELDS = ['name', 'category', 'hours', 'price', 'reservation', 'reservation_url', 'description', 'note', 'rating', 'maps', 'mapcode', 'source'] as const;
 
 export const onRequestPost: PagesFunction<Env> = async (context) => {
   const auth = (context.data as any)?.auth;
@@ -15,7 +13,15 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
   const { id, eid } = context.params as { id: string; eid: string };
   const db = context.env.DB;
 
-  const body = await context.request.json() as {
+  if (!await hasPermission(db, auth.email, id, auth.isAdmin)) {
+    return json({ error: '權限不足' }, 403);
+  }
+
+  if (!await verifyEntryBelongsToTrip(db, Number(eid), id)) {
+    return json({ error: 'Not found' }, 404);
+  }
+
+  let body: {
     name?: string;
     category?: string;
     hours?: string;
@@ -29,17 +35,25 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     mapcode?: string;
     source?: string;
   };
+  try {
+    body = await context.request.json() as typeof body;
+  } catch {
+    return json({ error: 'Invalid JSON' }, 400);
+  }
+
+  const validation = validateRestaurantBody(body);
+  if (!validation.ok) return json({ error: validation.error }, validation.status);
 
   const maxResult = await db
-    .prepare("SELECT COALESCE(MAX(sort_order), -1) AS max_sort FROM restaurants WHERE parent_type = 'entry' AND parent_id = ?")
+    .prepare("SELECT COALESCE(MAX(sort_order), -1) AS max_sort FROM restaurants WHERE entry_id = ?")
     .bind(Number(eid))
     .first() as { max_sort: number } | null;
 
   const sortOrder = (maxResult?.max_sort ?? -1) + 1;
 
   const row = await db
-    .prepare(`INSERT INTO restaurants (parent_type, parent_id, sort_order, name, category, hours, price, reservation, reservation_url, description, note, rating, maps, mapcode, source)
-              VALUES ('entry', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING *`)
+    .prepare(`INSERT INTO restaurants (entry_id, sort_order, name, category, hours, price, reservation, reservation_url, description, note, rating, maps, mapcode, source)
+              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING *`)
     .bind(
       Number(eid), sortOrder,
       body.name ?? null, body.category ?? null, body.hours ?? null,
