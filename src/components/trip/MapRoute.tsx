@@ -217,32 +217,24 @@ export function MapRoute({ map, pins }: MapRouteProps) {
       return;
     }
 
-    if (mapChanged) {
-      // map 換掉 → 清除舊 Polyline，建新的
+    const path = buildPath(pins);
+
+    if (mapChanged || !polylineRef.current) {
+      // map 換掉或 Polyline 不存在 → 清除舊的（如有），建新的
       if (polylineRef.current) {
         polylineRef.current.setMap(null);
       }
       polylineRef.current = new google.maps.Polyline({
-        path: buildPath(pins),
+        path,
         geodesic: false,
         strokeColor: getAccentColor(),
         strokeOpacity: 0.7,
         strokeWeight: 2,
         map,
       });
-    } else if (polylineRef.current) {
-      // map 未變，Polyline 存在 → 只更新路徑
-      polylineRef.current.setPath(buildPath(pins));
     } else {
-      // Polyline 不存在（可能初始就沒建立）→ 建立
-      polylineRef.current = new google.maps.Polyline({
-        path: buildPath(pins),
-        geodesic: false,
-        strokeColor: getAccentColor(),
-        strokeOpacity: 0.7,
-        strokeWeight: 2,
-        map,
-      });
+      // map 未變，Polyline 存在 → 只更新路徑
+      polylineRef.current.setPath(path);
     }
 
     /* --- F005：更新 travel label overlays --- */

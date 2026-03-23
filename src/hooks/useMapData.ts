@@ -36,7 +36,15 @@ export interface UseMapDataReturn {
 
 /* ===== 驗證 lat/lng ===== */
 
-function isValidLatLng(lat: unknown, lng: unknown): lat is number {
+/**
+ * 驗證 lat/lng 是否為有效數字座標。
+ * 回傳 true 時 TypeScript 會將 coords 收窄為 { lat: number; lng: number }。
+ */
+export function isValidCoords(
+  coords: { lat?: unknown; lng?: unknown } | null | undefined,
+): coords is { lat: number; lng: number } {
+  if (!coords) return false;
+  const { lat, lng } = coords;
   return (
     typeof lat === 'number' &&
     typeof lng === 'number' &&
@@ -47,6 +55,53 @@ function isValidLatLng(lat: unknown, lng: unknown): lat is number {
   );
 }
 
+/* ===== 從 Day 提取 pins（純函式，供 useMapData 和 TripMap 共用）===== */
+
+export function extractPinsFromDay(day: Day): { pins: MapPin[]; missingCount: number } {
+  const pins: MapPin[] = [];
+  let missingCount = 0;
+  let entryIndex = 0;
+
+  /* --- Hotel pin（顯示在最前，index=0）--- */
+  const hotel: Hotel | null = day.hotel;
+  if (hotel && isValidCoords(hotel.location)) {
+    pins.push({
+      id: hotel.id,
+      type: 'hotel',
+      index: 0,
+      title: hotel.name,
+      lat: hotel.location.lat,
+      lng: hotel.location.lng,
+      sortOrder: -1,
+    });
+  }
+
+  /* --- Entry pins --- */
+  const timeline: Entry[] = day.timeline ?? [];
+  for (const entry of timeline) {
+    if (isValidCoords(entry.location)) {
+      entryIndex++;
+      pins.push({
+        id: entry.id,
+        type: 'entry',
+        index: entryIndex,
+        title: entry.title,
+        lat: entry.location.lat,
+        lng: entry.location.lng,
+        time: entry.time,
+        googleRating: entry.googleRating,
+        travelMin: entry.travel?.min,
+        travelType: entry.travel?.type,
+        sortOrder: entry.sortOrder,
+      });
+    } else {
+      missingCount++;
+    }
+  }
+
+  return { pins, missingCount };
+}
+
 /* ===== Hook ===== */
 
 export function useMapData(day: Day | null | undefined): UseMapDataReturn {
@@ -55,54 +110,7 @@ export function useMapData(day: Day | null | undefined): UseMapDataReturn {
       return { pins: [], missingCount: 0, hasData: false };
     }
 
-    const pins: MapPin[] = [];
-    let missingCount = 0;
-    let entryIndex = 0;
-
-    /* --- Hotel pin（顯示在最前，index=0）--- */
-    const hotel: Hotel | null = day.hotel;
-    if (hotel) {
-      const lat = hotel.location?.lat;
-      const lng = hotel.location?.lng;
-      if (isValidLatLng(lat, lng)) {
-        pins.push({
-          id: hotel.id,
-          type: 'hotel',
-          index: 0,
-          title: hotel.name,
-          lat,
-          lng: hotel.location!.lng as number,
-          sortOrder: -1,
-        });
-      }
-    }
-
-    /* --- Entry pins --- */
-    const timeline: Entry[] = day.timeline ?? [];
-    for (const entry of timeline) {
-      const lat = entry.location?.lat;
-      const lng = entry.location?.lng;
-
-      if (isValidLatLng(lat, lng)) {
-        entryIndex++;
-        pins.push({
-          id: entry.id,
-          type: 'entry',
-          index: entryIndex,
-          title: entry.title,
-          lat,
-          lng: entry.location!.lng as number,
-          time: entry.time,
-          googleRating: entry.googleRating,
-          travelMin: entry.travel?.min,
-          travelType: entry.travel?.type,
-          sortOrder: entry.sortOrder,
-        });
-      } else {
-        missingCount++;
-      }
-    }
-
+    const { pins, missingCount } = extractPinsFromDay(day);
     return {
       pins,
       missingCount,

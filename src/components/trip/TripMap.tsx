@@ -20,6 +20,7 @@ import { useGoogleMaps } from '../../hooks/useGoogleMaps';
 import { lsGet, lsSet } from '../../lib/localStorage';
 import Icon from '../shared/Icon';
 import type { Day } from '../../types/trip';
+import { extractPinsFromDay } from '../../hooks/useMapData';
 import type { MapPin } from '../../hooks/useMapData';
 
 /* ===== Constants ===== */
@@ -61,62 +62,10 @@ interface TripMapProps {
   dayNums: number[];
 }
 
-/* ===== Helper: 從 Day 資料提取地圖 pins ===== */
-
-function isValidLatLng(lat: unknown, lng: unknown): lat is number {
-  return (
-    typeof lat === 'number' &&
-    typeof lng === 'number' &&
-    isFinite(lat) &&
-    isFinite(lng) &&
-    lat !== 0 &&
-    lng !== 0
-  );
-}
+/* ===== Helper: 從 Day 資料提取地圖 pins（委派給 useMapData 共用函式）===== */
 
 export function extractDayPins(day: Day): MapPin[] {
-  const pins: MapPin[] = [];
-  let entryIndex = 0;
-
-  // Hotel pin
-  const hotel = day.hotel;
-  if (hotel) {
-    const lat = hotel.location?.lat;
-    const lng = hotel.location?.lng;
-    if (isValidLatLng(lat, lng)) {
-      pins.push({
-        id: hotel.id,
-        type: 'hotel',
-        index: 0,
-        title: hotel.name,
-        lat,
-        lng: hotel.location!.lng as number,
-        sortOrder: -1,
-      });
-    }
-  }
-
-  // Entry pins
-  const timeline = day.timeline ?? [];
-  for (const entry of timeline) {
-    const lat = entry.location?.lat;
-    const lng = entry.location?.lng;
-    if (isValidLatLng(lat, lng)) {
-      entryIndex++;
-      pins.push({
-        id: entry.id,
-        type: 'entry',
-        index: entryIndex,
-        title: entry.title,
-        lat,
-        lng: entry.location!.lng as number,
-        time: entry.time,
-        sortOrder: entry.sortOrder,
-      });
-    }
-  }
-
-  return pins;
+  return extractPinsFromDay(day).pins;
 }
 
 /* ===== Helper: fallback URL ===== */

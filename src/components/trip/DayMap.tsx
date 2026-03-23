@@ -162,9 +162,7 @@ export default function DayMap({ day, dayNum }: DayMapProps) {
   }, [pins]);
 
   /* --- InfoWindow「滾到此處」點擊 --- */
-  const handleScrollToEntry = useCallback((pinId: number) => {
-    scrollToEntry(pinId);
-  }, []);
+  const handleScrollToEntry = scrollToEntry;
 
   /* --- 地圖 instance cleanup --- */
   useEffect(() => {
