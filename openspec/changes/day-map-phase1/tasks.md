@@ -51,14 +51,14 @@
 
 ## F006：多天總覽（TripMap）
 
-- [ ] F006.1 建立 `src/components/trip/TripMap.tsx` — Trip-level 地圖，所有天的 markers + polylines
-- [ ] F006.2 實作每天不同顏色 — 固定 8 色色盤循環（#4285F4/#EA4335/#34A853/#FBBC04/#9C27B0/#00ACC1/#FF7043/#78909C）
-- [ ] F006.3 實作左下角日期圖例 — 水平 pill 列，每個 pill 顯示「Day N」+ 對應顏色圓點
-- [ ] F006.4 實作 pill 互動 — 點擊高亮該天路線（其他天半透明），再點取消高亮
-- [ ] F006.5 修改 `src/components/trip/DayNav.tsx` — 新增「全覽」pill 按鈕，切換至 TripMap 模式
-- [ ] F006.6 實作日/全覽模式切換 — DayNav 選天數時顯示 DayMap，選全覽時顯示 TripMap
-- [ ] F006.7 TripMap 的 bounds 自動調整 — fitBounds 包含所有天的所有 markers
-- [ ] F006.8 新增 unit test：TripMap 渲染、色盤分配、圖例互動
-- [ ] F006.9 E2E test：全覽模式切換、日期圖例互動、多天顏色區分
+- [x] F006.1 建立 `src/components/trip/TripMap.tsx` — Trip-level 地圖，所有天的 markers + polylines
+- [x] F006.2 實作每天不同顏色 — 固定 8 色色盤循環（#4285F4/#EA4335/#34A853/#FBBC04/#9C27B0/#00ACC1/#FF7043/#78909C）
+- [x] F006.3 實作左下角日期圖例 — 水平 pill 列，每個 pill 顯示「Day N」+ 對應顏色圓點
+- [x] F006.4 實作 pill 互動 — 點擊高亮該天路線（其他天半透明），再點取消高亮
+- [x] F006.5 修改 `src/components/trip/DayNav.tsx` — 新增「全覽」pill 按鈕，切換至 TripMap 模式
+- [x] F006.6 實作日/全覽模式切換 — DayNav 選天數時顯示 DayMap，選全覽時顯示 TripMap
+- [x] F006.7 TripMap 的 bounds 自動調整 — fitBounds 包含所有天的所有 markers
+- [x] F006.8 新增 unit test：TripMap 渲染、色盤分配、圖例互動（23 tests）
+- [x] F006.9 E2E test：全覽模式切換、日期圖例互動、多天顏色區分
 
 **依賴**：F004（需要 Polyline 元件）
