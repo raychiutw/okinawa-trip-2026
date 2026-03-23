@@ -29,7 +29,7 @@ import type { Day } from '../../types/trip';
 
 /* ===== Constants ===== */
 
-const LS_KEY_COLLAPSED = 'map-collapsed';
+export const LS_KEY_MAP_COLLAPSED = 'map-collapsed';
 const GOOGLE_MAPS_URL_BASE = 'https://www.google.com/maps/search/';
 
 /* ===== Custom event for Timeline → map bidirectional communication ===== */
@@ -51,7 +51,7 @@ function buildFallbackUrl(dayNum: number): string {
 
 /* ===== Helper: scroll Timeline to entry ===== */
 
-function scrollToEntry(entryId: number): void {
+function scrollToEntry(entryId: number, timeoutRef: React.MutableRefObject<ReturnType<typeof setTimeout> | null>): void {
   const el = document.querySelector(`[data-entry-id="${entryId}"]`);
   if (!el) return;
 
@@ -59,8 +59,13 @@ function scrollToEntry(entryId: number): void {
   el.classList.add('map-highlight');
   el.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
-  setTimeout(() => {
+  /* 清除前一個 timeout，避免多次點擊殘留 */
+  if (timeoutRef.current !== null) {
+    clearTimeout(timeoutRef.current);
+  }
+  timeoutRef.current = setTimeout(() => {
     el.classList.remove('map-highlight');
+    timeoutRef.current = null;
   }, 2000);
 }
 
@@ -72,14 +77,14 @@ export default function DayMap({ day, dayNum }: DayMapProps) {
 
   /* --- 收合狀態：預設展開，localStorage 持久化 --- */
   const [collapsed, setCollapsed] = useState<boolean>(() => {
-    const saved = lsGet<boolean>(LS_KEY_COLLAPSED);
+    const saved = lsGet<boolean>(LS_KEY_MAP_COLLAPSED);
     return saved === true;
   });
 
   const handleToggle = useCallback(() => {
     setCollapsed((prev) => {
       const next = !prev;
-      lsSet(LS_KEY_COLLAPSED, next);
+      lsSet(LS_KEY_MAP_COLLAPSED, next);
       return next;
     });
   }, []);
@@ -87,6 +92,15 @@ export default function DayMap({ day, dayNum }: DayMapProps) {
   /* --- 地圖 DOM ref --- */
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<google.maps.Map | null>(null);
+
+  /** 地圖 instance 是否就緒（用 state 觸發 re-render，不用 ref）*/
+  const [mapReady, setMapReady] = useState(false);
+
+  /** click listener handle，用於 unmount 時 remove */
+  const clickListenerRef = useRef<google.maps.MapsEventListener | null>(null);
+
+  /** highlight setTimeout ID，用於 unmount 時 clearTimeout */
+  const highlightTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   /* --- 選中的 marker ID (F003 雙向聯動) --- */
   const [activePinId, setActivePinId] = useState<number | null>(null);
@@ -124,10 +138,13 @@ export default function DayMap({ day, dayNum }: DayMapProps) {
       map.fitBounds(bounds, 40); // 40px padding
     }
 
-    /* --- 點擊地圖空白處關閉選中 --- */
-    map.addListener('click', () => {
+    /* --- 點擊地圖空白處關閉選中：存 listener handle 以便 cleanup --- */
+    clickListenerRef.current = map.addListener('click', () => {
       setActivePinId(null);
     });
+
+    /* --- 地圖就緒，觸發 re-render 讓 MapMarker / MapRoute 得以掛載 --- */
+    setMapReady(true);
   }, [status, hasData, pins]);
 
   /* --- Timeline → marker 聯動：監聽自訂事件 --- */
@@ -162,12 +179,25 @@ export default function DayMap({ day, dayNum }: DayMapProps) {
   }, [pins]);
 
   /* --- InfoWindow「滾到此處」點擊 --- */
-  const handleScrollToEntry = scrollToEntry;
+  const handleScrollToEntry = useCallback((entryId: number) => {
+    scrollToEntry(entryId, highlightTimeoutRef);
+  }, []);
 
   /* --- 地圖 instance cleanup --- */
   useEffect(() => {
     return () => {
+      /* 移除 map click listener */
+      if (clickListenerRef.current) {
+        clickListenerRef.current.remove();
+        clickListenerRef.current = null;
+      }
+      /* 清除 highlight timeout */
+      if (highlightTimeoutRef.current !== null) {
+        clearTimeout(highlightTimeoutRef.current);
+        highlightTimeoutRef.current = null;
+      }
       mapInstanceRef.current = null;
+      setMapReady(false);
     };
   }, []);
 
@@ -261,8 +291,8 @@ export default function DayMap({ day, dayNum }: DayMapProps) {
               data-testid="day-map-canvas"
             />
 
-            {/* MapMarkers（F003）：只在地圖 instance 存在時渲染 */}
-            {mapInstanceRef.current && pins.map((pin) => (
+            {/* MapMarkers（F003）：只在地圖 instance 就緒時渲染（mapReady 是 state，可觸發 re-render）*/}
+            {mapReady && pins.map((pin) => (
               <MapMarker
                 key={pin.id}
                 map={mapInstanceRef.current!}
@@ -274,9 +304,9 @@ export default function DayMap({ day, dayNum }: DayMapProps) {
             ))}
 
             {/* MapRoute（F004）：直線 Polyline 連接 markers */}
-            {mapInstanceRef.current && pins.length >= 2 && (
+            {mapReady && pins.length >= 2 && (
               <MapRoute
-                map={mapInstanceRef.current}
+                map={mapInstanceRef.current!}
                 pins={pins}
               />
             )}

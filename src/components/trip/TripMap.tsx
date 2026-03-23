@@ -22,10 +22,10 @@ import Icon from '../shared/Icon';
 import type { Day } from '../../types/trip';
 import { extractPinsFromDay } from '../../hooks/useMapData';
 import type { MapPin } from '../../hooks/useMapData';
+import { LS_KEY_MAP_COLLAPSED } from './DayMap';
 
 /* ===== Constants ===== */
 
-const LS_KEY_COLLAPSED = 'map-collapsed';
 const GOOGLE_MAPS_URL_BASE = 'https://www.google.com/maps/search/';
 
 /** 固定 8 色色盤（D6：不隨主題變化）*/
@@ -93,14 +93,14 @@ export default function TripMap({ allDays, dayNums }: TripMapProps) {
 
   /* --- 收合狀態：共用 DayMap 的 localStorage key --- */
   const [collapsed, setCollapsed] = useState<boolean>(() => {
-    const saved = lsGet<boolean>(LS_KEY_COLLAPSED);
+    const saved = lsGet<boolean>(LS_KEY_MAP_COLLAPSED);
     return saved === true;
   });
 
   const handleToggle = useCallback(() => {
     setCollapsed((prev) => {
       const next = !prev;
-      lsSet(LS_KEY_COLLAPSED, next);
+      lsSet(LS_KEY_MAP_COLLAPSED, next);
       return next;
     });
   }, []);
@@ -150,6 +150,8 @@ export default function TripMap({ allDays, dayNums }: TripMapProps) {
       for (const pin of pins) {
         bounds.extend({ lat: pin.lat, lng: pin.lng });
 
+        // TODO: migrate to google.maps.marker.AdvancedMarkerElement (requires Map ID via mapId option)
+        // See https://developers.google.com/maps/documentation/javascript/advanced-markers/migration
         const marker = new google.maps.Marker({
           position: { lat: pin.lat, lng: pin.lng },
           map,

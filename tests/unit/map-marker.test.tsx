@@ -51,6 +51,18 @@ beforeEach(() => {
       Map: mockMap,
       LatLngBounds: vi.fn(() => ({ extend: vi.fn() })),
       ControlPosition: { RIGHT_BOTTOM: 7 },
+      Polyline: vi.fn(() => ({ setMap: vi.fn() })),
+      OverlayView: class {
+        setMap = vi.fn();
+        getProjection = vi.fn(() => ({
+          fromLatLngToDivPixel: vi.fn(() => ({ x: 0, y: 0 })),
+        }));
+        getPanes = vi.fn(() => ({ overlayLayer: { appendChild: vi.fn() } }));
+        draw = vi.fn();
+        onAdd = vi.fn();
+        onRemove = vi.fn();
+      },
+      LatLng: vi.fn((lat: number, lng: number) => ({ lat, lng })),
     },
   };
   localStorage.clear();
