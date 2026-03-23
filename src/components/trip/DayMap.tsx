@@ -24,6 +24,7 @@ import { useMapData } from '../../hooks/useMapData';
 import { lsGet, lsSet } from '../../lib/localStorage';
 import Icon from '../shared/Icon';
 import { MapMarker } from './MapMarker';
+import { MapRoute } from './MapRoute';
 import type { Day } from '../../types/trip';
 
 /* ===== Constants ===== */
@@ -273,6 +274,14 @@ export default function DayMap({ day, dayNum }: DayMapProps) {
                 onScrollToEntry={handleScrollToEntry}
               />
             ))}
+
+            {/* MapRoute（F004）：直線 Polyline 連接 markers */}
+            {mapInstanceRef.current && pins.length >= 2 && (
+              <MapRoute
+                map={mapInstanceRef.current}
+                pins={pins}
+              />
+            )}
           </div>
         ) : null}
       </div>
