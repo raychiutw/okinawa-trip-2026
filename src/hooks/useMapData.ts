@@ -22,6 +22,7 @@ export interface MapPin {
   time?: string | null;
   googleRating?: number | null;
   travelMin?: number | null;
+  travelType?: string | null;
   sortOrder: number;
 }
 
@@ -94,6 +95,7 @@ export function useMapData(day: Day | null | undefined): UseMapDataReturn {
           time: entry.time,
           googleRating: entry.googleRating,
           travelMin: entry.travel?.min,
+          travelType: entry.travel?.type,
           sortOrder: entry.sortOrder,
         });
       } else {

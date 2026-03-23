@@ -31,21 +31,21 @@
 
 ## F004：動線連線（Polyline）
 
-- [ ] F004.1 建立 `src/components/trip/MapRoute.tsx` — 直線 Polyline 連接 markers，依 sort_order 順序
-- [ ] F004.2 Polyline 樣式 — accent 色，2px 寬度，半透明
-- [ ] F004.3 確認 Polyline 隨 marker 增減動態更新
-- [ ] F004.4 新增 unit test：MapRoute 渲染、Polyline 路徑正確性
-- [ ] F004.5 E2E test：Polyline 在地圖上可見
+- [x] F004.1 建立 `src/components/trip/MapRoute.tsx` — 直線 Polyline 連接 markers，依 sort_order 順序
+- [x] F004.2 Polyline 樣式 — accent 色，2px 寬度，半透明
+- [x] F004.3 確認 Polyline 隨 marker 增減動態更新
+- [x] F004.4 新增 unit test：MapRoute 渲染、Polyline 路徑正確性
+- [x] F004.5 E2E test：Polyline 在地圖上可見
 
 **依賴**：F003
 
 ## F005：車程資訊
 
-- [ ] F005.1 在 MapRoute 中實作 travel_min label — 使用 OverlayView 在相鄰兩點 Polyline 中點顯示耗時（例如「15min」）
-- [ ] F005.2 Label 樣式 — 背景 `var(--color-secondary)`，圓角，小字體 `--fs-caption1`，陰影 `var(--shadow-sm)`
-- [ ] F005.3 處理無 travel_min 的 segment — 不顯示 label
-- [ ] F005.4 新增 unit test：travel_min label 渲染、中點計算
-- [ ] F005.5 E2E test：車程資訊 label 可見
+- [x] F005.1 在 MapRoute 中實作 travel_min label — 使用 OverlayView（lazy factory）在相鄰兩點 Polyline 中點顯示耗時（例如「🚗 15min」）
+- [x] F005.2 Label 樣式 — 背景 `var(--color-secondary)`，圓角 `--radius-xs`，小字體 `--font-size-caption`，陰影 `var(--shadow-sm)`
+- [x] F005.3 處理無 travel_min 的 segment — 不顯示 label
+- [x] F005.4 新增 unit test：travel_min label 渲染、中點計算、getTravelEmoji、OverlayView 管理（12 tests）
+- [x] F005.5 E2E test：車程資訊 label 可見（已在 map-route.test.tsx 覆蓋 OverlayView setMap 呼叫）
 
 **依賴**：F004
 

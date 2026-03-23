@@ -230,30 +230,50 @@
   margin-top: var(--spacing-2);
 }
 
-/* ===== 日期圖例（TripMap，F006 預留） ===== */
+/* ===== 日期圖例（TripMap，F006）===== */
 
+/* 圖例定位在地圖左下角 */
 .trip-map-legend {
+  position: absolute;
+  bottom: var(--spacing-3);
+  left: var(--spacing-3);
   display: flex;
   flex-wrap: wrap;
-  gap: var(--spacing-2);
-  padding: var(--spacing-2);
+  gap: var(--spacing-1);
+  padding: 0;
+  max-width: calc(100% - var(--spacing-6));
+  z-index: 5;
 }
 
 .trip-map-legend-pill {
   display: inline-flex;
   align-items: center;
   gap: var(--spacing-1);
-  padding: var(--spacing-1) var(--spacing-3);
+  padding: var(--spacing-1) var(--spacing-2);
   border-radius: var(--radius-full);
   font-size: var(--font-size-caption);
   font-weight: 500;
   cursor: pointer;
   min-height: var(--tap-min);
-  transition: opacity var(--transition-duration-fast) var(--transition-timing-function-apple);
+  min-width: var(--tap-min);
+  background: var(--color-secondary);
+  box-shadow: var(--shadow-sm);
+  color: var(--color-foreground);
+  transition: opacity var(--transition-duration-fast) var(--transition-timing-function-apple),
+              background var(--transition-duration-fast) var(--transition-timing-function-apple);
+}
+
+.trip-map-legend-pill:hover {
+  box-shadow: var(--shadow-md);
 }
 
 .trip-map-legend-pill--dimmed {
   opacity: 0.4;
+}
+
+.trip-map-legend-pill--active {
+  font-weight: 600;
+  box-shadow: var(--shadow-md);
 }
 
 .trip-map-legend-dot {
@@ -262,6 +282,11 @@
   border-radius: var(--radius-full);
   flex-shrink: 0;
 }
+
+/* ===== DayNav 全覽按鈕（F006.5）===== */
+
+/* dn-overview 繼承 .dn 樣式，不需要額外覆蓋 */
+/* 全覽模式下 sliding indicator 跟著 .dn-overview */
 
 /* ===== F003：MapMarker + InfoWindow ===== */
 
@@ -406,6 +431,23 @@
 
 .map-info-scroll-btn:hover {
   opacity: 0.85;
+}
+
+/* ===== F005：車程資訊 label（OverlayView）===== */
+
+.map-route-label {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  background: var(--color-secondary);
+  color: var(--color-muted);
+  font-size: var(--font-size-caption);
+  padding: var(--spacing-1) var(--spacing-2);
+  border-radius: var(--radius-xs);
+  box-shadow: var(--shadow-sm);
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+  /* HIG：不加 border，用背景色差區分 */
 }
 
 /* ===== Timeline entry highlight（map → timeline 聯動）===== */

@@ -22,25 +22,25 @@
       "id": "F004",
       "title": "動線連線：直線 Polyline 依 sort_order 連接 markers",
       "priority": 3,
-      "status": "pending",
-      "session": null,
-      "e2e": false
+      "status": "done",
+      "session": 3,
+      "e2e": true
     },
     {
       "id": "F005",
       "title": "車程資訊：Polyline 中點顯示 travel_min 耗時 label",
       "priority": 4,
-      "status": "pending",
-      "session": null,
-      "e2e": false
+      "status": "done",
+      "session": 4,
+      "e2e": true
     },
     {
       "id": "F006",
       "title": "多天總覽：TripMap + 固定 8 色色盤 + 日期圖例 + 全覽模式切換",
       "priority": 5,
-      "status": "pending",
-      "session": null,
-      "e2e": false
+      "status": "done",
+      "session": 5,
+      "e2e": true
     }
   ]
 }

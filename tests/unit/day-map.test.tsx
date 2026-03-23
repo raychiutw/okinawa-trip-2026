@@ -45,6 +45,9 @@ beforeEach(() => {
       Map: mockMap,
       LatLngBounds: vi.fn(() => ({ extend: vi.fn() })),
       ControlPosition: { RIGHT_BOTTOM: 7 },
+      // F005：createTravelLabelOverlay 工廠需要 OverlayView
+      OverlayView: class { setMap = vi.fn(); onAdd() {} draw() {} onRemove() {} },
+      LatLng: vi.fn((lat: number, lng: number) => ({ lat, lng })),
     },
   };
 
