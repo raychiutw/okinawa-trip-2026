@@ -24,7 +24,7 @@ test.describe('AdminPage V1 vs V2 比對', () => {
   });
 
   test('V2 頁面正常渲染（無 admin- CSS class）', async ({ page }) => {
-    await page.goto('/admin?v2=1');
+    await page.goto('/v2.html#/admin');
     await page.waitForLoadState('networkidle');
 
     // V2 不用 admin- CSS class
@@ -38,7 +38,7 @@ test.describe('AdminPage V1 vs V2 比對', () => {
   });
 
   test('V2 頁面結構完整（標題、select、表單）', async ({ page }) => {
-    await page.goto('/admin?v2=1');
+    await page.goto('/v2.html#/admin');
     await page.waitForLoadState('networkidle');
 
     // 標題
@@ -80,7 +80,7 @@ test.describe('AdminPage V1 vs V2 比對', () => {
     });
 
     // V2
-    await page.goto('/admin?v2=1');
+    await page.goto('/v2.html#/admin');
     await page.waitForLoadState('networkidle');
 
     const v2Tokens = await page.evaluate(() => {
@@ -98,7 +98,7 @@ test.describe('AdminPage V1 vs V2 比對', () => {
   });
 
   test('V2 使用 Tailwind arbitrary values', async ({ page }) => {
-    await page.goto('/admin?v2=1');
+    await page.goto('/v2.html#/admin');
     await page.waitForLoadState('networkidle');
 
     const hasTailwindArbitrary = await page.evaluate(() => {
@@ -119,7 +119,7 @@ test.describe('AdminPage V1 vs V2 比對', () => {
     await page.waitForLoadState('networkidle');
     await page.screenshot({ path: '/tmp/admin-v1.png', fullPage: true });
 
-    await page.goto('/admin?v2=1');
+    await page.goto('/v2.html#/admin');
     await page.waitForLoadState('networkidle');
     await page.screenshot({ path: '/tmp/admin-v2.png', fullPage: true });
   });
