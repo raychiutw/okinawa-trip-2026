@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo, memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../css/tokens.css';
 import TriplineLogo from '../components/shared/TriplineLogo';
@@ -22,14 +22,15 @@ function apiFetchRaw(path: string, opts?: RequestInit): Promise<Response> {
 
 /* ===== 401 redirect 防無限循環 ===== */
 const AUTH_REDIRECT_KEY = 'tripline-auth-redirect';
-function redirectToLogin() {
+function redirectToLogin(): boolean {
   const count = Number(sessionStorage.getItem(AUTH_REDIRECT_KEY) || '0');
   if (count >= 3) {
     sessionStorage.removeItem(AUTH_REDIRECT_KEY);
-    return;
+    return false; // 放棄 redirect，caller 應顯示錯誤
   }
   sessionStorage.setItem(AUTH_REDIRECT_KEY, String(count + 1));
   window.location.replace('/manage');
+  return true;
 }
 
 /* ===== API types ===== */
@@ -89,18 +90,19 @@ function formatDate(iso: string): string {
   });
 }
 
-/* ===== Request Item Component ===== */
-function RequestItem({ req }: { req: RawRequest }) {
-  const replyHtml = req.reply
-    ? sanitizeHtml(marked.parse(req.reply) as string).replace(
-        /<table([^>]*)>/g,
-        '<div class="table-wrap"><table$1>',
-      ).replace(/<\/table>/g, '</table></div>')
-    : '';
+const RequestItem = memo(function RequestItem({ req }: { req: RawRequest }) {
+  const replyHtml = useMemo(() =>
+    req.reply
+      ? sanitizeHtml(marked.parse(req.reply) as string).replace(
+          /<table([^>]*)>/g,
+          '<div class="table-wrap"><table$1>',
+        ).replace(/<\/table>/g, '</table></div>')
+      : '',
+    [req.reply],
+  );
 
   return (
     <div className="py-[12px] px-[16px] bg-[var(--color-secondary)] rounded-[var(--radius-md)] transition-[background] duration-[var(--transition-duration-fast)] overflow-hidden max-w-full hover:bg-[var(--color-hover)]">
-      {/* Header: mode badge + time */}
       <div className="flex items-center gap-[8px] flex-wrap">
         <span
           className={[
@@ -117,22 +119,18 @@ function RequestItem({ req }: { req: RawRequest }) {
         </span>
       </div>
 
-      {/* Message */}
       <div className="text-[length:var(--font-size-callout)] md:text-[length:var(--font-size-title3)] text-[color:var(--color-foreground)] mt-[8px] leading-[var(--line-height-normal)] break-words">
         {req.message}
       </div>
 
-      {/* Submitted by */}
       {req.submitted_by && (
         <div className="text-[length:var(--font-size-footnote)] text-[color:var(--color-muted)] mt-[4px]">
           {req.submitted_by}
         </div>
       )}
 
-      {/* Stepper */}
       <RequestStepperV2 status={req.status} />
 
-      {/* Reply (if completed) */}
       {req.reply && (
         <>
           <div className="border-none border-t border-[var(--color-border)] my-[12px]" />
@@ -141,7 +139,7 @@ function RequestItem({ req }: { req: RawRequest }) {
       )}
     </div>
   );
-}
+});
 
 /* ===== Page State ===== */
 type PageState =
@@ -199,7 +197,10 @@ export default function ManagePageV2() {
       const res = await apiFetchRaw('/requests?tripId=' + encodeURIComponent(tripId), {
         signal: controller.signal,
       });
-      if (res.status === 401) { redirectToLogin(); return; }
+      if (res.status === 401) {
+        if (!redirectToLogin()) throw new Error('需要重新登入，請重新整理頁面');
+        return;
+      }
       if (res.status === 403) throw new Error('你沒有此行程的權限');
       if (!res.ok) throw new Error('載入失敗');
       const data = (await res.json()) as RawRequest[];
@@ -212,9 +213,8 @@ export default function ManagePageV2() {
         setRequestsError(err instanceof Error ? err.message : '載入失敗');
       }
     } finally {
-      if (currentTripIdRef.current === tripId) {
-        setRequestsLoading(false);
-      }
+      // 不 guard tripId — 確保 loading 狀態永遠被清除，避免 rapid switch 卡住
+      setRequestsLoading(false);
     }
   }, []);
 
@@ -223,9 +223,16 @@ export default function ManagePageV2() {
     let cancelled = false;
 
     async function init() {
-      const myRes = await apiFetchRaw('/my-trips');
+      // 並行發送：my-trips（需 auth）+ trips（公開）
+      const [myRes, allTripsResult] = await Promise.all([
+        apiFetchRaw('/my-trips'),
+        apiFetch<TripInfo[]>('/trips?all=1').catch(() => [] as TripInfo[]),
+      ]);
+
       if (myRes.status === 401 || myRes.status === 403) {
-        redirectToLogin();
+        if (!redirectToLogin() && !cancelled) {
+          setPageState({ kind: 'no-permission', message: '需要重新登入，請重新整理頁面' });
+        }
         return;
       }
       if (!myRes.ok) {
@@ -239,12 +246,7 @@ export default function ManagePageV2() {
         return;
       }
 
-      let allTrips: TripInfo[] = [];
-      try {
-        allTrips = await apiFetch<TripInfo[]>('/trips?all=1');
-      } catch {
-        // ignore
-      }
+      const allTrips = allTripsResult;
 
       const tripMap: Record<string, TripInfo> = {};
       allTrips.forEach((t) => { tripMap[t.tripId] = t; });
@@ -307,25 +309,21 @@ export default function ManagePageV2() {
       });
 
       if (res.status === 201 || res.status === 200) {
-        const req = (await res.json()) as RawRequest;
+        await res.json();
         setSubmitStatus({ type: 'success', message: '已送出' });
         setText('');
         if (textareaRef.current) textareaRef.current.style.height = 'auto';
-        const latestTripId = currentTripIdRef.current;
-        if (latestTripId) {
-          await loadRequests(latestTripId);
-        } else {
-          setRequests((prev) => [req, ...prev]);
-        }
+        // 用 captured tripId，不 re-read ref — 避免 async gap 期間 trip 被切換
+        await loadRequests(tripId);
       } else if (res.status === 403) {
         throw new Error('你沒有此行程的權限');
       } else {
         throw new Error('送出失敗（' + res.status + '）');
       }
     } catch (err) {
-      const latestTripId = currentTripIdRef.current;
-      if (latestTripId) {
-        await loadRequests(latestTripId).catch(() => {/* ignore */});
+      // #4: 只在非 auth 錯誤時重載列表
+      if (!(err instanceof Error && err.message.includes('權限'))) {
+        await loadRequests(tripId).catch(() => {/* ignore */});
       }
       setSubmitStatus({
         type: 'error',
@@ -401,7 +399,6 @@ export default function ManagePageV2() {
           </button>
         </div>
 
-        {/* Toast */}
         {showOffline && <ToastV2 message="已離線 — 無法送出修改請求" icon="offline" visible={showOffline} />}
         {showReconnect && <ToastV2 message="已恢復連線" icon="online" visible={showReconnect} />}
 
@@ -410,19 +407,16 @@ export default function ManagePageV2() {
           className={!isOnline ? 'opacity-50 pointer-events-none' : ''}
           id="manageMain"
         >
-          {/* Loading */}
           {pageState.kind === 'loading' && (
             <div className="text-center py-[40px] text-[color:var(--color-muted)]">載入中...</div>
           )}
 
-          {/* Auth required */}
           {pageState.kind === 'auth-required' && (
             <div className="text-[color:var(--color-muted)] text-[length:var(--font-size-callout)] text-center py-[32px] px-[16px] bg-[var(--color-secondary)] rounded-[var(--radius-md)] mx-[var(--padding-h)] my-[40px]">
               請先登入
             </div>
           )}
 
-          {/* No permission */}
           {pageState.kind === 'no-permission' && (
             <div className="text-[color:var(--color-muted)] text-[length:var(--font-size-callout)] text-center py-[32px] px-[16px] bg-[var(--color-secondary)] rounded-[var(--radius-md)] mx-[var(--padding-h)] my-[40px]">
               {pageState.message}
@@ -483,7 +477,6 @@ export default function ManagePageV2() {
                     onKeyDown={handleKeyDown}
                   />
                   <div className="flex items-center gap-[8px] mt-[8px] justify-between">
-                    {/* Mode toggle */}
                     <div className="flex items-center gap-[4px]">
                       <button
                         className={[
@@ -509,7 +502,6 @@ export default function ManagePageV2() {
                       </button>
                     </div>
 
-                    {/* Submit status */}
                     <div aria-live="polite" className="flex-1 min-w-0">
                       {submitStatus && (
                         <div
@@ -530,7 +522,6 @@ export default function ManagePageV2() {
                       )}
                     </div>
 
-                    {/* Send button */}
                     <button
                       className={[
                         'w-[var(--tap-min)] h-[var(--tap-min)] border-none rounded-full flex items-center justify-center shrink-0 transition-[background,color,transform] duration-[var(--transition-duration-normal)]',
