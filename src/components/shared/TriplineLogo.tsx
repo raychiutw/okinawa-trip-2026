@@ -1,8 +1,6 @@
 
 interface TriplineLogoProps {
   isOnline: boolean;
-  /** V2: force mobile (icon-only) logo regardless of viewport */
-  compact?: boolean;
 }
 
 /**
@@ -10,7 +8,7 @@ interface TriplineLogoProps {
  * - Mobile (<768px): 32x32 triple-wave mark (favicon style)
  * - Desktop (≥768px): full handwritten "Tripline" text with wave lines
  */
-export default function TriplineLogo({ isOnline, compact }: TriplineLogoProps) {
+export default function TriplineLogo({ isOnline }: TriplineLogoProps) {
   const lineColor = isOnline ? 'var(--color-accent)' : 'var(--color-disabled)';
 
   return (
@@ -21,7 +19,6 @@ export default function TriplineLogo({ isOnline, compact }: TriplineLogoProps) {
       {/* Mobile: 32px triple-wave mark */}
       <svg
         className="tripline-logo-mobile"
-        style={compact ? { display: 'block' } : undefined}
         width="32"
         height="32"
         viewBox="0 0 32 32"
@@ -42,7 +39,7 @@ export default function TriplineLogo({ isOnline, compact }: TriplineLogoProps) {
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         aria-hidden="true"
-        style={{ overflow: 'visible', ...(compact ? { display: 'none' } : undefined) }}
+        style={{ overflow: 'visible' }}
       >
         <path
           d="M4 16 Q28 11, 54 16 Q80 21, 106 16 Q132 11, 150 16"
