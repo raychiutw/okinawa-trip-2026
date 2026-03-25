@@ -65,11 +65,10 @@ function compareStyles(v1: StyleObj, v2: StyleObj, label: string, skipProps: str
         expect(diff, `${label}.${prop}[${i}] V1=${a} V2=${b}`).toBeLessThanOrEqual(2);
       }
     } else if (prop === 'transition') {
-      // transition 比較：都有或都沒有即可（具體值可能因 Tailwind 寫法不同而有差異）
+      // transition：只檢查「都有或都沒有」，具體值因 Tailwind 寫法不同不要求一致
       const aHas = a !== 'none' && a !== '' && a !== 'all 0s ease 0s';
       const bHas = b !== 'none' && b !== '' && b !== 'all 0s ease 0s';
-      // 如果 V1 有 transition，V2 也應該有（反之亦然）
-      // 但 Tailwind 的 transition 寫法不同，不要求完全一致
+      expect(bHas, `${label}.transition presence (V1=${aHas}, V2=${bHas})`).toBe(aHas);
     } else {
       // fontSize, color, backgroundColor, opacity: 精確比對
       expect(b, `${label}.${prop}`).toBe(a);

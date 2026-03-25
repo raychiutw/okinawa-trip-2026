@@ -16,6 +16,6 @@ export default defineConfig({
     command: 'npm run build && npx vite preview --port 3000',
     port: 3000,
     reuseExistingServer: false,
-    timeout: 60000,
+    timeout: 120000,
   },
 });

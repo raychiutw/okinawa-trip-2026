@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../css/tokens.css';
 import type { TripListItem } from '../types/trip';
@@ -45,6 +45,10 @@ export default function AdminPageV2() {
   const [email, setEmail] = useState('');
   const [addingDisabled, setAddingDisabled] = useState(false);
   const [addStatus, setAddStatus] = useState<StatusMsg | null>(null);
+  const [removingId, setRemovingId] = useState<number | null>(null);
+  const [removeStatus, setRemoveStatus] = useState<StatusMsg | null>(null);
+  const currentTripIdRef = useRef(currentTripId);
+  currentTripIdRef.current = currentTripId;
 
   const { showOffline, showReconnect } = useOfflineToast(isOnline);
 
@@ -63,30 +67,31 @@ export default function AdminPageV2() {
 
     try {
       const r = await apiFetchRaw('/permissions?tripId=' + encodeURIComponent(tripId));
-      if (r.status === 401) { window.location.replace('/admin'); return; }
+      // 401 redirect 到 /admin?v2=1 觸發 Cloudflare Access 登入，登入後 main.tsx 會依 ?v2=1 重新進入 V2
+      if (r.status === 401) { window.location.replace('/admin?v2=1'); return; }
       if (r.status === 403) throw new Error('僅管理者可操作');
       if (!r.ok) throw new Error('載入失敗');
       const perms: Permission[] = await r.json();
-      // Only update if this tripId is still the selected one
-      if (currentTripId === tripId) {
+      // 用 ref 取最新值，避免 stale closure
+      if (currentTripIdRef.current === tripId) {
         setPermissions(perms || []);
         setPermLoading(false);
       }
     } catch (err) {
-      if (currentTripId === tripId) {
+      if (currentTripIdRef.current === tripId) {
         setPermError((err as Error).message);
         setPermLoading(false);
       }
     }
-  }, [currentTripId]);
+  }, []);
 
-  /* ===== Load Trip List ===== */
+  /* ===== Load Trip List（mount only） ===== */
   useEffect(() => {
     let cancelled = false;
 
     async function loadTrips() {
       try {
-        const r = await fetch('/api/trips?all=1');
+        const r = await apiFetchRaw('/trips?all=1');
         const data: TripListItem[] = await r.json();
         if (cancelled) return;
         setTrips(data);
@@ -95,7 +100,6 @@ export default function AdminPageV2() {
         const savedTrip = lsGet<string>(LS_KEY_TRIP_PREF);
         if (savedTrip && data.some((t) => t.tripId === savedTrip)) {
           setCurrentTripId(savedTrip);
-          loadPermissions(savedTrip);
         }
       } catch {
         if (!cancelled) setTripsError('無法載入行程');
@@ -104,15 +108,21 @@ export default function AdminPageV2() {
 
     loadTrips();
     return () => { cancelled = true; };
-  }, [loadPermissions]);
+  }, []);
+
+  /* ===== Load Permissions when trip changes ===== */
+  useEffect(() => {
+    if (currentTripId) loadPermissions(currentTripId);
+  }, [currentTripId, loadPermissions]);
 
   /* ===== Trip Select Change ===== */
   function handleTripChange(e: React.ChangeEvent<HTMLSelectElement>) {
     const tripId = e.target.value;
     setCurrentTripId(tripId);
     setAddStatus(null);
+    setRemoveStatus(null);
     if (tripId) lsSet(LS_KEY_TRIP_PREF, tripId);
-    loadPermissions(tripId);
+    // permissions 會透過 useEffect[currentTripId] 自動載入
   }
 
   /* ===== Add Permission ===== */
@@ -155,12 +165,16 @@ export default function AdminPageV2() {
   async function handleRemove(id: number, permEmail: string) {
     if (!window.confirm('確定移除 ' + permEmail + ' 的權限？')) return;
 
+    setRemovingId(id);
+    setRemoveStatus(null);
     try {
       const r = await apiFetchRaw('/permissions/' + id, { method: 'DELETE' });
       if (!r.ok) throw new Error('移除失敗');
       loadPermissions(currentTripId);
     } catch (err) {
-      alert((err as Error).message);
+      setRemoveStatus({ text: (err as Error).message, type: 'error' });
+    } finally {
+      setRemovingId(null);
     }
   }
 
@@ -225,8 +239,9 @@ export default function AdminPageV2() {
               {p.role}
             </span>
             <button
-              className="appearance-none border-none bg-transparent text-[color:var(--color-muted)] cursor-pointer p-[4px] rounded-[var(--radius-sm)] flex items-center justify-center min-w-[var(--tap-min)] min-h-[var(--tap-min)] shrink-0 transition-[color,background] duration-[var(--transition-duration-fast)] hover:text-[color:var(--color-destructive)] hover:bg-[var(--color-hover)]"
+              className="appearance-none border-none bg-transparent text-[color:var(--color-muted)] cursor-pointer p-[4px] rounded-[var(--radius-sm)] flex items-center justify-center min-w-[var(--tap-min)] min-h-[var(--tap-min)] shrink-0 transition-[color,background] duration-[var(--transition-duration-fast)] hover:text-[color:var(--color-destructive)] hover:bg-[var(--color-hover)] disabled:opacity-50 disabled:cursor-not-allowed"
               aria-label="移除"
+              disabled={removingId === p.id}
               onClick={() => handleRemove(p.id, p.email)}
             >
               <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
@@ -336,6 +351,13 @@ export default function AdminPageV2() {
             </div>
             <div className="bg-[var(--color-secondary)] rounded-[var(--radius-lg)] overflow-hidden">
               {renderPermissions()}
+            </div>
+            <div aria-live="polite">
+              {removeStatus && (
+                <div className="text-[length:var(--font-size-footnote)] mt-[8px] pl-[16px] text-[color:var(--color-destructive)]">
+                  {removeStatus.text}
+                </div>
+              )}
             </div>
           </div>
 

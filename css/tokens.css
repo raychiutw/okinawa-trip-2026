@@ -1,6 +1,8 @@
 /* ===== tokens.css — Design tokens + Tailwind (V2 元件的樣式基礎) ===== */
 
-@layer base;
+/* Layer 順序宣告：base < theme < utilities，確保 Tailwind utilities 永遠覆蓋 base reset */
+@layer base, theme, utilities;
+
 @import "tailwindcss/theme" layer(theme);
 @import "tailwindcss/utilities" layer(utilities);
 

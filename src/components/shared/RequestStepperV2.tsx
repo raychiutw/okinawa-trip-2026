@@ -37,11 +37,14 @@ const LABEL_PENDING = `${LABEL_BASE} text-[color:var(--color-muted)]`;
 export default function RequestStepperV2({ status }: RequestStepperProps) {
   const currentIndex = STEPS.findIndex((s) => s.key === status);
 
+  /* 未知 status（API 回傳新值、或 runtime 型別不符）→ 顯示全部完成 */
+  const safeIndex = currentIndex === -1 ? STEPS.length : currentIndex;
+
   return (
     <div className="flex items-center mt-[12px]" role="group" aria-label="請求進度">
       {STEPS.map((step, i) => {
-        const isDone = i < currentIndex;
-        const isActive = i === currentIndex;
+        const isDone = i < safeIndex;
+        const isActive = i === safeIndex;
 
         return (
           <React.Fragment key={step.key}>
