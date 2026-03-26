@@ -1205,7 +1205,7 @@ export default function TripPage() {
       {!loading && trip && (
         <a
           className={clsx(
-            'edit-fab fixed right-5 w-(--fab-size) h-(--fab-size) rounded-full bg-accent text-accent-foreground border-none text-large-title font-light no-underline flex items-center justify-center z-(--z-fab) shadow-md transition-[transform,box-shadow] duration-normal ease-apple',
+            'edit-fab fixed right-5 w-(--fab-size) h-(--fab-size) rounded-full bg-accent text-accent-foreground border-none text-large-title font-light no-underline flex items-center justify-center z-(--z-fab) shadow-md hover:shadow-lg hover:scale-110 transition-[transform,box-shadow] duration-normal ease-apple',
             'bottom-[max(20px,env(safe-area-inset-bottom))]',
             !isOnline && 'opacity-40 pointer-events-none',
           )}

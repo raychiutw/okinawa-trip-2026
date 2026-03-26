@@ -250,9 +250,6 @@ body {
     .nav-inline-title { opacity: 0; transition: opacity var(--duration-nav-fade, 250ms) ease; }
     .nav-inline-title.visible { opacity: 1; }
 
-    /* Edit FAB hover */
-    .edit-fab:hover { transform: scale(1.1); box-shadow: var(--shadow-lg); }
-
     /* Info panel: hidden by default, visible on desktop */
     .info-panel { display: none; background: var(--color-secondary); border-radius: var(--radius-lg); }
     @media (min-width: 1200px) {
