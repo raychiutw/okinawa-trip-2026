@@ -61,12 +61,15 @@ const UNPUBLISHED_CLASS = 'text-muted mt-2';
 
 /* ===== Scoped styles for classes that need CSS-level selectors (animations, print, dark overrides) ===== */
 const SCOPED_STYLES = `
-/* day-header gradient overlays — require body.dark / body:not(.dark) context */
+/* day-header — match V1: subtle background + optional theme gradient overlay */
 body:not(.dark) .day-header-v2 {
-  background: linear-gradient(135deg, var(--color-accent) 0%, color-mix(in srgb, var(--color-accent) 85%, #000) 100%);
+  background: var(--color-accent-subtle);
+  background-image: var(--theme-header-gradient);
+  color: var(--color-foreground);
 }
 body.dark .day-header-v2 {
-  background: linear-gradient(135deg, var(--color-hover) 0%, color-mix(in srgb, var(--color-hover) 85%, #000) 100%);
+  background: var(--color-accent-bg);
+  background-image: var(--theme-header-gradient);
 }
 /* day-content enter animation */
 @keyframes fadeSlideIn {
@@ -284,7 +287,7 @@ const DaySection = React.memo(function DaySection({
 
   return (
     <section className="day-section" data-day={dayNum}>
-      <div className="day-header-v2 relative sticky z-(--z-day-header) bg-accent text-accent-foreground py-2 px-4 flex items-center gap-2 min-h-[100px] rounded-t-md" id={`day${dayNum}`}>
+      <div className="day-header-v2 relative z-(--z-day-header) py-2 px-4 flex items-center gap-2 min-h-[100px] rounded-t-md" id={`day${dayNum}`}>
         <h2 className="text-title2 font-bold whitespace-nowrap overflow-hidden text-ellipsis">Day {dayNum}</h2>
         {daySummary?.label && (
           <span>{daySummary.label}</span>
