@@ -187,6 +187,13 @@ body {
     --z-print-exit: 9999;
 }
 
+/* ===== Global component base (shared.css 替代) ===== */
+@layer base {
+    .svg-icon { display: inline-flex; align-items: center; justify-content: center; width: 1em; height: 1em; flex-shrink: 0; vertical-align: -0.125em; }
+    .svg-icon svg { width: 100%; height: 100%; }
+    button:focus-visible { outline: none; box-shadow: var(--shadow-ring); }
+}
+
 /* ===== Theme overrides (@layer base) ===== */
 /* NOTE: Light theme first, then dark override. Dark inherits --cmp-* from light. */
 
