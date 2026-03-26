@@ -204,36 +204,28 @@ export default function ManagePageV2() {
     let cancelled = false;
 
     async function init() {
-      // 並行發送：my-trips（需 auth）+ trips（公開）
-      const [myRes, allTripsResult] = await Promise.all([
-        apiFetchRaw('/my-trips'),
-        apiFetch<TripInfo[]>('/trips?all=1').catch(() => [] as TripInfo[]),
-      ]);
+      // TODO: 暫時跳過 login 驗證，直接用公開 API 讀取行程列表
+      // const [myRes, allTripsResult] = await Promise.all([
+      //   apiFetchRaw('/my-trips'),
+      //   apiFetch<TripInfo[]>('/trips?all=1').catch(() => [] as TripInfo[]),
+      // ]);
+      // if (myRes.status === 401 || myRes.status === 403) {
+      //   if (!cancelled) setPageState({ kind: 'no-permission', message: '無法存取，請重新整理頁面' });
+      //   return;
+      // }
+      // if (!myRes.ok) {
+      //   if (!cancelled) setPageState({ kind: 'no-permission', message: '無法載入行程資料' });
+      //   return;
+      // }
+      // const trips = (await myRes.json()) as MyTrip[];
 
-      if (myRes.status === 401 || myRes.status === 403) {
-        if (!cancelled) setPageState({ kind: 'no-permission', message: '無法存取，請重新整理頁面' });
-        return;
-      }
-      if (!myRes.ok) {
-        if (!cancelled) setPageState({ kind: 'no-permission', message: '無法載入行程資料' });
-        return;
-      }
-
-      const trips = (await myRes.json()) as MyTrip[];
-      if (!trips || trips.length === 0) {
-        if (!cancelled) setPageState({ kind: 'no-permission', message: '你目前沒有任何行程權限，請聯繫管理者' });
-        return;
-      }
-
-      const allTrips = allTripsResult;
+      const allTrips = await apiFetch<TripInfo[]>('/trips?all=1').catch(() => [] as TripInfo[]);
 
       const tripMap: Record<string, TripInfo> = {};
       allTrips.forEach((t) => { tripMap[t.tripId] = t; });
 
-      const filtered = trips.filter((t) => {
-        const info = tripMap[t.tripId];
-        return !info || (info.published !== 0 && info.published !== false);
-      });
+      // 暫時用公開行程列表取代 my-trips，預設選 Ray 的行程
+      const filtered = allTrips.filter((t) => t.published !== 0 && t.published !== false);
 
       if (filtered.length === 0) {
         if (!cancelled) setPageState({ kind: 'no-permission', message: '目前沒有上架的行程' });
@@ -242,13 +234,15 @@ export default function ManagePageV2() {
 
       const displayList = filtered.map((t) => ({
         tripId: t.tripId,
-        name: tripMap[t.tripId]?.name || t.tripId,
+        name: t.name || t.tripId,
       }));
 
       const savedTrip = lsGet<string>(LS_KEY_TRIP_PREF);
-      let initialTrip = filtered[0].tripId;
+      let initialTrip = 'okinawa-trip-2026-Ray';
       if (savedTrip && filtered.some((t) => t.tripId === savedTrip)) {
         initialTrip = savedTrip;
+      } else if (!filtered.some((t) => t.tripId === initialTrip)) {
+        initialTrip = filtered[0].tripId;
       }
 
       if (!cancelled) {
