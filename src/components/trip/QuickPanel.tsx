@@ -254,8 +254,7 @@ export default function QuickPanel({
         >
           {/* Drag handle — swipe-up affordance */}
           <div
-            className="w-10 rounded-sm mx-auto mt-3"
-            style={{ height: '4px', background: 'var(--color-muted)' }}
+            className="w-10 h-1 rounded-full bg-muted mx-auto mt-3"
             aria-hidden="true"
           />
           {/* X close button (same style as InfoSheet) */}

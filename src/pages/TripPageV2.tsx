@@ -87,7 +87,7 @@ body.dark .day-header-v2 {
   animation: fadeIn 300ms var(--transition-timing-function-apple) both;
 }
 /* sticky-nav children z-index layering above DestinationArt */
-.sticky-nav-v2 > :not(.destination-art):not(.manage-trip-select--center) { position: relative; z-index: 1; }
+.sticky-nav-v2 > :not([aria-hidden="true"]) { position: relative; z-index: 1; }
 /* nav-inline-title fade */
 .nav-inline-title-v2 { opacity: 0; transition: opacity var(--duration-nav-fade, 250ms) ease; }
 .nav-inline-title-v2.visible { opacity: 1; }
@@ -133,7 +133,7 @@ body.dark [data-tl-segment] { border-left-color: rgba(255,255,255,0.12); }
 .print-mode .day-header-v2 { background: var(--color-background); position: relative !important; flex-wrap: wrap; padding: 8px 12px; }
 .print-mode .container-v2 { max-width: 210mm; margin: 0 auto; box-shadow: var(--shadow-lg); }
 /* Info panel: hidden by default, visible on desktop */
-.info-panel { display: none; }
+.info-panel { display: none; background: var(--color-secondary); border-radius: var(--radius-lg); }
 @media (min-width: 1200px) {
   .info-panel {
     display: block; position: fixed; right: 0; top: var(--spacing-nav-h);
@@ -296,7 +296,7 @@ const DaySection = React.memo(function DaySection({
   return (
     <section className="day-section" data-day={dayNum}>
       <div className="day-header-v2 relative z-(--z-day-header) py-2 px-4 flex items-center gap-2 min-h-[100px] rounded-t-md" id={`day${dayNum}`}>
-        <h2 className="text-title2 font-bold whitespace-nowrap overflow-hidden text-ellipsis">Day {dayNum}</h2>
+        <h2 className="text-title2 font-bold whitespace-nowrap overflow-hidden text-ellipsis m-0">Day {dayNum}</h2>
         {daySummary?.label && (
           <span>{daySummary.label}</span>
         )}

@@ -335,8 +335,7 @@ export default function InfoSheet({
           {/* Drag handle (decorative only) */}
           <div
             data-sheet-handle
-            className="w-10 rounded-sm mx-auto mt-3 mb-1"
-            style={{ height: 0, paddingTop: '8px', paddingBottom: '8px', borderTop: '4px solid var(--color-muted)' }}
+            className="w-10 h-1 rounded-full bg-muted mx-auto mt-3 mb-1"
           />
 
           {/* Header */}
