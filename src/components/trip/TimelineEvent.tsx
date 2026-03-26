@@ -194,8 +194,8 @@ export const TimelineEvent = memo(function TimelineEvent({ entry, index, isNow, 
 
       {/* ---- Travel segment to next entry ---- */}
       {travel && travelText && (
-        <div className="ml-3 py-2 pl-4 border-l-2 border-dashed border-(--color-border)">
-          <div className="flex items-center gap-2 py-2 px-4 text-(length:--font-size-footnote) text-(--color-muted) bg-(--color-accent-bg) rounded-(--radius-sm) cursor-default">
+        <div className="ml-3 py-2 pl-4 border-0 border-l-2 border-dashed border-(--color-border)">
+          <div className="flex items-center gap-2 py-2 px-4 text-footnote text-muted bg-accent-bg rounded-sm cursor-default">
             {travelType && (
               <span className="inline-flex items-center [&_.svg-icon]:w-[1.1em] [&_.svg-icon]:h-[1.1em]">
                 <Icon name={travelType} />
