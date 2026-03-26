@@ -149,24 +149,28 @@ export default function ManagePage() {
     let cancelled = false;
 
     async function init() {
-      // TODO: 暫時跳過 login 驗證，直接用公開 API 讀取行程列表
-      // const myRes = await fetch('/api/my-trips', {
-      //   headers: { 'Content-Type': 'application/json' },
-      // });
-      // if (myRes.status === 401 || myRes.status === 403) {
-      //   window.location.replace('/manage');
-      //   return;
-      // }
-      // if (!myRes.ok) {
-      //   if (!cancelled) setPageState({ kind: 'no-permission', message: '無法載入行程資料' });
-      //   return;
-      // }
-      // const trips = (await myRes.json()) as MyTrip[];
-      // if (!trips || trips.length === 0) {
-      //   if (!cancelled) setPageState({ kind: 'no-permission', message: '你目前沒有任何行程權限，請聯繫管理者' });
-      //   return;
-      // }
+      // Step 1: get my-trips
+      const myRes = await fetch('/api/my-trips', {
+        headers: { 'Content-Type': 'application/json' },
+      });
 
+      if (myRes.status === 401 || myRes.status === 403) {
+        // Trigger Cloudflare Access login via full page reload
+        window.location.replace('/manage');
+        return;
+      }
+      if (!myRes.ok) {
+        if (!cancelled) setPageState({ kind: 'no-permission', message: '無法載入行程資料' });
+        return;
+      }
+
+      const trips = (await myRes.json()) as MyTrip[];
+      if (!trips || trips.length === 0) {
+        if (!cancelled) setPageState({ kind: 'no-permission', message: '你目前沒有任何行程權限，請聯繫管理者' });
+        return;
+      }
+
+      // Step 2: fetch all trips for names + published status
       let allTrips: TripInfo[] = [];
       try {
         allTrips = await apiFetch<TripInfo[]>('/trips?all=1');
@@ -177,25 +181,28 @@ export default function ManagePage() {
       const tripMap: Record<string, TripInfo> = {};
       allTrips.forEach((t) => { tripMap[t.tripId] = t; });
 
-      // 暫時用公開行程列表取代 my-trips，預設選 Ray 的行程
-      const filtered = allTrips.filter((t) => t.published !== 0 && t.published !== false);
+      // Only keep published trips the user has permission for
+      const filtered = trips.filter((t) => {
+        const info = tripMap[t.tripId];
+        return !info || (info.published !== 0 && info.published !== false);
+      });
 
       if (filtered.length === 0) {
         if (!cancelled) setPageState({ kind: 'no-permission', message: '目前沒有上架的行程' });
         return;
       }
 
+      // Build display list
       const displayList = filtered.map((t) => ({
         tripId: t.tripId,
-        name: t.name || t.tripId,
+        name: tripMap[t.tripId]?.name || t.tripId,
       }));
 
+      // Decide initial trip: localStorage > first
       const savedTrip = lsGet<string>(LS_KEY_TRIP_PREF);
-      let initialTrip = 'okinawa-trip-2026-Ray';
+      let initialTrip = filtered[0].tripId;
       if (savedTrip && filtered.some((t) => t.tripId === savedTrip)) {
         initialTrip = savedTrip;
-      } else if (!filtered.some((t) => t.tripId === initialTrip)) {
-        initialTrip = filtered[0].tripId;
       }
 
       if (!cancelled) {
