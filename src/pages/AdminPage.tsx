@@ -46,8 +46,7 @@ export default function AdminPage() {
   const isOnline = useOnlineStatus();
   const navigate = useNavigate();
 
-  // 頁面成功載入代表 Access 通過，清除 redirect 計數
-  useEffect(() => { sessionStorage.removeItem(AUTH_REDIRECT_KEY); }, []);
+  // 不在 mount 時清除 redirect flag — API 成功後才清除（避免 mount→clear→401→redirect 迴圈）
 
   const [trips, setTrips] = useState<TripListItem[]>([]);
   const [tripsError, setTripsError] = useState('');
@@ -101,6 +100,8 @@ export default function AdminPage() {
       if (currentTripIdRef.current === tripId) {
         setPermissions(perms || []);
         setPermLoading(false);
+        // API 成功 → 清除 redirect flag
+        sessionStorage.removeItem(AUTH_REDIRECT_KEY);
       }
     } catch (err) {
       if ((err as Error).name === 'AbortError') return;
