@@ -155,15 +155,8 @@ export default function ManagePage() {
       });
 
       if (myRes.status === 401 || myRes.status === 403) {
-        // redirect 觸發 Cloudflare Access 登入（只嘗試一次，避免迴圈）
-        const key = 'tripline-auth-redirect-manage';
-        if (sessionStorage.getItem(key)) {
-          sessionStorage.removeItem(key);
-          if (!cancelled) setPageState({ kind: 'no-permission', message: '未登入，請重新整理頁面' });
-          return;
-        }
-        sessionStorage.setItem(key, '1');
-        window.location.replace('/manage/');
+        // Cloudflare Access 在 infrastructure 層處理認證，不需要 JS redirect
+        if (!cancelled) setPageState({ kind: 'no-permission', message: '未登入，請重新整理頁面' });
         return;
       }
       if (!myRes.ok) {

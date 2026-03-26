@@ -18,18 +18,7 @@ function apiFetchRaw(path: string, opts?: RequestInit): Promise<Response> {
   return fetch('/api' + path, { ...opts, headers });
 }
 
-/* ===== 401 redirect（只嘗試一次，失敗就顯示錯誤） ===== */
-const AUTH_REDIRECT_KEY = 'tripline-auth-redirect-admin';
-function redirectToLogin() {
-  if (sessionStorage.getItem(AUTH_REDIRECT_KEY)) {
-    // 已經 redirect 過一次，不再重複
-    sessionStorage.removeItem(AUTH_REDIRECT_KEY);
-    return false;
-  }
-  sessionStorage.setItem(AUTH_REDIRECT_KEY, '1');
-  window.location.replace('/admin/');
-  return true;
-}
+/* Cloudflare Access 在 infrastructure 層處理認證，不需要 JS redirect */
 
 /* ===== Status message state ===== */
 interface StatusMsg {
@@ -46,7 +35,6 @@ export default function AdminPage() {
   const isOnline = useOnlineStatus();
   const navigate = useNavigate();
 
-  // 不在 mount 時清除 redirect flag — API 成功後才清除（避免 mount→clear→401→redirect 迴圈）
 
   const [trips, setTrips] = useState<TripListItem[]>([]);
   const [tripsError, setTripsError] = useState('');
@@ -88,11 +76,7 @@ export default function AdminPage() {
       const r = await apiFetchRaw('/permissions?tripId=' + encodeURIComponent(tripId), {
         signal: controller.signal,
       });
-      // 401 → redirect 觸發 Cloudflare Access 登入（只嘗試一次）
-      if (r.status === 401) {
-        if (!redirectToLogin()) throw new Error('未登入，請重新整理頁面');
-        return;
-      }
+      if (r.status === 401) throw new Error('未登入，請重新整理頁面');
       if (r.status === 403) throw new Error('僅管理者可操作');
       if (!r.ok) throw new Error('載入失敗');
       const perms: Permission[] = await r.json();
@@ -100,8 +84,6 @@ export default function AdminPage() {
       if (currentTripIdRef.current === tripId) {
         setPermissions(perms || []);
         setPermLoading(false);
-        // API 成功 → 清除 redirect flag
-        sessionStorage.removeItem(AUTH_REDIRECT_KEY);
       }
     } catch (err) {
       if ((err as Error).name === 'AbortError') return;
