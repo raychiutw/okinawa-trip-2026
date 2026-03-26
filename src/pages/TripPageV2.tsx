@@ -111,6 +111,16 @@ body.dark .day-header-v2 {
   animation: shimmer 1.5s infinite;
   border-radius: var(--radius-sm);
 }
+/* Timeline card glass effect (V1: body[class*="theme-"] .tl-card) */
+[data-tl-card] {
+  background: color-mix(in srgb, var(--color-background) 92%, transparent);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+body.dark [data-tl-card] {
+  background: color-mix(in srgb, var(--color-tertiary) 88%, transparent);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.04);
+}
 /* tripContent-v2 link styles */
 #tripContent-v2 a:not(.map-link):not(.map-link-inline) { color: var(--color-foreground); text-decoration: underline; }
 #tripContent-v2 a:visited:not(.map-link):not(.map-link-inline) { color: var(--color-foreground); }
@@ -1184,7 +1194,7 @@ export default function TripPageV2() {
       <style>{SCOPED_STYLES}</style>
 
       {/* Sticky Nav */}
-      <div className="sticky-nav-v2 sticky top-0 z-(--z-sticky-nav) border-b border-border bg-(--color-glass-nav) backdrop-blur-xl backdrop-saturate-200 text-foreground py-3 px-padding-h flex items-center gap-3 overflow-x-hidden overflow-y-visible" id="stickyNav">
+      <div className="sticky-nav-v2 sticky top-0 z-(--z-sticky-nav) bg-[color-mix(in_srgb,var(--color-background)_92%,transparent)] backdrop-blur-xl backdrop-saturate-200 shadow-[0_1px_0_var(--color-border)] text-foreground py-3 px-padding-h md:px-6 flex items-center gap-3 overflow-x-hidden overflow-y-visible" id="stickyNav">
         {activeTripId && <DestinationArt tripId={activeTripId} dark={isDark} />}
         <TriplineLogo isOnline={isOnline} />
         <span className={clsx('nav-inline-title-v2 text-subheadline font-semibold text-foreground whitespace-nowrap overflow-hidden text-ellipsis max-w-[160px] md:hidden', showNavTitle && 'visible')}>
@@ -1219,7 +1229,7 @@ export default function TripPageV2() {
 
       {/* Page Layout */}
       <div className="page-layout-v2 flex min-h-dvh">
-        <div className="container-v2 flex-1 min-w-0 max-w-full mx-auto">
+        <div className="container-v2 flex-1 min-w-0 max-w-full">
           <div id="tripContent-v2" className="pt-3">
             {/* Large Title (mobile only) */}
             {!loading && trip && (

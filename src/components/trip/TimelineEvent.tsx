@@ -148,10 +148,10 @@ export const TimelineEvent = memo(function TimelineEvent({ entry, index, isNow, 
           )}
         >
           <div
+            data-tl-card
             className={clsx(
-              'bg-(--color-background) rounded-(--radius-sm) px-4 py-3',
+              'rounded-(--radius-sm) px-4 py-3',
               'shadow-[0_1px_3px_rgba(0,0,0,0.06),0_1px_2px_rgba(0,0,0,0.04)]',
-              'dark:shadow-[0_1px_0_rgba(255,255,255,0.04)]',
               isNow && 'shadow-(--shadow-md) ring-[1.5px] ring-(--color-accent) scale-[1.01]',
               isPast && 'shadow-none opacity-75',
             )}
