@@ -212,8 +212,8 @@ export default function QuickPanel({
         {/* Backdrop */}
         <div
           className={clsx(
-            'fixed inset-0 bg-overlay opacity-0 pointer-events-none transition-opacity',
-            isOpen && 'opacity-100 pointer-events-auto',
+            'fixed inset-0 bg-overlay transition-opacity',
+            isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none',
           )}
           style={{
             zIndex: 'calc(var(--z-quick-panel) - 1)',

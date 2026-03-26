@@ -1185,7 +1185,7 @@ export default function TripPageV2() {
       <style>{SCOPED_STYLES}</style>
 
       {/* Sticky Nav */}
-      <div className="sticky-nav-v2 sticky top-0 z-sticky-nav border-b border-border bg-(--color-glass-nav) backdrop-blur-xl backdrop-saturate-200 text-foreground py-3 px-padding-h flex items-center gap-3 overflow-x-hidden overflow-y-visible" id="stickyNav">
+      <div className="sticky-nav-v2 sticky top-0 z-(--z-sticky-nav) border-b border-border bg-(--color-glass-nav) backdrop-blur-xl backdrop-saturate-200 text-foreground py-3 px-padding-h flex items-center gap-3 overflow-x-hidden overflow-y-visible" id="stickyNav">
         {activeTripId && <DestinationArt tripId={activeTripId} dark={isDark} />}
         <TriplineLogo isOnline={isOnline} />
         <span className={clsx('nav-inline-title-v2 text-subheadline font-semibold text-foreground whitespace-nowrap overflow-hidden text-ellipsis max-w-[160px] md:hidden', showNavTitle && 'visible')}>
@@ -1295,7 +1295,7 @@ export default function TripPageV2() {
       {!loading && trip && (
         <a
           className={clsx(
-            'edit-fab-v2 fixed right-5 w-(--fab-size) h-(--fab-size) rounded-full bg-accent text-accent-foreground border-none text-large-title font-light no-underline flex items-center justify-center z-fab shadow-md transition-[transform,box-shadow] duration-normal ease-apple',
+            'edit-fab-v2 fixed right-5 w-(--fab-size) h-(--fab-size) rounded-full bg-accent text-accent-foreground border-none text-large-title font-light no-underline flex items-center justify-center z-(--z-fab) shadow-md transition-[transform,box-shadow] duration-normal ease-apple',
             'bottom-[max(20px,env(safe-area-inset-bottom))]',
             !isOnline && 'opacity-40 pointer-events-none',
           )}

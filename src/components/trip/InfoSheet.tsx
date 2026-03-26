@@ -292,8 +292,8 @@ export default function InfoSheet({
       <style>{SCOPED_STYLES}</style>
       <div
         className={clsx(
-          'fixed inset-0 bg-overlay opacity-0 pointer-events-none transition-opacity',
-          open && 'opacity-100 pointer-events-auto',
+          'fixed inset-0 bg-overlay transition-opacity',
+          open ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none',
         )}
         style={{ zIndex: 'var(--z-info-sheet-backdrop)', transitionDuration: 'var(--transition-duration-slow)', transitionTimingFunction: 'var(--transition-timing-function-apple)' }}
         id="infoBottomSheet"
