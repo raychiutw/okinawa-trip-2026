@@ -176,7 +176,7 @@ export interface Poi {
   mapcode?: string | null;
   location?: Location | null;
   /** Type-specific fields (hotel: checkout/breakfast/parking, restaurant: price/reservation, shopping: mustBuy) */
-  meta?: Record<string, unknown> | null;
+  attrs?: Record<string, unknown> | null;
   country?: string | null;
   source?: string | null;
   createdAt?: string;
@@ -203,17 +203,15 @@ export interface TripPoi {
   updatedAt?: string;
 }
 
-/** Merged POI view — master + trip overrides */
+/** Merged POI view — API returns COALESCE'd values, frontend reads directly */
 export interface MergedPoi extends Poi {
-  /** Trip-specific note */
-  tripNote?: string | null;
-  /** Trip-specific sort order */
   sortOrder: number;
-  /** Which trip_pois record this came from */
   tripPoiId: number;
   context: 'hotel' | 'timeline' | 'shopping';
   dayId?: number | null;
   entryId?: number | null;
+  /** Trip-specific attrs (checkout, breakfast, reservation, etc.) */
+  tripAttrs?: Record<string, unknown> | null;
 }
 
 /**

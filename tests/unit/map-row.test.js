@@ -59,36 +59,32 @@ describe('mapRow — snake_case to camelCase conversion', () => {
   });
 });
 
-/* ===== JSON_FIELDS parsing ===== */
+/* ===== JSON_FIELDS parsing (DB 欄位不再有 _json 後綴) ===== */
 describe('mapRow — JSON string fields get parsed', () => {
-  it('parses weather_json string to object and strips _json suffix', () => {
-    const result = mapRow({ weather_json: '{"condition":"sunny","temp":"28"}' });
+  it('parses weather string to object', () => {
+    const result = mapRow({ weather: '{"condition":"sunny","temp":"28"}' });
     expect(result.weather).toEqual({ condition: 'sunny', temp: '28' });
-    expect(result.weather_json).toBeUndefined();
   });
 
-  it('passes weather_json already as object through and strips suffix', () => {
+  it('passes weather already as object through unchanged', () => {
     const obj = { condition: 'cloudy' };
-    const result = mapRow({ weather_json: obj });
+    const result = mapRow({ weather: obj });
     expect(result.weather).toBe(obj);
   });
 
-  it('parses parking_json string to object and strips suffix', () => {
-    const result = mapRow({ parking_json: '{"price":"免費","note":"B1"}' });
+  it('parses parking string to object', () => {
+    const result = mapRow({ parking: '{"price":"免費","note":"B1"}' });
     expect(result.parking).toEqual({ price: '免費', note: 'B1' });
-    expect(result.parking_json).toBeUndefined();
   });
 
-  it('parses footer_json string to object and strips suffix', () => {
-    const result = mapRow({ footer_json: '{"dates":"2026-05-01 ~ 2026-05-05"}' });
+  it('parses footer string to object', () => {
+    const result = mapRow({ footer: '{"dates":"2026-05-01 ~ 2026-05-05"}' });
     expect(result.footer).toEqual({ dates: '2026-05-01 ~ 2026-05-05' });
-    expect(result.footer_json).toBeUndefined();
   });
 
-  it('parses location_json string to object and strips suffix', () => {
-    const result = mapRow({ location_json: '{"name":"首里城","googleQuery":"https://maps.google.com/q=test"}' });
+  it('parses location string to object', () => {
+    const result = mapRow({ location: '{"name":"首里城","googleQuery":"https://maps.google.com/q=test"}' });
     expect(result.location).toEqual({ name: '首里城', googleQuery: 'https://maps.google.com/q=test' });
-    expect(result.location_json).toBeUndefined();
   });
 
   it('parses breakfast string to object', () => {
@@ -102,32 +98,25 @@ describe('mapRow — JSON string fields get parsed', () => {
     expect(result.breakfast).toBe(obj);
   });
 
+  it('parses attrs string to object', () => {
+    const result = mapRow({ attrs: '{"checkout":"11:00"}' });
+    expect(result.attrs).toEqual({ checkout: '11:00' });
+  });
+
+  it('parses trip_attrs string to object', () => {
+    const result = mapRow({ trip_attrs: '{"reservation":"已訂位"}' });
+    expect(result.tripAttrs).toEqual({ reservation: '已訂位' });
+  });
+
   it('keeps malformed JSON string as-is', () => {
-    const result = mapRow({ weather_json: '{not json}' });
+    const result = mapRow({ weather: '{not json}' });
     expect(result.weather).toBe('{not json}');
   });
 
-  it('diff_json strips _json suffix to diff (not parsed, not in JSON_FIELDS)', () => {
+  it('non-JSON_FIELDS string is not parsed', () => {
     const jsonStr = '{"old":"A","new":"B"}';
-    const result = mapRow({ diff_json: jsonStr });
-    // _json suffix is stripped: 'diff_json' → 'diff'
-    // diff_json is not in JSON_FIELDS so val is NOT parsed
+    const result = mapRow({ diff: jsonStr });
     expect(result.diff).toBe(jsonStr);
-    expect(result.diff_json).toBeUndefined();
-  });
-});
-
-/* ===== _json suffix stripping ===== */
-describe('mapRow — _json suffix removal', () => {
-  it('strips _json suffix from any field (not just JSON_FIELDS)', () => {
-    const result = mapRow({ custom_json: 'value' });
-    expect(result.custom).toBe('value');
-    expect(result.custom_json).toBeUndefined();
-  });
-
-  it('does not strip _json from middle of key name', () => {
-    const result = mapRow({ json_data: 'x' });
-    expect(result.jsonData).toBe('x');
   });
 });
 
@@ -231,11 +220,12 @@ describe('exported constants', () => {
   });
 
   it('JSON_FIELDS contains expected fields', () => {
-    expect(JSON_FIELDS).toContain('weather_json');
-    expect(JSON_FIELDS).toContain('parking_json');
-    expect(JSON_FIELDS).toContain('footer_json');
-    expect(JSON_FIELDS).toContain('location_json');
-    expect(JSON_FIELDS).toContain('meta_json');
+    expect(JSON_FIELDS).toContain('weather');
+    expect(JSON_FIELDS).toContain('parking');
+    expect(JSON_FIELDS).toContain('footer');
+    expect(JSON_FIELDS).toContain('location');
+    expect(JSON_FIELDS).toContain('attrs');
+    expect(JSON_FIELDS).toContain('trip_attrs');
     expect(JSON_FIELDS).toContain('breakfast');
   });
 });
