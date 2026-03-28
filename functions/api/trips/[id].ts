@@ -3,7 +3,7 @@ import { hasPermission } from '../_auth';
 import { json, getAuth, parseJsonBody, buildUpdateClause } from '../_utils';
 import type { Env } from '../_types';
 
-const ALLOWED_FIELDS = ['name', 'owner', 'title', 'description', 'og_description', 'self_drive', 'countries', 'published', 'food_prefs', 'auto_scroll', 'footer_json'] as const;
+const ALLOWED_FIELDS = ['name', 'owner', 'title', 'description', 'og_description', 'self_drive', 'countries', 'published', 'food_prefs', 'auto_scroll', 'footer'] as const;
 
 export const onRequestGet: PagesFunction<Env> = async (context) => {
   const { id } = context.params as { id: string };
@@ -13,9 +13,9 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
 
   (row as any).tripId = (row as any).id;
 
-  if (row.footer_json && typeof row.footer_json === 'string') {
+  if (row.footer && typeof row.footer === 'string') {
     try {
-      (row as any).footer_json = JSON.parse(row.footer_json as string);
+      (row as any).footer = JSON.parse(row.footer as string);
     } catch {
       // leave as-is if parse fails
     }
