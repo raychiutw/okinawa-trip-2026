@@ -25,10 +25,10 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
 
   const dayId = day.id as number;
 
-  // D1 schema cache workaround: omit p.lat/p.lng (old schema had location TEXT)
-  // Frontend uses maps/mapcode for navigation, lat/lng only for weather (derived elsewhere)
+  // D1 schema cache workaround: DROP+CREATE doesn't invalidate D1's internal cache
+  // Use SELECT * on both tables to avoid referencing specific new columns by name
   const poiJoinSql = (where: string) =>
-    `SELECT p.id AS poi_id, p.type, p.name, p.description, p.note, p.hours, p.google_rating, p.category, p.maps, p.mapcode, p.source AS poi_source, tp.id AS trip_poi_id, tp.context, tp.day_id, tp.entry_id, tp.sort_order, tp.description AS tp_description, tp.note AS tp_note, tp.hours AS tp_hours, tp.checkout, tp.breakfast_included, tp.breakfast_note, tp.price, tp.reservation, tp.reservation_url, tp.must_buy FROM trip_pois tp JOIN pois p ON tp.poi_id = p.id WHERE ${where}`;
+    `SELECT * FROM trip_pois tp JOIN pois p ON tp.poi_id = p.id WHERE ${where}`;
 
   const [entriesResult, hotelPois, parkingPois, allRestPois, allShopPois] = await Promise.all([
     db.prepare('SELECT * FROM trip_entries WHERE day_id = ? ORDER BY sort_order ASC').bind(dayId).all(),
