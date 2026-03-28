@@ -25,12 +25,16 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
 
   const dayId = day.id as number;
 
+  // Use SELECT * to avoid column-not-found issues with D1 schema cache
+  const poiJoinSql = (where: string) =>
+    `SELECT p.*, tp.id AS trip_poi_id, tp.context, tp.day_id, tp.entry_id, tp.sort_order, tp.description AS tp_description, tp.note AS tp_note, tp.hours AS tp_hours, tp.checkout, tp.breakfast_included, tp.breakfast_note, tp.price, tp.reservation, tp.reservation_url, tp.must_buy FROM trip_pois tp JOIN pois p ON tp.poi_id = p.id WHERE ${where}`;
+
   const [entriesResult, hotelPois, parkingPois, allRestPois, allShopPois] = await Promise.all([
     db.prepare('SELECT * FROM trip_entries WHERE day_id = ? ORDER BY sort_order ASC').bind(dayId).all(),
-    db.prepare(`SELECT ${POI_SELECT} FROM trip_pois tp JOIN pois p ON tp.poi_id = p.id WHERE tp.trip_id = ? AND tp.day_id = ? AND tp.context = 'hotel' AND p.type = 'hotel'`).bind(id, dayId).all(),
-    db.prepare(`SELECT ${POI_SELECT} FROM trip_pois tp JOIN pois p ON tp.poi_id = p.id WHERE tp.trip_id = ? AND tp.day_id = ? AND tp.context = 'hotel' AND p.type = 'parking'`).bind(id, dayId).all(),
-    db.prepare(`SELECT ${POI_SELECT} FROM trip_pois tp JOIN pois p ON tp.poi_id = p.id WHERE tp.trip_id = ? AND tp.context = 'timeline' AND tp.entry_id IN (SELECT id FROM trip_entries WHERE day_id = ?) ORDER BY tp.entry_id, tp.sort_order`).bind(id, dayId).all(),
-    db.prepare(`SELECT ${POI_SELECT} FROM trip_pois tp JOIN pois p ON tp.poi_id = p.id WHERE tp.trip_id = ? AND tp.context = 'shopping' AND tp.entry_id IN (SELECT id FROM trip_entries WHERE day_id = ?) ORDER BY tp.entry_id, tp.sort_order`).bind(id, dayId).all(),
+    db.prepare(poiJoinSql("tp.trip_id = ? AND tp.day_id = ? AND tp.context = 'hotel' AND p.type = 'hotel'")).bind(id, dayId).all(),
+    db.prepare(poiJoinSql("tp.trip_id = ? AND tp.day_id = ? AND tp.context = 'hotel' AND p.type = 'parking'")).bind(id, dayId).all(),
+    db.prepare(poiJoinSql("tp.trip_id = ? AND tp.context = 'timeline' AND tp.entry_id IN (SELECT id FROM trip_entries WHERE day_id = ?) ORDER BY tp.entry_id, tp.sort_order")).bind(id, dayId).all(),
+    db.prepare(poiJoinSql("tp.trip_id = ? AND tp.context = 'shopping' AND tp.entry_id IN (SELECT id FROM trip_entries WHERE day_id = ?) ORDER BY tp.entry_id, tp.sort_order")).bind(id, dayId).all(),
   ]);
 
   // Build hotel object (at most one per day)
