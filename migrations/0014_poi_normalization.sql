@@ -81,5 +81,6 @@ ALTER TABLE trip_entries RENAME COLUMN location_json TO location;
 -- =============================================
 
 ALTER TABLE trip_days DROP COLUMN weather_json;
+ALTER TABLE hotels RENAME COLUMN details TO description;
 ALTER TABLE hotels RENAME COLUMN parking_json TO parking;
 ALTER TABLE trips RENAME COLUMN footer_json TO footer;
