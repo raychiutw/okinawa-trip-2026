@@ -746,12 +746,26 @@ export default function TripPage() {
         downloadBlob('\uFEFF' + csv, `${fileBase}.csv`, 'text/csv;charset=utf-8');
 
       } else if (format === 'pdf') {
-        /* ── PDF: trigger browser print dialog (Save as PDF) ── */
+        /* ── PDF: generate and download via html2pdf.js ── */
+        const html2pdf = (await import('html2pdf.js')).default;
         document.body.classList.add('print-mode');
-        setTimeout(() => {
-          window.print();
-          document.body.classList.remove('print-mode');
-        }, 300);
+        await new Promise(r => setTimeout(r, 300));
+        const el = document.getElementById('tripContent');
+        if (el) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          await (html2pdf as any)()
+            .set({
+              margin: [10, 10, 10, 10],
+              filename: `${fileBase}.pdf`,
+              image: { type: 'jpeg', quality: 0.95 },
+              html2canvas: { scale: 2, useCORS: true, scrollY: 0 },
+              jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+              pagebreak: { mode: ['avoid-all', 'css', 'legacy'] },
+            })
+            .from(el)
+            .save();
+        }
+        document.body.classList.remove('print-mode');
       }
     } catch { alert('下載失敗，請稍後再試'); }
   }, [activeTripId, trip]);
