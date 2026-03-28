@@ -140,7 +140,12 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
     label: day.label,
     hotel,
     timeline,
-    _debug: { tripPoiCount: allTripPois.results.length, poiIds, poiMapSize: poiMap.size, dayId, tripId: id, dayIdType: typeof dayId },
+    _debug: {
+      tripPoiCount: allTripPois.results.length, poiIds, poiMapSize: poiMap.size, dayId, tripId: id,
+      totalPois: (await db.prepare('SELECT COUNT(*) as c FROM pois').first<{c:number}>())?.c,
+      totalTripPois: (await db.prepare('SELECT COUNT(*) as c FROM trip_pois').first<{c:number}>())?.c,
+      tripPoiSample: (await db.prepare('SELECT id, trip_id, day_id, poi_id FROM trip_pois LIMIT 3').all()).results,
+    },
   });
   } catch (err) {
     return json({ error: 'GET days failed', detail: err instanceof Error ? err.message : String(err) }, 500);
