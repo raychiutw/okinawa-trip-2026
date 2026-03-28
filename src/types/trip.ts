@@ -24,14 +24,14 @@ export interface Travel {
   min?: number | null;
 }
 
-/** Parking object stored in hotels.parking_json, exposed as `parking` */
+/** Parking object stored in hotels.parking (JSON parsed by mapRow) */
 export interface Parking {
   info?: string;
   [key: string]: unknown;
 }
 
 /**
- * Footer object stored in trips.footer_json, exposed as `footer`.
+ * Footer object stored in trips.footer (JSON parsed by mapRow).
  * Shape is free-form JSON, but common keys are listed here.
  */
 export interface Footer {
@@ -93,14 +93,13 @@ export interface Restaurant {
 
 /**
  * Timeline entry (activity / spot).
+ * DB table: trip_entries
  * DB columns: id, day_id, sort_order, time, title, description, source, maps,
  *             mapcode, google_rating, note, travel_type, travel_desc, travel_min,
- *             location_json, updated_at
+ *             location, updated_at
  * Notes:
- *   - description   (renamed from body in 0014_poi_normalization)
- *   - google_rating (renamed from rating in 0014_poi_normalization)
- *   - location_json -> location     (JSON parsed + _json stripped)
- *   - travel_* cols -> travel       (assembled in [num].ts GET handler)
+ *   - location → parsed by mapRow JSON_FIELDS
+ *   - travel_* cols → assembled into travel object by API handler
  */
 export interface Entry {
   id: number;
@@ -108,17 +107,14 @@ export interface Entry {
   sortOrder: number;
   time?: string | null;
   title: string;
-  /** DB column `description` (renamed from `body`) */
   description?: string | null;
   source?: string | null;
   maps?: string | null;
   mapcode?: string | null;
-  /** DB column `google_rating` (renamed from `rating`) */
   googleRating?: number | null;
   note?: string | null;
   /** Assembled from travel_type / travel_desc / travel_min columns */
   travel?: Travel | null;
-  /** DB column `location_json`, parsed + _json stripped */
   location?: Location | null;
   updatedAt?: string;
   restaurants: Restaurant[];
@@ -253,51 +249,38 @@ export interface TripDoc {
 /**
  * Trip list item from GET /api/trips
  * Columns projected: id AS tripId, name, owner, title, self_drive, countries,
- *                    published, auto_scroll, footer_json
- * Notes:
- *   - footer_json is NOT parsed at this endpoint (raw string)
- *   - self_drive, published are SQLite INTEGER (0|1)
- *   - auto_scroll -> autoScroll (FIELD_MAP, if mapRow applied; raw at this endpoint)
+ *                    published, auto_scroll, footer
  */
 export interface TripListItem {
   tripId: string;
   name: string;
   owner: string;
   title?: string | null;
-  /** DB column `self_drive` (INTEGER 0|1) */
-  self_drive: number;
+  selfDrive: number;
   countries?: string | null;
   published: number;
-  /** DB column `auto_scroll` */
-  auto_scroll?: string | null;
-  /** DB column `footer_json` — raw JSON string at list endpoint */
-  footer_json?: string | null;
-  /** DB column `is_default` (INTEGER 0|1) */
-  is_default?: number;
+  autoScroll?: string | null;
+  /** Raw JSON string at list endpoint (parsed by mapRow if passed through) */
+  footer?: string | null;
+  isDefault?: number;
 }
 
 /**
  * Single trip from GET /api/trips/:id
- * Full trips row with all columns, plus:
- *   - tripId alias added (= id)
- *   - footer_json parsed to Footer object if valid JSON
  */
 export interface Trip {
   id: string;
-  /** Alias of id, added by the handler */
   tripId: string;
   name: string;
   owner: string;
   title?: string | null;
   description?: string | null;
   ogDescription?: string | null;
-  /** DB column `self_drive` (INTEGER 0|1) */
   selfDrive?: number | null;
   countries?: string | null;
   published?: number | null;
   foodPrefs?: string | null;
   autoScroll?: string | null;
-  /** DB column `footer_json` — parsed to object by handler if valid JSON */
   footer?: Footer | string | null;
   createdAt?: string;
   updatedAt?: string;

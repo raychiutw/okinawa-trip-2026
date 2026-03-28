@@ -422,8 +422,8 @@ export default function TripPage() {
       .then((trips) => {
         if (cancelled) return;
 
-        // 找出預設行程（is_default=1）作為最終 fallback
-        const defaultTrip = trips.find((t) => t.is_default === 1);
+        // 找出預設行程（isDefault=1）作為最終 fallback
+        const defaultTrip = trips.find((t) => t.isDefault === 1);
 
         // 比對 tripId 是否存在於已發布行程中
         const match = tripId ? trips.find((t) => t.tripId === tripId) : null;
