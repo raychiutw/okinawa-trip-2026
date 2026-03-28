@@ -39,7 +39,7 @@ import DaySkeleton from '../components/trip/DaySkeleton';
 import { toTimelineEntry, toHotelData } from '../lib/mapDay';
 import { calcTripDrivingStats, calcDrivingStats } from '../lib/drivingStats';
 import { validateDay } from '../lib/validateDay';
-import type { WeatherDay } from '../lib/weather';
+import { buildWeatherDay } from '../lib/weather';
 import type { TripListItem, Day, DaySummary } from '../types/trip';
 import type { FlightsData } from '../components/trip/Flights';
 import type { ChecklistData } from '../components/trip/Checklist';
@@ -165,13 +165,11 @@ const DaySection = React.memo(function DaySection({
 
   const hotel = day?.hotel;
   const timeline = day?.timeline ?? [];
-  // API may return weather_json (raw) or weather (mapped) — handle both
-  const dayRecord = day as (Day & Record<string, unknown>) | undefined;
-  const weatherRaw = dayRecord && 'weather_json' in dayRecord
-    ? dayRecord.weather_json
-    : day?.weather;
-  const weatherObj = weatherRaw !== null && typeof weatherRaw === 'object' ? weatherRaw : null;
-  const weatherDay = weatherObj && 'locations' in weatherObj ? (weatherObj as WeatherDay) : null;
+  // Derive weather locations from entries (no longer stored in DB)
+  const weatherDay = useMemo(
+    () => buildWeatherDay(day?.label, timeline),
+    [day?.label, timeline],
+  );
   const dayDate = day?.date ?? daySummary?.date ?? undefined;
   const dayId = day?.id;
 

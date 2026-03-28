@@ -61,17 +61,6 @@ describe('mapRow — snake_case to camelCase conversion', () => {
 
 /* ===== JSON_FIELDS parsing (DB 欄位不再有 _json 後綴) ===== */
 describe('mapRow — JSON string fields get parsed', () => {
-  it('parses weather string to object', () => {
-    const result = mapRow({ weather: '{"condition":"sunny","temp":"28"}' });
-    expect(result.weather).toEqual({ condition: 'sunny', temp: '28' });
-  });
-
-  it('passes weather already as object through unchanged', () => {
-    const obj = { condition: 'cloudy' };
-    const result = mapRow({ weather: obj });
-    expect(result.weather).toBe(obj);
-  });
-
   it('parses parking string to object', () => {
     const result = mapRow({ parking: '{"price":"免費","note":"B1"}' });
     expect(result.parking).toEqual({ price: '免費', note: 'B1' });
@@ -109,8 +98,8 @@ describe('mapRow — JSON string fields get parsed', () => {
   });
 
   it('keeps malformed JSON string as-is', () => {
-    const result = mapRow({ weather: '{not json}' });
-    expect(result.weather).toBe('{not json}');
+    const result = mapRow({ parking: '{not json}' });
+    expect(result.parking).toBe('{not json}');
   });
 
   it('non-JSON_FIELDS string is not parsed', () => {
@@ -220,7 +209,7 @@ describe('exported constants', () => {
   });
 
   it('JSON_FIELDS contains expected fields', () => {
-    expect(JSON_FIELDS).toContain('weather');
+    // weather removed — derived at runtime from entries
     expect(JSON_FIELDS).toContain('parking');
     expect(JSON_FIELDS).toContain('footer');
     expect(JSON_FIELDS).toContain('location');

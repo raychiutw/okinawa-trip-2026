@@ -10,16 +10,7 @@
 // Nested value types
 // ---------------------------------------------------------------------------
 
-/** Weather object stored in days.weather_json, exposed as `weather` */
-export interface Weather {
-  icon?: string;
-  desc?: string;
-  high?: number | string;
-  low?: number | string;
-  [key: string]: unknown;
-}
-
-/** Location object stored in entries.location_json, exposed as `location` */
+/** Location object stored in entries.location, exposed as `location` */
 export interface Location {
   lat?: number;
   lng?: number;
@@ -216,12 +207,9 @@ export interface MergedPoi extends Poi {
 
 /**
  * Full day response from GET /api/trips/:id/days/:num
- * DB columns: id, trip_id, day_num, date, day_of_week, label, weather_json, updated_at
- * Notes:
- *   - day_of_week  -> dayOfWeek  (FIELD_MAP)
- *   - day_num      -> dayNum     (FIELD_MAP)
- *   - weather_json -> weather    (JSON parsed + _json stripped)
- *   - id and trip_id are stripped from dayFields; id re-added at top level
+ * DB table: trip_days (renamed from days)
+ * DB columns: id, trip_id, day_num, date, day_of_week, label, updated_at
+ * Note: weather removed — derived at runtime from entries' locations + times
  */
 export interface Day {
   id: number;
@@ -229,8 +217,6 @@ export interface Day {
   date?: string | null;
   dayOfWeek?: string | null;
   label?: string | null;
-  /** DB column `weather_json`, parsed + _json stripped */
-  weather?: Weather | null;
   updatedAt?: string;
   hotel: Hotel | null;
   timeline: Entry[];

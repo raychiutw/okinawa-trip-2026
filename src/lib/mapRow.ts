@@ -5,7 +5,6 @@ export function snakeToCamel(key: string): string {
 
 /** Fields whose string values should be JSON-parsed. */
 export const JSON_FIELDS: string[] = [
-  'weather',
   'parking',
   'footer',
   'location',

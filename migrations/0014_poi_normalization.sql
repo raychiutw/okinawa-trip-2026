@@ -80,6 +80,6 @@ ALTER TABLE trip_entries RENAME COLUMN location_json TO location;
 -- 4. 移除 _json 後綴（所有現有表）
 -- =============================================
 
-ALTER TABLE trip_days RENAME COLUMN weather_json TO weather;
+ALTER TABLE trip_days DROP COLUMN weather_json;
 ALTER TABLE hotels RENAME COLUMN parking_json TO parking;
 ALTER TABLE trips RENAME COLUMN footer_json TO footer;

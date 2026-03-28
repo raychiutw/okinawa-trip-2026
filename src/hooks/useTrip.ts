@@ -17,7 +17,6 @@ function mapDayResponse(raw: Record<string, unknown>): Day {
     date: (raw.date as string | null | undefined) ?? null,
     dayOfWeek: (raw.dayOfWeek as string | undefined) ?? (raw.day_of_week as string | null | undefined) ?? null,
     label: (raw.label as string | null | undefined) ?? null,
-    weather: (raw.weather as Day['weather']) ?? null,
     updatedAt: (raw.updatedAt as string | undefined) ?? (raw.updated_at as string | undefined),
     hotel: (raw.hotel as Day['hotel']) ?? null,
     timeline: (raw.timeline as Day['timeline']) ?? [],
