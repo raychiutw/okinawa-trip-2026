@@ -68,13 +68,29 @@ export const onRequestPut: PagesFunction<Env> = async (context) => {
     try {
       const parsed = JSON.parse(body.content);
       docTitle = parsed.title || docTitle;
-      // 舊格式無法自動轉 entries，存為單一 entry
       const inner = parsed.content || parsed;
-      entries = [{ section: '', title: '', content: JSON.stringify(inner) }];
+      // 嘗試展開 cards/segments/items 結構為 entries
+      if (inner.segments) {
+        for (const s of inner.segments) entries.push({ section: '', title: s.label || '', content: [s.route, s.time].filter(Boolean).join('\n') });
+        if (inner.airline) entries.push({ section: '', title: inner.airline.name || '', content: inner.airline.note || '' });
+      } else if (inner.cards) {
+        for (const c of inner.cards) {
+          const sec = c.title || '';
+          if (c.contacts) { for (const ct of c.contacts) entries.push({ section: sec, title: ct.label || ct.phone || '', content: ct.phone ? `[${ct.phone}](tel:${ct.phone})` : '' }); }
+          else if (c.items) { for (const it of c.items) entries.push({ section: sec, title: typeof it === 'string' ? it : (it.text || ''), content: '' }); }
+          else if (c.description) entries.push({ section: sec, title: '', content: c.description });
+        }
+      } else if (inner.items) {
+        for (const it of inner.items) entries.push({ section: '', title: typeof it === 'string' ? it : (it.text || ''), content: '' });
+      } else {
+        entries = [{ section: '', title: '', content: typeof inner === 'string' ? inner : JSON.stringify(inner) }];
+      }
     } catch {
       entries = [{ section: '', title: '', content: body.content }];
     }
   }
+
+  if (entries.length > 200) throw new AppError('DATA_VALIDATION', 'entries 數量超過上限 (200)');
 
   const changedBy = auth.email;
 

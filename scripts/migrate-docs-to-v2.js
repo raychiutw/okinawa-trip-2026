@@ -1,35 +1,28 @@
 /**
  * 遷移 trip_docs (JSON content) → trip_docs_v2 + trip_doc_entries (relational)
- * 用法: export $(grep CF_ACCESS .env.local | xargs) && node scripts/migrate-docs-to-v2.js
+ *
+ * 用法: node scripts/migrate-docs-to-v2.js [--staging]
+ *
+ * 直接操作 D1 database（wrangler d1 execute），不經 API。
+ * 這樣可以在 deploy 新 code 前安全執行：
+ *   1. wrangler d1 migrations apply trip-planner-db
+ *   2. node scripts/migrate-docs-to-v2.js
+ *   3. deploy 新 code
  */
-const https = require('https');
+const { execSync } = require('child_process');
 
-const BASE = 'trip-planner-dby.pages.dev';
-const HEADERS = {
-  'CF-Access-Client-Id': process.env.CF_ACCESS_CLIENT_ID,
-  'CF-Access-Client-Secret': process.env.CF_ACCESS_CLIENT_SECRET,
-  'Content-Type': 'application/json',
-  'Origin': 'https://trip-planner-dby.pages.dev',
-};
+const isStaging = process.argv.includes('--staging');
+const DB_NAME = isStaging ? 'trip-planner-staging' : 'trip-planner-db';
 
-function api(method, path, body) {
-  return new Promise((resolve, reject) => {
-    const data = body ? JSON.stringify(body) : '';
-    const req = https.request({
-      hostname: BASE, path, method,
-      headers: { ...HEADERS, 'Content-Length': Buffer.byteLength(data) },
-    }, (res) => {
-      let b = '';
-      res.on('data', c => b += c);
-      res.on('end', () => { try { resolve(JSON.parse(b)); } catch { resolve(b); } });
-    });
-    req.on('error', reject);
-    if (data) req.write(data);
-    req.end();
-  });
+function d1(sql) {
+  const escaped = sql.replace(/"/g, '\\"');
+  const cmd = `npx wrangler d1 execute ${DB_NAME} --remote --json --command="${escaped}"`;
+  const out = execSync(cmd, { encoding: 'utf8', timeout: 30000 });
+  const parsed = JSON.parse(out);
+  return parsed[0]?.results ?? [];
 }
 
-/** Parse old JSON doc content → array of { section, title, content } */
+/** Parse old JSON doc content → { title, entries: [{section, title, content}] } */
 function parseDoc(docType, raw) {
   let parsed = raw;
   if (typeof parsed === 'string') {
@@ -41,7 +34,6 @@ function parseDoc(docType, raw) {
   const entries = [];
 
   if (docType === 'flights') {
-    // segments → entries
     if (inner.segments) {
       for (const seg of inner.segments) {
         entries.push({
@@ -51,7 +43,6 @@ function parseDoc(docType, raw) {
         });
       }
     }
-    // airline → entry
     if (inner.airline) {
       entries.push({
         section: '',
@@ -133,42 +124,54 @@ function parseDoc(docType, raw) {
   return { title: docTitle, entries };
 }
 
-async function main() {
-  const trips = await api('GET', '/api/trips?all=1');
-  console.log(`Found ${trips.length} trips\n`);
+function escSql(s) {
+  return s.replace(/'/g, "''");
+}
 
-  const DOC_TYPES = ['flights', 'checklist', 'backup', 'suggestions', 'emergency'];
+function main() {
+  console.log(`DB: ${DB_NAME}\n`);
+
+  // 1. 讀取所有舊 trip_docs
+  const oldDocs = d1('SELECT trip_id, doc_type, content FROM trip_docs WHERE content IS NOT NULL AND content != \\'\\'');
+  console.log(`Found ${oldDocs.length} old docs\n`);
+
   let totalDocs = 0;
   let totalEntries = 0;
 
-  for (const trip of trips) {
-    console.log(`=== ${trip.tripId} ===`);
-    for (const dt of DOC_TYPES) {
-      try {
-        const doc = await api('GET', `/api/trips/${trip.tripId}/docs/${dt}`);
-        if (!doc.content) {
-          console.log(`  ${dt}: EMPTY → skip`);
-          continue;
-        }
+  for (const doc of oldDocs) {
+    const { trip_id, doc_type, content } = doc;
+    const { title, entries } = parseDoc(doc_type, content);
 
-        const { title, entries } = parseDoc(dt, doc.content);
-
-        // PUT to new v2 endpoint
-        const result = await api('PUT', `/api/trips/${trip.tripId}/docs/${dt}`, {
-          title,
-          entries: entries.map((e, i) => ({ ...e, sort_order: i })),
-        });
-
-        console.log(`  ${dt}: ${entries.length} entries → ${result.ok ? 'OK' : JSON.stringify(result).slice(0, 80)}`);
-        totalDocs++;
-        totalEntries += entries.length;
-      } catch (err) {
-        console.log(`  ${dt}: ERROR ${err.message?.slice(0, 50)}`);
-      }
+    if (entries.length === 0) {
+      console.log(`  ${trip_id}/${doc_type}: no entries → skip`);
+      continue;
     }
+
+    // 2. Upsert trip_docs_v2
+    d1(`INSERT INTO trip_docs_v2 (trip_id, doc_type, title, updated_at) VALUES ('${escSql(trip_id)}', '${escSql(doc_type)}', '${escSql(title)}', datetime('now')) ON CONFLICT(trip_id, doc_type) DO UPDATE SET title = excluded.title, updated_at = datetime('now')`);
+
+    // 3. 取得 doc_id
+    const rows = d1(`SELECT id FROM trip_docs_v2 WHERE trip_id = '${escSql(trip_id)}' AND doc_type = '${escSql(doc_type)}'`);
+    const docId = rows[0]?.id;
+    if (!docId) {
+      console.log(`  ${trip_id}/${doc_type}: ERROR - no doc_id`);
+      continue;
+    }
+
+    // 4. 清除舊 entries + 插入新 entries
+    d1(`DELETE FROM trip_doc_entries WHERE doc_id = ${docId}`);
+
+    for (let i = 0; i < entries.length; i++) {
+      const e = entries[i];
+      d1(`INSERT INTO trip_doc_entries (doc_id, sort_order, section, title, content) VALUES (${docId}, ${i}, '${escSql(e.section)}', '${escSql(e.title)}', '${escSql(e.content)}')`);
+    }
+
+    console.log(`  ${trip_id}/${doc_type}: ${entries.length} entries → OK`);
+    totalDocs++;
+    totalEntries += entries.length;
   }
 
   console.log(`\nDone: ${totalDocs} docs, ${totalEntries} entries migrated`);
 }
 
-main().catch(console.error);
+main();
