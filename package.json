@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "concurrently -n vite,api -c cyan,green \"vite\" \"npx wrangler pages dev dist --d1=DB --local --port 8788\"",
+    "dev": "concurrently -n vite,api -c cyan,green \"vite\" \"wrangler pages dev dist --d1=DB --local --port 8788\"",
     "dev:vite": "vite",
-    "dev:staging": "concurrently -n vite,api -c cyan,yellow \"vite\" \"npx wrangler pages dev dist --env preview --port 8788\"",
-    "dev:prod": "concurrently -n vite,api -c cyan,red \"vite\" \"npx wrangler pages dev dist --port 8788\"",
+    "dev:staging": "concurrently -n vite,api -c cyan,yellow \"vite\" \"wrangler pages dev dist --env preview --port 8788\"",
+    "dev:prod": "concurrently -n vite,api -c cyan,red \"vite\" \"wrangler pages dev dist --port 8788\"",
     "dev:init": "node scripts/init-local-db.js",
     "dev:reset": "node scripts/init-local-db.js --reset",
     "build": "cross-env BROWSERSLIST=\"last 2 Chrome versions\" vite build && node -e \"const fs=require('fs');const p=require('path');['admin','manage'].forEach(d=>{fs.mkdirSync(p.join('dist',d),{recursive:true});fs.copyFileSync(p.join('dist','index.html'),p.join('dist',d,'index.html'))})\"",
@@ -36,7 +36,8 @@
     "typescript": "^5.9.3",
     "vite": "^8.0.0",
     "vite-plugin-pwa": "^1.2.0",
-    "vitest": "^3.0.0"
+    "vitest": "^3.0.0",
+    "wrangler": "^4.78.0"
   },
   "dependencies": {
     "@googlemaps/js-api-loader": "^2.0.2",

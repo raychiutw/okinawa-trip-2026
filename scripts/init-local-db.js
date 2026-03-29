@@ -22,18 +22,18 @@ console.log('init-local-db.js — 本機 SQLite 初始化\n');
 
 // Step 0: Reset if requested
 if (RESET) {
-  console.log('[reset] Clearing local D1 state...');
-  const stateDir = path.join(__dirname, '..', '.wrangler', 'state');
-  if (fs.existsSync(stateDir)) {
-    fs.rmSync(stateDir, { recursive: true, force: true });
-    console.log('  Cleared .wrangler/state/');
+  console.log('[reset] Clearing local D1 data...');
+  const d1Dir = path.join(__dirname, '..', '.wrangler', 'state', 'v3', 'd1');
+  if (fs.existsSync(d1Dir)) {
+    fs.rmSync(d1Dir, { recursive: true, force: true });
+    console.log('  Cleared .wrangler/state/v3/d1/');
   }
 }
 
 // Step 1: Run migrations
 console.log('Step 1/3: Running migrations...');
 try {
-  execSync(`npx wrangler d1 migrations apply ${DB_NAME} --local`, {
+  execSync(`npx wrangler d1 migrations apply ${DB_NAME} --local --persist-to .wrangler/state/v3/d1`, {
     encoding: 'utf8',
     timeout: 30000,
     stdio: 'inherit',
@@ -90,7 +90,7 @@ for (const table of TABLES) {
   const tmpFile = path.join(__dirname, `_init_${table}_${Date.now()}.sql`);
   fs.writeFileSync(tmpFile, statements.join('\n'));
   try {
-    execSync(`npx wrangler d1 execute ${DB_NAME} --local --file "${tmpFile}"`, {
+    execSync(`npx wrangler d1 execute ${DB_NAME} --local --persist-to .wrangler/state/v3/d1 --file "${tmpFile}"`, {
       encoding: 'utf8',
       timeout: 60000,
       stdio: 'pipe',
@@ -108,7 +108,7 @@ console.log('\nStep 3/3: Verifying...');
 for (const table of TABLES) {
   try {
     const raw = execSync(
-      `npx wrangler d1 execute ${DB_NAME} --local --json --command "SELECT COUNT(*) as c FROM ${table}"`,
+      `npx wrangler d1 execute ${DB_NAME} --local --persist-to .wrangler/state/v3/d1 --json --command "SELECT COUNT(*) as c FROM ${table}"`,
       { encoding: 'utf8', timeout: 10000 },
     );
     const count = JSON.parse(raw.slice(raw.indexOf('[')))[0]?.results?.[0]?.c ?? '?';
