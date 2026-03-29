@@ -5,12 +5,14 @@
  * 1. 跑所有 migrations（建表）
  * 2. 從最新 backup JSON 匯入資料
  * 3. 驗證
+ * 4. 同步 DB 給 pages dev（miniflare hash 不同）
  *
  * Usage: node scripts/init-local-db.js [--reset]
  *   --reset  清除現有本機 DB 重新建立
  */
 
 const { execSync } = require('child_process');
+const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
 
@@ -31,9 +33,9 @@ if (RESET) {
 }
 
 // Step 1: Run migrations
-console.log('Step 1/3: Running migrations...');
+console.log('Step 1/4: Running migrations...');
 try {
-  execSync(`npx wrangler d1 migrations apply ${DB_NAME} --local --persist-to .wrangler/state/v3/d1`, {
+  execSync(`npx wrangler d1 migrations apply ${DB_NAME} --local`, {
     encoding: 'utf8',
     timeout: 30000,
     stdio: 'inherit',
@@ -44,7 +46,7 @@ try {
 }
 
 // Step 2: Find latest backup
-console.log('\nStep 2/3: Importing data from backup...');
+console.log('\nStep 2/4: Importing data from backup...');
 const backupsDir = path.join(__dirname, '..', 'backups');
 const backups = fs.readdirSync(backupsDir)
   .filter(d => fs.statSync(path.join(backupsDir, d)).isDirectory() && d.match(/^\d{4}-/))
@@ -104,7 +106,7 @@ for (const table of TABLES) {
 }
 
 // Step 3: Verify
-console.log('\nStep 3/3: Verifying...');
+console.log('\nStep 3/4: Verifying...');
 for (const table of TABLES) {
   try {
     const raw = execSync(
@@ -116,6 +118,50 @@ for (const table of TABLES) {
   } catch {
     console.log(`  ${table}: ERROR`);
   }
+}
+
+// Step 4: Sync DB for pages dev
+// wrangler d1 execute uses database_id as the hash key, but pages dev uses binding name "DB".
+// They produce different miniflare SQLite filenames — we need to copy data to both.
+console.log('\nStep 4/4: Syncing DB for pages dev...');
+
+function miniflareHash(uniqueKey, name) {
+  const key = crypto.createHash('sha256').update(uniqueKey).digest();
+  const nameHmac = crypto.createHmac('sha256', key).update(name).digest().subarray(0, 16);
+  const hmac = crypto.createHmac('sha256', key).update(nameHmac).digest().subarray(0, 16);
+  return Buffer.concat([nameHmac, hmac]).toString('hex');
+}
+
+const TOML_DB_ID = (() => {
+  const toml = fs.readFileSync(path.join(__dirname, '..', 'wrangler.toml'), 'utf8');
+  const m = toml.match(/database_id\s*=\s*"([^"]+)"/);
+  return m ? m[1] : null;
+})();
+
+if (TOML_DB_ID) {
+  const UK = 'miniflare-D1DatabaseObject';
+  const d1Hash = miniflareHash(UK, TOML_DB_ID);
+  const pagesHash = miniflareHash(UK, 'DB');
+  const dir = path.join(__dirname, '..', '.wrangler', 'state', 'v3', 'd1', 'miniflare-D1DatabaseObject');
+
+  if (d1Hash !== pagesHash) {
+    const srcBase = path.join(dir, `${d1Hash}.sqlite`);
+    const dstBase = path.join(dir, `${pagesHash}.sqlite`);
+    const exts = ['', '-wal', '-shm'];
+
+    for (const ext of exts) {
+      const src = srcBase + ext;
+      const dst = dstBase + ext;
+      if (fs.existsSync(src)) {
+        fs.copyFileSync(src, dst);
+      }
+    }
+    console.log(`  ✓ Copied ${d1Hash.slice(0, 8)}... → ${pagesHash.slice(0, 8)}...`);
+  } else {
+    console.log('  ✓ Same hash — no sync needed');
+  }
+} else {
+  console.log('  ⚠ Could not read database_id from wrangler.toml — skip sync');
 }
 
 console.log('\n✅ Local DB ready! Run: npm run dev');

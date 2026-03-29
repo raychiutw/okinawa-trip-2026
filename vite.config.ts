@@ -89,5 +89,9 @@ export default defineConfig({
         changeOrigin: true,
       },
     },
+    watch: {
+      // Exclude wrangler state — its SQLite WAL writes trigger spurious HMR reloads
+      ignored: ['**/.wrangler/**'],
+    },
   },
 });
