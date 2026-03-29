@@ -2,6 +2,7 @@
 
 import { reportFetchResult } from './useOnlineStatus';
 import { ApiError } from '../lib/errors';
+import * as Sentry from '@sentry/react';
 
 /** Raw fetch that returns the Response — for callers that need status-code inspection. */
 export function apiFetchRaw(path: string, opts?: RequestInit): Promise<Response> {
@@ -32,8 +33,15 @@ export async function apiFetch<T>(path: string, opts?: RequestInit & { signal?: 
   }
 
   if (!response.ok) {
-    // 解析結構化錯誤（支援新舊格式）
-    throw await ApiError.fromResponse(response);
+    const apiError = await ApiError.fromResponse(response);
+    // SYS_* 自動上報 Sentry
+    if (apiError.code.startsWith('SYS_')) {
+      Sentry.captureException(apiError, {
+        tags: { errorCode: apiError.code, category: 'system' },
+        extra: { path, status: apiError.status, detail: apiError.detail },
+      });
+    }
+    throw apiError;
   }
 
   reportFetchResult(true);
