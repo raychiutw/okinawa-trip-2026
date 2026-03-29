@@ -90,7 +90,7 @@ for (const table of TABLES) {
   const tmpFile = path.join(__dirname, `_init_${table}_${Date.now()}.sql`);
   fs.writeFileSync(tmpFile, statements.join('\n'));
   try {
-    execSync(`npx wrangler d1 execute ${DB_NAME} --local --persist-to .wrangler/state/v3/d1 --file "${tmpFile}"`, {
+    execSync(`npx wrangler d1 execute ${DB_NAME} --local --file "${tmpFile}"`, {
       encoding: 'utf8',
       timeout: 60000,
       stdio: 'pipe',
@@ -108,7 +108,7 @@ console.log('\nStep 3/3: Verifying...');
 for (const table of TABLES) {
   try {
     const raw = execSync(
-      `npx wrangler d1 execute ${DB_NAME} --local --persist-to .wrangler/state/v3/d1 --json --command "SELECT COUNT(*) as c FROM ${table}"`,
+      `npx wrangler d1 execute ${DB_NAME} --local --json --command "SELECT COUNT(*) as c FROM ${table}"`,
       { encoding: 'utf8', timeout: 10000 },
     );
     const count = JSON.parse(raw.slice(raw.indexOf('[')))[0]?.results?.[0]?.c ?? '?';
