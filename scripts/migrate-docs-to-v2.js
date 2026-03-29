@@ -15,13 +15,14 @@ const os = require('os');
 const path = require('path');
 
 const isStaging = process.argv.includes('--staging');
-const DB_NAME = isStaging ? 'trip-planner-staging' : 'trip-planner-db';
+const DB_NAME = isStaging ? 'trip-planner-db-staging' : 'trip-planner-db';
+const ENV_FLAG = isStaging ? '--env preview' : '';
 const TMP_SQL = path.join(os.tmpdir(), 'migrate-docs-tmp.sql');
 
 function d1read(sql) {
   // --command for reads (no special chars in SELECT queries)
   const escaped = sql.replace(/"/g, '\\"');
-  const cmd = `npx wrangler d1 execute ${DB_NAME} --remote --json --command="${escaped}"`;
+  const cmd = `npx wrangler d1 execute ${DB_NAME} --remote ${ENV_FLAG} --json --command="${escaped}"`;
   const out = execSync(cmd, { encoding: 'utf8', timeout: 60000, stdio: ['pipe', 'pipe', 'pipe'] });
   const jsonStart = out.indexOf('[');
   if (jsonStart === -1) return [];
@@ -32,7 +33,7 @@ function d1write(sql) {
   // --file for writes (content may have special chars like →)
   fs.writeFileSync(TMP_SQL, sql, 'utf8');
   const winPath = TMP_SQL.replace(/\//g, '\\');
-  const cmd = `npx wrangler d1 execute ${DB_NAME} --remote --json --file="${winPath}"`;
+  const cmd = `npx wrangler d1 execute ${DB_NAME} --remote ${ENV_FLAG} --json --file="${winPath}"`;
   const out = execSync(cmd, { encoding: 'utf8', timeout: 60000, stdio: ['pipe', 'pipe', 'pipe'] });
   const jsonStart = out.indexOf('[');
   if (jsonStart === -1) {
