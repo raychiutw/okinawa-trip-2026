@@ -1,6 +1,6 @@
 ---
 name: tp-create
-description: Use when generating a new trip itinerary from scratch given destination, dates, and travel style. Not for modifying existing trips — use /tp-edit or /tp-rebuild.
+description: "Use when generating a brand-new trip itinerary from scratch — e.g. '建一趟新行程', '規劃旅行', '從零開始做行程', 'create a trip for X'. Requires destination, dates, and travel style. NOT for modifying existing trips (use /tp-edit to change content, /tp-rebuild to fix quality). Adding a day or stop to an EXISTING trip is /tp-edit, not /tp-create."
 user-invocable: true
 ---
 
@@ -154,6 +154,8 @@ module.exports = { apiCall, TRIP_ID };
 排除不需評分的 entry：travel event、「午餐」「餐廳未定」、「出發」「返回」「退房」等非實體地點。
 
 #### Step 2b：browse 批次查詢腳本
+
+> **browse daemon 未啟動時**：跳過 Step 2b，直接進入 Step 2d WebSearch fallback 處理所有 POI。Windows 環境 browse daemon 可能有 lock 問題（見 MEMORY.md），此時同樣 fallback 到 WebSearch。
 
 用 `/browse` 的 `$B goto` + `$B text` 批次查詢所有 POI。寫一個 node 腳本串接 browse daemon：
 

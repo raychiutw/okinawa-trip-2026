@@ -1,6 +1,6 @@
 ---
 name: tp-request
-description: Use when processing trip requests (旅伴請求) already queued in D1 database. Triggered by scheduler or manually invoked. For direct modifications on behalf of companions, use /tp-edit.
+description: "Use when processing companion trip requests (旅伴請求) queued in the D1 database — e.g. '有沒有待處理的請求', '處理旅伴請求', '跑 tp-request', 'pending requests'. This reads from the requests table (status=open/received) and processes each request with security constraints. For the trip owner making direct modifications themselves, use /tp-edit instead."
 user-invocable: true
 ---
 
@@ -118,11 +118,9 @@ curl -s -X PATCH \
       curl -s "https://trip-planner-dby.pages.dev/api/trips/{tripId}/days/{dayNum}"
       ```
    b. 依請求 text 內容**局部修改**對應資料（只改 text 描述的部分，不全面重跑 R0-R18）
-   c. 新增或替換 POI 的必填欄位（source、note、googleQuery、googleRating）+ 韓國 naverQuery — **詳見 tp-shared/references.md「行程修改共用步驟」**
-   d. 修改的部分須符合 R0-R18 品質規則（含 R16 飯店 rating、R17 導航資訊、R18 飯店 address）
-   e. 依修改類型選擇 API（**限白名單內操作**）— 端點見 tp-shared/references.md「行程修改共用步驟」
-      > ⚠️ 所有寫入 API 呼叫須帶 `X-Request-Scope: companion` header
-   f. **Doc 連動 + travel 重算** — 規則見 tp-shared/references.md
+   c-f. **執行 tp-shared/references.md「行程修改共用步驟」**（POI 必填欄位 → API 選擇 → Doc 連動 + travel 重算），但受以下限制：
+      - ⚠️ 所有寫入 API 呼叫須帶 `X-Request-Scope: companion` header
+      - ⚠️ **限白名單內操作**（見 3c-0），不可 PUT 整天、不可刪 entry
    g. 執行 tp-check 精簡 report：輸出 `tp-check: 🟢 N  🟡 N  🔴 N`
    h. 通過 → 回覆並完成請求（見下方「回覆寫入方法」）
    i. 失敗 → 回覆並完成（見下方「回覆寫入方法」）

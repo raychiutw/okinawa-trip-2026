@@ -101,7 +101,7 @@ useEffect(() => {
 
 ## 檢查範圍
 
-與 `react-best-practices.md` 相同：
+與 skill `react-best-practices`（`SKILL.md` 索引 + `rules/*.md`）相同：
 
 ```
 src/entries/       *.tsx

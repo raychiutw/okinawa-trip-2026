@@ -1,6 +1,6 @@
 ---
 name: tp-rebuild
-description: Use when auditing and fixing (重整/修復) quality rule violations in trip itineraries (single or all) without changing timeline order. For partial changes use /tp-edit.
+description: "Use when the user wants to audit and FIX quality rule violations across an entire trip (or all trips) — e.g. '重整行程', '修復品質問題', '全面修復', 'rebuild', '紅燈修掉', '品質修到全綠'. Does NOT change timeline order or add/remove stops — only ensures existing content meets R0-R18 rules. For partial content changes (swap restaurant, add stop), use /tp-edit. For read-only quality check without fixing, use /tp-check."
 user-invocable: true
 ---
 

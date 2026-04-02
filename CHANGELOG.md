@@ -3,6 +3,24 @@
 All notable changes to Tripline will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [1.1.4.1] - 2026-04-02
+
+### Fixed
+- css-hig-rules.md 引用路徑 `tp-hig` → `tp-ux-verify`（H1/H2 斷裂修正）
+- code-review-rules.md 引用 `react-best-practices.md` → skill 引用
+- tp-team Pipeline Gate 漏掉 `/opsx:propose`、Test 階段順序與 stage-5 不一致
+- tp-patch curl 範例與 tp-shared Windows encoding 規範矛盾
+
+### Changed
+- 9 個 tp-* skill descriptions 加入中文觸發關鍵字 + 強化 cross-skill routing 邊界
+- tp-quality-rules / tp-check 標註 R5/R6/R9 gap（共 15 條非 19 條）
+- tp-daily-check 加入失敗處理 + Telegram MCP fallback
+- tp-create Phase 2 browse daemon 未啟動 fallback guidance
+- tp-edit 補充 entry 新增/刪除需 PUT 整天說明
+- tp-request 精簡重複步驟、指向 tp-shared 共用流程
+- tp-shared 加入快速摘要（避免每次載入 references.md）
+- tp-team skill table 加入 `/setup-deploy` 為 Ship Step 0
+
 ## [1.1.4.0] - 2026-04-01
 
 ### Changed

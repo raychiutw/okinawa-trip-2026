@@ -1,6 +1,6 @@
 ---
 name: tp-daily-check
-description: Use when running the daily automated health check — covers R0-R18, API health, Sentry errors, and sends Telegram summary. For single-trip R0-R18 validation only, use /tp-check.
+description: "Use when running the daily system-wide health check — e.g. '跑 daily check', '每日健康檢查', '每日報告', 'daily-check'. Executes daily-check.js covering all trips R0-R18 + API health + Sentry errors, then sends Telegram summary and waits for Key User response. For checking a SINGLE trip's quality only, use /tp-check instead."
 user-invocable: true
 ---
 
@@ -11,17 +11,21 @@ user-invocable: true
 ## 步驟
 
 1. 執行 `node scripts/daily-check.js` 產出問題報告 JSON
+   - **失敗處理**：若腳本執行失敗（exit code ≠ 0），直接輸出錯誤訊息，跳到步驟 3 發送錯誤摘要
+   - **環境變數缺漏**：啟動前檢查必要變數是否存在，缺漏時列出缺少的變數名稱並終止
 2. 讀取最新的 `scripts/logs/daily-check-*.json`
 3. 整理成 Telegram 摘要（只含重點：🔴critical / 🟡warning / ✅ok）
-4. 用 Telegram MCP reply 發送摘要給 Key User（chat_id: 6527604594）
-5. **等待 Key User 在 Telegram 回覆**，根據回覆執行：
+4. 發送摘要給 Key User：
+   - **優先**：Telegram MCP reply（chat_id: 6527604594）
+   - **Fallback**：若 Telegram MCP 不可用，直接在 conversation 中輸出摘要，等待使用者回覆
+5. **等待 Key User 回覆**（Telegram 或 conversation），根據回覆執行：
    - 「修 #1 #3」→ 讀 JSON 完整資料，分析問題，派工程師修復
    - 「看 #2 詳情」→ 讀 JSON 完整資料，發送該問題的詳細資訊
    - 「全部看」→ 發送完整報告
    - 「沒事」或「結束」→ 結束 session
 6. 修復完成後：
    - commit（遵守團隊流程：Reviewer → QC → commit）
-   - 發 Telegram 通知修復結果
+   - 發通知修復結果（Telegram 或 conversation）
    - 等 Key User approve → push
 
 ## 環境需求

@@ -1,10 +1,10 @@
 ---
 name: tp-check
-description: Use when validating a trip itinerary against quality rules R0-R18 without modifying data. Read-only — use /tp-rebuild to fix violations or /tp-edit for changes.
+description: "Use when the user wants to validate, inspect, or see a quality report for a trip itinerary (R0-R18) WITHOUT modifying any data — e.g. '檢查行程品質', '看 report', '有沒有缺漏', '通過了嗎'. This is read-only: if the user wants to FIX violations, use /tp-rebuild; if they want to CHANGE content, use /tp-edit. Do NOT confuse with /tp-code-verify (that's for source code, not trip data)."
 user-invocable: true
 ---
 
-對指定行程逐項檢查 R0-R18 品質規則，輸出紅綠燈驗證 report。只讀不改，不修改任何資料。
+對指定行程逐項檢查品質規則（R0-R18，共 15 條，R5/R6/R9 不存在），輸出紅綠燈驗證 report。只讀不改，不修改任何資料。
 
 ⚡ 核心原則：不問問題，直接驗證。
 

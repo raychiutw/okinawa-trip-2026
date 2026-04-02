@@ -1,6 +1,6 @@
 ---
 name: tp-team
-description: Use when starting any code change, feature, bug fix, or refactoring in the trip-planner project. Not for trip data changes — those use tp-* data skills directly.
+description: "Use when starting a code change that needs the full 7-stage gstack sprint pipeline (Think→Plan→Build→Review→Test→Ship→Reflect) — e.g. '做新 feature', '走 pipeline', '修 bug 走完整流程', '重構 hook', '新增功能'. This is the engineering workflow for source code changes. NOT for trip data modifications (use /tp-edit, /tp-rebuild, /tp-create for those). NOT for just running code verification (use /tp-code-verify for that single step)."
 user-invocable: true
 ---
 
@@ -33,7 +33,7 @@ code 變更前 invoke 本 skill，確認完整 pipeline。
 
 ```
 ✅ Think   — /office-hours（探索需求，選用）
-✅ Plan    — /autoplan → 三審完成
+✅ Plan    — /opsx:propose → /autoplan → 三審完成
 ✅ Build   — 寫 code + TDD + /simplify ← 不可跳過
 ✅ Review  — /tp-code-verify → /review → /codex ← 每個都要跑
 ✅ Test    — /qa → /cso → /benchmark ← 至少 /cso --diff
@@ -54,9 +54,10 @@ code 變更前 invoke 本 skill，確認完整 pipeline。
 | Review | `/tp-code-verify` | **不可跳過** — tsc + tests + 命名 + HIG |
 | Review | `/review` | **不可跳過** — diff 審查 |
 | Review | `/codex` | 未安裝時記錄「跳過（未安裝）」 |
-| Test | `/cso --diff` | **不可跳過** — 至少跑 --diff 模式 |
 | Test | `/qa` | 使用者授權跳過 |
+| Test | `/cso --diff` | **不可跳過** — 至少跑 --diff 模式 |
 | Test | `/benchmark` | 非 UI 變更自動跳過；UI 變更必跑 |
+| Ship | `/setup-deploy` | 首次部署前一次性執行（已完成則跳過） |
 | Ship | `/ship` | **不可跳過** — 必須走 feature branch + PR |
 | Ship | `/land-and-deploy` | **不可跳過** — merge + 部署驗證 |
 | Ship | `/canary` | 使用者授權跳過 |

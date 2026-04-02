@@ -1,10 +1,10 @@
 # CSS HIG 規則
 
-此為唯一權威來源。`tp-hig`、`tp-code-verify`、`CLAUDE.md` 等均參照此文件。
+此為唯一權威來源。`tp-ux-verify`、`tp-code-verify`、`CLAUDE.md` 等均參照此文件。
 由 `tests/unit/css-hig.test.js` 自動守護，commit 時 pre-commit hook 執行。
 
-Design tokens 速查表見 `../tp-hig/references/tokens.md`。
-頁面結構模式見 `../tp-hig/references/page-structure.md`。
+Design tokens 速查表見 `../tp-ux-verify/references/tokens.md`。
+頁面結構模式見 `../tp-ux-verify/references/page-structure.md`。
 
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: tp-edit
-description: Use when modifying an existing trip itinerary partially via natural language — swap a restaurant, add a stop, update a single POI field. For bulk POI field updates across trips use /tp-patch; for full R0-R18 audit use /tp-rebuild.
+description: "Use when the user wants to make a specific, partial change to an existing trip itinerary — e.g. '換餐廳', '加景點', '改 description', '刪購物行程', '更新 checkout 時間', '加一天'. This is for targeted, natural-language modifications to one trip. For BULK filling missing POI fields across trips, use /tp-patch. For full R0-R18 quality audit and fix, use /tp-rebuild. For creating a new trip from scratch, use /tp-create."
 user-invocable: true
 ---
 
@@ -37,9 +37,12 @@ API 設定、呼叫格式、Windows encoding 注意事項見 tp-shared/reference
 ## 局部修改 vs 全面重整
 
 本 skill 只處理描述涉及的修改範圍，例如：
-- 「Day 3 午餐換成拉麵」→ 只改 Day 3 午餐 entry
-- 「加一個景點到 Day 2」→ 只在 Day 2 timeline 插入
-- 「刪除 Day 4 的購物行程」→ 只移除該 entry
+- 「Day 3 午餐換成拉麵」→ 只改 Day 3 午餐 entry（PATCH entry）
+- 「加一個景點到 Day 2」→ 只在 Day 2 timeline 插入（PUT 整天）
+- 「刪除 Day 4 的購物行程」→ 移除該 entry（PUT 整天，因為無 DELETE entry API）
+- 「更新某餐廳的評分」→ 只改該 POI 欄位（PATCH trip-pois）
+
+> ⚠️ **新增/刪除 entry** 必須使用 `PUT /api/trips/{tripId}/days/{N}` 覆寫整天，不能用 PATCH 單一 entry。插入或移除 entry 後須重算相鄰 travel。
 
 **不全面重跑 R0-R18**。如需全面重整，使用 `/tp-rebuild`。
 
