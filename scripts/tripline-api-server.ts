@@ -164,7 +164,10 @@ async function processLoop(source: 'api' | 'job') {
 
 // --- HTTP Server ---
 function verifyAuth(req: Request): boolean {
-  if (!API_SECRET) return true; // 未設定 secret 時允許（本機開發）
+  if (!API_SECRET) {
+    log('WARNING: TRIPLINE_API_SECRET not set — rejecting all requests');
+    return false;
+  }
   const authHeader = req.headers.get('Authorization') || '';
   return authHeader === `Bearer ${API_SECRET}`;
 }

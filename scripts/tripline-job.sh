@@ -15,8 +15,11 @@ find "$LOG_DIR" -name "tripline-job-*.log" -mtime +7 -delete 2>/dev/null || true
 
 # Load env
 if [ -f "$PROJECT_DIR/.env.local" ]; then
-  while IFS='=' read -r key value; do
-    [[ "$key" =~ ^#.*$ || -z "$key" ]] && continue
+  while IFS= read -r line; do
+    [[ "$line" =~ ^#.*$ || -z "$line" ]] && continue
+    key="${line%%=*}"
+    value="${line#*=}"
+    [[ -z "$key" ]] && continue
     export "$key=$value"
   done < "$PROJECT_DIR/.env.local"
 fi

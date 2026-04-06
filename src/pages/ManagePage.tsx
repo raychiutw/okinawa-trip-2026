@@ -98,7 +98,8 @@ function ElapsedTime({ updatedAt }: { updatedAt: string | null }) {
   useEffect(() => {
     if (!updatedAt) return;
     const update = () => {
-      const diff = Math.floor((Date.now() - new Date(updatedAt + 'Z').getTime()) / 60000);
+      const ts = updatedAt.endsWith('Z') || updatedAt.includes('+') ? updatedAt : updatedAt + 'Z';
+      const diff = Math.floor((Date.now() - new Date(ts).getTime()) / 60000);
       setElapsed(diff > 0 ? ` · ${diff} 分鐘` : '');
     };
     update();

@@ -7,6 +7,7 @@
  * - 最長 10 分鐘
  */
 
+import { hasPermission } from '../../_auth';
 import { AppError } from '../../_errors';
 import { getAuth } from '../../_utils';
 import type { Env } from '../../_types';
@@ -20,6 +21,13 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
   const auth = getAuth(context);
   if (!auth) throw new AppError('AUTH_REQUIRED');
   const id = params.id as string;
+
+  // 驗證使用者有權限看這個 request 所屬的 trip
+  const req = await env.DB.prepare('SELECT trip_id FROM trip_requests WHERE id = ?').bind(id).first() as { trip_id: string } | null;
+  if (!req) throw new AppError('DATA_NOT_FOUND');
+  if (!await hasPermission(env.DB, auth.email, req.trip_id, auth.isAdmin)) {
+    throw new AppError('PERM_DENIED');
+  }
 
   let lastStatus = '';
   let lastProcessedBy = '';
