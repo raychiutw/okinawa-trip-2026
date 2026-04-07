@@ -354,7 +354,7 @@ async function queryRequestErrors() {
   var rows = await queryD1(
     "SELECT id, trip_id, mode, status, substr(message, 1, 80) as message, " +
     "substr(reply, 1, 80) as reply, created_at " +
-    "FROM requests " +
+    "FROM trip_requests " +
     "WHERE status != 'completed' " +
     "ORDER BY created_at DESC " +
     "LIMIT 20"
