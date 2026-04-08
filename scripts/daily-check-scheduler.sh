@@ -93,16 +93,16 @@ else
   exit 1
 fi
 
-# Phase 4: 發 Telegram 修復結果（如果有修復的話）
+# Phase 4: 發 Telegram 修復結果
 if [ -f "$FIX_RESULT" ]; then
   FIX_MSG=$(node -e "
     var r = JSON.parse(require('fs').readFileSync('$FIX_RESULT','utf8'));
-    if (r.total === 0) { console.log('🔧 自動修復完成：無需修復'); }
+    if (r.total === 0) { console.log('🔧 無需修復'); }
     else { console.log('🔨 Code fix: ' + r.fixed + '/' + r.total + ' 項完成' + (r.pr_url ? ' ' + r.pr_url : '')); }
   " 2>/dev/null)
-  if [ -n "$FIX_MSG" ]; then
-    send_telegram "$FIX_MSG"
-  fi
+  send_telegram "${FIX_MSG:-🔧 無需修復}"
+else
+  send_telegram "🔧 無需修復"
 fi
 
 log "--- 排程結束 ---"
