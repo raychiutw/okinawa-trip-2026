@@ -69,19 +69,22 @@ user-invocable: true
 ### Code Fix 流程
 
 ```
-每個可修 issue →
-  git checkout -b fix/daily-check-autofix-YYYY-MM-DD-N
-  → /investigate（根因分析）
-  → 寫 code（遵守 tp-team Build 規則）
-  → /tp-code-verify（不可跳過）
-  → /review（不可跳過）
-  → /cso --diff（不可跳過）
-  → /ship（建 PR）
-  → /land-and-deploy（merge + deploy）
-  → 結果寫入 Telegram 報告
+所有可修 issues 共用一個 branch：
+  git checkout -b fix/daily-check-autofix-YYYY-MM-DD
+  → 逐一修復每個 issue（每個 issue 一個 commit）
+    → /investigate（根因分析）
+    → 寫 code（遵守 tp-team Build 規則）
+    → commit（描述修了什麼）
+  → 全部修完後一次性走 review pipeline：
+    → /tp-code-verify（不可跳過）
+    → /review（不可跳過）
+    → /cso --diff（不可跳過）
+    → /ship（建 1 個 PR，包含所有 fix commits）
+    → /land-and-deploy（merge + deploy）
+    → 結果寫入 Telegram 報告
 ```
 
-每個 fix 獨立 branch + 獨立 PR。若任一步驟失敗，標記「修復失敗 + 失敗原因」並繼續下一個。
+**一天只開一個 fix branch + 一個 PR。** 若任一 commit 失敗，標記失敗原因，繼續下一個 issue。最終 PR 只包含成功的 fix。
 
 ## Telegram 格式
 
