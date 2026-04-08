@@ -103,7 +103,7 @@ function ReservationBox({ box }: { box: InfoBoxData }) {
     <div className="my-2 py-2 px-3 rounded-sm text-body leading-relaxed bg-accent-bg">
       {box.title && <><strong className="font-semibold">{safeText(box.title)}</strong><br /></>}
       {box.items && box.items.length > 0 &&
-        box.items.map((item, i) => (
+        box.items.filter((item): item is string => typeof item === 'string').map((item, i) => (
           <span key={i}>{safeText(item)}<br /></span>
         ))
       }
@@ -123,7 +123,7 @@ function ParkingBox({ box }: { box: InfoBoxData }) {
         {box.location && <>{' '}<MapLinks location={box.location} inline /></>}
       </div>
       {box.note && (
-        <MarkdownText text={box.note} as="div" className="mt-2 text-footnote text-muted leading-relaxed" inline />
+        <MarkdownText text={safeText(box.note)} as="div" className="mt-2 text-footnote text-muted leading-relaxed" inline />
       )}
     </div>
   );
