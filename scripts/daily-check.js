@@ -408,17 +408,17 @@ function querySchedulerErrors() {
         if (!content) return;
         var lines = content.split('\n');
         lines.forEach(function(line) {
-          var match = line.match(/^\[(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\] \[error\] (.+)/);
+          var match = line.match(/^\[(\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}:\d{2}(?:\.\d+Z?)?)\] \[error\] (.+)/);
           if (match) {
             var ts = new Date(match[1].replace(' ', 'T'));
-            if (ts >= cutoff) {
+            if (ts >= cutoff && errors.length < 5) {
               errors.push({ time: match[1], message: match[2].substring(0, 100) });
             }
           }
         });
       });
     } catch (e) {}
-    results[dir] = { count: errors.length, errors: errors.slice(0, 5) };
+    results[dir] = { count: errors.length, errors: errors };
     totalErrors += errors.length;
   });
 
@@ -520,9 +520,10 @@ function buildTelegramText(report) {
 
   // OK 項目
   var okItems = [];
-  if (!report.schedulerErrors || !report.schedulerErrors.details['api-server'] || report.schedulerErrors.details['api-server'].count === 0) okItems.push('api-server');
-  if (!report.schedulerErrors || !report.schedulerErrors.details['daily-check'] || report.schedulerErrors.details['daily-check'].count === 0) okItems.push('daily-check');
-  if (!report.schedulerErrors || !report.schedulerErrors.details['tp-request'] || report.schedulerErrors.details['tp-request'].count === 0) okItems.push('tp-request');
+  var schedulerDirs = ['api-server', 'daily-check', 'tp-request'];
+  schedulerDirs.forEach(function(k) {
+    if (!report.schedulerErrors || !report.schedulerErrors.details[k] || report.schedulerErrors.details[k].count === 0) okItems.push(k);
+  });
 
   // 全綠判定
   if (issues.length === 0) {

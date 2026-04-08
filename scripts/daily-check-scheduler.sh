@@ -16,9 +16,7 @@ log_error() {
 }
 
 # Log rotation: delete files older than 7 days
-find "$LOG_DIR" -name "*.log" -mtime +7 -delete 2>/dev/null || true
-find "$LOG_DIR" -name "*.error.log" -mtime +7 -delete 2>/dev/null || true
-find "$LOG_DIR" -name "*-report.json" -mtime +7 -delete 2>/dev/null || true
+find "$LOG_DIR" \( -name "*.log" -o -name "*-report.json" \) -mtime +7 -delete 2>/dev/null || true
 
 # Load .env.local
 if [ -f "$PROJECT_DIR/.env.local" ]; then
