@@ -7,24 +7,7 @@ LOG_DIR="$PROJECT_DIR/scripts/logs/daily-check"
 LOG_FILE="$LOG_DIR/$(date +%Y-%m-%d).log"
 ERR_LOG_FILE="$LOG_DIR/$(date +%Y-%m-%d).error.log"
 
-mkdir -p "$LOG_DIR"
-
-log()      { echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" >> "$LOG_FILE"; }
-log_error() {
-  echo "[$(date '+%Y-%m-%d %H:%M:%S')] [error] $1" >> "$LOG_FILE"
-  echo "[$(date '+%Y-%m-%d %H:%M:%S')] [error] $1" >> "$ERR_LOG_FILE"
-}
-
-# Log rotation: delete files older than 7 days
-find "$LOG_DIR" \( -name "*.log" -o -name "*-report.json" \) -mtime +7 -delete 2>/dev/null || true
-
-# Load .env.local
-if [ -f "$PROJECT_DIR/.env.local" ]; then
-  while IFS='=' read -r key value; do
-    [[ "$key" =~ ^#.*$ || -z "$key" ]] && continue
-    export "$key=$value"
-  done < "$PROJECT_DIR/.env.local"
-fi
+source "$PROJECT_DIR/scripts/lib/scheduler-common.sh"
 
 log "--- 排程啟動 ---"
 

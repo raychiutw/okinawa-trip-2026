@@ -236,7 +236,7 @@ async function queryWebAnalytics() {
     'rumPageloadEventsAdaptiveGroups(limit: 1, filter: { ' +
     'datetime_geq: "' + yesterdayISO() + 'T00:00:00Z", ' +
     'datetime_lt: "' + todayISO() + 'T00:00:00Z" }) { ' +
-    'sum { visits } ' +
+    'sum { visits pageViews } ' +
     '} } } }';
   var res = await fetch('https://api.cloudflare.com/client/v4/graphql', {
     method: 'POST',
@@ -258,7 +258,7 @@ async function queryWebAnalytics() {
   var row = rows[0];
   return {
     visits: row.sum && row.sum.visits ? row.sum.visits : 0,
-    pageViews: row.sum && row.sum.visits ? row.sum.visits : 0
+    pageViews: row.sum && row.sum.pageViews ? row.sum.pageViews : 0
   };
 }
 
@@ -360,26 +360,33 @@ async function queryRequestErrors() {
   };
 }
 
-// ── 數據來源 8: D1 統計（api_logs + audit_log）─────────────────
+// ── 數據來源 8: D1 統計（api_logs total + audit_log）─────────────
 
-async function queryD1Stats() {
+async function queryD1Stats(apiErrorsResult) {
+  // server/client error counts 從 apiErrors 推導，省掉重複 D1 subquery
+  var serverErrors = 0;
+  var clientErrors = 0;
+  if (apiErrorsResult && apiErrorsResult.errors) {
+    apiErrorsResult.errors.forEach(function(e) {
+      if (e.status >= 500) serverErrors += (e.count || 0);
+      else if (e.status >= 400) clientErrors += (e.count || 0);
+    });
+  }
+
   var rows = await queryD1(
     "SELECT " +
-    "(SELECT COUNT(*) FROM api_logs WHERE status >= 500 AND created_at >= datetime('now', '-1 day')) as server_errors, " +
-    "(SELECT COUNT(*) FROM api_logs WHERE status >= 400 AND status < 500 AND created_at >= datetime('now', '-1 day')) as client_errors, " +
     "(SELECT COUNT(*) FROM api_logs) as total_logs, " +
     "(SELECT COUNT(*) FROM audit_log WHERE created_at >= datetime('now', '-1 day')) as audit_count"
   );
 
   var row = rows && rows[0] ? rows[0] : {};
-  var serverErrors = row.server_errors || 0;
   var status = serverErrors > 0 ? 'warning' : 'ok';
 
   return {
     status: status,
     totalLogs: row.total_logs || 0,
     serverErrors: serverErrors,
-    clientErrors: row.client_errors || 0,
+    clientErrors: clientErrors,
     auditCount: row.audit_count || 0
   };
 }
@@ -575,19 +582,18 @@ async function main() {
   var today = todayISO();
   console.log('Daily check starting — ' + today);
 
-  // 並行查詢所有數據來源（任一失敗不影響其他）
+  // 同步查詢（不影響 event loop）
+  var npmAuditResult = queryNpmAudit();
+  var schedulerErrors = querySchedulerErrors();
+
+  // 並行查詢所有網路數據來源（任一失敗不影響其他）
   var settled = await Promise.allSettled([
     querySentry(),           // 0
     queryApiErrors(),        // 1
     queryWorkersAnalytics(), // 2
     queryWebAnalytics(),     // 3
     queryRequestErrors(),    // 4
-    queryD1Stats(),          // 5
   ]);
-
-  // npm audit 同步執行（不影響其他）
-  var npmAuditResult = queryNpmAudit();
-  var schedulerErrors = querySchedulerErrors();
 
   function val(idx, fallback) {
     var r = settled[idx];
@@ -601,7 +607,15 @@ async function main() {
   var workers = val(2, { status: 'ok', requests: 0, errors: 0, errorRate: '0%', p50: 0, p99: 0 });
   var web = val(3, { visits: 0, pageViews: 0 });
   var requestErrors = val(4, { status: 'ok', total: 0, staleCount: 0, pending: [] });
-  var d1Stats = val(5, { status: 'ok', totalLogs: 0, serverErrors: 0, clientErrors: 0, auditCount: 0 });
+
+  // D1Stats 依賴 apiErrors 結果（推導 server/client error counts），序列執行
+  var d1Stats;
+  try {
+    d1Stats = await queryD1Stats(apiErrors);
+  } catch (e) {
+    console.error('D1Stats failed:', e.message);
+    d1Stats = { status: 'ok', totalLogs: 0, serverErrors: 0, clientErrors: 0, auditCount: 0 };
+  }
 
   var summary = calcSummary(sentry, apiErrors, workers, npmAuditResult, requestErrors, d1Stats, schedulerErrors);
 
