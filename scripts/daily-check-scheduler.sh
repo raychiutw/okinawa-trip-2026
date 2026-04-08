@@ -7,8 +7,6 @@ LOG_DIR="$PROJECT_DIR/scripts/logs/daily-check"
 LOG_FILE="$LOG_DIR/$(date +%Y-%m-%d).log"
 ERR_LOG_FILE="$LOG_DIR/$(date +%Y-%m-%d).error.log"
 TODAY=$(date +%Y-%m-%d)
-REPORT_JSON="$LOG_DIR/${TODAY}-report.json"
-FIX_RESULT="$LOG_DIR/${TODAY}-fix-result.json"
 
 source "$PROJECT_DIR/scripts/lib/scheduler-common.sh"
 
@@ -30,9 +28,10 @@ send_telegram() {
 
 # --- 從 report JSON 組裝 Telegram 訊息 ---
 build_telegram_msg() {
+  local report_path="$1"
   node -e "
     var fs = require('fs');
-    var r = JSON.parse(fs.readFileSync('$REPORT_JSON', 'utf8'));
+    var r = JSON.parse(fs.readFileSync(process.argv[1], 'utf8'));
     var today = r.date.slice(5).replace('-', '/');
     var lines = [];
     var issues = [];
@@ -60,7 +59,7 @@ build_telegram_msg() {
     ['api-server','daily-check','tp-request'].forEach(function(k) { if (!r.schedulerErrors || !r.schedulerErrors.details[k] || r.schedulerErrors.details[k].count === 0) okItems.push(k); });
     if (okItems.length > 0) lines.push('✅ OK: ' + okItems.join(', '));
     console.log(lines.join('\n'));
-  "
+  " "$report_path"
 }
 
 log "--- 排程啟動 ---"
@@ -70,6 +69,14 @@ cd "$PROJECT_DIR"
 log "Phase 1: 執行 daily-check.js"
 if node scripts/daily-check.js >> "$LOG_FILE" 2>&1; then
   log "Phase 1 完成"
+  REPORT_JSON=$(ls -t "$LOG_DIR"/*-report.json 2>/dev/null | head -1)
+  FIX_RESULT="${REPORT_JSON%-report.json}-fix-result.json"
+  if [ -z "$REPORT_JSON" ]; then
+    log_error "找不到 report JSON"
+    send_telegram "📊 Tripline 每日報告 ❌ report JSON 不存在"
+    log_error "--- 排程結束（錯誤）---"
+    exit 1
+  fi
 else
   log_error "daily-check.js 執行失敗"
   send_telegram "📊 Tripline 每日報告 ❌ daily-check.js 執行失敗"
@@ -79,7 +86,7 @@ fi
 
 # Phase 2: 發 Telegram 報告摘要
 log "Phase 2: 發送 Telegram 報告"
-TELEGRAM_MSG=$(build_telegram_msg)
+TELEGRAM_MSG=$(build_telegram_msg "$REPORT_JSON")
 send_telegram "$TELEGRAM_MSG"
 
 # Phase 3: 呼叫 Claude tp-daily-check（自動修復）
@@ -96,10 +103,10 @@ fi
 # Phase 4: 發 Telegram 修復結果
 if [ -f "$FIX_RESULT" ]; then
   FIX_MSG=$(node -e "
-    var r = JSON.parse(require('fs').readFileSync('$FIX_RESULT','utf8'));
+    var r = JSON.parse(require('fs').readFileSync(process.argv[1],'utf8'));
     if (r.total === 0) { console.log('🔧 無需修復'); }
     else { console.log('🔨 Code fix: ' + r.fixed + '/' + r.total + ' 項完成' + (r.pr_url ? ' ' + r.pr_url : '')); }
-  " 2>/dev/null)
+  " "$FIX_RESULT" 2>/dev/null)
   send_telegram "${FIX_MSG:-🔧 無需修復}"
 else
   send_telegram "🔧 無需修復"
