@@ -26,29 +26,46 @@ user-invocable: true
 
 ## Phase B 判斷標準
 
-### 可自動修的 code issue
+### Phase B 鐵律：先 investigate，不要猜
 
-| 類型 | 範例 | 修法 |
-|------|------|------|
-| React render error | "Objects are not valid as a React child" | 修正 component render 邏輯 |
-| API auth error（自家 caller） | 401/403 from tp-request/tp-patch | 修正 caller 的 auth header |
-| Dynamic import failure | "Failed to fetch dynamically imported module" | 重新 build 或修正 chunk 路徑 |
-| N+1 pattern | Sentry performance issue | 合併 API 呼叫 |
+**不要因為 Sentry 沒給 file path 就放棄。** 你有整個 codebase — 用 error message grep 找到 source file，然後修。
 
-### 不可自動修（標記「需人工處理」）
+```
+每個 issue →
+  1. 用 Grep 搜尋 error message / 關鍵字 → 定位 source file
+  2. 用 /investigate 分析根因（如需要）
+  3. 判定：可修 → fix  |  真的不可修 → 標記原因
+```
 
-| 類型 | 範例 | 原因 |
-|------|------|------|
-| 第三方 API 故障 | Cloudflare/Sentry API timeout | 外部依賴 |
-| 資料庫 schema 問題 | migration 失敗 | 需 migration plan |
-| 安全漏洞 | npm critical vulnerability | 需評估 breaking changes |
-| 架構層級問題 | 效能瓶頸、race condition | 需設計討論 |
+### 可自動修（預設嘗試修復）
+
+| 類型 | 定位方式 | 修法 |
+|------|---------|------|
+| React render error | grep error message → 找到 component | 修正 render 邏輯 |
+| API auth error（自家 caller） | grep 401/403 的 API path → 找到 caller | 修正 auth header |
+| Dynamic import failure | grep module path → 檢查 build output | 重新 build 或修 import |
+| N+1 pattern | grep Sentry issue title → 找到呼叫點 | 合併 API 呼叫 |
+| Infinite loop / update depth | grep setState + useEffect → 找到 component | 修正 dependency |
+| 效能問題（P50/P99 偏高） | 分析 Workers analytics → 找到慢 endpoint | 優化 handler |
+
+### 真正不可修（才標記「需人工處理」）
+
+只有以下情況才允許標記「需人工」，且必須附上嘗試過的步驟：
+
+| 類型 | 範例 | 為什麼不可修 |
+|------|------|------------|
+| 第三方 API 完全掛掉 | Cloudflare API 502 | 我方無法修對方 |
+| npm critical + breaking change | major version bump 需要改 API | 影響範圍太大 |
+| 需要新 migration | DB schema 不支援 | 需要 migration plan review |
+
+**「Sentry 缺 file path」「找不到 source」不是放棄的理由。** grep 找。
 
 ### Code Fix 流程
 
 ```
-判定為可修 →
-  git checkout -b fix/daily-check-autofix-YYYY-MM-DD
+每個可修 issue →
+  git checkout -b fix/daily-check-autofix-YYYY-MM-DD-N
+  → /investigate（根因分析）
   → 寫 code（遵守 tp-team Build 規則）
   → /tp-code-verify（不可跳過）
   → /review（不可跳過）
@@ -58,7 +75,7 @@ user-invocable: true
   → 結果寫入 Telegram 報告
 ```
 
-每個 fix 獨立 commit。若任一步驟失敗，標記「修復失敗」並繼續處理下一個。
+每個 fix 獨立 branch + 獨立 PR。若任一步驟失敗，標記「修復失敗 + 失敗原因」並繼續下一個。
 
 ## Telegram 格式
 
