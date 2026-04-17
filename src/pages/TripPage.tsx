@@ -423,10 +423,13 @@ export default function TripPage() {
     function onScroll() {
       const nav = document.getElementById('stickyNav');
       const navH = nav ? nav.offsetHeight + (parseFloat(getComputedStyle(nav).top) || 0) : 0;
+      // 切到「day header 進入可視區上 1/3」的那一天；小於 navH + 10 太保守，
+      // 會在 header 已佔滿視窗頂部時還標錯日。
+      const threshold = navH + Math.max(0, window.innerHeight - navH) / 3;
       let current = -1;
       for (let i = 0; i < dayNums.length; i++) {
         const h = document.getElementById('day' + (dayNums[i] ?? ''));
-        if (h && h.getBoundingClientRect().top <= navH + 10) current = i;
+        if (h && h.getBoundingClientRect().top <= threshold) current = i;
       }
       if (current >= 0) {
         const activeDayNum = dayNums[current] ?? -1;
