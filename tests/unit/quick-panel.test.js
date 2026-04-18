@@ -139,25 +139,21 @@ describe('QuickPanel 標題一致性', () => {
   });
 });
 
-/* ===== COLOR_THEMES 驗證（DRY — now in src/lib/appearance.ts） ===== */
+/* ===== Ocean-only design system — no theme picker any more ===== */
 
-describe('COLOR_THEMES 驗證（appearance.ts）', () => {
+describe('Ocean-only design system（appearance.ts）', () => {
   const appearanceTs = readFileSync('src/lib/appearance.ts', 'utf-8');
-  const themeKeys = parseThemeKeys(appearanceTs);
 
-  it('COLOR_THEMES 有 night 主題', () => {
-    expect(themeKeys).toContain('night');
+  it('appearance.ts 不再定義 COLOR_THEMES / THEME_ACCENTS', () => {
+    expect(appearanceTs).not.toContain('COLOR_THEMES');
+    expect(appearanceTs).not.toContain('THEME_ACCENTS');
   });
 
-  it('COLOR_THEMES 沒有 ocean 主題', () => {
-    expect(themeKeys).not.toContain('ocean');
-  });
-
-  it('COLOR_THEMES 包含所有預期主題（sun/sky/zen/forest/sakura/night）', () => {
-    const expected = ['sun', 'sky', 'zen', 'forest', 'sakura', 'night'];
-    for (const key of expected) {
-      expect(themeKeys).toContain(key);
-    }
+  it('appearance.ts 仍保留 COLOR_MODE_OPTIONS（light/auto/dark）', () => {
+    expect(appearanceTs).toContain('COLOR_MODE_OPTIONS');
+    expect(appearanceTs).toContain("'light'");
+    expect(appearanceTs).toContain("'auto'");
+    expect(appearanceTs).toContain("'dark'");
   });
 });
 
@@ -237,11 +233,11 @@ describe('QuickPanel sheet actions', () => {
     expect(tripPageTsx).toContain('TripSheetContent');
   });
 
-  it('TripSheetContent imports appearance theme/color mode options from appearance.ts', () => {
+  it('TripSheetContent imports color mode options from appearance.ts', () => {
     const sheetContentTsx = readFileSync('src/components/trip/TripSheetContent.tsx', 'utf-8');
     expect(sheetContentTsx).toContain('COLOR_MODE_OPTIONS');
-    expect(sheetContentTsx).toContain('THEME_ACCENTS');
-    expect(sheetContentTsx).toContain('COLOR_THEMES');
+    expect(sheetContentTsx).not.toContain('THEME_ACCENTS');
+    expect(sheetContentTsx).not.toContain('COLOR_THEMES');
   });
 });
 

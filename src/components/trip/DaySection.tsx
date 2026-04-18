@@ -17,7 +17,6 @@ import { calcDrivingStats } from '../../lib/drivingStats';
 import { validateDay } from '../../lib/validateDay';
 import { buildWeatherDay } from '../../lib/weather';
 import type { Day, DaySummary } from '../../types/trip';
-import type { ColorTheme } from '../../hooks/useDarkMode';
 
 /* DayMap — React.lazy code-split（D1：SDK lazy load）*/
 const DayMap = lazy(() => import('./DayMap'));
@@ -28,7 +27,7 @@ export interface DaySectionProps {
   daySummary: DaySummary | undefined;
   tripStart: string | null;
   tripEnd: string | null;
-  themeArt?: { theme: ColorTheme; dark: boolean };
+  themeArt?: { dark: boolean };
   localToday?: string;
   isActive?: boolean;
   /** 全覽模式時隱藏 DayMap（避免與 TripMap 重複）*/
@@ -88,17 +87,19 @@ const DaySection = React.memo(function DaySection({
 
   return (
     <section className="day-section" data-day={dayNum}>
-      <div className="day-header relative z-(--z-day-header) py-2 px-4 flex items-center gap-2 min-h-[100px] rounded-t-md" id={`day${dayNum}`}>
-        <h2 className="text-title2 font-bold whitespace-nowrap overflow-hidden text-ellipsis m-0">Day {dayNum}</h2>
-        {daySummary?.label && (
-          <span>{daySummary.label}</span>
-        )}
-        {daySummary?.date && (
-          <span className="text-subheadline text-muted ml-auto whitespace-nowrap">
-            {daySummary.date}
-            {daySummary.dayOfWeek && `（${daySummary.dayOfWeek}）`}
-          </span>
-        )}
+      <div className="day-header relative z-(--z-day-header)" id={`day${dayNum}`}>
+        <div className="flex items-baseline gap-3 flex-wrap">
+          <span className="day-header-eyebrow">Day {String(dayNum).padStart(2, '0')}</span>
+          {daySummary?.date && (
+            <span className="day-header-date text-caption tracking-wide whitespace-nowrap">
+              {daySummary.date}
+              {daySummary.dayOfWeek && `（${daySummary.dayOfWeek}）`}
+            </span>
+          )}
+        </div>
+        <h2 className="text-title font-bold m-0 mt-2 whitespace-nowrap overflow-hidden text-ellipsis leading-tight">
+          {daySummary?.label || `Day ${dayNum}`}
+        </h2>
         {themeArt && <DayArt entries={timeline} dark={themeArt.dark} />}
       </div>
       <div key={animKey} className={clsx('px-padding-h pb-4', animKey > 0 && 'day-content-enter', day && 'day-content-loaded')} id={`day-slot-${dayNum}`}>

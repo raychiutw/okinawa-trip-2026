@@ -3,16 +3,16 @@
  * Extracted from TripPage.tsx to reduce file size.
  */
 
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import clsx from 'clsx';
 import DocCard from './DocCard';
 import TodayRouteSheet from './TodayRouteSheet';
 import { TripDrivingStatsCard } from './DrivingStats';
 import { toTimelineEntry } from '../../lib/mapDay';
-import { COLOR_MODE_OPTIONS, THEME_ACCENTS, COLOR_THEMES } from '../../lib/appearance';
+import { COLOR_MODE_OPTIONS } from '../../lib/appearance';
 import type { Day, TripListItem } from '../../types/trip';
 import type { DocEntry } from './DocCard';
-import type { ColorMode, ColorTheme } from '../../hooks/useDarkMode';
+import type { ColorMode } from '../../hooks/useDarkMode';
 import type { TripDrivingStats } from '../../lib/drivingStats';
 
 /* ===== Sheet content config ===== */
@@ -26,20 +26,11 @@ export const SHEET_TITLES: Record<string, string> = {
   driving: '交通統計',
   'today-route': '今日路線',
   'trip-select': '切換行程',
-  appearance: '外觀與主題',
+  appearance: '外觀設定',
   prep: '行前準備',
   'emergency-group': '緊急應變',
   'ai-group': 'AI 分析',
 };
-
-/** Pre-built style objects for theme swatches (avoid per-render allocation). */
-const SWATCH_STYLES: Record<string, { light: React.CSSProperties; dark: React.CSSProperties }> =
-  Object.fromEntries(
-    Object.entries(THEME_ACCENTS).map(([key, { light, dark }]) => [
-      key,
-      { light: { background: light }, dark: { background: dark } },
-    ]),
-  );
 
 const LOADING_CLASS = 'text-center p-10 text-muted';
 
@@ -56,9 +47,6 @@ interface TripSheetContentProps {
   onTripChange: (tripId: string) => void;
   colorMode: ColorMode;
   setColorMode: (mode: ColorMode) => void;
-  colorTheme: ColorTheme;
-  setTheme: (theme: ColorTheme) => void;
-  isDark: boolean;
 }
 
 /* ===== Component ===== */
@@ -74,9 +62,6 @@ export default function TripSheetContent({
   onTripChange,
   colorMode,
   setColorMode,
-  colorTheme,
-  setTheme,
-  isDark,
 }: TripSheetContentProps) {
   const content = useMemo(() => {
     if (!activeSheet) return null;
@@ -172,30 +157,13 @@ export default function TripSheetContent({
                   </button>
                 ))}
               </div>
-              <div className="text-caption font-semibold text-muted mt-4 mb-2">色彩主題</div>
-              <div className="grid grid-cols-4 gap-2">
-                {COLOR_THEMES.map((t) => (
-                  <button
-                    key={t.key}
-                    className={clsx('color-theme-card', t.key === colorTheme && 'active')}
-                    data-theme={t.key}
-                    onClick={() => setTheme(t.key)}
-                  >
-                    <div
-                      className="color-theme-swatch"
-                      style={isDark ? SWATCH_STYLES[t.key]?.dark : SWATCH_STYLES[t.key]?.light}
-                    />
-                    <div className="text-caption text-muted mt-1">{t.label}</div>
-                  </button>
-                ))}
-              </div>
             </div>
           </div>
         );
       default:
         return null;
     }
-  }, [activeSheet, docs, tripDrivingStats, currentDay, sheetTrips, sheetTripsLoading, activeTripId, onTripChange, colorMode, setColorMode, colorTheme, setTheme, isDark]);
+  }, [activeSheet, docs, tripDrivingStats, currentDay, sheetTrips, sheetTripsLoading, activeTripId, onTripChange, colorMode, setColorMode]);
 
   return <>{content}</>;
 }

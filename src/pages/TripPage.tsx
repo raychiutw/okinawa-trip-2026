@@ -160,7 +160,7 @@ export default function TripPage() {
   }, [isOnline]);
 
   /* --- Dark mode + Print mode (#2: coordinated via shared state) --- */
-  const { isDark, setIsDark, colorMode, setColorMode, colorTheme, setTheme } = useDarkMode();
+  const { isDark, setIsDark, colorMode, setColorMode } = useDarkMode();
 
   /* --- Trips list for trip-select sheet --- */
   const [sheetTrips, setSheetTrips] = useState<TripListItem[]>([]);
@@ -470,7 +470,7 @@ export default function TripPage() {
   }, [loadedDays]);
 
   /* --- themeArt memo to avoid defeating DaySection memo with inline object --- */
-  const themeArt = useMemo(() => ({ theme: colorTheme, dark: isDark }), [colorTheme, isDark]);
+  const themeArt = useMemo(() => ({ dark: isDark }), [isDark]);
 
   /* --- Footer data (#4: proper FooterData type) --- */
   const footerData = useMemo((): FooterData | null => {
@@ -530,7 +530,7 @@ export default function TripPage() {
           isTripMapMode={isTripMapMode}
           onToggleTripMap={enableDayMap && days.length > 0 ? handleToggleTripMap : undefined}
         />
-        <NavArt theme={colorTheme} dark={isDark} />
+        <NavArt dark={isDark} />
       </div>
 
       <ToastContainer />
@@ -582,7 +582,7 @@ export default function TripPage() {
               ))}
 
             {/* Footer Art */}
-            {!loading && <FooterArt theme={colorTheme} dark={isDark} />}
+            {!loading && <FooterArt dark={isDark} />}
 
             {/* Footer */}
             {!loading && trip && footerData && (
@@ -647,9 +647,6 @@ export default function TripPage() {
           onTripChange={handleTripChange}
           colorMode={colorMode}
           setColorMode={setColorMode}
-          colorTheme={colorTheme}
-          setTheme={setTheme}
-          isDark={isDark}
         />
       </InfoSheet>
 

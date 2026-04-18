@@ -6,8 +6,28 @@ import type { DaySummary } from '../../types/trip';
 
 const SCOPED_STYLES = `
 .dn-today-dot { width: 6px; height: 6px; }
-body.dark [data-dn]:not(.active) { background: transparent; border: 1.5px solid var(--color-accent); }
-@media (min-width: 1280px) { [data-dn] { font-size: var(--font-size-title3); } }
+[data-dn] {
+  flex: 0 0 auto;
+  min-width: 74px;
+  padding: 9px 10px 8px;
+  border-radius: 8px;
+  background: transparent;
+  border: 1px solid var(--color-border);
+  color: var(--color-foreground);
+  line-height: 1;
+  text-align: center;
+  transition: background-color var(--transition-duration-fast) var(--transition-timing-function-apple), color var(--transition-duration-fast) var(--transition-timing-function-apple), border-color var(--transition-duration-fast) var(--transition-timing-function-apple);
+}
+[data-dn]:hover:not(.active) { border-color: var(--color-accent); }
+[data-dn].active { background: var(--color-accent); color: #fff; border-color: var(--color-accent); }
+[data-dn] .dn-eyebrow { font-size: 8.5px; font-weight: 600; letter-spacing: 0.15em; opacity: 0.55; text-transform: uppercase; }
+[data-dn] .dn-date { font-size: 18px; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; margin-top: 6px; }
+[data-dn] .dn-dow { font-size: 10px; opacity: 0.65; margin-top: 4px; letter-spacing: 0.02em; }
+body.dark [data-dn]:not(.active) { background: transparent; border: 1px solid var(--color-border); color: var(--color-foreground); }
+@media (max-width: 760px) {
+  [data-dn] { min-width: 62px; padding: 8px 8px 7px; }
+  [data-dn] .dn-date { font-size: 16px; }
+}
 @keyframes dn-tooltip-in {
   from { opacity: 0; transform: translateX(-50%) translateY(4px); }
   to   { opacity: 1; transform: translateX(-50%) translateY(0); }
@@ -17,8 +37,9 @@ body.dark [data-dn]:not(.active) { background: transparent; border: 1.5px solid 
 /* ===== Helpers ===== */
 
 const WEEKDAYS = '日一二三四五六';
+const WEEKDAYS_EN = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-/** Format pill label: MM/DD */
+/** Format pill label: MM/DD (used for aria-label + fallback text). */
 export function formatPillLabel(day: DaySummary): string {
   if (!day.date) return String(day.dayNum);
   const d = new Date(day.date + 'T00:00:00');
@@ -26,6 +47,17 @@ export function formatPillLabel(day: DaySummary): string {
   const mm = d.getMonth() + 1;
   const dd = d.getDate();
   return `${mm}/${dd}`;
+}
+
+/** Parse a day's display parts for the 3-line chip layout. */
+function parsePillParts(day: DaySummary): { eyebrow: string; date: string; dow: string } {
+  const eyebrow = `DAY ${String(day.dayNum).padStart(2, '0')}`;
+  if (!day.date) return { eyebrow, date: String(day.dayNum), dow: '' };
+  const d = new Date(day.date + 'T00:00:00');
+  if (isNaN(d.getTime())) return { eyebrow, date: String(day.dayNum), dow: '' };
+  const mm = d.getMonth() + 1;
+  const dd = d.getDate();
+  return { eyebrow, date: `${mm}/${dd}`, dow: WEEKDAYS_EN[d.getDay()] ?? '' };
 }
 
 /** Format tooltip content */
@@ -252,15 +284,11 @@ export default function DayNav({ days, currentDayNum, onSwitchDay, todayDayNum, 
             const showTooltip = tooltipDay === dayNum;
 
             const tooltipId = `dn-tooltip-${dayNum}`;
+            const parts = parsePillParts(d);
             return (
               <button
                 key={dayNum}
-                className={clsx(
-                  'dn relative z-1 flex items-center justify-center border-none py-2 px-3 rounded-md text-footnote font-semibold font-inherit min-w-tap-min min-h-tap-min text-center whitespace-nowrap transition-[background,color] duration-fast ease-apple',
-                  isActive
-                    ? 'active bg-accent text-accent-foreground'
-                    : 'bg-accent-bg text-accent hover:bg-accent hover:text-accent-foreground',
-                )}
+                className={clsx('dn relative z-1 cursor-pointer font-inherit', isActive && 'active')}
                 data-dn=""
                 data-day={dayNum}
                 data-action="switch-day"
@@ -273,13 +301,15 @@ export default function DayNav({ days, currentDayNum, onSwitchDay, todayDayNum, 
                 onTouchStart={() => handleTouchStart(dayNum)}
                 onTouchEnd={handleTouchEnd}
               >
-                {formatPillLabel(d)}
+                <span className="dn-eyebrow block">{parts.eyebrow}</span>
+                <span className="dn-date block">{parts.date}</span>
+                {parts.dow && <span className="dn-dow block">{parts.dow}</span>}
                 {/* Today marker dot */}
                 {isToday && (
                   <span
                     className={clsx(
                       'dn-today-dot absolute bottom-1 left-1/2 -translate-x-1/2 rounded-full',
-                      isActive ? 'bg-accent-foreground' : 'bg-accent',
+                      isActive ? 'bg-white' : 'bg-accent',
                     )}
                     aria-hidden="true"
                   />
@@ -300,12 +330,7 @@ export default function DayNav({ days, currentDayNum, onSwitchDay, todayDayNum, 
           {/* 全覽按鈕（F006.5）：只在有切換 callback 時顯示 */}
           {onToggleTripMap && (
             <button
-              className={clsx(
-                'dn relative z-1 flex items-center justify-center border-none py-2 px-3 rounded-md text-footnote font-semibold font-inherit min-w-tap-min min-h-tap-min text-center whitespace-nowrap transition-[background,color] duration-fast ease-apple',
-                isTripMapMode
-                  ? 'active bg-accent text-accent-foreground'
-                  : 'bg-accent-bg text-accent hover:bg-accent hover:text-accent-foreground',
-              )}
+              className={clsx('dn relative z-1 cursor-pointer font-inherit', isTripMapMode && 'active')}
               data-dn=""
               aria-label="全覽地圖"
               aria-pressed={isTripMapMode}
@@ -313,7 +338,8 @@ export default function DayNav({ days, currentDayNum, onSwitchDay, todayDayNum, 
               data-testid="dn-overview-btn"
               type="button"
             >
-              全覽
+              <span className="dn-eyebrow block">MAP</span>
+              <span className="dn-date block">全覽</span>
             </button>
           )}
         </div>
