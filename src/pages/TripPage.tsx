@@ -632,27 +632,6 @@ export default function TripPage() {
         />
       )}
 
-      {/* Edit FAB */}
-      {!loading && trip && (
-        <a
-          className={clsx(
-            'edit-fab fixed right-5 w-(--fab-size) h-(--fab-size) rounded-full bg-accent text-accent-foreground border-none text-large-title font-light no-underline flex items-center justify-center z-(--z-fab) shadow-md hover:shadow-lg hover:scale-110 transition-[transform,box-shadow] duration-normal ease-apple',
-            'bottom-[max(20px,env(safe-area-inset-bottom))]',
-            !isOnline && 'opacity-40 pointer-events-none',
-          )}
-          id="editFab"
-          href="/manage/"
-          aria-label="AI 修改行程"
-          aria-disabled={!isOnline}
-          tabIndex={isOnline ? undefined : -1}
-          onClick={!isOnline ? (e: React.MouseEvent) => e.preventDefault() : undefined}
-        >
-          <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28">
-            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
-          </svg>
-        </a>
-      )}
-
       {/* InfoSheet (mobile bottom sheet) */}
       <InfoSheet
         open={!!activeSheet}
