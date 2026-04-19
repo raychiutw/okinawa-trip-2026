@@ -6,10 +6,10 @@ import type { DaySummary } from '../../types/trip';
 
 const SCOPED_STYLES = `
 .ocean-day-strip {
-  display: flex; gap: 6px;
+  display: flex; gap: 4px;
   overflow-x: auto; scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
-  padding: 6px 40px 8px;
+  padding: 0 40px;
   margin: -28px -40px 20px;
   scrollbar-width: thin;
   position: sticky;
@@ -19,86 +19,118 @@ const SCOPED_STYLES = `
   backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--color-border);
 }
-.ocean-day-strip::-webkit-scrollbar { height: 4px; }
-.ocean-day-strip::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 3px; }
-.ocean-day-strip::-webkit-scrollbar-track { background: transparent; }
+.ocean-day-strip::-webkit-scrollbar { height: 0; }
 @media (max-width: 1200px) {
   .ocean-day-strip { padding-left: 28px; padding-right: 28px; margin-left: -28px; margin-right: -28px; margin-top: -24px; }
 }
 @media (max-width: 1100px) {
   .ocean-day-strip { top: 56px; }
 }
-@media (max-width: 760px) {
-  .ocean-day-strip { padding: 4px 16px 6px; margin: -18px -16px 16px; }
-}
 body.print-mode .ocean-day-strip { display: none; }
 
-/* Chip: single-row compact layout — DAY | date · dow | area */
+/* === DESKTOP tab style (≥761px): underlined tabs, no border, no rounded bg === */
 [data-dn] {
   flex: 0 0 auto;
   scroll-snap-align: start;
-  padding: 8px 12px;
-  border-radius: 10px;
+  padding: 10px 14px;
+  border: none;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
   background: transparent;
-  border: 1px solid var(--color-border);
-  color: var(--color-foreground);
+  color: var(--color-muted);
   cursor: pointer;
   text-align: left;
   font-family: inherit;
-  transition: background-color var(--transition-duration-fast) var(--transition-timing-function-apple),
-              border-color var(--transition-duration-fast) var(--transition-timing-function-apple),
-              color var(--transition-duration-fast) var(--transition-timing-function-apple);
+  transition: color 160ms var(--transition-timing-function-apple),
+              border-bottom-color 160ms var(--transition-timing-function-apple);
   position: relative;
-  display: inline-flex; align-items: center; gap: 8px;
-  min-height: 40px;
+  display: inline-flex; align-items: center; gap: 6px;
+  min-height: 36px;
   white-space: nowrap;
 }
-[data-dn]:hover:not(.active) { border-color: var(--color-accent); }
-[data-dn].active { background: var(--color-accent); color: #fff; border-color: var(--color-accent); }
+[data-dn]:hover:not(.active) { color: var(--color-foreground); }
+[data-dn].active {
+  color: var(--color-accent);
+  border-bottom-color: var(--color-accent);
+  background: transparent;
+}
 
 [data-dn] .dn-head { display: inline-flex; align-items: center; gap: 4px; }
 [data-dn] .dn-eyebrow {
   font-size: 10px; font-weight: 700; letter-spacing: 0.14em;
-  opacity: 0.6; text-transform: uppercase;
+  opacity: 0.7; text-transform: uppercase;
   font-variant-numeric: tabular-nums;
 }
-[data-dn].active .dn-eyebrow { opacity: 0.85; }
+[data-dn].active .dn-eyebrow { opacity: 1; }
 [data-dn] .dn-weather {
   font-size: 9px; font-weight: 700; letter-spacing: 0.12em;
   opacity: 0.75; text-transform: uppercase;
   padding: 2px 5px; border-radius: 4px;
-  background: rgba(0,0,0,0.06);
+  background: var(--color-accent-subtle); color: var(--color-accent);
 }
-[data-dn].active .dn-weather { background: rgba(255,255,255,0.18); opacity: 0.9; }
+[data-dn].active .dn-weather { opacity: 1; }
 
 [data-dn] .dn-date {
-  font-size: 15px; font-weight: 700;
-  font-variant-numeric: tabular-nums; letter-spacing: -0.01em;
+  font-size: 14px; font-weight: 600;
+  font-variant-numeric: tabular-nums; letter-spacing: -0.005em;
   line-height: 1;
+  color: var(--color-foreground);
 }
+[data-dn].active .dn-date { color: var(--color-accent); }
 [data-dn] .dn-dow {
   font-size: 11px; font-weight: 500;
-  opacity: 0.6; margin-left: 4px; letter-spacing: 0.02em;
+  opacity: 0.55; margin-left: 4px; letter-spacing: 0.02em;
 }
-[data-dn].active .dn-dow { opacity: 0.8; }
+[data-dn].active .dn-dow { opacity: 0.75; }
 
 [data-dn] .dn-area {
-  font-size: 12px; opacity: 0.65;
+  font-size: 12px; opacity: 0.6;
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
   max-width: 80px;
-  border-left: 1px solid var(--color-border);
-  padding-left: 8px;
+  padding-left: 6px;
   line-height: 1;
+  position: relative;
 }
-[data-dn].active .dn-area { opacity: 0.82; border-left-color: rgba(255,255,255,0.28); }
+[data-dn] .dn-area::before {
+  content: "·"; position: absolute; left: -1px; opacity: 0.5;
+}
+[data-dn].active .dn-area { opacity: 0.8; }
 
-body.dark [data-dn]:not(.active) { background: transparent; border-color: var(--color-border); color: var(--color-foreground); }
+body.dark [data-dn]:not(.active) { background: transparent; color: var(--color-muted); }
 
+/* === MOBILE pill style (<761px): back to card-style snap-scroll === */
 @media (max-width: 760px) {
-  [data-dn] { padding: 7px 10px; gap: 6px; min-height: 36px; }
-  [data-dn] .dn-date { font-size: 14px; }
+  .ocean-day-strip {
+    gap: 6px;
+    padding: 4px 16px 6px;
+    margin: -18px -16px 16px;
+  }
+  [data-dn] {
+    padding: 7px 10px;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    gap: 6px;
+    min-height: 36px;
+    color: var(--color-foreground);
+  }
+  [data-dn]:hover:not(.active) {
+    border-color: var(--color-accent);
+    border-bottom-color: var(--color-accent);
+  }
+  [data-dn].active {
+    background: var(--color-accent);
+    color: #fff;
+    border-color: var(--color-accent);
+    border-bottom-color: var(--color-accent);
+  }
+  [data-dn].active .dn-date { color: #fff; }
+  [data-dn].active .dn-eyebrow { color: rgba(255,255,255,0.85); }
+  [data-dn] .dn-date { font-size: 14px; color: var(--color-foreground); }
   [data-dn] .dn-area { max-width: 56px; padding-left: 6px; font-size: 11.5px; }
+  [data-dn] .dn-area::before { display: none; }
   [data-dn] .dn-eyebrow { font-size: 9.5px; letter-spacing: 0.12em; }
+  [data-dn] .dn-weather { background: rgba(0,0,0,0.06); color: var(--color-muted); }
+  [data-dn].active .dn-weather { background: rgba(255,255,255,0.18); color: #fff; }
 }
 
 @keyframes dn-tooltip-in {
