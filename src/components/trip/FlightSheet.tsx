@@ -33,7 +33,7 @@ interface ParsedFlight {
 
 const AIRPORT_CODE = /\b([A-Z]{3})\b/g;
 const TWO_TIMES = /(\d{1,2}:\d{2})[^\d]{1,30}?(\d{1,2}:\d{2})/;
-const FLIGHT_CODE_STRICT = /\b(BR|CI|JL|NH|MM|JX|GE|EVA|CAL)\s?(\d{2,4})\b/i;
+const FLIGHT_CODE_STRICT = /\b(BR|CI|JL|NH|MM|JX|GE|EVA|CAL|IT|TR|VJ|AK|VA|UA|AA|DL|CX|KE|OZ|7C|LJ|HX|3K|ZH)\s?(\d{2,4})\b/i;
 const SEAT = /座位[：:]*\s*([0-9A-Z\s,/]+)/;
 const GATE = /(?:登機門|gate)[：:]*\s*([A-Z0-9-]+)/i;
 const DATE_TOKEN = /(\d{1,2}\/\d{1,2}(?:\s*[（(][一二三四五六日][）)])?)/;
