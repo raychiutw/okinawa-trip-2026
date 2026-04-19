@@ -3,6 +3,15 @@
 All notable changes to Tripline will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [1.3.3.0] - 2026-04-20
+
+### Changed
+- **景點詳情頁重新設計（Airbnb editorial 風）**：StopDetailPage layout 整頁重寫 — breadcrumb topbar 取代重複標題、hero title 放大 26-30px、地圖套 rounded 16px 卡片 + aspect-ratio 16:9 + 雙層 shadow、desktop CTA 改 inline（不再 sticky 蓋住內容）、subtitle/note 字級升到 16px body。Mobile topbar breadcrumb 不再換行，trip title 桌機才顯示。
+- **餐廳正備選視覺層級分明**：`Restaurant` 元件改白底 + 1px hairline border + rounded-xl，新增 `variant="hero"` 給正餐廳（accent outline + 淺藍漸層底），`variant="standard"` 給備選。InfoBox `RestaurantsBox` 整片 `bg-accent-bg` 藍底拿掉，改 eyebrow heading（10px uppercase + accent icon），備選改精簡 row（name + category + rating + chevron），展開後 render standard Restaurant 卡片。
+- **購物必買 chip 化**：`Shop` 元件必買從「沖繩甜王草莓、山芋片、金枕紅心西瓜」inline 一串文字改成每項獨立 accent pill chip（dashed top border 區隔），category 從 `<strong>xxx：</strong>` 改成 rounded-full chip，白底 + hairline 卡片。
+- **DayNav 瘦身 ×2**：chip 從 4 行堆疊（DAY + 日期 + 區名 + 6 dots）改成單行水平排版「DAY 01 · 7/29 Wed · 北谷」，高度 147 → 55px（-63%）。桌機再改 GitHub/Apple HIG underlined tab style（無 border、accent 文字色 + 2px underline active），55 → 37px。總 chrome（topbar + daystrip）13% → 11%。Mobile 維持 pill card style（橫滑 snap-scroll）。
+- **InfoBox 家族整體同步**：Hotel 展開的 parking / shopping panels 也獲益於 InfoBox wrapper redesign（去藍底 + eyebrow + hairline）。
+
 ## [1.3.2.0] - 2026-04-19
 
 ### Added
