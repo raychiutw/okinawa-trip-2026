@@ -34,22 +34,35 @@ Think → Plan → Build → Review → Test → Ship → Reflect
 
 ```
 src/entries/        main.tsx（SPA 單入口，BrowserRouter）
-src/pages/          TripPage  ManagePage  AdminPage
-src/components/     trip/（Timeline DayNav Hotel ...）  shared/（Icon Toast ErrorBoundary ...）
-src/hooks/          useTrip  useApi  useDarkMode  usePrintMode  useOnlineStatus ...
+src/pages/          TripPage  TripLayout  StopDetailPage  MapPage  ManagePage  AdminPage
+src/components/     trip/（Timeline DayNav Hotel OceanMap InfoBox Restaurant Shop ...）
+                    shared/（Icon Toast ErrorBoundary TriplineLogo ...）
+src/contexts/       TripContext（/trip/:id/* 子路由共用 trip+days fetch）
+src/hooks/          useTrip  useDarkMode  usePrintMode  useOnlineStatus
+                    useLeafletMap  useRoute（Mapbox proxy + IndexedDB LRU cache）
+                    useMapData  useScrollRestoreOnBack  useRequests  useRequestSSE
 src/lib/            mapRow  mapDay  mergePoi  localStorage  sentry  weather ...
 src/types/          trip.ts  api.ts
-css/                tokens.css（Tailwind CSS 4 @theme — 唯一 CSS，含 6 套主題）
+css/                tokens.css（Tailwind CSS 4 @theme — 唯一 CSS，Ocean 單主題）
 functions/api/      _middleware  _auth  _audit  _utils  _validate  _types
-                    trips/  pois/  requests/  permissions/（RESTful nested routes）
-migrations/         0001 ~ 0023（D1 schema）
+                    trips/  pois/  requests/  permissions/  route.ts（Mapbox Directions proxy）
+migrations/         0001 ~ 0024（D1 schema，包含 api_logs.source）
 scripts/            init-local-db  dump-d1  daily-check  migrate-pois  tp-check ...
 tests/              unit/  integration/  e2e/
 openspec/           config.yaml  specs/  changes/
 ```
 
 - Cloudflare Pages + D1（trip-planner-db / staging）
-- 設計系統：`DESIGN.md`（暖色有機風、Apple HIG、6 套主題）
+- 設計系統：`DESIGN.md`（Ocean 單主題、Airbnb editorial、Apple HIG type scale）
+
+## Routes（SPA）
+
+- `/trip/:tripId` — 行程總覽（Timeline + 每日地圖 + sidebar）
+- `/trip/:tripId/map` — 全圖地圖頁（overview，預設 Day 1）
+- `/trip/:tripId/map?day=N` — 全圖地圖頁（單日聚焦）
+- `/trip/:tripId/stop/:entryId` — 景點詳情頁（編輯風 hero + 導航 + 餐廳正備選 + 必買購物）
+- `/trip/:tripId/stop/:entryId/map` — 景點專屬全圖頁
+- `/manage/`、`/admin/` — 管理介面（Cloudflare Access 認證）
 
 ## 資料架構（POI Schema）
 

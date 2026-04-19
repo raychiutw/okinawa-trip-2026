@@ -12,8 +12,11 @@
 
 - 📋 **多行程支援** — 同時管理多套旅遊計畫，一鍵切換
 - 🗓️ **每日時間軸** — 景點、餐廳、購物、飯店依時間排列，清晰呈現一天行程
-- 🍽️ **三選一餐廳推薦** — 每個用餐時段提供三間選擇，含評分、價位與地圖連結
-- 🗺️ **多地圖支援** — 每個景點直連 Google Maps、Apple Maps、Naver Maps
+- 📍 **景點詳情頁** — 點任一景點跳專屬頁面（`/trip/:id/stop/:entryId`），顯示大標、備註、導航 + 餐廳正備選 + 必買購物
+- 🍽️ **餐廳正備選** — 正推薦 + 備選列表，視覺層級分明
+- 🛍️ **必買購物 chips** — 逛店重點 pill chip 化，一眼掌握
+- 🗺️ **互動地圖系統** — OpenStreetMap（Leaflet）+ 編號 pins + 路線連線，第三方導航外連（Google / Apple / mapcode）
+- 🧭 **全圖地圖頁 + Funliday 導覽** — 景點地圖可切全螢幕（`/trip/:id/map`），下方日期 tab + 橫向 swipe entry cards，卡片滑到中央自動聚焦地圖 pin
 
 ### 即時資訊
 
@@ -24,9 +27,9 @@
 ### 外觀與體驗
 
 - 🌙 **深色模式** — 支援淺色、深色、跟隨系統三種模式
-- 🎨 **3 套色彩主題** — 陽光（Sunshine）、晴空（Clear Sky）、和風（Japanese Zen）
+- 🎨 **Ocean 單一主題** — Airbnb editorial 風（白底 + 1px hairline + rounded-xl），Ocean 海洋藍 `#0077B6` 單一 accent
 - 🖨️ **列印模式** — A4 排版最佳化，可直接列印或輸出 PDF
-- 📱 **響應式設計** — 手機、平板、桌機均有對應排版
+- 📱 **響應式設計** — 手機、平板、桌機均有對應排版（桌機 DayNav 用 GitHub/Apple HIG underlined tab style）
 - ⚡ **PWA 體驗** — 可加入主畫面，離線瀏覽快取
 
 ### 旅伴協作
@@ -52,7 +55,7 @@
 
 - [ARCHITECTURE.md](ARCHITECTURE.md) — 系統組成、資料流、信任邊界、部署拓撲
 - [CONTRIBUTING.md](CONTRIBUTING.md) — 新手上路、測試、commit 慣例、常見任務
-- [DESIGN.md](DESIGN.md) — 設計系統與視覺規範（暖色有機風、Apple HIG、6 套主題）
+- [DESIGN.md](DESIGN.md) — 設計系統與視覺規範（Ocean 單主題、Airbnb editorial、Apple HIG type scale）
 - [CLAUDE.md](CLAUDE.md) — 開發流程與 gstack pipeline
 - [TODOS.md](TODOS.md) — 已知待辦與 follow-up
 - [CHANGELOG.md](CHANGELOG.md) — 版本紀錄
