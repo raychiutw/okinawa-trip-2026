@@ -69,18 +69,25 @@ const SCOPED_STYLES = `
 .stop-detail-back:hover { background: var(--color-hover); }
 .stop-detail-crumb {
   flex: 1; min-width: 0;
-  display: flex; align-items: center; gap: 8px; flex-wrap: nowrap;
-  font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase;
+  display: flex; align-items: center; gap: 6px; flex-wrap: nowrap;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
   color: var(--color-muted);
-  overflow: hidden;
+  overflow: hidden; white-space: nowrap;
 }
+.stop-detail-crumb > span { white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; }
 .stop-detail-crumb-day { color: var(--color-foreground); }
 .stop-detail-crumb-sep { opacity: 0.4; }
 .stop-detail-crumb-trip {
+  margin-left: auto;
   color: var(--color-muted);
   letter-spacing: normal; text-transform: none; font-weight: 500; font-size: 12px;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   text-decoration: none;
+  max-width: 48%;
+  display: none;
+}
+@media (min-width: 768px) {
+  .stop-detail-crumb-trip { display: inline-block; }
 }
 .stop-detail-crumb-trip:hover { color: var(--color-accent); text-decoration: underline; }
 
