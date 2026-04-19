@@ -3,6 +3,19 @@
 All notable changes to Tripline will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [2.0.0.0] - 2026-04-20 — Ocean 大改版里程碑
+
+這版宣告 Ocean 重設計（PR1 Leaflet 基建 + PR2 景點詳情頁 + PR3 全圖地圖頁）完整發布。
+所有主要頁面視覺語言統一為 Airbnb editorial 風（白底 + hairline + rounded-xl + 單一 Ocean accent）。
+
+### Added
+- **全圖地圖頁 `/trip/:id/map` + `/trip/:id/stop/:id/map`**：行程一覽頁與景點明細頁的地圖現在都能切到全螢幕模式。入口是地圖右上的 `⤢` expand icon。
+- **Funliday 風互動地圖導覽**：全圖頁由上到下是 breadcrumb topbar + 全螢幕 OceanMap + 日期 tabs（underlined style）+ 橫向 swipe entry cards（snap-scroll）。日期 tab 切換當日、card swipe/click 讓 map flyTo 該景點。IntersectionObserver 偵測中央卡片自動同步 focus。
+- **Deep link 支援**：從 StopDetailPage 的 `⤢` 進入會自動切到該景點所屬日期並 focus；從 DaySection map 進入會鎖定那一天；從 trip overview 進入預設 Day 1。
+
+### Changed
+- **Padding trick centred swipe cards**：`.map-page-cards padding-inline: max(16px, calc(50% - 110px))` 讓第一張和最後一張 card 都能 snap 到 centre，不會卡左/右邊。
+
 ## [1.3.4.0] - 2026-04-20
 
 ### Added
