@@ -5,6 +5,7 @@
 !.claude/settings.json
 .env
 .env.local
+.dev.vars
 node_modules/
 dist/
 test-results/
