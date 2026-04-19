@@ -12,6 +12,7 @@ import { usePrintMode } from '../hooks/usePrintMode';
 import { TRIP_TIMEZONE, getLocalToday } from '../lib/constants';
 import { downloadTripFormat } from '../lib/tripExport';
 import { calcTripDrivingStats } from '../lib/drivingStats';
+import { computeActiveDayIndex, getStableViewportH, computeInitialHash } from '../lib/scrollSpy';
 import DayNav from '../components/trip/DayNav';
 import DaySection from '../components/trip/DaySection';
 import TripSheetContent, { SHEET_TITLES } from '../components/trip/TripSheetContent';
@@ -373,6 +374,13 @@ export default function TripPage() {
       }
     }
 
+    // 單天行程或頁面短於 viewport 時 onScroll 不會觸發，hash 永遠停在初始值。
+    // 在初始 resolve 完同步推合法 hash 進 URL，避免分享連結時沒有日期錨點。
+    const initialHash = computeInitialHash(dayNums, hash, localToday, autoScrollDates);
+    if (initialHash && window.location.hash !== initialHash) {
+      history.replaceState(null, '', initialHash);
+    }
+
     // Auto-locate to today (timezone-aware)
     const idx = autoScrollDates.indexOf(localToday);
     const todayDayNum = idx >= 0 ? dayNums[idx] : undefined;
@@ -409,15 +417,18 @@ export default function TripPage() {
   /* --- Scroll tracking: update active pill + hash (#6) --- */
   useEffect(() => {
     if (loading || dayNums.length === 0) return;
+    // Print mode 下頁面用 print layout，scroll tracking 對 user 無意義且會觸發
+    // 不必要的 switchDay setState；進入 print mode 時 cleanup 就讓 effect 重跑以 detach。
+    if (isPrintMode) return;
 
     function onScroll() {
       const nav = document.getElementById('stickyNav');
       const navH = nav ? nav.offsetHeight + (parseFloat(getComputedStyle(nav).top) || 0) : 0;
-      let current = -1;
-      for (let i = 0; i < dayNums.length; i++) {
-        const h = document.getElementById('day' + (dayNums[i] ?? ''));
-        if (h && h.getBoundingClientRect().top <= navH + 10) current = i;
-      }
+      const headerTops = dayNums.map((n) => {
+        const h = document.getElementById('day' + n);
+        return h ? h.getBoundingClientRect().top : null;
+      });
+      const current = computeActiveDayIndex(headerTops, navH, getStableViewportH());
       if (current >= 0) {
         const activeDayNum = dayNums[current] ?? -1;
         // #1: Only call switchDay when day actually changes (avoid redundant re-renders)
@@ -445,7 +456,7 @@ export default function TripPage() {
 
     window.addEventListener('scroll', throttledScroll, { passive: true });
     return () => window.removeEventListener('scroll', throttledScroll);
-  }, [loading, dayNums, switchDay]);
+  }, [loading, dayNums, switchDay, isPrintMode]);
 
   /* --- All loaded days as Day[] (#4: allDays values are already Day) --- */
   const loadedDays = useMemo(
@@ -486,6 +497,9 @@ export default function TripPage() {
 
   /* --- Fix 5: Trip change without full page reload --- */
   const handleTripChange = useCallback((tripId: string) => {
+    // scrollDayRef 在 scroll tracking 內作為 dedup guard，跨行程沒 reset 會讓
+    // 新行程載入後若首日 dayNum 相同就不觸發 switchDay，造成 hash 殘留舊值。
+    scrollDayRef.current = 0;
     navigate(`/trip/${tripId}${window.location.search}`, { replace: true });
     lsSet(LS_KEY_TRIP_PREF, tripId);
     setActiveSheet(null);

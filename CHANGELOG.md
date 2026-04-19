@@ -3,6 +3,57 @@
 All notable changes to Tripline will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [1.2.4.0] - 2026-04-17
+
+### Changed
+- **DayNav 日期 pill 等寬**：原本不同字元數的日期（`7/30` 4 chars vs `8/1` 3 chars）pill 寬度不同（63 vs 52px），視覺上一排大小不一、跳動不整齊。改用 `min-w-[4.5em]` 相對單位（mobile 60px / desktop 90px），**所有 pill 等寬**，跟著字體 size responsive 縮放。也加上 `tabular-nums` 讓日期數字等寬顯示，避免 `1` vs `9` 字形寬度差異造成視覺錯位。
+
+## [1.2.3.9] - 2026-04-17
+
+### Removed
+- **DayNav sliding indicator**：PR #187 改了 transition curve 想淡化 ghost trail，但使用者實測仍不滿意（切換時視覺上還是「有東西滑過不相干的 pill」）。直接移除整個半透明 indicator layer（`{indicatorStyle && <div>...</div>}` + `useLayoutEffect` + state）。active pill 本身已是實心橘色背景 + 高對比文字（`bg-accent text-accent-foreground`），辨識當前日期完全夠用。移掉這層 additive 效果讓 DayNav 變得乾淨直接。
+
+### For contributors
+- `DayNav.tsx` 少了 25 行（state、useLayoutEffect、indicator JSX、相關 transition 註解），也不再 import `useLayoutEffect`。
+
+## [1.2.3.8] - 2026-04-17
+
+### Fixed
+- **DayNav 滑動指示器捲動時「底圖變大」到隔壁日期格**：切換日期時指示器用的 spring easing（`cubic-bezier(0.32, 1.28, 0.60, 1.00)`, y1=1.28）會 overshoot 28%，讓指示器衝過目標 pill 到隔壁格短暫停留再彈回；加上 `width` 也同時 spring 造成視覺上像「隔壁 pill 有個比它還大的背景框」。改用純 ease-out curve `--transition-timing-function-apple`（已在 tokens.css 有定義，y2 不超過 1，無 overshoot），指示器現在乾淨滑動到目標 pill，不再污染鄰居。
+
+### Notes
+- `--ease-spring` token 保留給 `InfoSheet` / `QuickPanel` 的 bottom sheet 彈出動畫用（那裡 overshoot 是對的 Apple HIG 彈性動畫），未動到共用 token。
+
+## [1.2.3.7] - 2026-04-17
+
+### Changed
+- **`scripts/lib/local-date.js`（新）**：把 `daily-check.js` 內聯的 `todayISO()` 抽成共用模組，支援注入時間（`todayISO(now)`）方便測試。`daily-check.js` 改用 `require('./lib/local-date')`。
+- **`tests/unit/local-date.test.js`（新）**：6 條單元測試，包含 PR #171 的 regression（凌晨本地 06:13 屬「今天」而非 UTC 前一天）、月日補 0、月初年尾邊界、無參數 smoke。**時區無關**（用 `new Date(y, m, d, h, m)` 本地建構式）在任何 CI runner TZ 下皆穩定。
+
+### For contributors
+- 以後修排程 / 時區相關 bug 時請新增對應 regression test 到 `tests/unit/local-date.test.js` 或兄弟檔。
+
+## [1.2.3.6] - 2026-04-17
+
+### Fixed
+- **Mobile URL bar 捲動時 active 日期框抖動**：mobile Chrome/Safari 捲動時 `window.innerHeight` 會隨 URL bar 收縮抖動，邊界情境 DayNav active pill 可能 toggle 一次。改用 `document.documentElement.clientHeight`（layout viewport，mobile 穩定）。
+- **列印模式 scroll listener 沒清除**：進入列印模式後頁面 scroll listener 繼續觸發 state update。onScroll effect 加 `isPrintMode` 依賴，進入列印模式時 early return 並由 React cleanup detach。
+- **切換行程後 URL hash 可能殘留舊值**：scroll-spy 的 dedup ref 跨行程沒 reset，若兩行程首日 dayNum 相同會漏掉第一次 hash 更新。`handleTripChange` 加 ref reset。
+- **單天行程或短頁面分享時沒日期錨點**：頁面短於 viewport 時 onScroll 從不觸發，URL 停在無 hash 狀態。新增 `computeInitialHash()` pure function，初次載入完若無合法 hash 自動推入 `#day{today}` 或 `#day{first}` fallback。
+
+### Changed
+- **`src/lib/scrollSpy.ts`**：新增 `getStableViewportH()` 與 `computeInitialHash()` 兩個 pure function，抽離自 TripPage 內聯邏輯，好測也避免重複。
+- **`tests/unit/scroll-spy.test.ts`**：新增 8 條單元測試覆蓋 mobile viewport 穩定性、今日匹配、單天行程 fallback、非法 hash fallback、空陣列。
+
+## [1.2.3.5] - 2026-04-17
+
+### Fixed
+- **右上角日期框捲動時標錯日**：DayNav active pill 在捲動過頁時延遲切換，Day N header 已完整顯示在 sticky nav 下方時仍停在 Day N−1；連帶右側 sidebar「今日行程 / 當日交通 / 今日住宿」顯示錯誤日期的資料。`src/pages/TripPage.tsx` 的 scroll-spy 閾值由 `navH + 10`（header 貼到 nav 下緣才切）改為 `navH + (innerHeight − navH) / 3`（header 進入可視區上 1/3 就切），與 Apple HIG scroll-spy 慣例一致。
+
+### Changed
+- **`src/lib/scrollSpy.ts`（新）**：把 onScroll 內的演算法抽成 pure function `computeActiveDayIndex`，null-safe、依單調遞增假設做 early-break，hot path 減少 `getBoundingClientRect` 呼叫。
+- **`tests/unit/scroll-spy.test.ts`（新）**：10 條單元測試覆蓋 bug 場景、邊界、mobile viewport 抖動穩定性、null header。
+
 ## [1.2.3.4] - 2026-04-16
 
 ### Fixed
