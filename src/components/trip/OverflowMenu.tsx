@@ -1,4 +1,5 @@
-import { useState, useCallback, useRef, useEffect } from 'react';
+import { useState, useCallback, useRef, useEffect, useLayoutEffect } from 'react';
+import { createPortal } from 'react-dom';
 import clsx from 'clsx';
 import Icon from '../shared/Icon';
 
@@ -31,6 +32,9 @@ export const OVERFLOW_ITEMS: MenuItem[] = [
   { key: 'download-csv', icon: 'table', label: '匯出 CSV', action: 'download' },
 ];
 
+const MENU_WIDTH = 200;
+const VIEWPORT_MARGIN = 8;
+
 /* ===== Props ===== */
 
 interface OverflowMenuProps {
@@ -43,10 +47,35 @@ interface OverflowMenuProps {
 
 export default function OverflowMenu({ onSheet, onDownload, isOnline = true }: OverflowMenuProps) {
   const [open, setOpen] = useState(false);
+  const [pos, setPos] = useState<{ top: number; left: number } | null>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
 
   const close = useCallback(() => setOpen(false), []);
+
+  /* --- Compute fixed-position coords whenever menu opens / window resizes --- */
+  useLayoutEffect(() => {
+    if (!open) return;
+    function recompute() {
+      const btn = triggerRef.current;
+      if (!btn) return;
+      const r = btn.getBoundingClientRect();
+      const vw = window.innerWidth;
+      // Prefer right-aligned with button. Clamp so menu stays in viewport.
+      const right = vw - r.right;
+      let left = vw - MENU_WIDTH - right;
+      if (left < VIEWPORT_MARGIN) left = VIEWPORT_MARGIN;
+      if (left + MENU_WIDTH > vw - VIEWPORT_MARGIN) left = vw - MENU_WIDTH - VIEWPORT_MARGIN;
+      setPos({ top: r.bottom + 6, left });
+    }
+    recompute();
+    window.addEventListener('resize', recompute);
+    window.addEventListener('scroll', recompute, true);
+    return () => {
+      window.removeEventListener('resize', recompute);
+      window.removeEventListener('scroll', recompute, true);
+    };
+  }, [open]);
 
   /* --- Escape + click-outside --- */
   useEffect(() => {
@@ -79,8 +108,40 @@ export default function OverflowMenu({ onSheet, onDownload, isOnline = true }: O
     close();
   }, [onSheet, onDownload, isOnline, close]);
 
+  const menu = open && pos ? createPortal(
+    <div
+      ref={menuRef}
+      role="menu"
+      className="ocean-overflow-menu"
+      aria-label="更多功能"
+      style={{ top: pos.top, left: pos.left, width: MENU_WIDTH }}
+    >
+      {OVERFLOW_ITEMS.map((item, i) => {
+        const disabled = !isOnline && !!item.requiresOnline;
+        const prev = OVERFLOW_ITEMS[i - 1];
+        const needsDivider = prev && prev.action !== item.action;
+        return (
+          <div key={item.key} style={{ display: 'contents' }}>
+            {needsDivider && <div className="ocean-overflow-divider" role="separator" />}
+            <button
+              type="button"
+              role="menuitem"
+              className={clsx('ocean-overflow-item', disabled && 'is-disabled')}
+              disabled={disabled}
+              onClick={() => handleItem(item)}
+            >
+              <Icon name={item.icon} />
+              <span>{item.label}</span>
+            </button>
+          </div>
+        );
+      })}
+    </div>,
+    document.body,
+  ) : null;
+
   return (
-    <div className="ocean-overflow-wrap">
+    <>
       <button
         ref={triggerRef}
         type="button"
@@ -93,37 +154,7 @@ export default function OverflowMenu({ onSheet, onDownload, isOnline = true }: O
         <span aria-hidden="true">☰</span>
         <span className="ocean-tb-label">更多</span>
       </button>
-
-      {open && (
-        <div
-          ref={menuRef}
-          role="menu"
-          className="ocean-overflow-menu"
-          aria-label="更多功能"
-        >
-          {OVERFLOW_ITEMS.map((item, i) => {
-            const disabled = !isOnline && !!item.requiresOnline;
-            const prev = OVERFLOW_ITEMS[i - 1];
-            const needsDivider = prev && prev.action !== item.action;
-            return (
-              <>
-                {needsDivider && <div key={`div-${item.key}`} className="ocean-overflow-divider" role="separator" />}
-                <button
-                  key={item.key}
-                  type="button"
-                  role="menuitem"
-                  className={clsx('ocean-overflow-item', disabled && 'is-disabled')}
-                  disabled={disabled}
-                  onClick={() => handleItem(item)}
-                >
-                  <Icon name={item.icon} />
-                  <span>{item.label}</span>
-                </button>
-              </>
-            );
-          })}
-        </div>
-      )}
-    </div>
+      {menu}
+    </>
   );
 }
