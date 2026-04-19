@@ -5,27 +5,25 @@
  * Consumes shared trip data from <TripLayout> via useTripContext.
  *
  *  ┌───────────────────────────────────────────┐
- *  │ ← 返回    {stop title}          (mode 🗺)  │  sticky topbar
+ *  │ ← 返回  DAY 02 · 7/27 · 14:30      {trip} │  sticky topbar (breadcrumb)
  *  ├───────────────────────────────────────────┤
+ *  │ 東橫INN 沖繩那霸國際通美榮橋站             │  hero title
+ *  │ Toyoko Inn Okinawa Naha Kokusai-dori...   │  hero subtitle
  *  │                                           │
- *  │          OceanMap (mode=detail)           │  280px
+ *  │    ┌─────────────────────────────┐        │
+ *  │    │  OceanMap (rounded, shadow) │        │
+ *  │    └─────────────────────────────┘        │
  *  │                                           │
+ *  │ 備註 ....................................│
+ *  │ 地址 · 導航 .............................│
+ *  │ 相關資訊（正 + 備選 + 必買購物）         │
  *  ├───────────────────────────────────────────┤
- *  │ DAY 02 · 7/27 · 14:30–15:30               │
- *  │ 東橫INN 沖繩那霸國際通美榮橋站             │  title
- *  │ Toyoko Inn Okinawa Naha Kokusai-dori...   │
- *  │ ────                                      │
- *  │ 📍 1-20-1 Makishi                          │
- *  │ 💬 <note>                                  │
- *  │ [infoBoxes — restaurants / parking / …]   │
- *  ├───────────────────────────────────────────┤
- *  │ [ 在 Google Maps 開啟導航 ]               │  action button
+ *  │ [ 在 Google Maps 開啟導航 ]  ← mobile sticky│
  *  └───────────────────────────────────────────┘
  */
 
 import { lazy, Suspense, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import clsx from 'clsx';
 import { useTripContext } from '../contexts/TripContext';
 import { useScrollRestoreOnBack } from '../hooks/useScrollRestoreOnBack';
 import { extractPinsFromDay } from '../hooks/useMapData';
@@ -48,6 +46,11 @@ const SCOPED_STYLES = `
   background: var(--color-background);
   padding-bottom: calc(96px + env(safe-area-inset-bottom));
 }
+@media (min-width: 961px) {
+  .stop-detail-wrap { padding-bottom: 48px; }
+}
+
+/* --- Topbar (breadcrumb style) --- */
 .stop-detail-topbar {
   position: sticky; top: 0; z-index: var(--z-sticky-nav);
   background: var(--color-glass-nav);
@@ -58,65 +61,125 @@ const SCOPED_STYLES = `
 }
 .stop-detail-back {
   width: 36px; height: 36px; border-radius: 50%;
-  display: grid; place-items: center;
+  display: grid; place-items: center; flex-shrink: 0;
   background: transparent; border: none; cursor: pointer;
   color: var(--color-foreground);
-  transition: background-color var(--transition-duration-fast) var(--transition-timing-function-apple);
+  transition: background-color 160ms var(--transition-timing-function-apple);
 }
 .stop-detail-back:hover { background: var(--color-hover); }
-.stop-detail-topbar-title {
+.stop-detail-crumb {
   flex: 1; min-width: 0;
-  font-size: 15px; font-weight: 600; letter-spacing: -0.01em;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  color: var(--color-foreground);
+  display: flex; align-items: center; gap: 8px; flex-wrap: nowrap;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--color-muted);
+  overflow: hidden;
 }
-.stop-detail-map { margin: 0 0 16px; }
+.stop-detail-crumb-day { color: var(--color-foreground); }
+.stop-detail-crumb-sep { opacity: 0.4; }
+.stop-detail-crumb-trip {
+  color: var(--color-muted);
+  letter-spacing: normal; text-transform: none; font-weight: 500; font-size: 12px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0;
+  text-decoration: none;
+}
+.stop-detail-crumb-trip:hover { color: var(--color-accent); text-decoration: underline; }
+
+/* --- Hero (title + subtitle + map) --- */
 .stop-detail-body { max-width: 720px; margin: 0 auto; padding: 0 16px; }
-.stop-detail-meta {
-  font-size: 11px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase;
-  color: var(--color-muted); margin: 16px 0 6px;
-  display: flex; gap: 6px; align-items: center; flex-wrap: wrap;
+@media (min-width: 961px) {
+  .stop-detail-body { padding: 0 32px; }
 }
-.stop-detail-meta-sep { opacity: 0.5; }
+.stop-detail-hero { padding: 20px 0 4px; }
 .stop-detail-title {
-  font-size: 22px; font-weight: 700; letter-spacing: -0.02em;
-  color: var(--color-foreground); line-height: 1.25; margin: 0 0 4px;
+  font-size: 26px; font-weight: 700; letter-spacing: -0.02em;
+  color: var(--color-foreground); line-height: 1.2; margin: 0 0 4px;
 }
-.stop-detail-subtitle { font-size: 13px; color: var(--color-muted); margin: 0 0 16px; }
+@media (min-width: 768px) {
+  .stop-detail-title { font-size: 30px; }
+}
+.stop-detail-subtitle {
+  font-size: 15px; color: var(--color-muted); margin: 0;
+  line-height: 1.5;
+}
+
+/* --- Map wrapper (rounded card, constrained width) --- */
+.stop-detail-map {
+  max-width: 720px; margin: 16px auto;
+  padding: 0 16px;
+}
+@media (min-width: 961px) {
+  .stop-detail-map { padding: 0 32px; }
+}
+.stop-detail-map-inner {
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.06);
+  border: 1px solid var(--color-border);
+  aspect-ratio: 16 / 9;
+  max-height: 320px;
+  background: var(--color-secondary);
+}
+.stop-detail-map-inner > * { width: 100%; height: 100%; }
+
+/* --- Body sections --- */
 .stop-detail-section {
-  padding: 14px 0; border-top: 1px solid var(--color-border);
+  padding: 20px 0 4px;
+  border-top: 1px solid var(--color-border);
+  margin-top: 16px;
 }
-.stop-detail-section:first-of-type { border-top: none; }
+.stop-detail-section:first-of-type { border-top: none; margin-top: 8px; }
 .stop-detail-section h3 {
   font-size: 11px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase;
-  color: var(--color-muted); margin: 0 0 8px;
+  color: var(--color-muted); margin: 0 0 10px;
 }
-.stop-detail-note { font-size: 15px; line-height: 1.6; color: var(--color-foreground); }
-.stop-detail-action {
+.stop-detail-note {
+  font-size: 16px; line-height: 1.65; color: var(--color-foreground);
+}
+
+/* --- Action button (mobile sticky / desktop inline) --- */
+.stop-detail-action-wrap {
   position: fixed; left: 16px; right: 16px;
   bottom: calc(16px + env(safe-area-inset-bottom));
-  max-width: 720px; margin: 0 auto;
+  z-index: calc(var(--z-sticky-nav) - 1);
+  display: flex; justify-content: center;
+}
+@media (min-width: 961px) {
+  .stop-detail-action-wrap {
+    position: static; left: auto; right: auto; bottom: auto;
+    margin: 24px auto 8px; padding: 0 32px;
+    max-width: 720px; width: 100%; box-sizing: border-box;
+  }
+}
+.stop-detail-action {
+  width: 100%; max-width: 720px;
   padding: 14px 20px; border-radius: 999px;
   background: var(--color-accent); color: #fff;
   font-size: 15px; font-weight: 600; letter-spacing: 0.01em;
   text-align: center; text-decoration: none;
-  box-shadow: 0 6px 20px rgba(0, 119, 182, 0.35);
+  box-shadow: 0 1px 3px rgba(0,119,182,0.18), 0 4px 14px rgba(0,119,182,0.2);
   display: flex; align-items: center; justify-content: center; gap: 8px;
-  z-index: calc(var(--z-sticky-nav) - 1);
+  transition: transform 140ms var(--transition-timing-function-apple),
+              box-shadow 140ms var(--transition-timing-function-apple);
 }
+.stop-detail-action:hover { box-shadow: 0 2px 4px rgba(0,119,182,0.22), 0 6px 18px rgba(0,119,182,0.26); }
 .stop-detail-action:active { transform: scale(0.98); }
+
+/* --- Empty state --- */
 .stop-detail-empty {
   padding: 48px 16px; text-align: center; color: var(--color-muted);
 }
 .stop-detail-skeleton {
-  height: 280px; margin: 0 0 16px;
+  width: 100%; height: 100%;
   background: var(--color-secondary);
   animation: stopDetailPulse 1.5s ease-in-out infinite;
 }
 @keyframes stopDetailPulse { 0%,100% { opacity: 1; } 50% { opacity: 0.55; } }
-@media (min-width: 961px) {
-  .stop-detail-body { padding: 0 32px; }
-}
+
+/* --- Print mode: hide map + action + topbar chrome --- */
+body.print-mode .stop-detail-map,
+body.print-mode .stop-detail-action-wrap,
+body.print-mode .stop-detail-back { display: none !important; }
+body.print-mode .stop-detail-topbar { position: static; }
 `;
 
 /* ===== Entry lookup ===== */
@@ -182,12 +245,15 @@ export default function StopDetailPage() {
     return (
       <div className="stop-detail-wrap">
         <style>{SCOPED_STYLES}</style>
-        <StopDetailTopbar onBack={() => navigate(-1)} title="" />
-        <div className="stop-detail-skeleton" />
+        <StopDetailTopbar onBack={() => navigate(-1)} crumb={null} tripTitle={null} tripId={null} navigate={navigate} />
         <div className="stop-detail-body">
-          <div className="h-4 w-24 bg-secondary rounded animate-pulse my-4" />
-          <div className="h-8 w-3/4 bg-secondary rounded animate-pulse my-2" />
-          <div className="h-4 w-1/2 bg-secondary rounded animate-pulse" />
+          <div className="stop-detail-hero">
+            <div className="h-7 w-3/4 bg-secondary rounded animate-pulse mb-2" />
+            <div className="h-4 w-1/2 bg-secondary rounded animate-pulse" />
+          </div>
+        </div>
+        <div className="stop-detail-map">
+          <div className="stop-detail-map-inner"><div className="stop-detail-skeleton" /></div>
         </div>
       </div>
     );
@@ -198,7 +264,7 @@ export default function StopDetailPage() {
     return (
       <div className="stop-detail-wrap">
         <style>{SCOPED_STYLES}</style>
-        <StopDetailTopbar onBack={() => navigate(-1)} title="" />
+        <StopDetailTopbar onBack={() => navigate(-1)} crumb={null} tripTitle={null} tripId={null} navigate={navigate} />
         <div className="stop-detail-empty">
           <TriplineLogo isOnline={isOnline} />
           <p className="mt-4 text-lg font-semibold text-foreground">找不到這個景點</p>
@@ -226,8 +292,6 @@ export default function StopDetailPage() {
   const primaryLoc = locations[0];
 
   /* --- External nav URL (open in Google Maps app) --- */
-  // Prefer the pin's lat/lng (from extractPinsFromDay) for precise coords,
-  // fall back to googleQuery text search otherwise.
   const externalMapUrl = (() => {
     const pin = detailPins[0];
     if (pin) {
@@ -239,34 +303,47 @@ export default function StopDetailPage() {
     return null;
   })();
 
+  const crumbParts: string[] = [];
+  crumbParts.push(`DAY ${String(dayNum).padStart(2, '0')}`);
+  if (dateLabel) crumbParts.push(dateLabel);
+  if (time) crumbParts.push(time);
+  const crumb = crumbParts.join(' · ');
+
   return (
     <div className="stop-detail-wrap">
       <style>{SCOPED_STYLES}</style>
-      <StopDetailTopbar onBack={() => navigate(-1)} title={title} />
+      <StopDetailTopbar
+        onBack={() => navigate(-1)}
+        crumb={crumb}
+        tripTitle={trip?.title ?? null}
+        tripId={trip?.id ?? null}
+        navigate={navigate}
+      />
+
+      <div className="stop-detail-body">
+        <div className="stop-detail-hero">
+          <h1 className="stop-detail-title">{title || '（無標題）'}</h1>
+          {description && <p className="stop-detail-subtitle">{description}</p>}
+        </div>
+      </div>
 
       {detailPins.length > 0 ? (
         <div className="stop-detail-map">
-          <Suspense fallback={<div className="stop-detail-skeleton" />}>
-            <OceanMap pins={detailPins} mode="detail" routes={false} />
-          </Suspense>
+          <div className="stop-detail-map-inner">
+            <Suspense fallback={<div className="stop-detail-skeleton" />}>
+              <OceanMap pins={detailPins} mode="detail" routes={false} />
+            </Suspense>
+          </div>
         </div>
       ) : (
         <div className="stop-detail-map">
-          <div className="stop-detail-skeleton flex items-center justify-center text-muted text-sm">
+          <div className="stop-detail-map-inner flex items-center justify-center text-muted text-sm">
             無位置資訊
           </div>
         </div>
       )}
 
       <div className="stop-detail-body">
-        <div className="stop-detail-meta">
-          <span>DAY {String(dayNum).padStart(2, '0')}</span>
-          {dateLabel && <><span className="stop-detail-meta-sep">·</span><span>{dateLabel}</span></>}
-          {time && <><span className="stop-detail-meta-sep">·</span><span>{time}</span></>}
-        </div>
-        <h1 className="stop-detail-title">{title || '（無標題）'}</h1>
-        {description && <p className="stop-detail-subtitle">{description}</p>}
-
         {note && (
           <div className="stop-detail-section">
             <h3>備註</h3>
@@ -287,45 +364,37 @@ export default function StopDetailPage() {
             {infoBoxes.map((box, i) => <InfoBox key={i} box={box} />)}
           </div>
         )}
-
-        {trip?.title && (
-          <div className="stop-detail-section text-sm text-muted">
-            <span>來自行程：</span>
-            <a
-              href={`/trip/${trip.id}`}
-              className={clsx('text-accent font-medium ml-1')}
-              onClick={(e) => { e.preventDefault(); navigate(`/trip/${trip.id}`); }}
-            >
-              {trip.title}
-            </a>
-          </div>
-        )}
       </div>
 
       {externalMapUrl && (
-        <a
-          className="stop-detail-action"
-          href={externalMapUrl}
-          target="_blank"
-          rel="noreferrer"
-          aria-label="在 Google Maps 開啟導航"
-        >
-          <Icon name="location-pin" />
-          <span>在 Google Maps 開啟導航</span>
-        </a>
+        <div className="stop-detail-action-wrap">
+          <a
+            className="stop-detail-action"
+            href={externalMapUrl}
+            target="_blank"
+            rel="noreferrer"
+            aria-label="在 Google Maps 開啟導航"
+          >
+            <Icon name="location-pin" />
+            <span>在 Google Maps 開啟導航</span>
+          </a>
+        </div>
       )}
     </div>
   );
 }
 
-/* ===== Subcomponent: Topbar ===== */
+/* ===== Subcomponent: Topbar (breadcrumb style) ===== */
 
 interface TopbarProps {
   onBack: () => void;
-  title: string;
+  crumb: string | null;
+  tripTitle: string | null;
+  tripId: string | null;
+  navigate: ReturnType<typeof useNavigate>;
 }
 
-function StopDetailTopbar({ onBack, title }: TopbarProps) {
+function StopDetailTopbar({ onBack, crumb, tripTitle, tripId, navigate }: TopbarProps) {
   return (
     <header className="stop-detail-topbar">
       <button
@@ -336,7 +405,28 @@ function StopDetailTopbar({ onBack, title }: TopbarProps) {
       >
         <Icon name="chevron-left" />
       </button>
-      <span className="stop-detail-topbar-title">{title}</span>
+      <div className="stop-detail-crumb">
+        {crumb && (
+          <>
+            {crumb.split(' · ').map((part, i) => (
+              <span key={i}>
+                {i > 0 && <span className="stop-detail-crumb-sep" aria-hidden="true">·</span>}
+                <span className={i === 0 ? 'stop-detail-crumb-day' : ''}>{part}</span>
+              </span>
+            ))}
+          </>
+        )}
+        {tripTitle && tripId && (
+          <a
+            className="stop-detail-crumb-trip ml-auto"
+            href={`/trip/${tripId}`}
+            onClick={(e) => { e.preventDefault(); navigate(`/trip/${tripId}`); }}
+            aria-label={`返回行程 ${tripTitle}`}
+          >
+            {tripTitle}
+          </a>
+        )}
+      </div>
     </header>
   );
 }
