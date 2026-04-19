@@ -19,7 +19,7 @@ import TripSheetContent, { SHEET_TITLES } from '../components/trip/TripSheetCont
 /* TripMap — React.lazy code-split（F006：多天總覽）*/
 const TripMap = lazy(() => import('../components/trip/TripMap'));
 import Footer, { type FooterData } from '../components/trip/Footer';
-import QuickPanel from '../components/trip/QuickPanel';
+import OverflowMenu from '../components/trip/OverflowMenu';
 import InfoSheet from '../components/trip/InfoSheet';
 import InfoPanel from '../components/trip/InfoPanel';
 import TriplineLogo from '../components/shared/TriplineLogo';
@@ -56,7 +56,7 @@ const SCOPED_STYLES = `
 .sticky-nav > :not([aria-hidden="true"]) { position: relative; z-index: 1; }
 /* Print mode */
 .print-mode .sticky-nav { display: none; }
-.print-mode .edit-fab { display: none !important; }
+.print-mode .ocean-tb-btn { display: none !important; }
 .print-mode .print-exit-btn { display: block; }
 .print-mode .info-panel { display: none !important; }
 .print-mode .page-layout { padding-right: 0 !important; }
@@ -64,7 +64,7 @@ const SCOPED_STYLES = `
 .print-mode .day-header { background: var(--color-background); position: relative !important; flex-wrap: wrap; padding: 8px 12px; }
 .print-mode .container { max-width: 210mm; margin: 0 auto; box-shadow: var(--shadow-lg); }
 @media print {
-  .sticky-nav, .edit-fab, .print-exit-btn, .info-panel { display: none !important; }
+  .sticky-nav, .print-exit-btn, .ocean-side { display: none !important; }
   .page-layout { padding-right: 0 !important; }
 }
 `;
@@ -469,7 +469,7 @@ export default function TripPage() {
     return raw as FooterData;
   }, [trip]);
 
-  /* --- QuickPanel -> InfoSheet --- */
+  /* --- Topbar / OverflowMenu -> InfoSheet --- */
   const handlePanelItem = useCallback((key: string) => { setActiveSheet(key); }, []);
   const handleSheetClose = useCallback(() => { setActiveSheet(null); }, []);
 
@@ -541,6 +541,11 @@ export default function TripPage() {
             <span aria-hidden="true">⎙</span>
             <span className="ocean-tb-label">列印</span>
           </button>
+          <OverflowMenu
+            onSheet={handlePanelItem}
+            onDownload={handleDownloadFormat}
+            isOnline={isOnline}
+          />
           <a
             className={clsx('ocean-tb-btn ocean-tb-ai', !isOnline && 'opacity-40 pointer-events-none')}
             href="/manage/"
@@ -621,16 +626,6 @@ export default function TripPage() {
           </div>
         )}
       </main>
-
-      {/* QuickPanel */}
-      {!loading && trip && (
-        <QuickPanel
-          onItemClick={handlePanelItem}
-          onPrint={togglePrint}
-          onDownload={handleDownloadFormat}
-          isOnline={isOnline}
-        />
-      )}
 
       {/* InfoSheet (mobile bottom sheet) */}
       <InfoSheet
