@@ -342,8 +342,7 @@ body.dark {
         display: flex; align-items: center; justify-content: space-between; gap: 12px;
     }
     .ocean-topbar-left, .ocean-topbar-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; min-width: 0; }
-    .ocean-topbar-right { gap: 6px; overflow-x: auto; scrollbar-width: none; }
-    .ocean-topbar-right::-webkit-scrollbar { display: none; }
+    .ocean-topbar-right { gap: 6px; }
     .ocean-brand { display: flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: -0.01em; white-space: nowrap; }
     .ocean-brand-label { color: var(--color-muted); font-weight: 500; font-size: 13px; }
     .ocean-tb-divider { width: 1px; height: 22px; background: var(--color-border); flex-shrink: 0; margin: 0 4px; }
