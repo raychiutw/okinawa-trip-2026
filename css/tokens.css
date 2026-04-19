@@ -383,7 +383,7 @@ body.dark {
     /* Body grid */
     .ocean-body { display: grid; grid-template-columns: 1fr 320px; gap: 24px; align-items: start; }
     .ocean-main { min-width: 0; }
-    .ocean-side { display: flex; flex-direction: column; gap: 14px; position: sticky; top: 84px; }
+    .ocean-side { display: flex; flex-direction: column; gap: 14px; position: sticky; top: 200px; }
 
     /* Hero card inside each day */
     .ocean-hero {
@@ -572,7 +572,7 @@ body.dark {
     .ocean-side-card-title { font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--color-muted); }
 
     /* Day section wrapper */
-    .ocean-day { scroll-margin-top: 84px; }
+    .ocean-day { scroll-margin-top: 210px; }
     .ocean-day + .ocean-day { margin-top: 24px; }
 
     /* Breakpoints */
@@ -601,6 +601,7 @@ body.dark {
         .ocean-stop { grid-template-columns: 56px 44px 1fr; padding: 14px; gap: 12px; }
         .ocean-stop-actions { grid-column: 1 / -1; justify-content: flex-end; }
         .ocean-stop-icon { width: 44px; height: 44px; }
+        .ocean-day { scroll-margin-top: 190px; }
     }
 
     /* Mobile bottom tab bar (只在 ≤760px 顯示) */

@@ -9,13 +9,29 @@ const SCOPED_STYLES = `
   display: flex; gap: 8px;
   overflow-x: auto; scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
-  padding: 0 0 4px 0;
-  margin: 0 0 24px;
+  padding: 10px 40px 12px;
+  margin: -28px -40px 24px;
   scrollbar-width: thin;
+  position: sticky;
+  top: 64px;
+  z-index: calc(var(--z-sticky-nav) - 1);
+  background: var(--color-glass-nav);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--color-border);
 }
 .ocean-day-strip::-webkit-scrollbar { height: 6px; }
 .ocean-day-strip::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 3px; }
 .ocean-day-strip::-webkit-scrollbar-track { background: transparent; }
+@media (max-width: 1200px) {
+  .ocean-day-strip { padding-left: 28px; padding-right: 28px; margin-left: -28px; margin-right: -28px; margin-top: -24px; }
+}
+@media (max-width: 1100px) {
+  .ocean-day-strip { top: 56px; }
+}
+@media (max-width: 760px) {
+  .ocean-day-strip { padding: 8px 16px 10px; margin: -18px -16px 20px; }
+}
+body.print-mode .ocean-day-strip { display: none; }
 
 [data-dn] {
   flex: 0 0 160px;

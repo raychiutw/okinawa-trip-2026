@@ -22,6 +22,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/).
 - **useMediaQuery hook**：SSR-safe React hook 訂閱 media query change event，供 Timeline 依螢幕寬切 rail/card。
 
 ### Changed
+- **DayNav 日期總覽列改為 sticky**：`.ocean-day-strip` 加 `position: sticky; top: 64px`（手機 56px）+ backdrop-blur + hairline border，捲動時釘在 topbar 下方。負 margin bleed 到 viewport 邊緣讓毛玻璃底色蓋滿。`.ocean-day` scroll-margin-top `84px → 210px`（手機 190px）、`.ocean-side` top `84px → 200px` 避免 sticky 堆疊重疊。chip 視覺格式 100% 保留。
 - **theme 系統簡化為單一 Ocean**：刪除 `sun/sky/zen/forest/sakura/night` 六套主題，`useDarkMode` 移除 `ColorTheme` / `setTheme` / `THEME_CLASSES`，只管 `light/auto/dark`。`appearance.ts` 移除 `COLOR_THEMES` + `THEME_ACCENTS`。TripSheetContent 的外觀 sheet 只剩色彩模式選擇器（3 個 card）。
 - **tokens.css 全面改寫**：砍 1800+ 行六主題覆寫，新增 Ocean light + dark (deep navy `#0D1B2A`) + print 三 variants。radius 對齊 Airbnb（sm:6/md:8/lg:12/xl:16）、shadow 三層中性黑。
 - **字型**：system font stack + Caveat 手寫 → Inter + Noto Sans TC（設計稿指定）。
