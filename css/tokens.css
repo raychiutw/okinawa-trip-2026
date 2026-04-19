@@ -466,6 +466,14 @@ body.dark {
         border-left: 2px dashed var(--color-border);
     }
 
+    /* Flight card (mockup FlightInfo) */
+    .ocean-flight-card {
+        background: var(--color-background);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-md);
+        padding: 16px 18px;
+    }
+
     /* Mobile compact rail (設計稿 design_mobile.jsx) */
     .ocean-rail { padding: 16px 14px 0; }
     .ocean-rail-header {
@@ -591,10 +599,11 @@ body.dark {
         .ocean-hero-title { font-size: 28px; }
     }
     @media (max-width: 760px) {
-        .ocean-nav-tabs button .ocean-tab-label { display: none; }
-        .ocean-tb-btn { padding: 7px 10px; font-size: 12px; }
-        .ocean-tb-btn .ocean-tb-label { display: none; }
-        .ocean-page { padding: 18px 16px 32px; }
+        .ocean-nav-tabs { display: none; }
+        .ocean-tb-divider { display: none; }
+        .ocean-topbar-right .ocean-tb-btn:not(.ocean-tb-ai) { display: none; }
+        .ocean-overflow-wrap { display: none; }
+        .ocean-page { padding: 18px 16px calc(80px + env(safe-area-inset-bottom)); }
         .ocean-header { flex-direction: column; align-items: flex-start; }
         .ocean-h1 { font-size: 24px; }
         .ocean-hero { padding: 22px 20px; border-radius: var(--radius-md); }
@@ -602,6 +611,32 @@ body.dark {
         .ocean-stop { grid-template-columns: 56px 44px 1fr; padding: 14px; gap: 12px; }
         .ocean-stop-actions { grid-column: 1 / -1; justify-content: flex-end; }
         .ocean-stop-icon { width: 44px; height: 44px; }
+    }
+
+    /* Mobile bottom tab bar (只在 ≤760px 顯示) */
+    .ocean-bottom-nav { display: none; }
+    @media (max-width: 760px) {
+        .ocean-bottom-nav {
+            position: fixed; left: 0; right: 0; bottom: 0;
+            display: grid; grid-template-columns: repeat(5, 1fr);
+            background: color-mix(in srgb, var(--color-background) 97%, transparent);
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border-top: 1px solid var(--color-border);
+            padding-bottom: env(safe-area-inset-bottom);
+            z-index: calc(var(--z-sticky-nav) - 1);
+        }
+        .ocean-bottom-nav-btn {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            gap: 3px; padding: 10px 4px;
+            background: transparent; border: none; cursor: pointer;
+            color: var(--color-muted); font: inherit;
+            transition: color var(--transition-duration-fast) var(--transition-timing-function-apple);
+        }
+        .ocean-bottom-nav-btn .svg-icon { width: 18px; height: 18px; }
+        .ocean-bottom-nav-btn span { font-size: 10px; font-weight: 500; }
+        .ocean-bottom-nav-btn.is-active { color: var(--color-accent); }
+        .ocean-bottom-nav-btn.is-active span { font-weight: 700; }
+        .ocean-bottom-nav-btn:disabled { opacity: 0.4; cursor: not-allowed; }
     }
     body.dark .ocean-tb-btn.ocean-tb-ai { background: #fff; color: #0D1B2A; border-color: #fff; }
     body.dark .ocean-stop[data-past="true"] { opacity: 0.5; }

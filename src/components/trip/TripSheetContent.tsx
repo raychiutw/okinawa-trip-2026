@@ -6,6 +6,8 @@
 import { useMemo } from 'react';
 import clsx from 'clsx';
 import DocCard from './DocCard';
+import FlightSheet from './FlightSheet';
+import SuggestionSheet from './SuggestionSheet';
 import TodayRouteSheet from './TodayRouteSheet';
 import { TripDrivingStatsCard } from './DrivingStats';
 import { toTimelineEntry } from '../../lib/mapDay';
@@ -66,12 +68,24 @@ export default function TripSheetContent({
   const content = useMemo(() => {
     if (!activeSheet) return null;
     switch (activeSheet) {
-      /* Individual content */
-      case 'flights':
+      /* Flight — rich card (mockup 對齊) */
+      case 'flights': {
+        const docData = docs.flights as { title?: string; entries?: DocEntry[] } | undefined;
+        return docData?.entries?.length
+          ? <FlightSheet entries={docData.entries} />
+          : <p className="text-callout text-muted text-center py-4">尚無航班資料</p>;
+      }
+      /* Suggestions — 3-tier priority (mockup 對齊) */
+      case 'suggestions': {
+        const docData = docs.suggestions as { title?: string; entries?: DocEntry[] } | undefined;
+        return docData?.entries?.length
+          ? <SuggestionSheet entries={docData.entries} />
+          : <p className="text-callout text-muted text-center py-4">尚無建議</p>;
+      }
+      /* Generic doc sheets */
       case 'checklist':
       case 'backup':
-      case 'emergency':
-      case 'suggestions': {
+      case 'emergency': {
         const docData = docs[activeSheet] as { title?: string; entries?: DocEntry[] } | undefined;
         return docData?.entries?.length
           ? <DocCard entries={docData.entries} />

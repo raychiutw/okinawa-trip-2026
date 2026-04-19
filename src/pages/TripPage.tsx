@@ -20,6 +20,7 @@ import TripSheetContent, { SHEET_TITLES } from '../components/trip/TripSheetCont
 const TripMap = lazy(() => import('../components/trip/TripMap'));
 import Footer, { type FooterData } from '../components/trip/Footer';
 import OverflowMenu from '../components/trip/OverflowMenu';
+import MobileBottomNav from '../components/trip/MobileBottomNav';
 import InfoSheet from '../components/trip/InfoSheet';
 import InfoPanel from '../components/trip/InfoPanel';
 import TriplineLogo from '../components/shared/TriplineLogo';
@@ -452,6 +453,16 @@ export default function TripPage() {
     [allDays],
   );
 
+  /* --- Stops count per day for DayNav progress marks --- */
+  const stopsByDay = useMemo(() => {
+    const map: Record<number, number> = {};
+    for (const dayNum of dayNums) {
+      const day = allDays[dayNum];
+      if (day) map[dayNum] = day.timeline.length;
+    }
+    return map;
+  }, [allDays, dayNums]);
+
   /* --- Trip driving stats --- */
   const tripDrivingStats = useMemo(() => {
     if (loadedDays.length === 0) return null;
@@ -580,6 +591,7 @@ export default function TripPage() {
             todayDayNum={todayDayNum}
             isTripMapMode={isTripMapMode}
             onToggleTripMap={enableDayMap && days.length > 0 ? handleToggleTripMap : undefined}
+            stopsByDay={stopsByDay}
           />
         )}
 
@@ -621,11 +633,27 @@ export default function TripPage() {
               {footerData && <Footer footer={footerData} />}
             </div>
             <aside className="ocean-side">
-              <InfoPanel currentDay={currentDay} />
+              <InfoPanel
+                currentDay={currentDay}
+                allDays={allDays}
+                dayNums={dayNums}
+                currentDayNum={currentDayNum}
+                flightEntries={(docs.flights as { entries?: import('../components/trip/DocCard').DocEntry[] } | undefined)?.entries}
+              />
             </aside>
           </div>
         )}
       </main>
+
+      {/* Mobile bottom tab bar (≤760px) */}
+      {!loading && trip && (
+        <MobileBottomNav
+          activeSheet={activeSheet}
+          onOpenSheet={setActiveSheet}
+          onClearSheet={() => setActiveSheet(null)}
+          isOnline={isOnline}
+        />
+      )}
 
       {/* InfoSheet (mobile bottom sheet) */}
       <InfoSheet

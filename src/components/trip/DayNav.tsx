@@ -47,9 +47,12 @@ const SCOPED_STYLES = `
 [data-dn] .dn-area { font-size: 12.5px; margin-top: 6px; opacity: 0.8; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 [data-dn].active .dn-area { opacity: 0.85; }
 
-[data-dn] .dn-marks { display: flex; gap: 3px; margin-top: 12px; }
+[data-dn] .dn-marks { display: flex; gap: 3px; align-items: center; margin-top: 12px; }
 [data-dn] .dn-mark { width: 14px; height: 2px; background: var(--color-lineStrong, #C1C1C1); }
+[data-dn] .dn-mark[data-empty="true"] { background: var(--color-border); }
 [data-dn].active .dn-mark { background: rgba(255,255,255,0.65); }
+[data-dn] .dn-marks-extra { font-size: 9px; color: var(--color-muted); margin-left: 4px; }
+[data-dn].active .dn-marks-extra { color: rgba(255,255,255,0.75); }
 
 body.dark [data-dn]:not(.active) { background: transparent; border-color: var(--color-border); color: var(--color-foreground); }
 
@@ -114,11 +117,13 @@ interface DayNavProps {
   todayDayNum?: number;
   isTripMapMode?: boolean;
   onToggleTripMap?: () => void;
+  /** Stop count per day (dayNum → count). Used to render progress marks. */
+  stopsByDay?: Record<number, number>;
 }
 
 /* ===== Component ===== */
 
-export default function DayNav({ days, currentDayNum, onSwitchDay, todayDayNum, isTripMapMode = false, onToggleTripMap }: DayNavProps) {
+export default function DayNav({ days, currentDayNum, onSwitchDay, todayDayNum, isTripMapMode = false, onToggleTripMap, stopsByDay }: DayNavProps) {
   const navRef = useRef<HTMLDivElement>(null);
   const longPressTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const tooltipTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -201,9 +206,23 @@ export default function DayNav({ days, currentDayNum, onSwitchDay, todayDayNum, 
                 {parts.dow && <span className="dn-dow">{parts.dow}</span>}
               </div>
               {d.label && <div className="dn-area">{d.label}</div>}
-              <div className="dn-marks" aria-hidden="true">
-                {Array.from({ length: 6 }).map((_, i) => (<span key={i} className="dn-mark" />))}
-              </div>
+              {(() => {
+                const stopCount = stopsByDay?.[dayNum];
+                const shown = stopCount !== undefined ? Math.min(stopCount, 6) : 6;
+                const extra = stopCount !== undefined && stopCount > 6 ? stopCount - 6 : 0;
+                return (
+                  <div className="dn-marks" aria-hidden="true">
+                    {Array.from({ length: shown || 6 }).map((_, i) => (
+                      <span
+                        key={i}
+                        className="dn-mark"
+                        data-empty={stopCount === undefined || stopCount === 0 ? 'true' : undefined}
+                      />
+                    ))}
+                    {extra > 0 && <span className="dn-marks-extra">+{extra}</span>}
+                  </div>
+                );
+              })()}
               {showTooltip && (
                 <span
                   id={tooltipId}
