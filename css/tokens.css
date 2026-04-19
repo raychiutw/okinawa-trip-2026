@@ -486,18 +486,21 @@ body.dark {
     }
 
     .ocean-rail-item {
-        position: relative; display: grid;
-        grid-template-columns: 22px 1fr auto;
-        grid-template-areas: "icon content caret" "expand expand expand";
-        column-gap: 10px; row-gap: 0;
+        position: relative; display: block;
         width: 100%; padding: 8px 0;
-        background: transparent; border: none; border-bottom: 1px dashed var(--color-border);
-        color: var(--color-foreground); cursor: pointer; text-align: left;
-        font: inherit;
+        border-bottom: 1px dashed var(--color-border);
+        color: var(--color-foreground);
     }
     .ocean-rail-item[data-last="true"] { border-bottom: none; }
     .ocean-rail-item[data-past="true"] { opacity: 0.55; }
     .ocean-rail-item[data-now="true"] { background: color-mix(in srgb, var(--color-accent) 6%, transparent); border-radius: var(--radius-sm); padding: 8px 6px; border-bottom-color: var(--color-accent); }
+    .ocean-rail-head {
+        display: grid; grid-template-columns: 22px 1fr auto;
+        column-gap: 10px; width: 100%;
+        background: transparent; border: none; padding: 0;
+        color: inherit; cursor: pointer; text-align: left;
+        font: inherit;
+    }
 
     .ocean-rail-time {
         position: absolute; left: -54px; top: 10px;
@@ -516,14 +519,13 @@ body.dark {
     .ocean-rail-item[data-now="true"] .ocean-rail-dot { background: var(--color-accent); border-color: var(--color-accent); }
 
     .ocean-rail-icon {
-        grid-area: icon;
         width: 22px; height: 22px;
         display: grid; place-items: center;
         color: var(--color-muted); flex-shrink: 0;
     }
     .ocean-rail-item[data-accent="true"] .ocean-rail-icon { color: var(--color-accent); }
 
-    .ocean-rail-content { grid-area: content; min-width: 0; overflow: hidden; }
+    .ocean-rail-content { min-width: 0; overflow: hidden; }
     .ocean-rail-name {
         display: block; font-size: 13px; font-weight: 600;
         letter-spacing: -0.01em;
@@ -541,7 +543,6 @@ body.dark {
     .ocean-rail-sep { opacity: 0.5; }
 
     .ocean-rail-caret {
-        grid-area: caret;
         font-size: 14px; color: var(--color-muted);
         transition: transform 0.2s var(--transition-timing-function-apple);
         flex-shrink: 0;
@@ -549,12 +550,11 @@ body.dark {
     .ocean-rail-item[data-expanded="true"] .ocean-rail-caret { transform: rotate(90deg); }
 
     .ocean-rail-expand {
-        grid-area: expand;
         display: block;
         margin: 8px 0 4px 32px;
         padding-left: 10px;
         border-left: 2px solid var(--color-border);
-        font-size: 11.5px; line-height: 1.55;
+        font-size: 12.5px; line-height: 1.55;
     }
     .ocean-rail-item[data-accent="true"] .ocean-rail-expand { border-left-color: var(--color-accent); }
 

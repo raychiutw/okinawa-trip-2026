@@ -12,6 +12,8 @@
 import { memo, useState, useEffect } from 'react';
 import Icon from '../shared/Icon';
 import MarkdownText from '../shared/MarkdownText';
+import InfoBox from './InfoBox';
+import { NavLinks } from './MapLinks';
 import type { TimelineEntryData } from './TimelineEvent';
 
 interface ParsedTime { start: string; end: string; duration: number; }
@@ -95,50 +97,63 @@ const TimelineRail = memo(function TimelineRail({ events, nowIndex = -1 }: Timel
           const isPast = nowIndex >= 0 && i < nowIndex;
           const isNow = nowIndex >= 0 && i === nowIndex;
           const isLast = i === events.length - 1;
+          const hasExpandBody =
+            entry.note ||
+            entry.description ||
+            (entry.locations && entry.locations.length > 0) ||
+            (entry.infoBoxes && entry.infoBoxes.length > 0);
           return (
-            <button
+            <div
               key={entry.id ?? i}
-              type="button"
               className="ocean-rail-item"
               data-expanded={expanded || undefined}
               data-now={isNow || undefined}
               data-past={isPast || undefined}
               data-accent={meta.accent || undefined}
               data-last={isLast || undefined}
-              aria-expanded={expanded}
-              onClick={() => setExpandedIdx(expanded ? -1 : i)}
             >
               <span className="ocean-rail-time">{parsed.start}</span>
               <span className="ocean-rail-dot" aria-hidden="true" />
-              <span className="ocean-rail-icon" aria-hidden="true">
-                <Icon name={meta.icon} />
-              </span>
-              <span className="ocean-rail-content">
-                <span className="ocean-rail-name">{entry.title ?? ''}</span>
-                <span className="ocean-rail-sub">
-                  <span className="ocean-rail-type">{meta.label}</span>
-                  {formatDuration(parsed.duration) && (
-                    <>
-                      <span className="ocean-rail-sep">·</span>
-                      <span>{formatDuration(parsed.duration)}</span>
-                    </>
-                  )}
-                  {typeof entry.googleRating === 'number' && (
-                    <>
-                      <span className="ocean-rail-sep">·</span>
-                      <span>★ {entry.googleRating.toFixed(1)}</span>
-                    </>
-                  )}
+              <button
+                type="button"
+                className="ocean-rail-head"
+                aria-expanded={expanded}
+                onClick={() => setExpandedIdx(expanded ? -1 : i)}
+              >
+                <span className="ocean-rail-icon" aria-hidden="true">
+                  <Icon name={meta.icon} />
                 </span>
-              </span>
-              <span className="ocean-rail-caret" aria-hidden="true">›</span>
-              {expanded && (entry.note || entry.description) && (
-                <span className="ocean-rail-expand">
-                  {entry.note && <MarkdownText text={entry.note} as="span" className="block" />}
-                  {entry.description && <MarkdownText text={entry.description} as="span" className="block mt-1 text-muted" />}
+                <span className="ocean-rail-content">
+                  <span className="ocean-rail-name">{entry.title ?? ''}</span>
+                  <span className="ocean-rail-sub">
+                    <span className="ocean-rail-type">{meta.label}</span>
+                    {formatDuration(parsed.duration) && (
+                      <>
+                        <span className="ocean-rail-sep">·</span>
+                        <span>{formatDuration(parsed.duration)}</span>
+                      </>
+                    )}
+                    {typeof entry.googleRating === 'number' && (
+                      <>
+                        <span className="ocean-rail-sep">·</span>
+                        <span>★ {entry.googleRating.toFixed(1)}</span>
+                      </>
+                    )}
+                  </span>
                 </span>
+                <span className="ocean-rail-caret" aria-hidden="true">›</span>
+              </button>
+              {expanded && hasExpandBody && (
+                <div className="ocean-rail-expand">
+                  {entry.note && <MarkdownText text={entry.note} as="div" className="block" />}
+                  {entry.description && <MarkdownText text={entry.description} as="div" className="block mt-1 text-muted" />}
+                  {entry.locations && entry.locations.length > 0 && <NavLinks locations={entry.locations} />}
+                  {entry.infoBoxes && entry.infoBoxes.length > 0 &&
+                    entry.infoBoxes.map((box, bi) => <InfoBox key={bi} box={box} />)
+                  }
+                </div>
               )}
-            </button>
+            </div>
           );
         })}
       </div>
