@@ -3,6 +3,17 @@
 All notable changes to Tripline will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [1.3.4.0] - 2026-04-20
+
+### Added
+- **ManagePage `/manage` 整頁重新設計**：跟景點詳情頁統一視覺語言 — breadcrumb topbar（sticky glass blur + 52px + ← back button + eyebrow「AI 編輯」+ trip selector pill + Trip/Line online logo）+ hero「訊息紀錄」title + subtitle「修改行程內容或向 Tripline 請教建議，處理時間約 30 秒」。chat bubble 去 AI slop（border-l-[3px] border-accent quote 改 hairline box）、mode toggle「修改/提問」改 outline-only pill、input bar 去 shadow-md 改 hairline + focus-within accent。
+- **401/403 AuthRequiredCard**：`/manage` 認證失敗從「無法存取，請重新整理頁面」模糊訊息改 editorial card，本機顯示 `.dev.vars` + `DEV_MOCK_EMAIL` 設定步驟 + code snippet，生產顯示「前往 Cloudflare Access 登入」accent button。
+
+### Fixed
+- **Markdown parser 處理 legacy DB 資料**：renderMarkdown 兜底 unescape literal `\n`（兩字元）→ 真換行、`\t` → tab、`\|` → |；保留 fenced code blocks 內字元不動。解決 AI 回覆的 `## 標題\n\n內容\n- item` 表格 / 標題 / bullet list 顯示破掉的問題。
+- **Icon registry 補 chevron-left / chevron-right**：ManagePage + StopDetailPage 的返回按鈕以前因為 Icon 元件對未知 name 回 null，`<Icon name="chevron-left" />` render 成空 button，使用者看不到 affordance。現已補進 Material Symbols path data。
+- **本機 mock auth 文件修正**：CLAUDE.md 原寫「`.env.local` 的 `DEV_MOCK_EMAIL`」實際上 wrangler 只讀 `.dev.vars`。新人 onboard 設錯地方導致 `/manage` 一直 401。`.dev.vars.example` 補 `DEV_MOCK_EMAIL` + `ADMIN_EMAIL` 範例 + 註解、CLAUDE.md 指向正確檔案 + 附 `cp .dev.vars.example .dev.vars` 指令 + 重啟 dev 提示。
+
 ## [1.3.3.0] - 2026-04-20
 
 ### Changed
