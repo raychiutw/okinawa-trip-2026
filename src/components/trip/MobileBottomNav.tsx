@@ -41,8 +41,8 @@ export default function MobileBottomNav({
 
   function currentTab(): TabKey {
     const { pathname } = location;
-    // Map tab: /trip/:id/map (and sub-routes)
-    if (pathname.includes('/map')) return 'map';
+    // Map tab: must match /trip/:id/map exactly (and sub-routes), not just any path containing '/map'
+    if (/\/trip\/[^/]+\/map/.test(pathname)) return 'map';
     // Message tab: /manage
     if (pathname.startsWith('/manage')) return 'message';
     // 更多 tab: open sheet that's not a route
@@ -58,7 +58,7 @@ export default function MobileBottomNav({
       activeSheet === 'suggestions' ||
       activeSheet === 'flights'
     ) return 'menu';
-    // Default: 行程
+    // Default: 行程 (matches /trip/:id or any sub-route not caught above)
     return 'home';
   }
 

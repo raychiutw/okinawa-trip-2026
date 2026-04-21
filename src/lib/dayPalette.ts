@@ -21,7 +21,9 @@ export const DAY_PALETTE = [
 /**
  * 取第 N 天（1-indexed）的路線色。
  * 超過 10 天輪回到 day 1（modulo loop）。
+ * 無效輸入（dayNum < 1、NaN、Infinity）回傳 DAY_PALETTE[0]。
  */
 export function dayColor(dayNum: number): string {
+  if (!Number.isFinite(dayNum) || dayNum < 1) return DAY_PALETTE[0]!;
   return DAY_PALETTE[(dayNum - 1) % DAY_PALETTE.length]!;
 }

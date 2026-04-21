@@ -587,7 +587,7 @@ export default function TripPage() {
         )}
 
         {/* Body: 2-col grid (≥1024px: content + sticky map rail; <1024px: single col) */}
-        {!loading && trip && activeTripId && (() => {
+        {!loading && trip && (() => {
           const allPins = dayNums.flatMap((n) => {
             const day = allDays[n];
             return day ? extractPinsFromDay(day).pins : [];
@@ -620,7 +620,7 @@ export default function TripPage() {
               {/* Desktop Map Rail — right column, sticky, ≥1024px only */}
               <TripMapRail
                 pins={allPins}
-                tripId={activeTripId}
+                tripId={trip.id}
                 pinsByDay={pinsByDay}
               />
             </div>
@@ -629,9 +629,9 @@ export default function TripPage() {
       </main>
 
       {/* Mobile bottom tab bar (≤760px) */}
-      {!loading && trip && activeTripId && (
+      {!loading && trip && (
         <MobileBottomNav
-          tripId={activeTripId}
+          tripId={trip.id}
           activeSheet={activeSheet}
           onOpenSheet={setActiveSheet}
           onClearSheet={() => setActiveSheet(null)}
