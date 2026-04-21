@@ -3,25 +3,19 @@ import { render } from '@testing-library/react';
 import Icon from '../../src/components/shared/Icon';
 
 describe('Icon — edit & menu entries', () => {
-  it('renders an SVG for name="edit"', () => {
+  it('renders edit icon with SVG path containing stroke-linecap', () => {
     const { container } = render(<Icon name="edit" />);
-    expect(container.querySelector('svg')).not.toBeNull();
-  });
-
-  it('renders an SVG for name="menu"', () => {
-    const { container } = render(<Icon name="menu" />);
-    expect(container.querySelector('svg')).not.toBeNull();
-  });
-
-  it('edit svg has path data (non-empty innerHTML)', () => {
-    const { container } = render(<Icon name="edit" />);
+    const path = container.querySelector('svg path');
+    expect(path).not.toBeNull();
     const svg = container.querySelector('svg');
-    expect(svg?.innerHTML.length).toBeGreaterThan(0);
+    expect(svg?.innerHTML).toContain('stroke-linecap');
   });
 
-  it('menu svg has path data (non-empty innerHTML)', () => {
+  it('renders menu icon with SVG path containing stroke path data', () => {
     const { container } = render(<Icon name="menu" />);
+    const path = container.querySelector('svg path');
+    expect(path).not.toBeNull();
     const svg = container.querySelector('svg');
-    expect(svg?.innerHTML.length).toBeGreaterThan(0);
+    expect(svg?.innerHTML).toContain('d="M3 12h18');
   });
 });
