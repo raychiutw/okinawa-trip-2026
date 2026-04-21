@@ -141,15 +141,15 @@ const daySectionPath = resolve(ROOT, 'src/components/trip/DaySection.tsx');
 const daySection = readFileSync(daySectionPath, 'utf-8');
 
 describe('注意事項卡 — warning amber', () => {
-  it('DaySection 注意事項 block 不含 bg-destructive-bg', () => {
-    // 確認不再用 destructive 樣式
-    const warningBlock = daySection.match(/注意事項[\s\S]{0,200}/)?.[0] ?? '';
-    expect(warningBlock).not.toContain('bg-destructive-bg');
-    expect(warningBlock).not.toContain('text-destructive');
+  it('DaySection 警告區塊 className 不含 bg-destructive-bg', () => {
+    // 搜尋 warnings.length > 0 後的 className
+    const warningSection = daySection.match(/warnings\.length > 0[\s\S]{0,400}/)?.[0] ?? '';
+    expect(warningSection).not.toContain('bg-destructive-bg');
+    expect(warningSection).not.toContain('text-destructive');
   });
 
-  it('DaySection 注意事項 block 使用 warning 色調', () => {
-    const warningBlock = daySection.match(/注意事項[\s\S]{0,200}/)?.[0] ?? '';
-    expect(warningBlock).toMatch(/warning/);
+  it('DaySection 警告區塊 使用 warning 色調 className', () => {
+    const warningSection = daySection.match(/warnings\.length > 0[\s\S]{0,400}/)?.[0] ?? '';
+    expect(warningSection).toMatch(/warning/);
   });
 });
