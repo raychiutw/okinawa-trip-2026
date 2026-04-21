@@ -7,6 +7,8 @@
  * - .ocean-side（非 .ocean-side-card 等衍生 class）
  * - .info-panel（InfoPanel 已 orphan）
  *
+ * 同時驗證 TripPage.tsx 的 SCOPED_STYLES 不含 dead .info-panel rule（InfoPanel 已於 F001 刪除）
+ *
  * @media print 內部允許保留（未檢查）
  */
 
@@ -16,6 +18,9 @@ import { join } from 'path';
 
 const tokensPath = join(process.cwd(), 'css', 'tokens.css');
 const css = readFileSync(tokensPath, 'utf-8');
+
+const tripPagePath = join(process.cwd(), 'src', 'pages', 'TripPage.tsx');
+const tripPageSrc = readFileSync(tripPagePath, 'utf-8');
 
 /**
  * 從 CSS 移除 @media print block 後的內容，
@@ -53,6 +58,14 @@ describe('tokens.css — dead CSS 清理 (F001)', () => {
 
   it('不含 --info-panel-w CSS variable 宣告', () => {
     const match = css.match(/--info-panel-w\s*:/);
+    expect(match).toBeNull();
+  });
+});
+
+describe('TripPage.tsx SCOPED_STYLES — dead CSS 清理 (PR5)', () => {
+  it('SCOPED_STYLES 不含 .info-panel rule（InfoPanel 已於 F001 刪除）', () => {
+    // .info-panel should not appear anywhere in TripPage.tsx
+    const match = tripPageSrc.match(/\.info-panel/);
     expect(match).toBeNull();
   });
 });
