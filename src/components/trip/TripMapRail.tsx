@@ -39,6 +39,8 @@ interface TripMapRailProps {
   tripId: string;
   /** Group pins by day for polyline colouring. Key = dayNum. */
   pinsByDay?: Map<number, MapPin[]>;
+  /** Pass through to useLeafletMap — use dark tile layer when true. */
+  dark?: boolean;
 }
 
 const SCOPED_STYLES = `
@@ -77,7 +79,7 @@ function createPinIcon(label: string, color: string): L.DivIcon {
   });
 }
 
-export default function TripMapRail({ pins, tripId, pinsByDay }: TripMapRailProps) {
+export default function TripMapRail({ pins, tripId, pinsByDay, dark = false }: TripMapRailProps) {
   const isDesktop = useMediaQuery('(min-width: 1024px)');
   const navigate = useNavigate();
 
@@ -89,6 +91,7 @@ export default function TripMapRail({ pins, tripId, pinsByDay }: TripMapRailProp
   const { containerRef, map, fitBounds } = useLeafletMap({
     center: [26.2, 127.7],
     zoom: 11,
+    dark,
   });
 
   const fitDoneRef = useRef(false);

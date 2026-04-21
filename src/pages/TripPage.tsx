@@ -621,6 +621,7 @@ export default function TripPage() {
                 pins={allPins}
                 tripId={trip.id}
                 pinsByDay={pinsByDay}
+                dark={isDark}
               />
             </div>
           );
