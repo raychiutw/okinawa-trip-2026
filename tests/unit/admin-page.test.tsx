@@ -101,4 +101,12 @@ describe('AdminPage', () => {
     // PageNav renders a div with id="stickyNav" — verify the nav is present
     expect(container.querySelector('#stickyNav')).not.toBeNull();
   });
+
+  it('PageNav 仍 render 且 TriplineLogo 是可點的 link（導回 "/"）', () => {
+    const { getByRole } = renderAdmin();
+    // TriplineLogo 已包成 <Link to="/">，react-router 會 render 為 <a>
+    const logoLink = getByRole('link', { name: /Tripline/ });
+    expect(logoLink).toBeTruthy();
+    expect(logoLink.getAttribute('href')).toBe('/');
+  });
 });
