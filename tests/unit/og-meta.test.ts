@@ -17,13 +17,11 @@ describe('F002 — index.html OG + Twitter card meta', () => {
   })
 
   it('必須含 og:image:width = 1200', () => {
-    expect(INDEX_HTML).toContain('property="og:image:width"')
-    expect(INDEX_HTML).toContain('"1200"')
+    expect(INDEX_HTML).toContain('property="og:image:width" content="1200"')
   })
 
   it('必須含 og:image:height = 630', () => {
-    expect(INDEX_HTML).toContain('property="og:image:height"')
-    expect(INDEX_HTML).toContain('"630"')
+    expect(INDEX_HTML).toContain('property="og:image:height" content="630"')
   })
 
   it('必須含 twitter:card = summary_large_image', () => {

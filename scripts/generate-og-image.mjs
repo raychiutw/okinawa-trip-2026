@@ -6,7 +6,7 @@
  */
 
 import sharp from 'sharp'
-import { writeFileSync, mkdirSync } from 'fs'
+import { mkdirSync } from 'fs'
 import { resolve, dirname } from 'path'
 import { fileURLToPath } from 'url'
 
@@ -28,9 +28,6 @@ const svg = `<svg
       <stop offset="0%" style="stop-color:#0077B6;stop-opacity:1" />
       <stop offset="100%" style="stop-color:#023E8A;stop-opacity:1" />
     </linearGradient>
-    <!-- 裝飾圓圈（右側背景層次感） -->
-    <circle id="deco1" cx="1100" cy="80" r="220" fill="rgba(255,255,255,0.05)" />
-    <circle id="deco2" cx="980" cy="580" r="160" fill="rgba(255,255,255,0.04)" />
   </defs>
 
   <!-- 背景漸層 -->
@@ -92,7 +89,7 @@ const svg = `<svg
 const svgBuffer = Buffer.from(svg, 'utf-8')
 
 sharp(svgBuffer)
-  .png({ quality: 90, compressionLevel: 9 })
+  .png({ compressionLevel: 9 })
   .toFile(OUTPUT_PATH)
   .then((info) => {
     const sizeKB = (info.size / 1024).toFixed(1)
