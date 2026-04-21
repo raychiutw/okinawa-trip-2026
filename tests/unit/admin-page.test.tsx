@@ -38,9 +38,9 @@ describe('AdminPage', () => {
     expect(getByText('權限管理')).toBeTruthy();
   });
 
-  it('has close button with aria-label', () => {
+  it('does NOT have a close × button (AdminPage is a standalone page, not a modal)', () => {
     const { container } = renderAdmin();
-    expect(container.querySelector('[aria-label="關閉"]')).toBeTruthy();
+    expect(container.querySelector('[aria-label="關閉"]')).toBeNull();
   });
 
   it('has trip select with aria-label', () => {
