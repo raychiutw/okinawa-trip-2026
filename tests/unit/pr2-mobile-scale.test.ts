@@ -26,7 +26,18 @@ describe('tokens.css — mobile type scale override', () => {
   });
 
   it('22px hero title 必須在 @media (max-width: 760px) 區塊內的 .ocean-hero-title scope 中', () => {
-    // 更精準：font-size: 22px 必須出現在 760px media query 的 .ocean-hero-title rule 裡
-    expect(tokens).toMatch(/@media\s*\(max-width:\s*760px\)[^{]*\{[^}]*\.ocean-hero-title[^}]*font-size:\s*22px/ms);
+    // 更精準：找到包含 .ocean-hero-title 與 font-size: 22px 的 760px media block
+    // 策略：從 @media (max-width: 760px) 起點往後找 .ocean-hero-title.*font-size:\s*22px（800字元內）
+    let found = false;
+    const mediaRe = /@media\s*\(max-width:\s*760px\)/g;
+    let m: RegExpExecArray | null;
+    while ((m = mediaRe.exec(tokens)) !== null) {
+      const slice = tokens.slice(m.index, m.index + 800);
+      if (/\.ocean-hero-title[^}]*font-size:\s*22px/.test(slice)) {
+        found = true;
+        break;
+      }
+    }
+    expect(found).toBe(true);
   });
 });

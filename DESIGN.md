@@ -35,8 +35,8 @@
 | subheadline | 0.9375rem (15px) | 輔助文字 |
 | footnote | 0.8125rem (13px) | 註腳、按鈕文字 |
 | caption | 0.75rem (12px) | 最小文字 |
-| caption2 | 0.6875rem (11px) | uppercase eyebrow（DAY 01 / STOPS 等） |
-| eyebrow | 0.625rem (10px) | DAY 01 等 uppercase label |
+| caption2 | 0.6875rem (11px) | 最小行內 meta label（例：NIGHT 1 等） |
+| eyebrow | 0.625rem (10px) | 大寫 section header（例：DAY 01、STOPS、用餐） |
 
 ## Type Scale (Mobile ≤760px)
 

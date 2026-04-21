@@ -223,7 +223,7 @@ export default function InfoSheet({
             left: 0,
             right: 0,
             height: '75vh',
-            background: 'color-mix(in srgb, var(--color-secondary) 88%, transparent)',
+            background: 'color-mix(in srgb, var(--color-secondary) 94%, transparent)',
             WebkitBackdropFilter: 'blur(var(--blur-glass, 14px))',
             backdropFilter: 'blur(var(--blur-glass, 14px))',
             borderRadius: 'var(--radius-lg) var(--radius-lg) 0 0',
