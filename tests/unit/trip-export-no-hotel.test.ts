@@ -44,4 +44,12 @@ describe('tripExport — 移除獨立住宿區塊 (R19)', () => {
     const match = src.match(/['"]住宿['"]\s*,\s*csvCell/);
     expect(match).toBeNull();
   });
+
+  it('不含孤兒 RawHotel 型別宣告', () => {
+    // R19: RawHotel 與 RawDay.hotel 已拿掉，避免死型別誤導未來讀者
+    const typeDecl = src.match(/type\s+RawHotel\s*=/);
+    expect(typeDecl).toBeNull();
+    const fieldDecl = src.match(/hotel\?:\s*RawHotel/);
+    expect(fieldDecl).toBeNull();
+  });
 });

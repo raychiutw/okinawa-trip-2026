@@ -17,15 +17,8 @@ type RawDayEntry = {
   shopping?: Record<string, unknown>[];
   [key: string]: unknown;
 };
-type RawHotel = {
-  name?: unknown; checkout?: unknown; note?: unknown; breakfast?: unknown;
-  parking?: unknown;
-  shopping?: Record<string, unknown>[];
-  [key: string]: unknown;
-};
 type RawDay = {
   dayNum?: number; date?: string; dayOfWeek?: string; label?: string;
-  hotel?: RawHotel | null;
   timeline?: RawDayEntry[];
   [key: string]: unknown;
 };

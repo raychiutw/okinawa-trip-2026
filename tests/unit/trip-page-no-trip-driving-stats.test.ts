@@ -18,13 +18,8 @@ describe('TripPage — 移除 tripDrivingStats (R19)', () => {
     expect(match).toBeNull();
   });
 
-  it('不宣告 tripDrivingStats 變數（useMemo 或其他）', () => {
+  it('不宣告或傳遞 tripDrivingStats（涵蓋 useMemo、prop、參數等所有用法）', () => {
     const match = src.match(/\btripDrivingStats\b/);
-    expect(match).toBeNull();
-  });
-
-  it('不傳遞 tripDrivingStats prop 給 DaySection', () => {
-    const match = src.match(/tripDrivingStats\s*=\s*\{/);
     expect(match).toBeNull();
   });
 });

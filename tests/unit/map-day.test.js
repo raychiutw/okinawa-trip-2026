@@ -29,6 +29,42 @@ describe('buildLocation — maps 是 URL 時 googleQuery', () => {
   });
 });
 
+describe('buildLocation — maps 非 URL（地名）時 name fallback（R19 後改以 toTimelineEntry 覆蓋）', () => {
+  it('餐廳 maps 是地名、name 為空時，location.name 應 fallback 為 maps 值', () => {
+    const entry = toTimelineEntry({
+      title: '晚餐',
+      restaurants: [
+        {
+          // name 刻意為空 / 未提供
+          maps: '北谷町営駐車場 美浜',
+        },
+      ],
+    });
+    const restaurant = entry.infoBoxes?.[0]?.restaurants?.[0];
+    expect(restaurant).toBeDefined();
+    expect(restaurant.location).not.toBeNull();
+    // maps 是地名（非 URL），name 應 fallback 為地名
+    expect(restaurant.location.name).toBe('北谷町営駐車場 美浜');
+    // 非 URL 不應產生 googleQuery
+    expect(restaurant.location.googleQuery).toBeUndefined();
+  });
+
+  it('餐廳 maps 是地名、name 有值時，location.name 應優先用 name', () => {
+    const entry = toTimelineEntry({
+      title: '晚餐',
+      restaurants: [
+        {
+          name: '美浜停車場',
+          maps: '北谷町営駐車場 美浜',
+        },
+      ],
+    });
+    const restaurant = entry.infoBoxes?.[0]?.restaurants?.[0];
+    expect(restaurant.location.name).toBe('美浜停車場');
+    expect(restaurant.location.googleQuery).toBeUndefined();
+  });
+});
+
 /* ===== URL trip 參數優先權（使用 jsdom window.location）===== */
 
 describe('URL trip 參數優先順序邏輯', () => {

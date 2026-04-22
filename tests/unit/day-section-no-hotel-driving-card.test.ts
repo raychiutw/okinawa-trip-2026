@@ -39,13 +39,13 @@ describe('DaySection — 移除 Hotel card 與 DayDrivingStatsCard (R19)', () =>
   });
 
   it('不在 JSX 中渲染 <Hotel>', () => {
-    // Match: <Hotel 或 <Hotel>
-    const match = src.match(/<Hotel[\s/>]/);
+    // Match: <Hotel 後接空白 / 閉 tag / self-close（不會誤配 <HotelChip> 等其他元件）
+    const match = src.match(/<Hotel(?=[\s/>])/);
     expect(match).toBeNull();
   });
 
   it('不在 JSX 中渲染 <DayDrivingStatsCard>', () => {
-    const match = src.match(/<DayDrivingStatsCard[\s/>]/);
+    const match = src.match(/<DayDrivingStatsCard(?=[\s/>])/);
     expect(match).toBeNull();
   });
 
