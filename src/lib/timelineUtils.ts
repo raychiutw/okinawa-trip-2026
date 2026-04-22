@@ -9,7 +9,7 @@ import type { TimelineEntryData } from '../components/trip/TimelineEvent';
 
 /* ===== Types ===== */
 
-export interface ParsedTime {
+interface ParsedTime {
   start: string;
   end: string;
   duration: number;
