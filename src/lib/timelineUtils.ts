@@ -54,6 +54,33 @@ export function formatDuration(mins: number): string {
 }
 
 /**
+ * 解析時間字串的起始分鐘數（since midnight）。
+ * "09:30-11:00" → 570；無 / null / malformed → -1。
+ */
+export function parseStartMinutes(time?: string | null): number {
+  if (!time) return -1;
+  const start = (time.split('-')[0] ?? '').trim();
+  const parts = start.split(':');
+  if (parts.length !== 2) return -1;
+  return parseInt(parts[0] ?? '0', 10) * 60 + parseInt(parts[1] ?? '0', 10);
+}
+
+/**
+ * 解析時間字串的結束分鐘數（since midnight）。
+ * "09:30-11:00" → 660；無 end 段 / null / malformed → -1。
+ * 支援跨日（如 "23:30-01:15" → 75）。
+ */
+export function parseEndMinutes(time?: string | null): number {
+  if (!time) return -1;
+  const segments = time.split('-');
+  if (segments.length < 2) return -1;
+  const end = (segments[1] ?? '').trim();
+  const parts = end.split(':');
+  if (parts.length !== 2) return -1;
+  return parseInt(parts[0] ?? '0', 10) * 60 + parseInt(parts[1] ?? '0', 10);
+}
+
+/**
  * 根據行程項目的 title / description / travel.type 推導類型 meta。
  * 回傳 Icon name、中文標籤與 accent 旗標。
  */
