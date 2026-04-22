@@ -182,6 +182,8 @@ export async function downloadTripFormat(
       /* -- CSV: spreadsheet-friendly with expanded rows -- */
       const { daysData, docsMap } = await fetchAllData(tripId);
 
+      /* CSV schema v2 (R19) — 17 columns; 住宿名 / 退房時間已移除、住宿 row 已拿掉。
+       * 住宿資訊改由 timeline[0] 的 check-out entry 承載，無需獨立欄位。 */
       const headers = [
         'Day', '日期', '星期', '時間', '地點', '評分', '說明', '備註',
         '交通方式', '交通時間(分)', '餐廳名', '餐廳類別', '餐廳評分', '餐廳價格',

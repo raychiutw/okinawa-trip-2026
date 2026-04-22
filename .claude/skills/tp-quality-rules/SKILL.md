@@ -94,6 +94,8 @@ shop.category 使用標準分類（共 7 類）：超市、超商、唐吉軻德
 
 **R19 搭配**：同飯店早餐 SHALL NOT 重複產生 timeline entry — 早餐資訊由 `hotel.breakfast` 表達，Day N 首 entry（R19 check-out）已代表「人從飯店開始今天」。若在飯店外吃早餐（如前往機場前），另產生正式餐次 entry（依 R2）。
 
+**UI surface**：Hotel card 已於 R19 移除後，Day N-1 `hotel.breakfast` 的內容 SHALL inject 進 Day N timeline[0]（check-out entry）的 `description` 欄位，以「🍳 早餐：{breakfast.note / included 敘述}」格式呈現；若 `breakfast.included = false`，description 省略早餐行、只描述退房。使用者從 timeline 第一個 entry 就能看到當日早餐資訊，不失資訊。
+
 ### R10 還車加油站
 自駕行程（`meta.selfDrive` 為 `true`）產生或修改還車 timeline event 時，SHALL 附上最近的加油站資訊。以 `gasStation` infoBox 結構化呈現（含 name、address、hours、service、phone，選填 location）。優先推薦フルサービス（人工加油站），標註 `service: "フルサービス（人工）"`；若附近僅有自助加油站，標註 `service: "セルフ（自助）"`。搜尋方式：Google「{還車地點} 附近 人工加油站」。
 
@@ -138,6 +140,7 @@ type 為 `hotel` 的 pois 建議有 `phone`（電話）。缺少 → **warning**
 
 - **Day 1（`days[0]`）**：首 entry SHALL 為抵達點（機場 / 車站 / 碼頭），`title` 含抵達關鍵字（「抵達」「到達」「Arrive」），`location` 指向交通節點 POI。
 - **Day N（N ≥ 2）**：首 entry SHALL 為 Day N-1 `day.hotel` 的**同一個 POI** 的 check-out entry。`location` 等同 Day N-1 `day.hotel`、`title` 含 check-out 語意（「退房」「Check-out」）。該 entry 不複製 Day N-1 `hotel.infoBoxes`（parking / shopping infoBox 只掛 hotel 物件）。
+  - **description 內含早餐資訊（R8 搭配）**：若 Day N-1 `hotel.breakfast.included === true`，check-out entry 的 `description` 開頭 SHALL 為 `"🍳 早餐：{breakfast.note || '飯店自助'}"`；若 `included === false` 或 `null` 則省略早餐行，description 描述退房動作即可。
 - **最後一天**：首 entry 同 Day N（= 前日飯店 check-out）；尾端仍 SHALL NOT 設 `day.hotel`（沿用 R0）。
 - **travel**：Day N 首 entry 的 `travel` 描述「從前日飯店出發至下一站」。若首 entry 與下一站位於同地點（如飯店內早餐接 check-out），`travel` 為 `null`。
 - **換宿 vs 連住**：Day N 首 entry 不管 Day N 是否換宿，皆指向 Day N-1 的 hotel POI；換宿情境 Day N 末仍保留新飯店 check-in entry + `day.hotel`。

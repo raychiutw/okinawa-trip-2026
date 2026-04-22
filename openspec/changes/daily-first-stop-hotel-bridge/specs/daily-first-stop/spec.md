@@ -52,12 +52,15 @@ Day N 首 entry 的 `travel` 物件描述「從 Day N-1 飯店出發至次一站
 
 R19 新增 timeline 首 entry 為「前日飯店引用」，但 `day.hotel` 物件語意不變：`day.hotel` SHALL 代表「當晚入住」的飯店，包含 `breakfast` / `checkout` / `infoBoxes` 等既有欄位。Day N timeline 首 entry 是對 Day N-1 `day.hotel` 的引用，**不複製**其 `infoBoxes`（購物 / 停車場 infoBox 只掛 `day.hotel`）。
 
-#### Scenario: 早餐資訊仍掛於 `day.hotel.breakfast`
+#### Scenario: 早餐資訊仍掛於 `day.hotel.breakfast`、並 inject 進 check-out entry description
 
-- **WHEN** 使用者在飯店吃早餐
-- **THEN** 該早餐資訊 SHALL 僅存於 Day N-1 `day.hotel.breakfast`（因為早餐發生在入住期間）
+- **WHEN** 使用者在飯店吃早餐（`Day N-1.hotel.breakfast.included === true`）
+- **THEN** 早餐資料（note / included）SHALL 存於 Day N-1 `day.hotel.breakfast` 作為 source of truth
 - **AND** Day N timeline 首 entry SHALL NOT 產出獨立早餐 event
+- **AND** Day N timeline 首 entry 的 `description` SHALL 開頭 inject `"🍳 早餐：{breakfast.note || '飯店自助'}"` 讓使用者從 timeline 看到早餐資訊（Hotel card 已移除後的 UI 補償）
 - **AND** Day N timeline 首 entry SHALL NOT 複製 `infoBoxes`
+- **WHEN** `breakfast.included === false` 或 `null`
+- **THEN** check-out entry description SHALL NOT inject 早餐行，僅描述退房
 
 #### Scenario: 首 entry 不複製 hotel infoBoxes
 

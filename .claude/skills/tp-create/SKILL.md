@@ -87,7 +87,7 @@ user-invocable: true
    - timeline entries（含 type、title、time、description、location、travel、hotels 等）
    - **每日首 timeline entry（R19，見 tp-quality-rules）**：
      - **Day 1**：首 entry 為抵達點（機場 / 車站 / 碼頭），詢問使用者抵達時間與地點；`title` 含「抵達」；`location` 指向交通節點 POI
-     - **Day N（N ≥ 2）**：首 entry 為 Day N-1 住宿 `day.hotel` 的**同 POI** check-out entry；`time` 優先用 `hotel.checkout`（查得到時），否則預設 `"07:00"`；`title` 含「退房」或「Check-out」；**不複製** hotel 的 `infoBoxes`
+     - **Day N（N ≥ 2）**：首 entry 為 Day N-1 住宿 `day.hotel` 的**同 POI** check-out entry；`time` 優先用 `hotel.checkout`（查得到時），否則預設 `"07:00"`；`title` 含「退房」或「Check-out」；**不複製** hotel 的 `infoBoxes`；若 Day N-1 `hotel.breakfast.included === true`，`description` 開頭 inject `"🍳 早餐：{breakfast.note || '飯店自助'}"`（R8 搭配）
      - **最後一天**：首 entry 同 Day N（前日飯店 check-out）；尾端仍不設 `day.hotel`（沿用 R0）
    - **每天必建午/晚餐 entry**（早餐不強制；使用者可自行刪除不需要的）：
      - 早餐（若在飯店吃，由 `day.hotel.breakfast` 表達；若在飯店外吃，才產生正式早餐 entry）

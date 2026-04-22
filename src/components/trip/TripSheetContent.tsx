@@ -27,9 +27,6 @@ export const SHEET_TITLES: Record<string, string> = {
   'today-route': '今日路線',
   'trip-select': '切換行程',
   appearance: '外觀設定',
-  prep: '行前準備',
-  'emergency-group': '緊急應變',
-  'ai-group': 'AI 分析',
   'action-menu': '更多功能',
 };
 
@@ -57,7 +54,7 @@ interface TripSheetContentProps {
   isOnline?: boolean;
 }
 
-/** Items rendered in the action-menu sheet's 3×3 grid. */
+/** Items rendered in the action-menu sheet's 2-column grid (4 rows × 2 cols). */
 const ACTION_MENU_GRID: { key: string; icon: string; label: string; requiresOnline?: boolean }[] = [
   { key: 'flights',      icon: 'plane',        label: '航班' },
   { key: 'today-route',  icon: 'route',        label: '路線' },
@@ -124,31 +121,6 @@ export default function TripSheetContent({
         return currentDay && currentDay.timeline.length > 0
           ? <TodayRouteSheet events={currentDay.timeline.map((e) => typeof e === 'object' && e !== null ? toTimelineEntry(e) : toTimelineEntry({}))} />
           : <p>無行程資料</p>;
-      /* Grouped content */
-      case 'prep':
-        return (
-          <>
-            {(['flights', 'checklist'] as const).map(k => {
-              const d = docs[k] as { title?: string; entries?: DocEntry[] } | undefined;
-              return <div key={k} className="bg-secondary rounded-md p-4 mb-3">{d?.entries?.length ? <DocCard entries={d.entries} /> : <p className="text-muted">尚無資料</p>}</div>;
-            })}
-          </>
-        );
-      case 'emergency-group':
-        return (
-          <>
-            {(['emergency', 'backup'] as const).map(k => {
-              const d = docs[k] as { title?: string; entries?: DocEntry[] } | undefined;
-              return <div key={k} className="bg-secondary rounded-md p-4 mb-3">{d?.entries?.length ? <DocCard entries={d.entries} /> : <p className="text-muted">尚無資料</p>}</div>;
-            })}
-          </>
-        );
-      case 'ai-group':
-        return (
-          <>
-            {(() => { const d = docs.suggestions as { title?: string; entries?: DocEntry[] } | undefined; return <div className="bg-secondary rounded-md p-4 mb-3">{d?.entries?.length ? <DocCard entries={d.entries} /> : <p className="text-muted">尚無資料</p>}</div>; })()}
-          </>
-        );
       /* Settings sheets */
       case 'trip-select':
         return (
@@ -201,7 +173,7 @@ export default function TripSheetContent({
       case 'action-menu':
         return (
           <div className="max-w-[520px] mx-auto p-padding-h">
-            <div className="grid grid-cols-3 gap-2 mb-4">
+            <div className="grid grid-cols-2 gap-2 mb-4">
               {ACTION_MENU_GRID.map((g) => {
                 const disabled = !!g.requiresOnline && !isOnline;
                 return (
