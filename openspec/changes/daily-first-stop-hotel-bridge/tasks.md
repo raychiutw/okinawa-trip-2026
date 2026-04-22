@@ -18,17 +18,17 @@
 
 ## 2. Skill 規則更新（`.claude/skills/`）
 
-- [ ] 2.1 [SKILL] `tp-quality-rules/SKILL.md`：新增 R19 條目（引用 capability `daily-first-stop`）、修訂 R2（早餐不強制）、修訂 R8（同飯店早餐不重複 entry）
-- [ ] 2.2 [SKILL] `tp-shared/references/modify-steps.md`：travel 語意章節擴充 — 涵蓋 checkout 首站（Day N≥2 首 entry 的 travel 指向「從飯店出發至次一站」）
-- [ ] 2.3 [SKILL] `tp-create/SKILL.md`：生成邏輯加入 — Day 1 首 entry 抵達點（詢問使用者抵達地點與時間）、Day N≥2 自動插入前日 hotel check-out entry（用 `hotel.checkout` 或預設 07:00）
-- [ ] 2.4 [SKILL] `tp-rebuild/SKILL.md`：重整邏輯加入 — 檢查每日 timeline 首 entry 是否合 R19，不合則插入 leading entry 並重算 travel
-- [ ] 2.5 [SKILL] `tp-check/SKILL.md`：驗證邏輯新增 R19 檢查（紅綠燈 report 包含 R19 項）
-- [ ] 2.6 [SKILL] `tp-edit/SKILL.md`：編輯邏輯 — 插入/移除/移動 entry 時若動到 index 0，SHALL 保持 R19 語意（不允許把非 R19 entry 插入 index 0）
+- [x] 2.1 [SKILL] `tp-quality-rules/SKILL.md`：新增 R19 完整條目（含 canonical spec 引用）、修訂 R2（早餐改由 hotel.breakfast 表達、午晚餐仍必填）、修訂 R8（同飯店早餐不重複 entry）
+- [ ] 2.2 [SKILL] `tp-shared/references/modify-steps.md`：travel 語意擴充 — **defer**（現有「出發此地」語意已涵蓋 checkout 首站情境，R19 canonical 已在 tp-quality-rules 定義，邊際效益低；留給後續有需要時再補）
+- [x] 2.3 [SKILL] `tp-create/SKILL.md`：step 4 新增 R19 首 entry 規則（Day 1 抵達點、Day N≥2 前日飯店 check-out）、午/晚餐必建 + 早餐彈性（飯店外吃才產 entry）
+- [x] 2.4 [SKILL] `tp-rebuild/SKILL.md`：插入 step 5b R19 每日首 entry 檢查（Day 1 抵達、Day N check-out；缺則插入 leading entry、後續重算 travel）
+- [ ] 2.5 [SKILL] `tp-check/SKILL.md`：驗證邏輯 — **defer**（tp-check 透過引用 tp-quality-rules R0-R19 自動涵蓋，紅綠燈閾值在 `references/severity-thresholds.md` 可留作後續擴充）
+- [x] 2.6 [SKILL] `tp-edit/SKILL.md`：step 7 travel 重算段落加 R19 維持警示（index 0 不可被非 R19 entry 佔位；使用者要求把早餐移到 Day N 最前時，check-out 仍留 index 0、早餐置 index 1）
 
 ## 3. OpenSpec specs 驗證
 
-- [ ] 3.1 [SPEC] 跑 `openspec validate daily-first-stop-hotel-bridge` 驗證 proposal/design/specs/tasks 結構合規
-- [ ] 3.2 [SPEC] 確認 `specs/daily-first-stop/spec.md`、`specs/trip-quality-rules-source/spec.md`、`specs/transport-stats-always-open/spec.md` 三份已在 change 目錄
+- [x] 3.1 [SPEC] 跑 `openspec validate daily-first-stop-hotel-bridge`，回傳 `Change 'daily-first-stop-hotel-bridge' is valid`
+- [x] 3.2 [SPEC] 確認 3 份 spec delta 已在 change 目錄（daily-first-stop ADDED、trip-quality-rules-source MODIFIED、transport-stats-always-open REMOVED）
 
 ## 4. UI 實作（TDD 綠階段 — React）
 
