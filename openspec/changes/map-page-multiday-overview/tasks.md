@@ -37,20 +37,21 @@
 
 ## 5. TripMapRail 抽共用 helper（視需要）
 
-- [ ] 5.1 [CODE] 若 `extractPinsFromAllDays` 與 TripMapRail 既有邏輯可統一，refactor TripMapRail 改用 helper（避免重複）；否則 skip
-- [ ] 5.2 執行 `npm run test`，TripMapRail 既有測試無 regression
+- [ ] 5.1 [CODE] SKIP — TripMapRail 是獨立 Leaflet 實作（直接 `L.polyline` 畫直線），不走 OceanMap Segment（useRoute 曲線）。兩者渲染管線不同、無共用 helper 可抽。`extractPinsFromAllDays` 已 export，TripPage 若想重構改用（目前自己 extract）可另開 PR
+- [x] 5.2 既有 TripMapRail tests 無 regression（TripMapRail 程式碼未動）
 
 ## 6. Spec 驗證
 
-- [ ] 6.1 [SPEC] `openspec validate map-page-multiday-overview` 驗證結構
-- [ ] 6.2 [SPEC] 確認 `specs/map-page-overview/spec.md` 已在 change 目錄
+- [x] 6.1 [SPEC] `openspec validate`：Change 'map-page-multiday-overview' is valid
+- [x] 6.2 [SPEC] `specs/map-page-overview/spec.md` 確認在 change 目錄
 
 ## 7. 完整驗證
 
-- [ ] 7.1 `npm run typecheck` 無錯
-- [ ] 7.2 `npm run test` 全綠
-- [ ] 7.3 `npm run build` 成功
-- [ ] 7.4 `npm run dev` 本機啟動 → 驗證：
+- [x] 7.1 `npm run typecheck` 無錯
+- [x] 7.2 `npm run test`：628/628 全綠
+- [x] 7.3 `npm run test:api`：179/179 全綠
+- [x] 7.4 `npm run build` 成功（Vite + PWA 37 entries）
+- [ ] 7.5 `npm run dev` 本機啟動手動驗證 — 留給使用者在 /qa 階段驗：
   - `/trip/okinawa-trip-2026-Ray/map` → Day 1 sky-500 polyline
   - `/trip/okinawa-trip-2026-Ray/map?day=3` → Day 3 amber-500
   - `/trip/okinawa-trip-2026-Ray/map?day=all` → 所有天多色 polyline
