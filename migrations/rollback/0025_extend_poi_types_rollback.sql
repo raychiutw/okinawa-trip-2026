@@ -6,6 +6,9 @@
 --      SELECT COUNT(*) FROM pois WHERE type='activity';
 --      若 > 0 先 STOP（否則 INSERT 會 CHECK fail）
 --   2. 確認 0025 已實際 apply 過（避免 no-op rollback 損壞 schema）
+--   3. 若 0026 已 apply，請先執行 0026_trip_entries_poi_id_rollback.sql
+--      否則本 script 的 RENAME pois → pois_old 會把 trip_entries.poi_id
+--      的 FK 連帶重寫指向 pois_old，DROP pois_old 後變 dangling FK。
 --
 -- Pattern：同 0025 triple-rename swap，連 poi_relations 一起回退
 -- （單 rebuild pois 會 leave dangling FK → pois_old）。
