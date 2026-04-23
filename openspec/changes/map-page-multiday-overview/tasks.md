@@ -22,9 +22,9 @@
 
 ## 3. OceanMap 擴充（TDD 綠階段 — component）
 
-- [ ] 3.1 [CODE] `src/components/trip/OceanMap.tsx`：`<Segment>` 新增 `dayNum?: number` prop；`segmentStyle(isActive, approx, dayNum?)` 依 dayNum 改用 `dayPolylineStyle(dayNum)` 覆寫預設
-- [ ] 3.2 [CODE] `OceanMap` props 新增 `pinsByDay?: Map<number, MapPin[]>`；render 時若有 `pinsByDay`，為每個 (dayNum, pinsInDay) group 生成 `<Segment dayNum={dayNum}>` 序列；若無則沿用 flat pins
-- [ ] 3.3 執行 `npm run test`，1.3/1.4 轉綠
+- [x] 3.1 [CODE] `OceanMap.tsx`：`<Segment>` 加 `dayNum?: number` prop；`segmentStyle(isActive, approx, dayNum?)` 依 dayNum 用 `dayPolylineStyle(dayNum)` — 色 + dashArray（奇實/偶虛 color-blind aid）；approx fallback 優先覆蓋 dashArray
+- [x] 3.2 [CODE] `OceanMap` props 加 `pinsByDay?: Map<number, MapPin[]>` + `dayNum?: number`；`segments` useMemo 分支：pinsByDay → per-day pair 並傳 dayNum（跨天不連線）；flat pins → 沿用既有邏輯 + 統一 dayNum
+- [x] 3.3 ocean-map-pinsByDay 4/4 綠；map-page-polyline-color 1/3 綠（MapPage 尚未改，符合 TDD 漸進轉綠）
 
 ## 4. MapPage overview mode（TDD 綠階段 — page）
 
