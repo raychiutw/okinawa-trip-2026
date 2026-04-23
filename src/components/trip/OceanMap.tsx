@@ -185,6 +185,70 @@ const Segment = memo(function Segment({ map, from, to, isActive, dayNum }: Segme
   return null;
 });
 
+/* ===== Pure segment-pair builder (exported for unit tests) ===== */
+
+export interface SegmentPair {
+  from: Coord;
+  to: Coord;
+  isActive: boolean;
+  key: string;
+  dayNum?: number;
+}
+
+/**
+ * Build consecutive polyline pairs from pins.
+ *
+ * - pinsByDay mode: per-day polyline, cross-day segments NOT drawn. Hotel pins
+ *   are filtered out so the polyline matches TripMapRail (hotel is a stay-over
+ *   marker, not part of the travel path between stops).
+ * - Flat pins mode: connects every consecutive pair.
+ */
+export function buildSegments(params: {
+  pins: MapPin[];
+  pinsByDay?: Map<number, MapPin[]>;
+  focusedIdx: number;
+  pinIndexById: Map<number, number>;
+  dayNum?: number;
+}): SegmentPair[] {
+  const { pins, pinsByDay, focusedIdx, pinIndexById, dayNum } = params;
+  const pairs: SegmentPair[] = [];
+
+  if (pinsByDay && pinsByDay.size > 0) {
+    const sortedDays = [...pinsByDay.keys()].sort((a, b) => a - b);
+    for (const d of sortedDays) {
+      const dayPins = (pinsByDay.get(d) ?? []).filter((p) => p.type === 'entry');
+      for (let i = 0; i < dayPins.length - 1; i++) {
+        const a = dayPins[i]!;
+        const b = dayPins[i + 1]!;
+        const aIdx = pinIndexById.get(a.id) ?? -1;
+        const bIdx = pinIndexById.get(b.id) ?? -1;
+        pairs.push({
+          from: { lat: a.lat, lng: a.lng },
+          to: { lat: b.lat, lng: b.lng },
+          isActive: focusedIdx === aIdx || focusedIdx === bIdx,
+          key: `${a.id}->${b.id}`,
+          dayNum: d,
+        });
+      }
+    }
+    return pairs;
+  }
+
+  if (pins.length < 2) return [];
+  for (let i = 0; i < pins.length - 1; i++) {
+    const a = pins[i]!;
+    const b = pins[i + 1]!;
+    pairs.push({
+      from: { lat: a.lat, lng: a.lng },
+      to: { lat: b.lat, lng: b.lng },
+      isActive: focusedIdx === i || focusedIdx === i + 1,
+      key: `${a.id}->${b.id}`,
+      dayNum,
+    });
+  }
+  return pairs;
+}
+
 /* ===== Main component ===== */
 
 const OceanMap = memo(function OceanMap({
@@ -384,7 +448,8 @@ const OceanMap = memo(function OceanMap({
       return;
     }
     if (focusId !== undefined) {
-      const pin = pins.find((p) => p.id === focusId);
+      const idx = pinIndexById.get(focusId);
+      const pin = idx !== undefined ? pins[idx] : undefined;
       if (pin) {
         flyTo([pin.lat, pin.lng], map.getZoom() < 12 ? 13 : undefined);
         return;
@@ -392,7 +457,7 @@ const OceanMap = memo(function OceanMap({
     }
     const latlngs = visiblePins.map((p) => [p.lat, p.lng] as L.LatLngExpression);
     fitBounds(latlngs);
-  }, [map, mode, focusId, pins, visiblePins, fitBounds, flyTo]);
+  }, [map, mode, focusId, pins, pinIndexById, visiblePins, fitBounds, flyTo]);
 
   /* --- Resize on container changes (Suspense / mode toggle) --- */
   useEffect(() => {
@@ -404,44 +469,7 @@ const OceanMap = memo(function OceanMap({
   /* --- Segments (polylines) --- */
   const segments = useMemo(() => {
     if (!showRoutes) return [];
-    const pairs: Array<{ from: Coord; to: Coord; isActive: boolean; key: string; dayNum?: number }> = [];
-
-    if (pinsByDay && pinsByDay.size > 0) {
-      // Per-day polyline: cross-day segments NOT drawn
-      const sortedDays = [...pinsByDay.keys()].sort((a, b) => a - b);
-      for (const d of sortedDays) {
-        const dayPins = pinsByDay.get(d) ?? [];
-        for (let i = 0; i < dayPins.length - 1; i++) {
-          const a = dayPins[i]!;
-          const b = dayPins[i + 1]!;
-          const aIdx = pinIndexById.get(a.id) ?? -1;
-          const bIdx = pinIndexById.get(b.id) ?? -1;
-          pairs.push({
-            from: { lat: a.lat, lng: a.lng },
-            to: { lat: b.lat, lng: b.lng },
-            isActive: focusedIdx === aIdx || focusedIdx === bIdx,
-            key: `d${d}:${a.id}->${b.id}`,
-            dayNum: d,
-          });
-        }
-      }
-      return pairs;
-    }
-
-    // Flat pins mode (single day or no grouping)
-    if (pins.length < 2) return [];
-    for (let i = 0; i < pins.length - 1; i++) {
-      const a = pins[i]!;
-      const b = pins[i + 1]!;
-      pairs.push({
-        from: { lat: a.lat, lng: a.lng },
-        to: { lat: b.lat, lng: b.lng },
-        isActive: focusedIdx === i || focusedIdx === i + 1,
-        key: `${a.id}->${b.id}`,
-        dayNum,
-      });
-    }
-    return pairs;
+    return buildSegments({ pins, pinsByDay, focusedIdx, pinIndexById, dayNum });
   }, [pins, showRoutes, focusedIdx, pinsByDay, pinIndexById, dayNum]);
 
   return (

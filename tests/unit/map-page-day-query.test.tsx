@@ -122,9 +122,9 @@ async function mountMapPage(url: string) {
 }
 
 describe('F011 — MapPage ?day=N runtime tests', () => {
-  it('?day=2：activeDayNum 從 DAY 01 顯示 DAY 02 標記', async () => {
+  it('?day=2：activeTab 從 DAY 01 顯示 DAY 02 標記', async () => {
     const { getAllByText } = await mountMapPage('/trip/test-trip/map?day=2');
-    // 麵包屑中有 DAY 02（activeDayNum = 2）
+    // 麵包屑中有 DAY 02（activeTab = 2）
     const dayTexts = getAllByText(/DAY 02/i);
     expect(dayTexts.length).toBeGreaterThan(0);
   });

@@ -3,20 +3,20 @@
  *
  *  /trip/:tripId/map                  → day 1 by default
  *  /trip/:tripId/map?day=N            → specific day
+ *  /trip/:tripId/map?day=all          → overview (all days, per-day dayColor polyline)
  *  /trip/:tripId/stop/:entryId/map    → focus that entry (auto-detects day)
  *
  *  ┌────────────────────────────────────────────┐
- *  │ ← 返回   DAY 01 · 7/29 · 北谷             │  52px topbar
+ *  │ ← 返回   總覽 · 7/29 – 8/4  |  DAY NN ...  │  52px topbar
  *  ├────────────────────────────────────────────┤
  *  │                                            │
- *  │          OceanMap (flyTo activeEntry)      │  flex-1
- *  │                                            │
+ *  │          OceanMap (flyTo activeEntry       │  flex-1
+ *  │          or fitBounds in overview)         │
  *  ├────────────────────────────────────────────┤
- *  │ DAY 01 · 7/29  DAY 02 · 7/30 · · ·         │  day tabs (snap-scroll)
+ *  │ 總覽 · 7天  DAY 01 · 7/29  DAY 02 · ···   │  day tabs (snap-scroll)
  *  ├────────────────────────────────────────────┤
  *  │ ┌────┐ ┌────┐ ┌────┐ ┌────┐ ···           │  entry cards (snap-scroll)
- *  │ │10:45│ │12:10│ │13:00│ │15:10│            │
- *  │ │機場│ │租車│ │MEGA│ │Hotel│               │
+ *  │ │D1 10:45│ │D1 12:10│ │D2 13:00│ ···      │  (D{N} prefix only in overview)
  *  │ └────┘ └────┘ └────┘ └────┘                │
  *  └────────────────────────────────────────────┘
  */
@@ -99,13 +99,13 @@ const SCOPED_STYLES = `
 .map-page-days::-webkit-scrollbar { display: none; }
 .map-page-day-tab {
   flex: 0 0 auto; scroll-snap-align: start;
-  padding: 10px 12px;
+  padding: 12px 14px;
   border: none; border-bottom: 2px solid transparent; border-radius: 0;
   background: transparent;
   color: var(--color-muted);
   cursor: pointer; font-family: inherit;
   display: inline-flex; align-items: center; gap: 6px;
-  min-height: 40px; white-space: nowrap;
+  min-height: var(--spacing-tap-min, 44px); white-space: nowrap;
   transition: color 160ms var(--transition-timing-function-apple),
               border-bottom-color 160ms var(--transition-timing-function-apple);
 }
@@ -295,14 +295,16 @@ export default function MapPage() {
 
   const [activeEntryId, setActiveEntryId] = useState<number | null>(urlEntryId);
 
-  // When tab changes (or first load), default active entry to URL entry or first card
+  // When tab changes (or first load), default active entry to URL entry or first card.
+  // Overview mode without explicit entryId: leave unfocused so OceanMap falls back to
+  // fitBounds (shows whole trip) instead of flyTo on first pin.
   useEffect(() => {
     if (urlEntryId != null && cardEntryPins.some((p) => p.id === urlEntryId)) {
       setActiveEntryId(urlEntryId);
       return;
     }
-    setActiveEntryId(cardEntryPins[0]?.id ?? null);
-  }, [activeTab, urlEntryId, cardEntryPins]);
+    setActiveEntryId(isOverview ? null : (cardEntryPins[0]?.id ?? null));
+  }, [activeTab, urlEntryId, cardEntryPins, isOverview]);
 
   /* --- Switch tab --- */
   const handleTabClick = useCallback((tab: 'overview' | number) => {
@@ -431,7 +433,7 @@ export default function MapPage() {
               mode="overview"
               focusId={activeEntryId ?? undefined}
               routes={true}
-              cluster={false}
+              cluster={!isOverview ? false : undefined}
               fillParent={true}
               pinsByDay={isOverview ? overviewData?.pinsByDay : undefined}
               dayNum={isOverview ? undefined : (activeTab as number)}
@@ -442,7 +444,7 @@ export default function MapPage() {
 
       {dayTabs.length > 1 && (
         <nav className="map-page-days" role="tablist" aria-label="行程日期">
-          {/* R19: 「總覽」tab prepend 於 Day 01 之前 (map-page-multiday-overview) */}
+          {/* 「總覽」tab prepend 於 Day 01 之前 */}
           <button
             key="overview"
             type="button"
@@ -469,7 +471,7 @@ export default function MapPage() {
                 onClick={() => handleTabClick(t.dayNum)}
                 style={isActive ? { borderBottomColor: color } : undefined}
               >
-                <span className="map-page-day-tab-eyebrow" style={{ color: isActive ? color : undefined }}>DAY {String(t.dayNum).padStart(2, '0')}</span>
+                <span className="map-page-day-tab-eyebrow" style={isActive ? { color } : undefined}>DAY {String(t.dayNum).padStart(2, '0')}</span>
                 <span className="map-page-day-tab-date">{formatDateLabel(t.date)}</span>
               </button>
             );
@@ -499,7 +501,7 @@ export default function MapPage() {
                   <span className="map-page-card-num">{pin.index}</span>
                   {/* Overview mode: 顯示 DAY N prefix，用 dayColor */}
                   {isOverview && pinDay && (
-                    <span className="map-page-card-time" style={{ color: dayColor(pinDay), fontWeight: 600 }}>
+                    <span className="map-page-card-time" style={{ color: dayColor(pinDay) }}>
                       D{pinDay}
                     </span>
                   )}
