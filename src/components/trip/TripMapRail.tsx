@@ -71,7 +71,7 @@ function createPinIcon(label: string, color: string): L.DivIcon {
       box-shadow:0 1px 4px rgba(0,0,0,0.3);
       display:grid;place-items:center;
       font-size:var(--font-size-eyebrow,0.625rem);font-weight:700;color:#fff;
-      font-family:system-ui,sans-serif;
+      font-family:var(--font-family-system,'Inter',sans-serif);
     ">${label}</div>`,
     iconSize: [28, 28],
     iconAnchor: [14, 14],
