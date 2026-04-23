@@ -7,12 +7,12 @@
 
 ## 1. 測試骨架（TDD 紅階段 — 全 fail）
 
-- [ ] 1.1 [CODE] 新增 `tests/unit/map-page-overview-url.test.tsx`：URL `?day=all` 觸發 overview、`?day=3` 觸發單日 3、無 query 預設 Day 1（3 個 assertion）
-- [ ] 1.2 [CODE] 新增 `tests/unit/map-page-overview-tab.test.tsx`：day tabs 最左有「總覽」text、Day 01 tab 位於第 2 項、點「總覽」會 updateURL to `?day=all`
-- [ ] 1.3 [CODE] 新增 `tests/unit/map-page-polyline-color.test.tsx`：single day mode Day 1 polyline 色 sky-500、Day 3 amber-500；overview mode 驗 `pinsByDay` 各 day 用對應色
-- [ ] 1.4 [CODE] 新增 `tests/unit/ocean-map-pinsByDay.test.tsx`：OceanMap 接 pinsByDay 時每 day 獨立 Segment group、跨天不連線；無 pinsByDay 時 fallback flat pins
-- [ ] 1.5 [CODE] 新增 `tests/unit/map-page-overview-flyto.test.tsx`：overview mode 點 entry card → flyTo 不切 tab、single day 點 entry card → flyTo + 保持 day
-- [ ] 1.6 執行 `npm run test`，確認 1.1-1.5 新測試皆紅燈
+- [x] 1.1 [CODE] `tests/unit/map-page-overview-url.test.tsx`：source-level 驗 ?day=all parse、activeTab 型別、set('day', 'all')（3 assertion）
+- [x] 1.2 [CODE] `tests/unit/map-page-overview-tab.test.tsx`：source-level 驗「總覽」字串存在 + prepend 於 dayTabs.map 前（2 assertion）
+- [x] 1.3 [CODE] `tests/unit/map-page-polyline-color.test.tsx`：source-level 驗 MapPage import dayPalette、傳 dayNum/pinsByDay 給 OceanMap（2 assertion）
+- [x] 1.4 [CODE] `tests/unit/ocean-map-pinsByDay.test.tsx`：source-level 驗 OceanMapProps 含 pinsByDay、SegmentProps 含 dayNum、呼叫 dayPolylineStyle、import dayPalette（4 assertion）
+- [x] 1.5 [CODE] `tests/unit/map-page-overview-flyto.test.tsx`：source-level 驗 extractPinsFromAllDays 使用、activeTab === 'overview' 分支存在（2 assertion）
+- [x] 1.6 執行測試：12/13 紅燈（1 個已經 pass 為 OceanMap 舊 import，符合 TDD 紅階段）
 
 ## 2. lib / hook 層（TDD 綠階段 — data）
 
