@@ -7,6 +7,7 @@ import { mockEnv, mockAuth, mockContext, jsonRequest, seedTrip, getDayId , callH
 import { onRequestGet, onRequestPut } from '../../functions/api/trips/[id]/days/[num]';
 import { onRequestPost as onRequestPostEntry } from '../../functions/api/trips/[id]/days/[num]/entries';
 import { onRequestPatch as onRequestPatchEntry } from '../../functions/api/trips/[id]/entries/[eid]';
+import { onRequestPut as onRequestPutPoiId } from '../../functions/api/trips/[id]/entries/[eid]/poi-id';
 import type { Env } from '../../functions/api/_types';
 
 let db: D1Database;
@@ -271,5 +272,66 @@ describe('PUT /api/trips/:id/days/:num', () => {
       params: { id: 'trip-dn', num: '2' },
     });
     expect((await callHandler(onRequestPut, ctx)).status).toBe(400);
+  });
+
+  it('Phase 2: PUT /entries/:eid/poi-id 重掛到既有 POI（驗證存在）', async () => {
+    const dayId = await getDayId(db, 'trip-dn', 3);
+    const entry = await db.prepare(
+      'SELECT id, poi_id FROM trip_entries WHERE day_id = ? ORDER BY sort_order LIMIT 1',
+    ).bind(dayId).first() as { id: number; poi_id: number };
+
+    const newPoi = await db.prepare(
+      "INSERT INTO pois (type, name, source) VALUES ('attraction', 'Admin Override POI', 'test') RETURNING id",
+    ).first() as { id: number };
+
+    const ctx = mockContext({
+      request: jsonRequest(`https://test.com/api/trips/trip-dn/entries/${entry.id}/poi-id`, 'PUT', {
+        poi_id: newPoi.id,
+      }),
+      env,
+      auth: mockAuth({ email: 'user@test.com' }),
+      params: { id: 'trip-dn', eid: String(entry.id) },
+    });
+    const resp = await callHandler(onRequestPutPoiId, ctx);
+    expect(resp.status).toBe(200);
+
+    const row = await db.prepare('SELECT poi_id FROM trip_entries WHERE id = ?').bind(entry.id).first() as { poi_id: number };
+    expect(row.poi_id).toBe(newPoi.id);
+  });
+
+  it('Phase 2: PUT /entries/:eid/poi-id 拒絕不存在的 poi_id → 404', async () => {
+    const dayId = await getDayId(db, 'trip-dn', 3);
+    const entry = await db.prepare(
+      'SELECT id FROM trip_entries WHERE day_id = ? ORDER BY sort_order LIMIT 1',
+    ).bind(dayId).first() as { id: number };
+
+    const ctx = mockContext({
+      request: jsonRequest(`https://test.com/api/trips/trip-dn/entries/${entry.id}/poi-id`, 'PUT', {
+        poi_id: 99999,
+      }),
+      env,
+      auth: mockAuth({ email: 'user@test.com' }),
+      params: { id: 'trip-dn', eid: String(entry.id) },
+    });
+    expect((await callHandler(onRequestPutPoiId, ctx)).status).toBe(404);
+  });
+
+  it('Phase 2: PUT /entries/:eid/poi-id 允許 null 清空', async () => {
+    const dayId = await getDayId(db, 'trip-dn', 3);
+    const entry = await db.prepare(
+      'SELECT id FROM trip_entries WHERE day_id = ? ORDER BY sort_order LIMIT 1',
+    ).bind(dayId).first() as { id: number };
+
+    const ctx = mockContext({
+      request: jsonRequest(`https://test.com/api/trips/trip-dn/entries/${entry.id}/poi-id`, 'PUT', {
+        poi_id: null,
+      }),
+      env,
+      auth: mockAuth({ email: 'user@test.com' }),
+      params: { id: 'trip-dn', eid: String(entry.id) },
+    });
+    expect((await callHandler(onRequestPutPoiId, ctx)).status).toBe(200);
+    const row = await db.prepare('SELECT poi_id FROM trip_entries WHERE id = ?').bind(entry.id).first() as { poi_id: number | null };
+    expect(row.poi_id).toBeNull();
   });
 });

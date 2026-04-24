@@ -30,6 +30,9 @@ Format based on [Keep a Changelog](https://keepachangelog.com/).
 - `functions/api/trips/[id]/entries/[eid].ts` — `poi_id` 從 PATCH ALLOWED_FIELDS 拔掉，避免任何編輯者把 entry 指向任意 POI（跨 trip 資料外洩 / FK 違反）。admin 手動重掛走後續獨立 admin endpoint。
 - `functions/api/pois/[id].ts` — DELETE `/api/pois/:id` 前新增 `UPDATE trip_entries SET poi_id = NULL WHERE poi_id = ?`，否則任何被 entry 引用的 POI 都會因 FK constraint 刪不掉。
 - `functions/api/trips/[id]/audit/[aid]/rollback.ts` — `TABLE_COLUMNS.trip_entries` 加入 `poi_id`，否則任何 PATCH 含 poi_id 的 entry 稽核事件都無法 rollback。
+- **新端點** `PUT /api/trips/:id/entries/:eid/poi-id`（`functions/api/trips/[id]/entries/[eid]/poi-id.ts`）— 取代 PATCH /entries 的 poi_id 路徑；驗證 POI 存在 + entry 屬於該 trip 後才重掛；支援 `poi_id: null` 清空；全部動作寫 audit_log。
+- `functions/api/trips/[id]/days/[num]/entries.ts` — POST `findOrCreatePoi` 移進 try/catch 統一 error path；`title` 拒絕僅空白字串；INSERT 失敗仍可能留 orphan POI，交由 `migrate-entries-to-pois.js --clean-orphans` 清。
+- `scripts/migrate-entries-to-pois.js` — 加 **(name, type) 碰撞偵測**：同 name+type 不同座標（> ~300m 差異）自動降 confidence 到 0.3 進 uncertain 隊列，避免把不同分店的 `麥當勞` / `駐車場` 合成一筆 POI。
 
 ### Migration steps（ship 後）
 1. `node scripts/migrate-entries-to-pois.js --dry-run --trip all` — 檢查 heuristic 分類、uncertain 不超過 5%
