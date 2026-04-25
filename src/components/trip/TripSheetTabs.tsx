@@ -53,9 +53,13 @@ export default function TripSheetTabs({ currentTab, onChange }: TripSheetTabsPro
       else if (e.key === 'Home') nextIdx = 0;
       else if (e.key === 'End') nextIdx = SHEET_TABS.length - 1;
       if (nextIdx === null) return;
+      // SHEET_TABS[nextIdx] 永遠 defined（nextIdx 由 modulo / 0 / length-1 計算得來），
+      // 但 noUncheckedIndexedAccess 讓 TS 推成 SheetTab | undefined。顯式 narrow。
+      const nextTab = SHEET_TABS[nextIdx];
+      if (!nextTab) return;
       e.preventDefault();
       keyboardNavRef.current = true;
-      onChange(SHEET_TABS[nextIdx]);
+      onChange(nextTab);
     },
     [currentTab, onChange],
   );
