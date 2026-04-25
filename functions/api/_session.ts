@@ -110,6 +110,10 @@ export async function getSessionUser(
       // Fire-and-forget without ctx.waitUntil — acceptable since miss is just
       // a stale last_seen_at not security-critical。SQL filter pushes the
       // throttle into D1 so most calls become 0-row no-op writes (still cheap)。
+      //
+      // TODO(V2-P7): thread context.executionCtx + ctx.waitUntil(promise) if
+      // last_seen_at accuracy becomes load-bearing for stale-session cleanup。
+      // 目前 cron cleanup 用 created_at + 30 天 cap 不依賴 last_seen_at 精度。
       void env.DB
         .prepare(
           `UPDATE session_devices SET last_seen_at = datetime('now')

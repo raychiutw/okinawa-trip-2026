@@ -14,9 +14,23 @@
 --
 -- ## Privacy
 --
--- ip_hash 是 SHA-256(ip)，跟 auth_audit_log 一致。**不存 plain IP**，但
+-- ip_hash 是 SHA-256(ip) **unsalted** — 跟 auth_audit_log 一致。**不存 plain IP**，
+-- 但 attacker with DB dump 可 rainbow-table 反查（IPv4 4B entries 秒級）。Threat
+-- model 接受：DB dump = 已 full compromise，IP 反查不是 incremental risk。
+-- API response 只 leak ip_hash 前 8 base64 char (~48 bits) 做「同 device 提示」，
+-- 不足以單獨反查單一 IP（48 bits prefix collide ~10s of IPv4）。
+-- 若未來需要 GDPR-grade de-identification，加 SESSION_IP_HASH_SECRET env 改 keyed
+-- hash (HMAC-SHA-256(secret, ip)) — V2-P7 task。
 -- city/country 留 NULL（V2-P6 future 加 GeoIP enrichment）。
 -- ua_summary 從 User-Agent parse 「Browser · OS」（client-side display 用）。
+--
+-- ## Revocation eventual consistency
+--
+-- 撤銷不立即生效。Logout / DELETE /sessions/:sid 寫 revoked_at 後，仍在 in-flight
+-- 的 getSessionUser 可能 race condition 撐過下一個 request（read-after-write lag
+-- ~tens of ms in D1）。Acceptable trade-off for "best-effort eventual" model。
+-- 真正立即撤銷需 storage-level fence（D1 不提供）— V2-P7 改 Durable Object
+-- 才能 strong consistency。
 --
 -- ## Cleanup
 --

@@ -30,6 +30,9 @@ interface SessionDeviceRow {
   last_seen_at: string;
 }
 
+// LIMIT 100 — UI display cap。Mass revoke (DELETE all-others) 是 unbounded
+// server-side，不受此影響。V2-P6 cron cleanup 30 天保留期使「>100 active sessions」
+// 在實務上幾乎不可能（除惡意/bug）— 真出現再加 pagination。
 const SESSIONS_LIST_LIMIT = 100;
 
 export const onRequestGet: PagesFunction<Env> = async (context) => {
