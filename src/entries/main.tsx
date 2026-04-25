@@ -69,6 +69,7 @@ const EmailVerifyPendingPage = lazyWithRetry(() => import('../pages/EmailVerifyP
 const ForgotPasswordPage = lazyWithRetry(() => import('../pages/ForgotPasswordPage'));
 const ResetPasswordPage = lazyWithRetry(() => import('../pages/ResetPasswordPage'));
 const ConnectedAppsPage = lazyWithRetry(() => import('../pages/ConnectedAppsPage'));
+const DeveloperAppsPage = lazyWithRetry(() => import('../pages/DeveloperAppsPage'));
 const ConsentPage = lazyWithRetry(() => import('../pages/ConsentPage'));
 
 const DEFAULT_TRIP = 'okinawa-trip-2026-Ray';
@@ -117,6 +118,7 @@ if (el) {
               <Route path="/login/forgot" element={<ForgotPasswordPage />} />
               <Route path="/auth/password/reset" element={<ResetPasswordPage />} />
               <Route path="/settings/connected-apps" element={<ConnectedAppsPage />} />
+              <Route path="/developer/apps" element={<DeveloperAppsPage />} />
               <Route path="/oauth/consent" element={<ConsentPage />} />
               <Route path="/trip/:tripId" element={<TripLayout />}>
                 <Route index element={<TripPage />} />
