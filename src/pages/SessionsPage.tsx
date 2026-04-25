@@ -205,8 +205,9 @@ export default function SessionsPage() {
         credentials: 'same-origin',
       });
       if (res.ok) {
-        // Reload to refresh list
-        void load();
+        // Optimistic: remove all non-current rows locally — match revokeOne() pattern,
+        // saves a round-trip vs reloading the list
+        setSessions((prev) => prev?.filter((s) => s.is_current) ?? null);
       } else {
         setError('登出其他裝置失敗，請稍後再試。');
       }

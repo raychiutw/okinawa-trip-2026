@@ -105,9 +105,16 @@ export async function getSessionUser(
         // Session manually revoked — refuse
         return null;
       }
-      // Best-effort touch last_seen_at（fire-and-forget — don't await）
+      // Best-effort touch last_seen_at, throttled to 5min so D1 write churn
+      // stays bounded（per-request UPDATE on hot path otherwise ~1 write/click）。
+      // Fire-and-forget without ctx.waitUntil — acceptable since miss is just
+      // a stale last_seen_at not security-critical。SQL filter pushes the
+      // throttle into D1 so most calls become 0-row no-op writes (still cheap)。
       void env.DB
-        .prepare('UPDATE session_devices SET last_seen_at = datetime(\'now\') WHERE sid = ?')
+        .prepare(
+          `UPDATE session_devices SET last_seen_at = datetime('now')
+           WHERE sid = ? AND last_seen_at < datetime('now', '-5 minutes')`,
+        )
         .bind(payload.sid)
         .run()
         .catch(() => undefined);
@@ -177,36 +184,33 @@ export async function issueSession(
 /**
  * Append clear-session Set-Cookie header → logout。
  *
- * V2-P6: 若 env + sid 存在 → 額外 mark revoked_at 在 session_devices
- * （讓 logout 立即生效在 multi-tab scenario）。
+ * V2-P6: mark revoked_at in session_devices（讓 logout 立即生效在 multi-tab
+ * scenario）。env 必傳 — caller 一律從 PagesFunction context 拿，沒有「無 env」
+ * 的情境。DB 缺或 token 無 sid（legacy）→ silent no-op，cookie 仍會被清。
  */
 export async function clearSession(
   request: Request,
   response: Response,
-  env?: EnvWithSession,
+  env: EnvWithSession,
 ): Promise<void> {
   const cookie = buildClearSessionSetCookie(shouldSetSecure(request));
   response.headers.append('Set-Cookie', cookie);
 
-  // V2-P6: revoke session_devices row if we can
-  if (env?.DB && env.SESSION_SECRET) {
-    try {
-      const token = getSessionCookie(request);
-      if (token) {
-        const payload = await verifySessionToken(token, env.SESSION_SECRET);
-        if (payload?.sid) {
-          await env.DB
-            .prepare(
-              `UPDATE session_devices SET revoked_at = datetime('now')
-               WHERE sid = ? AND revoked_at IS NULL`,
-            )
-            .bind(payload.sid)
-            .run();
-        }
-      }
-    } catch {
-      // best-effort — cookie cleared regardless
-    }
+  if (!env.DB || !env.SESSION_SECRET) return;
+  try {
+    const token = getSessionCookie(request);
+    if (!token) return;
+    const payload = await verifySessionToken(token, env.SESSION_SECRET);
+    if (!payload?.sid) return;
+    await env.DB
+      .prepare(
+        `UPDATE session_devices SET revoked_at = datetime('now')
+         WHERE sid = ? AND revoked_at IS NULL`,
+      )
+      .bind(payload.sid)
+      .run();
+  } catch {
+    // best-effort — cookie cleared regardless
   }
 }
 
@@ -216,21 +220,15 @@ export async function revokeAllOtherSessions(
   userId: string,
   currentSid: string | null,
 ): Promise<{ revoked: number }> {
-  const result = currentSid
-    ? await db
-        .prepare(
-          `UPDATE session_devices SET revoked_at = datetime('now')
-           WHERE user_id = ? AND sid != ? AND revoked_at IS NULL`,
-        )
-        .bind(userId, currentSid)
-        .run()
-    : await db
-        .prepare(
-          `UPDATE session_devices SET revoked_at = datetime('now')
-           WHERE user_id = ? AND revoked_at IS NULL`,
-        )
-        .bind(userId)
-        .run();
+  // 用 (? IS NULL OR sid != ?) 把「current 為 null 撤銷全部」+「current 有值
+  // 撤銷除自己外」合成單一 SQL，免 ternary 兩個 prepare branch
+  const result = await db
+    .prepare(
+      `UPDATE session_devices SET revoked_at = datetime('now')
+       WHERE user_id = ? AND revoked_at IS NULL AND (? IS NULL OR sid != ?)`,
+    )
+    .bind(userId, currentSid, currentSid)
+    .run();
   const changes = (result.meta as { changes?: number } | undefined)?.changes ?? 0;
   return { revoked: changes };
 }

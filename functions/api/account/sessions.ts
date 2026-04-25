@@ -19,6 +19,7 @@
  * Note: 不 leak 完整 ip_hash（避免 hash 反查）— 只回前 8 char 做 device 區分提示。
  */
 import { requireSessionUser, revokeAllOtherSessions } from '../_session';
+import { rawJson } from '../_utils';
 import type { Env } from '../_types';
 
 interface SessionDeviceRow {
@@ -29,12 +30,7 @@ interface SessionDeviceRow {
   last_seen_at: string;
 }
 
-function snakeJson(data: unknown, status = 200): Response {
-  return new Response(JSON.stringify(data), {
-    status,
-    headers: { 'Content-Type': 'application/json' },
-  });
-}
+const SESSIONS_LIST_LIMIT = 100;
 
 export const onRequestGet: PagesFunction<Env> = async (context) => {
   const session = await requireSessionUser(context.request, context.env);
@@ -44,9 +40,10 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
       `SELECT sid, ua_summary, ip_hash, created_at, last_seen_at
        FROM session_devices
        WHERE user_id = ? AND revoked_at IS NULL
-       ORDER BY last_seen_at DESC`,
+       ORDER BY last_seen_at DESC
+       LIMIT ?`,
     )
-    .bind(session.uid)
+    .bind(session.uid, SESSIONS_LIST_LIMIT)
     .all<SessionDeviceRow>();
 
   const currentSid = session.sid ?? null;
@@ -60,7 +57,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
     is_current: row.sid === currentSid,
   }));
 
-  return snakeJson({ current_sid: currentSid, sessions });
+  return rawJson({ current_sid: currentSid, sessions });
 };
 
 export const onRequestDelete: PagesFunction<Env> = async (context) => {
@@ -70,5 +67,5 @@ export const onRequestDelete: PagesFunction<Env> = async (context) => {
     session.uid,
     session.sid ?? null,
   );
-  return snakeJson({ ok: true, revoked });
+  return rawJson({ ok: true, revoked });
 };

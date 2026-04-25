@@ -15,15 +15,9 @@
  * 會被 getSessionUser 的 revocation check 擋）。
  */
 import { requireSessionUser } from '../../_session';
+import { rawJson } from '../../_utils';
 import { AppError } from '../../_errors';
 import type { Env } from '../../_types';
-
-function snakeJson(data: unknown, status = 200): Response {
-  return new Response(JSON.stringify(data), {
-    status,
-    headers: { 'Content-Type': 'application/json' },
-  });
-}
 
 export const onRequestDelete: PagesFunction<Env> = async (context) => {
   const session = await requireSessionUser(context.request, context.env);
@@ -43,11 +37,11 @@ export const onRequestDelete: PagesFunction<Env> = async (context) => {
 
   const changes = (result.meta as { changes?: number } | undefined)?.changes ?? 0;
   if (changes === 0) {
-    return snakeJson(
+    return rawJson(
       { error: { code: 'SESSION_NOT_FOUND', message: '找不到此 session（可能已登出或不屬於你）' } },
       404,
     );
   }
 
-  return snakeJson({ ok: true, revoked_sid: sid });
+  return rawJson({ ok: true, revoked_sid: sid });
 };
