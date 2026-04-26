@@ -5,17 +5,27 @@ Format based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [2.14.24] - 2026-04-26
 
-**PR-PP: 桌機 trip card 再縮小、容更多列（QA round 23）**。
+**PR-PP: /trips 架構改 2-pane（去 sheet）+ 5 cards/row + 點選顯示滿版（QA round 23）**。
 
-### Changed
-- **Card minmax 200 → 160** — User 反饋桌機卡片可再小：
-  - 1280 → 3 cards × ~196px each
-  - 1440 → 4 cards × ~165px each
-  - 1920 → 5 cards × ~179px each
-  - 2560 → 5 cards
-- 真正的 RWD：viewport 變寬自動加列數，每張卡更精簡。Cover 仍 16:9 自動縮放。
+### Changed (架構)
+- **去 sheet** — TripsListPage 不再有右側 sheet pane。AppShell 從 3-pane 改成 2-pane (sidebar 240 + main fluid)。
+- **點選 = 滿版 trip** — `/trips?selected=X` 在桌機/手機都把 main 換成滿版 embedded TripPage（含 `[← back] [trip name]` topbar），不再走 sheet。`showEmbeddedTrip` 不分 viewport 同行為。
+- **行程 card 一行 5 個** — minmax 200 → 160，加上去 sheet 後 main 變寬：
+  - 1024 → 4 cards × 168px
+  - 1280 → 5 cards × 179px
+  - 1440 → 5 cards × 179px
+  - 1920 → 5 cards × 179px (max-width 960 cap)
+- 5 cols 在 ≥1280 穩定，符合 user 「一行 5 個」 spec。
 
-verify gate: tsc clean / 1029 tests pass.
+### Removed
+- `.app-shell:has(> main .tp-trips-shell)[data-layout="3pane"]` sheet width override（已不適用）。
+- TripsListPage `sheet` prop 傳給 AppShell。
+- Embedded mode 的 `!isDesktop` 限制（現在桌機/手機都走滿版）。
+
+### Tests
+- 更新 2 cases：原 `desktop: first trip auto-selected → sheet` 改為新架構 `desktop + no ?selected: card grid only` + `desktop + ?selected: 滿版 embedded`。
+
+verify gate: tsc clean / 123 files / 1029 tests pass.
 
 ## [2.14.23] - 2026-04-26
 
