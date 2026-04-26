@@ -49,7 +49,8 @@ const SCOPED_STYLES = `
  * 2560 → sheet 576 (cap)、main 1744、inner 960 → 3 cards */
 @media (min-width: 1024px) {
   .app-shell:has(> main .tp-trips-shell)[data-layout="3pane"] {
-    grid-template-columns: 240px 1fr min(576px, 32vw);
+    /* PR-MM 2026-04-26：sheet 再收緊 cap 540 / 28vw，給 main 更多空間排卡 */
+    grid-template-columns: 240px 1fr min(540px, 28vw);
   }
 }
 .tp-trips-shell {
@@ -124,11 +125,16 @@ const SCOPED_STYLES = `
 }
 @media (min-width: 1024px) {
   .tp-trips-grid {
-    /* PR-LL 2026-04-26：minmax 280→260 — buffer for macOS scrollbar
-     * always-on (15px) 及 zoom 不為 100% 的 1px-level 邊界差。
-     * 1280 viewport 即使 inner 因 scrollbar 縮到 575，260×2+16=536 仍可
-     * 容 2 cols。原 mockup canonical 280 在邊界差時掉成 1 col，視覺不對。 */
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    /* PR-MM 2026-04-26：minmax 280→200 — card 比照 mobile 尺寸做 RWD
+     *
+     * Mobile 預設 2 cols，375px viewport 下每卡 ~180px。Desktop minmax 200
+     * 跟 mobile 同尺寸基準 + auto-fill 自動排版：
+     *   1280 inner ~650 → 3 cards (200×3+32=632 fits)
+     *   1440 inner ~765 → 3 cards (200×4+48=848 > 765)
+     *   1920 inner 960 → 4 cards (200×4+48=848 fits)
+     *   2560 inner 960 → 4 cards
+     * 真正的 RWD：viewport 變大自動增加列數，卡片本身保持 mobile 大小不過大。 */
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   }
 }
 /* PR-Q 2026-04-26：每張 trip card 加 ... menu。card 改 wrapper（position:
