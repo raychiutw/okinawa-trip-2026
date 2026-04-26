@@ -3,6 +3,20 @@
 All notable changes to Tripline will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [2.14.24] - 2026-04-26
+
+**PR-PP: 桌機 trip card 再縮小、容更多列（QA round 23）**。
+
+### Changed
+- **Card minmax 200 → 160** — User 反饋桌機卡片可再小：
+  - 1280 → 3 cards × ~196px each
+  - 1440 → 4 cards × ~165px each
+  - 1920 → 5 cards × ~179px each
+  - 2560 → 5 cards
+- 真正的 RWD：viewport 變寬自動加列數，每張卡更精簡。Cover 仍 16:9 自動縮放。
+
+verify gate: tsc clean / 1029 tests pass.
+
 ## [2.14.23] - 2026-04-26
 
 **PR-NN/OO bundle: mobile-topbar 取代 floating back btn + CollabModal → InfoSheet 統一（QA round 22）**。

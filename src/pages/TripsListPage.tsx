@@ -148,16 +148,16 @@ const SCOPED_STYLES = `
 }
 @media (min-width: 1024px) {
   .tp-trips-grid {
-    /* PR-MM 2026-04-26：minmax 280→200 — card 比照 mobile 尺寸做 RWD
+    /* PR-PP 2026-04-26：minmax 200→160 — 桌機卡片再縮小，更多列
      *
-     * Mobile 預設 2 cols，375px viewport 下每卡 ~180px。Desktop minmax 200
-     * 跟 mobile 同尺寸基準 + auto-fill 自動排版：
-     *   1280 inner ~650 → 3 cards (200×3+32=632 fits)
-     *   1440 inner ~765 → 3 cards (200×4+48=848 > 765)
-     *   1920 inner 960 → 4 cards (200×4+48=848 fits)
-     *   2560 inner 960 → 4 cards
-     * 真正的 RWD：viewport 變大自動增加列數，卡片本身保持 mobile 大小不過大。 */
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+     * User 反饋「桌機版行程卡片長寬可再小一點」。從 mobile baseline 200
+     * 降到 160，讓桌機 viewport 可塞更多卡：
+     *   1280 inner ~640 → 3 cards (160×3+32=512 fits) at ~196px each
+     *   1440 inner ~707 → 4 cards (160×4+48=688 fits) at ~165px each
+     *   1920 inner 960  → 5 cards (160×5+64=864 fits) at ~179px each
+     *   2560 inner 960  → 5 cards (max-width caps inner)
+     * Card cover 仍 16:9 → 高度自動跟著縮，整張卡更精簡。 */
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   }
 }
 /* PR-Q 2026-04-26：每張 trip card 加 ... menu。card 改 wrapper（position:
