@@ -109,11 +109,14 @@ const SCOPED_STYLES = `
 }
 .ocean-map-pin[data-type="hotel"] { font-size: 14px; }
 .ocean-map-cluster {
+  /* QA 2026-04-26 PR-I：原本橘色框線 + 杏色背景太裝飾 — user 要「只要 stop
+   * icon」 純粹一點。改 white bg + line-strong border + soft shadow 對齊
+   * .ocean-map-pin default state，跟 stop pin 視覺權重一致。 */
   display: grid; place-items: center;
   width: 40px; height: 40px;
   border-radius: 50%;
-  background: var(--color-accent-bg, #F7DFCB);
-  border: 1.5px solid var(--color-accent, #D97848);
+  background: var(--color-background, #fff);
+  border: 1.5px solid var(--color-line-strong, #C8B89F);
   color: var(--color-foreground, #222);
   font-weight: 700; font-size: 13px; font-variant-numeric: tabular-nums;
   font-family: var(--font-family-system, 'Inter', sans-serif);
