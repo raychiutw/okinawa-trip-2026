@@ -23,7 +23,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/).
 - Embedded mode 的 `!isDesktop` 限制（現在桌機/手機都走 embedded）。
 
 ### Refined
-- **Embedded TripPage 不滿版** — 加 `.tp-embedded-content { max-width: 720px; margin: 0 auto }` 容器，trip 內容置中限寬，不佔滿 1040 main 寬度。User 反饋「不是滿版」。
+- **Embedded TripPage 吃滿 main 寬** — User 進一步釐清：sidebar 固定後 trip detail 直接吃滿剩餘空間，不要 max-width 限寬。砍掉 `.tp-embedded-content` wrapper（曾短暫加上 max-width 720 後被 user 退回）。
 
 ### Tests
 - 更新 2 cases：原 `desktop: first trip auto-selected → sheet` 改為新架構 `desktop + no ?selected: card grid only` + `desktop + ?selected: 滿版 embedded`。
