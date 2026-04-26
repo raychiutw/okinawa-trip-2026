@@ -109,9 +109,9 @@ const SCOPED_STYLES = `
 }
 .ocean-map-pin[data-type="hotel"] { font-size: 14px; }
 .ocean-map-cluster {
-  /* QA 2026-04-26 PR-I：原本橘色框線 + 杏色背景太裝飾 — user 要「只要 stop
-   * icon」 純粹一點。改 white bg + line-strong border + soft shadow 對齊
-   * .ocean-map-pin default state，跟 stop pin 視覺權重一致。 */
+  /* QA 2026-04-26 PR-I：cluster 在 GlobalMapPage 已 disable (cluster={false})，
+   * 此 styling 留給其他 pages 之後若再開 cluster 用 — 改 white bg +
+   * line-strong border 跟 .ocean-map-pin 視覺一致。 */
   display: grid; place-items: center;
   width: 40px; height: 40px;
   border-radius: 50%;

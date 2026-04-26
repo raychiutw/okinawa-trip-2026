@@ -13,7 +13,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/).
 - **Cross-day continuous scroll**：carousel 從 single-day filter 改 flatten 全部 pins。Day 1 最後 stop → Day 2 第一 stop 直接接續滑換。每 card eyebrow 加 `D{dayNum}·` prefix 標示所屬 day。
 - **Active card border = `dayColor(dayNum)`**：active 卡片 border + 軟 box-shadow 用該 day 的 polyline 顏色。inactive 卡片 left-border 3px 同色 hint 該 stop 屬哪天。
 - **Pill bar 往下靠**：mobile bottom 240 → 130（carousel 縮短後距離拉近）。
-- **OceanMap cluster 拿掉橘色框**：`.ocean-map-cluster` 從 `accent-bg` + `accent border` 改 white bg + `line-strong` border。對齊 `.ocean-map-pin` default 視覺權重，user feedback「只要 stop icon」。
+- **OceanMap cluster 完全 disable**（user 更正：「移除 cluster」）— `<OceanMap cluster={false} />` 在 GlobalMapPage 直接關掉 supercluster。每個 stop 顯示為個別 pin，無數字 bubble。`.ocean-map-cluster` styling 留 fallback（其他頁若再開可用），改 white bg + `line-strong` border 視覺。
 
 ### Removed
 - `carouselDay` useMemo — cross-day flatten 後不再需要 single-day filter。

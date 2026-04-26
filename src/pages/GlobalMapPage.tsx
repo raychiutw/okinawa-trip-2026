@@ -794,6 +794,9 @@ export default function GlobalMapPage() {
                   zoomControlPosition="bottomright"
                   dark={isDark}
                   className="ocean-map-container"
+                  /* QA 2026-04-26 PR-I 更正：完全停用 cluster — user feedback「移除
+                   * cluster」。每個 stop 直接顯示為個別 pin，不再 cluster 成數字 bubble。 */
+                  cluster={false}
                 />
               </Suspense>
             )}
