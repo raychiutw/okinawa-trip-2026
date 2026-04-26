@@ -97,7 +97,7 @@ const SCOPED_STYLES = `
   margin: 8px 0 0 8px;
   width: 40px; height: 40px;
   border-radius: var(--radius-full);
-  background: rgba(255, 255, 255, 0.92);
+  background: var(--color-glass-toast);
   border: 1px solid var(--color-border);
   color: var(--color-foreground);
   display: inline-grid; place-items: center;

@@ -3,20 +3,23 @@
 All notable changes to Tripline will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/).
 
-## [2.14.15] - 2026-04-26
+## [2.14.17] - 2026-04-26
 
-**PR-DD: 新增行程後立即出現在列表（QA round 14）**。User onion523: 「行程後要切換功能 才看的到新行程」。
+**PR-EE/FF bundle: dark mode 樣式修補 + trips list 卡片均一 + 隱藏 trip-id + sheet 寬度收縮（QA round 15-16）**。
 
-### Fixed
-- **新增 trip 後 /trips landing 不更新** — TripsListPage `useEffect([])` 只 mount 跑一次。NewTripContext.handleCreated navigate 到 `/trips?selected={id}` 不 remount TripsListPage（同 router instance），所以 list 還是舊 myIds。User 必須切到別的 tab 再回來才看到新 trip。
+### Fixed (dark mode)
+- **⋯ 卡片 kebab button 白圈** — `.tp-card-menu-trigger` 用 `rgba(255,255,255,0.92)` hardcode 白色 → 改 `var(--color-glass-toast)` token (light: cream / dark: cocoa) + `backdrop-filter: blur(8px)`。
+- **手機行程詳情返回箭頭白圈** — `.tp-trips-back-btn` 同問題同修法。
+- **TW cover dark mode 太亮** — `--color-cover-tw-from: #9E6800`（amber gold）在 dark UI 跳出來太搶眼，改 `#5A4220`（deep amber-brown）。
 
-### 修
-- **NewTripContext.handleCreated dispatch `tp-trip-created` CustomEvent** — payload 含 `{ tripId }`，創建成功後立即發出。
-- **TripsListPage 抽 `loadTrips` callback + 聽 event** — mount 時 `loadTrips()`；event 來時也 `loadTrips()`。`useCallback([])` stable identity 給兩個 effect 用。
+### Fixed (trips list)
+- **隱藏 trip-id** — `cardMeta()` fallback `trip.tripId` 移除 → return `''`。`trip-vduh` 對 user 沒意義，留白勝過顯示亂碼。
+- **卡片大小不一** — `.tp-trip-card` 改 `display: flex; flex-direction: column; height: 100%;`，meta `margin-top: auto` 推到底部。grid auto stretch + flex column = 同 row 高度均一。
+- **Sheet 寬度過大** — `min(560px, 38vw)` → `min(440px, 32vw)`，對照 mockup-trip-v2 sheet 比例。1440px viewport 主欄變寬 cards 顯示更舒服。
 
 ### Internal
-- 同 pattern 既有 `tp-entry-updated` event（TripPage 用來在 entry POST/PATCH 後 refetch current day）。沿用 CustomEvent 慣例不引新 state mgmt。
-- prod data fix（手動）：`UPDATE trip_permissions SET role='owner' WHERE EXISTS (SELECT 1 FROM trips WHERE t.id = trip_permissions.trip_id AND LOWER(t.owner) = LOWER(trip_permissions.email))` — 把 onion523 的台南 / 之前的 perm 從舊 'admin' role 補升 'owner'。
+- 抓 bug 用 `/browse` 對 prod 套 dark mode 截圖確認。
+- User 回報的「奇怪長條圖」 在 headless browse 沒重現 — 可能 Xiaomi 裝置 specific quirk，需實機 debug。
 - verify gate: tsc clean / 122 files / 1026 tests pass。
 
 ## [2.14.14] - 2026-04-26
