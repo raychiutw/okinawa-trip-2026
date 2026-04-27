@@ -761,9 +761,19 @@ export default function TripsListPage() {
   // （[← back] [trip name]）。原 PR-AA floating back btn 自己一行 + 跟 mockup
   // mobile-topbar 不符，已棄用。
   function clearSelected() {
+    /* Capture the trip id user was viewing BEFORE we drop ?selected — used
+     * to restore keyboard focus to the originating card after re-render
+     * (back-btn unmounts → focus would otherwise fall to <body>). */
+    const targetId = effectiveSelectedId;
     const next = new URLSearchParams(searchParams);
     next.delete('selected');
     setSearchParams(next, { replace: false });
+    if (targetId && typeof window !== 'undefined') {
+      requestAnimationFrame(() => {
+        const card = document.querySelector(`[data-testid="trips-list-card-${targetId}"]`);
+        if (card instanceof HTMLElement) card.focus();
+      });
+    }
   }
 
   const embeddedTrip = showEmbeddedTrip

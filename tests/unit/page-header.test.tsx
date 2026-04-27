@@ -110,4 +110,17 @@ describe('PageHeader', () => {
     expect(header.getAttribute('data-align')).toBe('center');
     expect(screen.getByText('OAuth')).toBeInTheDocument();
   });
+
+  it('accepts ReactNode title with inline accent span (hero-page support)', () => {
+    /* Future ConsentPage migration needs `<span class="accent">app</span> 想要存取` —
+     * widening title from string to ReactNode unlocks this without breaking string callers. */
+    render(
+      <PageHeader
+        title={<><span data-testid="title-accent">沖繩</span> 七日遊</>}
+        align="center"
+      />,
+    );
+    expect(screen.getByTestId('title-accent')).toHaveTextContent('沖繩');
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('沖繩 七日遊');
+  });
 });
