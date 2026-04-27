@@ -10,9 +10,21 @@
  * 不互相影響。
  */
 
-import { generateOpaqueToken } from '../../functions/api/_utils';
-
 const ALG = 'SHA-256';
+
+/**
+ * Inline copy of `generateOpaqueToken` (originally in functions/api/_utils.ts) —
+ * 避免 src/ → functions/api/_utils 的 cross-boundary import 把 functions/api/_types.ts
+ * (用 ambient `D1Database`) 拖進 frontend tsconfig graph 造成 tsc 找不到型別。
+ * 5 行重複可接受，換得 src/ ↔ functions/ 邊界乾淨。
+ */
+function generateOpaqueToken(byteLen = 32): string {
+  const bytes = new Uint8Array(byteLen);
+  crypto.getRandomValues(bytes);
+  let str = '';
+  for (let i = 0; i < bytes.length; i++) str += String.fromCharCode(bytes[i]!);
+  return btoa(str).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
 
 function base64urlEncodeBytes(bytes: Uint8Array): string {
   let str = '';
