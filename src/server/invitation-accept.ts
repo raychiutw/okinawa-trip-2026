@@ -60,7 +60,8 @@ export async function tryAcceptInvitation(
     return { ok: false, code: 'INVITATION_EMAIL_MISMATCH' };
   }
 
-  // Atomic batch
+  // Atomic batch — UPDATE 加 accepted_at IS NULL guard 防 concurrent accept race
+  // (last-writer-wins on accepted_at timestamp + replay-after-leak defense)
   await db.batch([
     db
       .prepare(
@@ -70,7 +71,8 @@ export async function tryAcceptInvitation(
       .bind(user.email.toLowerCase(), invitation.trip_id, user.id),
     db
       .prepare(
-        `UPDATE trip_invitations SET accepted_at = ?, accepted_by = ? WHERE token_hash = ?`,
+        `UPDATE trip_invitations SET accepted_at = ?, accepted_by = ?
+         WHERE token_hash = ? AND accepted_at IS NULL`,
       )
       .bind(new Date().toISOString(), user.id, tokenHash),
   ]);

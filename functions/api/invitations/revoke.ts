@@ -32,7 +32,10 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
   const email = body.email?.trim().toLowerCase();
 
   if (!tripId || !email) {
-    throw new AppError('DATA_VALIDATION', '缺少 tripId 或 email');
+    return new Response(
+      JSON.stringify({ error: { code: 'INVITATION_REVOKE_VALIDATION', message: '缺少 tripId 或 email' } }),
+      { status: 400, headers: { 'content-type': 'application/json' } },
+    );
   }
 
   await ensureCanManageTripPerms(context, auth, tripId);
@@ -47,7 +50,10 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
 
   const changes = (result.meta as { changes?: number } | undefined)?.changes ?? 0;
   if (changes === 0) {
-    throw new AppError('DATA_NOT_FOUND', '找不到 pending invitation');
+    return new Response(
+      JSON.stringify({ error: { code: 'INVITATION_NOT_FOUND', message: '找不到 pending invitation（可能已撤銷或已接受）' } }),
+      { status: 404, headers: { 'content-type': 'application/json' } },
+    );
   }
 
   await logAudit(context.env.DB, {

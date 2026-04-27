@@ -1,15 +1,15 @@
 /**
- * LoginPage — V2 sign-in UI（local password + Google OIDC + CF Access fallback）
+ * LoginPage — V2 sign-in UI（local password + Google OIDC）
  *
  * Flow:
  *   - Primary: email + password form → POST /api/oauth/login → navigate redirect_after
  *   - Alt: 「使用 Google 登入」→ /api/oauth/login/google
- *   - Fallback: CF Access link
  *
  * Query params handled:
  *   ?verified=1 → "Email 驗證成功" toast
  *   ?verify_error=expired → 警示 banner
  *   ?redirect_after=/path → 成功登入後 navigate 此 path（已 sanitize 內部 path only）
+ *   ?invitation=token → 登入成功後自動 POST /api/invitations/accept → redirect 該 trip
  */
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';

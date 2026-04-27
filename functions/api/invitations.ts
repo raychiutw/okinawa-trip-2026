@@ -52,6 +52,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
     if (!auth) throw new AppError('AUTH_REQUIRED');
     await ensureCanManageTripPerms(context, auth, tripId);
 
+    // LIMIT 100：一個 trip 同時 pending 邀請超過 100 已不正常，cap 防 DoS + 大 payload
     const { results } = await context.env.DB
       .prepare(
         `SELECT token_hash, invited_email, created_at, expires_at

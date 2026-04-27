@@ -39,8 +39,8 @@ describe('Migration 0040 — trip_invitations (V2 共編邀請)', () => {
     expect(MIGRATION).toMatch(/invited_by\s+TEXT NOT NULL REFERENCES users\(id\) ON DELETE CASCADE/);
   });
 
-  it('created_at 預設 CURRENT_TIMESTAMP', () => {
-    expect(MIGRATION).toMatch(/created_at[\s\S]*?DEFAULT CURRENT_TIMESTAMP/);
+  it("created_at 預設 datetime('now')（跟 0036/0037 一致）", () => {
+    expect(MIGRATION).toMatch(/created_at[\s\S]*?DEFAULT \(datetime\('now'\)\)/);
   });
 
   it('expires_at NOT NULL（lazy expire on read 用）', () => {

@@ -46,7 +46,13 @@ export async function generateInvitationToken(
   return { rawToken, tokenHash };
 }
 
-/** ISO timestamp 7 days from now (default invitation TTL) */
-export function invitationExpiresAt(daysFromNow = 7): string {
+/**
+ * Default invitation TTL — referenced by permissions.ts, email template, InvitePage UI。
+ * 改這個值 single source of truth，避免文案 / DB / UI 不同步。
+ */
+export const INVITATION_TTL_DAYS = 7;
+
+/** ISO timestamp N days from now (default INVITATION_TTL_DAYS) */
+export function invitationExpiresAt(daysFromNow = INVITATION_TTL_DAYS): string {
   return new Date(Date.now() + daysFromNow * 24 * 60 * 60 * 1000).toISOString();
 }

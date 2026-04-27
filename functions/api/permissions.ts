@@ -118,6 +118,10 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     throw new AppError('DATA_VALIDATION', '缺少必要欄位：email, tripId');
   }
 
+  if (role !== 'member' && role !== 'admin') {
+    throw new AppError('DATA_VALIDATION', "role 必須為 'member' 或 'admin'");
+  }
+
   await ensureCanManageTripPerms(context, auth, tripId);
 
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {

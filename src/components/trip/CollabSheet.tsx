@@ -269,7 +269,13 @@ export default function CollabSheet({ tripId }: CollabSheetProps) {
         loadPermissions(tripId);
         return;
       }
-      if (r.status === 409) throw new Error('此 email 已有權限');
+      if (r.status === 409) {
+        // 兩條分支都可能 409：trip_permissions UNIQUE 衝突 vs trip_invitations 重邀
+        // server 回的 message 已區分，讀進來顯示比 hardcode 準確
+        const data = await r.json().catch(() => null);
+        const msg = data?.error?.message ?? '此 email 已有權限或 pending 邀請';
+        throw new Error(msg);
+      }
       if (r.status === 403) throw new Error('僅行程擁有者或管理者可操作');
       const data = await r.json().catch(() => null);
       const errObj = data?.error;

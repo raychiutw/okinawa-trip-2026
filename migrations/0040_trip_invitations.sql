@@ -26,7 +26,10 @@
 -- 2. 點 link → /invite?token=xxx → GET /api/invitations?token=xxx → 顯示 trip preview
 -- 3. 登入/註冊後 → POST /api/invitations/accept { token } → user.email 必須 match
 --    UPDATE accepted_at + accepted_by + INSERT trip_permissions
--- 4. 過期 / 已接受：lazy expire on read，30 天後 cleanup cron 砍
+-- 4. 過期 / 已接受：lazy expire on read。
+--    **TODO(post-V2)**：cleanup cron 砍 30 天前 expired/accepted rows — 未在此 PR scope，
+--    對齊 docs/v2-launch-pending.md A5（auth_audit_log + session_devices 也要 cleanup
+--    cron），考慮一次處理。
 
 CREATE TABLE trip_invitations (
   token_hash    TEXT PRIMARY KEY,
@@ -34,7 +37,10 @@ CREATE TABLE trip_invitations (
   invited_email TEXT NOT NULL,
   role          TEXT NOT NULL DEFAULT 'member' CHECK (role IN ('member')),
   invited_by    TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-  created_at    TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  -- created_at 用 datetime('now') 跟 0036/0037 一致格式；accepted_at 由 application
+  -- 寫 ISO 8601 (Date.toISOString)，兩種 format 都可比較（< datetime('now')）但 row
+  -- 內 format 略有差異 — 接受此小不一致避免改 application code path。
+  created_at    TEXT NOT NULL DEFAULT (datetime('now')),
   expires_at    TEXT NOT NULL,
   accepted_at   TEXT,
   accepted_by   TEXT REFERENCES users(id) ON DELETE SET NULL

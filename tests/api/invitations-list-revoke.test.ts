@@ -169,10 +169,12 @@ describe('POST /api/invitations/revoke', () => {
     expect(res.status).toBe(401);
   });
 
-  it('400 DATA_VALIDATION when missing tripId or email', async () => {
+  it('400 INVITATION_REVOKE_VALIDATION when missing tripId or email', async () => {
     const env: MockEnv = { DB: { prepare: vi.fn() } };
     const res = await onRevoke(makeRevokeContext({ tripId: 't' }, env));
     expect(res.status).toBe(400);
+    const json = await res.json() as { error: { code: string } };
+    expect(json.error.code).toBe('INVITATION_REVOKE_VALIDATION');
   });
 
   it('403 PERM_ADMIN_ONLY when not owner / not admin', async () => {
@@ -187,7 +189,7 @@ describe('POST /api/invitations/revoke', () => {
     expect(res.status).toBe(403);
   });
 
-  it('404 DATA_NOT_FOUND when no pending invitation matches', async () => {
+  it('404 INVITATION_NOT_FOUND when no pending invitation matches', async () => {
     const dbPrepare = vi.fn().mockImplementation((sql: string) => {
       if (sql.includes('SELECT owner FROM trips')) return makeStmt({ owner: 'owner@x.com' });
       if (sql.includes('DELETE FROM trip_invitations')) {
@@ -202,6 +204,8 @@ describe('POST /api/invitations/revoke', () => {
       makeRevokeContext({ tripId: 'trip-1', email: 'inv@x.com' }, env),
     );
     expect(res.status).toBe(404);
+    const json = await res.json() as { error: { code: string } };
+    expect(json.error.code).toBe('INVITATION_NOT_FOUND');
   });
 
   it('200 + DELETE row when pending invitation exists', async () => {
