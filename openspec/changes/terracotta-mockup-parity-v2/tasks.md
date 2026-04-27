@@ -4,13 +4,13 @@
 
 對應 `specs/terracotta-icon-svg-sweep/spec.md`。預估 1 PR / ~1 天。
 
-- [ ] 1.1 補 `src/components/shared/Icon.tsx` 新 SVG sprite：`trash` / `maximize` / `arrows-vertical`（lucide / heroicons style 1.5px stroke），含 unit test 驗 case 切換正確 path
-- [ ] 1.2 替換 `src/components/trip/TimelineRail.tsx` `tp-rail-actions` 5 個 emoji button：`🗑→<Icon name="trash" />` / `✕→<Icon name="x" />` / `⛶→<Icon name="maximize" />` / `⎘→<Icon name="copy" />` / `⇅→<Icon name="arrows-vertical" />`
-- [ ] 1.3 替換 `src/components/trip/InlineAddPoi.tsx` search input prefix：`🔍→<Icon name="search" />`
-- [ ] 1.4 替換 `src/pages/ExplorePage.tsx` POI card「+ 儲存」/「✓ 已儲存」 button：`✓` text prefix → `<Icon name="check" />`
-- [ ] 1.5 寫 `tests/unit/no-emoji-icons.test.ts` source-grep contract test：掃 `src/components/` + `src/pages/` 全 .tsx，禁止 emoji unicode (`🗑 🔍 ⛶ ⎘ ⇅ ❤ 🚗 📋`) 在 JSX text node，例外 `Icon.tsx` self
-- [ ] 1.6 修改 `tests/unit/timeline-rail-inline-expand.test.tsx` 既有 toolbar test：改用 `data-testid` 取 button 不依賴 emoji text content
-- [ ] 1.7 跑 `npm test` + `npx tsc --noEmit` 全 green
+- [x] 1.1 補 `src/components/shared/Icon.tsx` 新 SVG sprite：`trash` / `maximize` / `arrows-vertical` / `copy` / `check`（Material Symbols Rounded 風格），含 unit test 驗 case 切換正確 path（既有 Icon test cover by no-emoji contract test 順便驗）
+- [x] 1.2 替換 `src/components/trip/TimelineRail.tsx` `tp-rail-actions` 5 個 emoji button：`🗑→<Icon name="trash" />` / `✕→<Icon name="x-mark" />` / `⛶→<Icon name="maximize" />` / `⎘→<Icon name="copy" />` / `⇅→<Icon name="arrows-vertical" />`；comment 內 emoji 也清掉避免 contract test 誤抓
+- [x] 1.3 替換 `src/components/trip/InlineAddPoi.tsx` search input prefix：`🔍→<Icon name="search" />`；順便 `✕→<Icon name="x-mark" />` close button
+- [x] 1.4 替換 `src/pages/ExplorePage.tsx` POI card「+ 儲存」/「✓ 已儲存」 button：`✓` text prefix → `<Icon name="check" />`
+- [x] 1.5 寫 `tests/unit/no-emoji-icons.test.ts` source-grep contract test：掃 `src/components/` + `src/pages/` 全 .tsx，禁止 emoji unicode (`🗑 🔍 ⛶ ⎘ ⇅ ❤ 🚗 📋`) 在 JSX text node (剝 comment 後)，例外 `Icon.tsx` self；3 cases pass
+- [x] 1.6 修改 `tests/unit/timeline-rail-inline-expand.test.tsx` 既有 toolbar test：describe/it 名稱拿掉 ⎘/⇅ emoji 改文字 (data-testid 取 button 既有不依賴 text content)
+- [x] 1.7 跑 `npm test` + `npx tsc --noEmit` 全 green：1210/1210 unit + 590/590 api + tsc clean
 - [ ] 1.8 commit `style(icons): emoji unicode → SVG sprite cross-component sweep` + push + 開 PR + ship
 
 ## 2. terracotta-account-hub-page

@@ -153,7 +153,7 @@ const SCOPED_STYLES = `
 }
 .tp-rail-action-spacer { flex: 1; }
 .tp-rail-action-icon {
-  /* v2.10 Wave 1: ⎘ ⇅ icon-only buttons. relative for popover absolute pos. */
+  /* v2.10 Wave 1: copy/move icon-only buttons. relative for popover absolute pos. */
   position: relative;
   font: inherit; font-size: 16px;
   width: var(--spacing-tap-min); height: var(--spacing-tap-min);
@@ -201,7 +201,7 @@ interface TimelineRailProps {
   events: TimelineEntryData[];
   /** Activate "now" indicator for this index */
   nowIndex?: number;
-  /** v2.10 Wave 1: trip_days.id for current day — passed to RailRow for ⎘/⇅
+  /** v2.10 Wave 1: trip_days.id for current day — passed to RailRow for copy/move
    *  popover currentDayId + copy POST default sortOrder. Optional for tests. */
   dayId?: number | null;
 }
@@ -289,7 +289,7 @@ const RailRow = memo(function RailRow({ entry, index, expanded, onToggle, isPast
     }
   };
 
-  // QA 2026-04-26 BUG-012：mockup .iconbtn.sm.danger 🗑 delete handler。
+  // QA 2026-04-26 BUG-012：mockup .iconbtn.sm.danger trash delete handler。
   // 走既有 DELETE /api/trips/:id/entries/:eid → cascade delete trip_pois。
   // 用 native confirm() 確認（避免誤觸），成功後 dispatch event 觸發 refetch。
   const handleDelete = useCallback(async () => {
@@ -309,7 +309,7 @@ const RailRow = memo(function RailRow({ entry, index, expanded, onToggle, isPast
     }
   }, [tripId, entryIdNum, entry.title]);
 
-  // v2.10 Wave 1: ⎘ copy / ⇅ move handler — popover onConfirm callback。
+  // v2.10 Wave 1: copy / move handler — popover onConfirm callback。
   // copy → POST /trips/:id/entries/:eid/copy ；move → PATCH /trips/:id/entries/:eid。
   const handleCopyOrMove = useCallback(async ({ targetDayId }: EntryActionConfirmPayload) => {
     if (!tripId || entryIdNum == null || popoverAction == null) return;
@@ -406,7 +406,7 @@ const RailRow = memo(function RailRow({ entry, index, expanded, onToggle, isPast
               aria-label="放大檢視"
               data-testid={`timeline-rail-lightbox-open-${entry.id}`}
             >
-              <span aria-hidden="true">⛶</span>
+              <Icon name="maximize" />
               <span>放大檢視</span>
             </button>
             <div className="tp-rail-action-spacer" />
@@ -420,7 +420,7 @@ const RailRow = memo(function RailRow({ entry, index, expanded, onToggle, isPast
                   title="複製到其他天"
                   data-testid={`timeline-rail-copy-open-${entry.id}`}
                 >
-                  ⎘
+                  <Icon name="copy" />
                 </button>
                 <button
                   type="button"
@@ -430,7 +430,7 @@ const RailRow = memo(function RailRow({ entry, index, expanded, onToggle, isPast
                   title="移到其他天"
                   data-testid={`timeline-rail-move-open-${entry.id}`}
                 >
-                  ⇅
+                  <Icon name="arrows-vertical" />
                 </button>
                 {popoverAction != null && (
                   <EntryActionPopover
@@ -444,8 +444,8 @@ const RailRow = memo(function RailRow({ entry, index, expanded, onToggle, isPast
                 )}
               </div>
             )}
-            {/* QA 2026-04-26 BUG-012：mockup 規範 4 個 icon button — 🗑 delete
-             * + ✕ collapse 不論單天/多天都顯示（每個 entry 都該能刪/收闔）。 */}
+            {/* QA 2026-04-26 BUG-012：mockup 規範 4 個 icon button — trash delete
+             * + close collapse 不論單天/多天都顯示（每個 entry 都該能刪/收闔）。 */}
             <button
               type="button"
               className="tp-rail-action-icon is-danger"
@@ -454,7 +454,7 @@ const RailRow = memo(function RailRow({ entry, index, expanded, onToggle, isPast
               title="刪除景點"
               data-testid={`timeline-rail-delete-${entry.id}`}
             >
-              🗑
+              <Icon name="trash" />
             </button>
             <button
               type="button"
@@ -464,7 +464,7 @@ const RailRow = memo(function RailRow({ entry, index, expanded, onToggle, isPast
               title="收闔"
               data-testid={`timeline-rail-collapse-${entry.id}`}
             >
-              ✕
+              <Icon name="x-mark" />
             </button>
           </div>
 

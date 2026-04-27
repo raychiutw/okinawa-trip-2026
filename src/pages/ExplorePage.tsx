@@ -578,7 +578,7 @@ export default function ExplorePage() {
                             disabled={isSaving || isSaved}
                             data-testid={`explore-save-btn-${poi.osm_id}`}
                           >
-                            {isSaved ? '✓ 已儲存' : isSaving ? '儲存中...' : '+ 儲存'}
+                            {isSaved ? <><Icon name="check" /> 已儲存</> : isSaving ? '儲存中...' : '+ 儲存'}
                           </button>
                         </div>
                       </article>

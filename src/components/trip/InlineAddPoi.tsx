@@ -310,12 +310,12 @@ export default function InlineAddPoi({ tripId, dayNum }: InlineAddPoiProps) {
             aria-label="收闔加景點"
             data-testid="inline-add-poi-close"
           >
-            ✕
+            <Icon name="x-mark" />
           </button>
         </div>
 
         <div className="tp-inline-add-search">
-          <span className="ico" aria-hidden="true">🔍</span>
+          <span className="ico" aria-hidden="true"><Icon name="search" /></span>
           <input
             type="text"
             placeholder="搜尋景點、餐廳、地址…（≥2 個字）"
