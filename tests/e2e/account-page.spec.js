@@ -29,7 +29,9 @@ test.describe('AccountPage — Section 2', () => {
 
   test('3 group settings rows render: 應用程式 / 共編 & 整合 / 帳號', async ({ page }) => {
     await page.goto('/account');
-    await expect(page.getByText('應用程式')).toBeVisible();
+    // exact match — 「應用程式」 字串會出現在 helper text「管理透過 Tripline 登入的應用程式」
+    // 中，得用 exact 抓 group label
+    await expect(page.getByText('應用程式', { exact: true })).toBeVisible();
     await expect(page.getByText('共編 & 整合')).toBeVisible();
     // 「帳號」 既是 TitleBar h1 也是 group label，至少 2 個 element
     await expect(page.getByText('帳號').first()).toBeVisible();

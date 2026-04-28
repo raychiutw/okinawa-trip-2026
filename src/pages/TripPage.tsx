@@ -234,6 +234,9 @@ export interface TripPageHandle {
   openSheet: (key: string) => void;
   triggerDownload: (format: string) => void;
   togglePrint: () => void;
+  /** Section 3 (terracotta-add-stop-modal) E2E follow-up：embedded mode 也能
+   *  trigger AddStopModal，TripsListPage 的 embedded TitleBar 開放此 entry。 */
+  openAddStop: () => void;
 }
 
 function TripPageInner(
@@ -662,6 +665,7 @@ function TripPageInner(
     openSheet: (key: string) => setActiveSheet(key),
     triggerDownload: (format: string) => { void handleDownloadFormat(format); },
     togglePrint,
+    openAddStop: () => setAddStopOpen(true),
   }), [handleDownloadFormat, togglePrint]);
   const handleSheetClose = useCallback(() => { setActiveSheet(null); }, []);
 

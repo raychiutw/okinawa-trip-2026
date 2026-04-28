@@ -1027,11 +1027,26 @@ export default function TripsListPage() {
         back={clearSelected}
         backLabel="返回行程列表"
         actions={effectiveSelectedId && (
-          <EmbeddedActionMenu
-            tripId={effectiveSelectedId}
-            tripPageRef={tripPageRef}
-            onCollab={() => setCollabTripId(effectiveSelectedId)}
-          />
+          <>
+            {/* Section 3 (terracotta-add-stop-modal)：embedded mode 也提供
+              * 「加景點」 trigger，呼叫 TripPage exposed handle openAddStop。
+              * 否則 user 在 /trips?selected= flow（主要 entry）找不到加景點。 */}
+            <button
+              type="button"
+              className="tp-embedded-menu-trigger"
+              onClick={() => tripPageRef.current?.openAddStop()}
+              aria-label="加景點"
+              title="加景點"
+              data-testid="trip-add-stop-trigger"
+            >
+              <Icon name="plus" />
+            </button>
+            <EmbeddedActionMenu
+              tripId={effectiveSelectedId}
+              tripPageRef={tripPageRef}
+              onCollab={() => setCollabTripId(effectiveSelectedId)}
+            />
+          </>
         )}
       />
       <TripPage ref={tripPageRef} tripId={effectiveSelectedId!} noShell />
