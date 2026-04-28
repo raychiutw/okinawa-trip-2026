@@ -60,9 +60,14 @@
 ## 10. Tests + ship
 
 - [x] 10.1 加 `tests/unit/mockup-typography-compliance.test.ts` 用 raw text grep 驗證 11 element / SVG icon spec（避開 vitest jsdom + Tailwind 4 @theme 整合不穩問題）
-- [ ] 10.2 加 `tests/unit/modal-close-button-svg.test.tsx` 驗證 NewTripModal / AddStopModal close 含 `<svg>`
-- [ ] 10.3 加 `tests/unit/trips-list-card-meta.test.tsx` 驗證 eyebrow + meta 出發日格式
-- [ ] 10.4 加 `tests/unit/trips-list-archived-filter.test.tsx` 驗證 archived filter empty state
-- [ ] 10.5 加 `tests/unit/add-stop-modal-region-pill.test.tsx` 驗證 region pill render + dropdown
-- [x] 10.6 跑 `bun run typecheck` (clean) + `bun test tests/unit/pr2-tokens` (23/23 pass) + `bun test tests/unit/mockup-typography-compliance` (11/11 pass)
+- [x] 10.2 modal close SVG 驗證 — 已併入 `mockup-typography-compliance.test.ts` 的 `NewTripModal close button 用 SVG 不用 UTF-8 字元` test
+- [x] 10.3 加 `tests/unit/trips-list-card-meta.test.ts` 驗證 TripInfo camelCase / startDateMD 格式 / filter tabs / archived empty state
+- [x] 10.4 archived filter empty state 已含在 10.3 同一檔案 `archived empty state 含「目前沒有已歸檔行程」+ reset button` test
+- [x] 10.5 加 `tests/unit/add-stop-modal-region-filter.test.ts` 驗證 region pill / filter button / footer counter / DAY 全大寫 dayLabel format
+- [x] 10.6 跑 `bun run typecheck` (clean) + `bun test mockup-typography + trips-list-card + add-stop-modal-region` (34 pass / 0 fail)
 - [ ] 10.7 commit + push + PR 含 before/after evidence
+
+## 11. Prod 資料清理
+
+- [x] 11.1 加 `scripts/cleanup-test-data-leak.js` 走 V2 OAuth client_credentials 找含 `TEST_AUTO_UPDATE_PROBE` / `_PROBE` / `AUTO_TEST_FIXTURE` / `__TEST_ONLY__` 4 個 marker 的 trip_entries → DELETE。Prod 已清掉 entry 881/882（Ray's trip Day 1）
+- [x] 11.2 `scripts/daily-check.js` 加 `queryProdDataHygiene` 跑同 4 個 marker 的 SQL LIKE 查詢，發現就 status:'warning' 進 summary count（搭配既有 Telegram 通知 pipeline）
