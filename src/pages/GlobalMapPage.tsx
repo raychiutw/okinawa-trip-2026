@@ -46,7 +46,7 @@ import GlobalBottomNav from '../components/shell/GlobalBottomNav';
 import Icon from '../components/shared/Icon';
 import type { Day } from '../types/trip';
 
-// OceanMap is heavy (leaflet + supercluster). Lazy-load so /map's first paint
+// OceanMap is heavy (leaflet bundle). Lazy-load so /map's first paint
 // (header + sheet skeleton) lands before the leaflet bundle finishes parsing.
 const OceanMap = lazy(() => import('../components/trip/OceanMap'));
 
