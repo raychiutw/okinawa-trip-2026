@@ -95,15 +95,15 @@ export function buildMessagesWithDividers(messages: ChatMessage[]): ChatMessage[
 
 interface RawRequestRow {
   id: number;
-  trip_id: string;
+  tripId: string;
   mode?: string;
   message?: string | null;
   reply?: string | null;
   status: 'open' | 'processing' | 'completed' | 'failed';
-  submitted_by?: string | null;
-  processed_by?: string | null;
-  created_at?: string;
-  updated_at?: string;
+  submittedBy?: string | null;
+  processedBy?: string | null;
+  createdAt?: string | null;
+  updatedAt?: string | null;
 }
 
 /** QA 2026-04-26 PR-K：format chat bubble timestamp。同日只顯示 HH:mm，
@@ -139,10 +139,12 @@ export function isGarbledMessage(text: string): boolean {
 function rowToMessages(row: RawRequestRow): ChatMessage[] {
   const out: ChatMessage[] = [];
   const baseId = row.id * 2;
-  // QA 2026-04-26 PR-K：每個 message 帶 ISO timestamp。user message 用 created_at
-  // (送出時點)，assistant reply 用 updated_at (AI 完成時點)。fallback 互換。
-  const userTs = row.created_at ?? row.updated_at ?? null;
-  const assistantTs = row.updated_at ?? row.created_at ?? null;
+  // 2026-04-29 design-review F-004:API 實際回 camelCase(`createdAt` / `updatedAt`)
+  // 因此型別與 access 改齊;原 snake_case 拿不到 timestamp,bubble meta 渲染條件
+  // 永不為真。user message 用 createdAt(送出時點),assistant reply 用 updatedAt
+  // (AI 完成時點),fallback 互換。
+  const userTs = row.createdAt ?? row.updatedAt ?? null;
+  const assistantTs = row.updatedAt ?? row.createdAt ?? null;
   if (row.message) {
     out.push({ id: baseId, role: 'user', text: row.message, createdAt: userTs });
   }
