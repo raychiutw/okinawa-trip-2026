@@ -5,11 +5,14 @@ Format based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [2.17.5] - 2026-04-29
 
-**`/map` redirect 到 trip-bound MapPage**:sidebar「地圖」link 走 `/map`(GlobalMapPage),但 mockup「Map Page」spec(Reference: `src/pages/MapPage.tsx`)規範的是 trip-bound view(full-bleed map + 底部 day tabs + 底部 entry cards)。GlobalMapPage 是 cross-trip global overview(3-col layout),沒有 mockup 對應,user 從 sidebar 進去看到的不是 mockup 規範樣式。本次 GlobalMapPage 加 redirect:有任何 trip 就帶到 trip-bound view(優先 active trip,fallback 第一筆),沒 trip 才 fall through 到既有 empty state「+ 建立第一個行程」CTA。
+**`/map` redirect 到 trip-bound MapPage + 補 trip-picker pill**:sidebar「地圖」link 走 `/map`(GlobalMapPage),但 mockup「Map Page」spec(Reference: `src/pages/MapPage.tsx`)規範的是 trip-bound view(full-bleed map + 底部 day tabs + 底部 entry cards)。GlobalMapPage 是 cross-trip global overview(3-col layout),沒有 mockup 對應。本次:
+1. GlobalMapPage 加 render 前 3 層 redirect 判斷(有 cached activeTripId / fetch 後有 trip / 沒 trip 才走 empty state),避免 flash UI
+2. MapPage 補 trip-picker pill + dropdown(對齊 mockup S20 right titlebar action),click 切 trip → navigate `/trip/:newId/map`
 
 ### Changed
 
-- **`/map` GlobalMapPage 改 conditional redirect** — 有 trip → `<Navigate to=\`/trip/${tripId}/map\` replace />`;沒 trip → 維持 empty state。優先用 `ActiveTripContext.activeTripId`(若該 trip 仍存在於 user trips),fallback `trips[0]`。`trips === null`(loading)時不 redirect 避免 flash。
+- **`/map` GlobalMapPage redirect 邏輯改 render 前 3 層判斷** — `activeTripId`(localStorage cache)→ 立刻 redirect;`trips === null`(loading) → render null 避免 flash;`trips` fetch 完 → 有 trip 拿 `trips[0]` redirect / 沒 trip 走 empty state「+ 建立第一個行程」CTA。
+- **MapPage 補 trip-picker pill + dropdown** — `.tp-map-trip-picker` pill 顯示「行程 / trip name / ▾」(對齊 ChatPage `.tp-chat-trip-picker` pattern);click 開 dropdown 列 user trips,選 → `navigate(/trip/:newId/map)` 整頁切 trip context。CSS 複用 ChatPage 既有 pattern 改 `tp-map-*` 命名空間。
 
 ## [2.17.4] - 2026-04-29
 
