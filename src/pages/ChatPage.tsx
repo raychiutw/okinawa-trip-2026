@@ -374,7 +374,7 @@ const SCOPED_STYLES = `
   font: inherit; font-size: var(--font-size-callout);
   padding: 10px 14px;
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
+  border-radius: 16px;
   background: var(--color-background);
   color: var(--color-foreground);
   min-height: 44px; max-height: 160px;
