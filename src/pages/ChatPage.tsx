@@ -377,7 +377,7 @@ const SCOPED_STYLES = `
 .tp-chat-input {
   flex: 1;
   resize: none;
-  font: inherit; font-size: var(--font-size-callout);
+  font: inherit; font-size: var(--font-size-footnote);
   padding: 10px 14px;
   border: 1px solid var(--color-border);
   border-radius: 16px;
@@ -418,7 +418,6 @@ const SCOPED_STYLES = `
   color: var(--color-muted);
   font-size: var(--font-size-footnote);
 }
-.tp-chat-send:hover:not(:disabled) { filter: brightness(var(--hover-brightness)); }
 `;
 
 const SUGGESTIONS = [
