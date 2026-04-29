@@ -38,6 +38,7 @@ import Icon from '../components/shared/Icon';
 import ToastContainer, { showToast } from '../components/shared/Toast';
 import ErrorBanner from '../components/shared/ErrorBanner';
 import TripPage, { type TripPageHandle } from './TripPage';
+import { useActiveTrip } from '../contexts/ActiveTripContext';
 
 const SCOPED_STYLES = `
 /* Terracotta preview v2 Section 16 parity: desktop 240px auto-fill cards,
@@ -818,8 +819,16 @@ export default function TripsListPage() {
   // renders the embedded TripPage as full-screen main; desktop swaps the
   // right sheet to that trip. Per user direction the unified URL pattern is
   // /trips?selected=X (no /trip/:id route navigation).
+  //
+  // 2026-04-29 race fix: 同步寫 ActiveTripContext。原本 active trip 設定靠
+  // embedded TripPage mount 後 useEffect 觸發 setActiveTrip，但如果 user
+  // 點完 card 立刻走 bottom-nav 切到 /chat，TripPage 還沒 mount → ChatPage
+  // 拿到舊 activeTripId，訊息會送錯 trip（lean.lean@gmail trip_requests:162
+  // 的 sympton：台南內容送進沖繩 trip）。Card click 同步寫 context 解決。
+  const { setActiveTrip } = useActiveTrip();
   function handleCardClick(tripId: string, e: React.MouseEvent | React.KeyboardEvent) {
     e.preventDefault();
+    setActiveTrip(tripId);
     const next = new URLSearchParams(searchParams);
     next.set('selected', tripId);
     setSearchParams(next, { replace: false });
