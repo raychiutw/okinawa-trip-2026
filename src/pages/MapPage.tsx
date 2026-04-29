@@ -180,8 +180,8 @@ export default function MapPage() {
   const navigate = useNavigate();
   const { trip, allDays, loading } = useTripContext();
 
-  /* 2026-04-29:trip-picker pill(對齊 mockup「Map Page」spec + ChatPage 既有
-   * `tp-chat-trip-picker` pattern)。fetch user 所有 trips for dropdown,
+  /* 2026-04-29:trip-picker(對齊 mockup「Map Page」spec + shared
+   * `.tp-titlebar-trip-picker` pattern)。fetch user 所有 trips for dropdown,
    * pickTrip → navigate /trip/:newId/map(整頁切換 trip context)。 */
   const [trips, setTrips] = useState<TripSummary[] | null>(null);
   const [tripMenuOpen, setTripMenuOpen] = useState(false);
