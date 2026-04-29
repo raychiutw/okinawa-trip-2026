@@ -855,7 +855,7 @@ export default function ChatPage() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={onComposerKeyDown}
-          placeholder={activeTripId ? '輸入指令（Enter 送出、Shift+Enter 換行）' : '先選一個行程才能聊'}
+          placeholder={activeTripId ? '輸入訊息或語音指令…' : '先選一個行程才能聊'}
           rows={1}
           aria-label="輸入訊息"
           disabled={composerDisabled}
