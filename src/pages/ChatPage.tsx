@@ -390,11 +390,15 @@ const SCOPED_STYLES = `
   border: none; cursor: pointer;
   background: var(--color-accent);
   color: var(--color-accent-foreground);
-  border-radius: var(--radius-full);
-  padding: 10px 18px;
-  font: inherit; font-weight: 700; font-size: var(--font-size-callout);
-  min-height: 44px;
+  border-radius: 50%;
+  width: 40px; height: 40px;
+  padding: 0;
+  display: grid; place-items: center;
   flex-shrink: 0;
+  transition: background 150ms;
+}
+.tp-chat-send:hover:not(:disabled) {
+  background: var(--color-accent-deep);
 }
 .tp-chat-send:disabled {
   background: var(--color-secondary);
