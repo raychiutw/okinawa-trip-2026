@@ -363,11 +363,15 @@ const SCOPED_STYLES = `
 
 .tp-chat-composer {
   position: sticky; inset-block-end: 0;
-  padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
-  background: color-mix(in srgb, var(--color-background) 95%, transparent);
-  backdrop-filter: blur(12px);
+  padding: 12px 20px calc(12px + env(safe-area-inset-bottom));
+  background: color-mix(in srgb, var(--color-background) 92%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   border-top: 1px solid var(--color-border);
   display: flex; gap: 8px; align-items: flex-end;
+}
+@media (max-width: 760px) {
+  .tp-chat-composer { padding: 10px 14px calc(10px + env(safe-area-inset-bottom)); }
 }
 .tp-chat-input {
   flex: 1;
