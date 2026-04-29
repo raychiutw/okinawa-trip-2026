@@ -280,7 +280,7 @@ const SCOPED_STYLES = `
   max-width: min(640px, 80%);
   padding: 10px 14px;
   border-radius: 16px;
-  font-size: var(--font-size-callout);
+  font-size: var(--font-size-footnote);
   line-height: 1.55;
   white-space: pre-wrap;
   word-break: break-word;
